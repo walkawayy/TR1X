@@ -61,6 +61,14 @@ typedef enum {
     INPUT_ROLE_TOGGLE_PHOTO_MODE = 38,
     INPUT_ROLE_UNBIND_KEY        = 39,
     INPUT_ROLE_RESET_BINDINGS    = 40,
+    INPUT_ROLE_HEALTH_CHEAT      = 41,
+    INPUT_ROLE_PERSPECTIVE       = 42,
+    INPUT_ROLE_MENU_CONFIRM      = 43,
+    INPUT_ROLE_MENU_BACK         = 44,
+    INPUT_ROLE_MENU_LEFT         = 45,
+    INPUT_ROLE_MENU_UP           = 46,
+    INPUT_ROLE_MENU_DOWN         = 47,
+    INPUT_ROLE_MENU_RIGHT        = 48,
     INPUT_ROLE_NUMBER_OF,
     // clang-format on
 } INPUT_ROLE;

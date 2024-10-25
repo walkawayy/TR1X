@@ -66,6 +66,14 @@ static BUILTIN_CONTROLLER_LAYOUT m_BuiltinLayout[] = {
     { INPUT_ROLE_CAMERA_UP,         { BT_AXIS,   { SDL_CONTROLLER_AXIS_LEFTY },           -1 } },
     { INPUT_ROLE_CAMERA_DOWN,       { BT_AXIS,   { SDL_CONTROLLER_AXIS_LEFTY },           1 } },
     { INPUT_ROLE_TOGGLE_PHOTO_MODE, { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
+    { INPUT_ROLE_HEALTH_CHEAT,      { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
+    { INPUT_ROLE_PERSPECTIVE,       { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
+    { INPUT_ROLE_MENU_UP,           { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_UP },       0 } },
+    { INPUT_ROLE_MENU_DOWN,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_DOWN },     0 } },
+    { INPUT_ROLE_MENU_LEFT,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_LEFT },     0 } },
+    { INPUT_ROLE_MENU_RIGHT,        { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_RIGHT },    0 } },
+    { INPUT_ROLE_MENU_CONFIRM,      { BT_BUTTON, { SDL_CONTROLLER_BUTTON_A },             0 } },
+    { INPUT_ROLE_MENU_BACK,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_B },             0 } },
     { -1,                           { 0,         { 0 },                                   0 } },
     // clang-format on
 };
@@ -442,8 +450,8 @@ static bool M_Update(INPUT_STATE *const result, const INPUT_LAYOUT layout)
     result->toggle_bilinear_filter |= M_GetBindState(layout, INPUT_ROLE_BILINEAR);
     result->toggle_ui              |= M_GetBindState(layout, INPUT_ROLE_TOGGLE_UI);
     result->change_target          |= M_GetBindState(layout, INPUT_ROLE_CHANGE_TARGET);
-    result->menu_confirm           |= M_JoyBtn(SDL_CONTROLLER_BUTTON_A);
-    result->menu_back              |= M_JoyBtn(SDL_CONTROLLER_BUTTON_B);
+    result->menu_confirm           |= M_GetBindState(layout, INPUT_ROLE_MENU_CONFIRM);
+    result->menu_back              |= M_GetBindState(layout, INPUT_ROLE_MENU_BACK);
     result->menu_back              |= M_JoyBtn(SDL_CONTROLLER_BUTTON_Y);
     // clang-format on
     return true;

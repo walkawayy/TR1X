@@ -101,7 +101,11 @@ void Input_ShutdownController(void)
 
 bool Input_IsRoleRebindable(const INPUT_ROLE role)
 {
-    return role != INPUT_ROLE_UNBIND_KEY && role != INPUT_ROLE_RESET_BINDINGS;
+    return role != INPUT_ROLE_UNBIND_KEY && role != INPUT_ROLE_RESET_BINDINGS
+        && role != INPUT_ROLE_HEALTH_CHEAT && role != INPUT_ROLE_PERSPECTIVE
+        && role != INPUT_ROLE_MENU_CONFIRM && role != INPUT_ROLE_MENU_BACK
+        && role != INPUT_ROLE_MENU_LEFT && role != INPUT_ROLE_MENU_RIGHT
+        && role != INPUT_ROLE_MENU_UP && role != INPUT_ROLE_MENU_DOWN;
 }
 
 void Input_Update(void)

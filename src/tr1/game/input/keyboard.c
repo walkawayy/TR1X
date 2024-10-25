@@ -56,6 +56,14 @@ static BUILTIN_KEYBOARD_LAYOUT m_BuiltinLayout[] = {
     { INPUT_ROLE_TOGGLE_PHOTO_MODE, SDL_SCANCODE_F1 },
     { INPUT_ROLE_UNBIND_KEY,        SDL_SCANCODE_BACKSPACE },
     { INPUT_ROLE_RESET_BINDINGS,    SDL_SCANCODE_R },
+    { INPUT_ROLE_PERSPECTIVE,       SDL_SCANCODE_F4 },
+    { INPUT_ROLE_HEALTH_CHEAT,      SDL_SCANCODE_F11 },
+    { INPUT_ROLE_MENU_UP,           SDL_SCANCODE_UP },
+    { INPUT_ROLE_MENU_DOWN,         SDL_SCANCODE_DOWN },
+    { INPUT_ROLE_MENU_LEFT,         SDL_SCANCODE_LEFT },
+    { INPUT_ROLE_MENU_RIGHT,        SDL_SCANCODE_RIGHT },
+    { INPUT_ROLE_MENU_CONFIRM,      SDL_SCANCODE_RETURN },
+    { INPUT_ROLE_MENU_BACK,         SDL_SCANCODE_ESCAPE },
     { -1, SDL_SCANCODE_UNKNOWN },
     // clang-format on
 };
@@ -332,6 +340,9 @@ static const char *M_GetScancodeName(SDL_Scancode scancode)
 static bool M_Key(const INPUT_LAYOUT layout, const INPUT_ROLE role)
 {
     SDL_Scancode scancode = m_Layout[layout][role];
+    if (scancode == SDL_SCANCODE_RETURN && KEY_DOWN(SDL_SCANCODE_LALT)) {
+        return false;
+    }
     if (KEY_DOWN(scancode)) {
         return true;
     }
@@ -433,7 +444,7 @@ static bool M_Update(INPUT_STATE *const result, const INPUT_LAYOUT layout)
     result->fly_cheat                 = M_Key(layout, INPUT_ROLE_FLY_CHEAT);
     result->level_skip_cheat          = M_Key(layout, INPUT_ROLE_LEVEL_SKIP_CHEAT);
     result->turbo_cheat               = M_Key(layout, INPUT_ROLE_TURBO_CHEAT);
-    result->health_cheat              = KEY_DOWN(SDL_SCANCODE_F11);
+    result->health_cheat              = M_Key(layout, INPUT_ROLE_HEALTH_CHEAT);
 
     result->equip_pistols             = M_Key(layout, INPUT_ROLE_EQUIP_PISTOLS);
     result->equip_shotgun             = M_Key(layout, INPUT_ROLE_EQUIP_SHOTGUN);
@@ -442,20 +453,20 @@ static bool M_Update(INPUT_STATE *const result, const INPUT_LAYOUT layout)
     result->use_small_medi            = M_Key(layout, INPUT_ROLE_USE_SMALL_MEDI);
     result->use_big_medi              = M_Key(layout, INPUT_ROLE_USE_BIG_MEDI);
 
-    result->menu_up                   = KEY_DOWN(SDL_SCANCODE_UP);
-    result->menu_down                 = KEY_DOWN(SDL_SCANCODE_DOWN);
-    result->menu_left                 = KEY_DOWN(SDL_SCANCODE_LEFT);
-    result->menu_right                = KEY_DOWN(SDL_SCANCODE_RIGHT);
-    result->menu_confirm              = KEY_DOWN(SDL_SCANCODE_RETURN) && !KEY_DOWN(SDL_SCANCODE_LALT);
+    result->menu_up                   = M_Key(layout, INPUT_ROLE_MENU_UP);
+    result->menu_down                 = M_Key(layout, INPUT_ROLE_MENU_DOWN);
+    result->menu_left                 = M_Key(layout, INPUT_ROLE_MENU_LEFT);
+    result->menu_right                = M_Key(layout, INPUT_ROLE_MENU_RIGHT);
+    result->menu_confirm              = M_Key(layout, INPUT_ROLE_MENU_CONFIRM);
     result->menu_confirm             |= result->action; // we only do this for keyboard input
-    result->menu_back                 = KEY_DOWN(SDL_SCANCODE_ESCAPE);
+    result->menu_back                 = M_Key(layout, INPUT_ROLE_MENU_BACK);
 
     result->save                      = M_Key(layout, INPUT_ROLE_SAVE);
     result->load                      = M_Key(layout, INPUT_ROLE_LOAD);
 
     result->toggle_fps_counter        = M_Key(layout, INPUT_ROLE_FPS);
     result->toggle_bilinear_filter    = M_Key(layout, INPUT_ROLE_BILINEAR);
-    result->toggle_perspective_filter = KEY_DOWN(SDL_SCANCODE_F4);
+    result->toggle_perspective_filter = M_Key(layout, INPUT_ROLE_PERSPECTIVE);
     result->toggle_ui                 = M_Key(layout, INPUT_ROLE_TOGGLE_UI);
     // clang-format on
 
