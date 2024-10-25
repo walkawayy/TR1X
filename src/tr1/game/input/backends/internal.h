@@ -1,6 +1,11 @@
 #pragma once
 
+#include "game/input/backends/base.h"
 #include "game/input/common.h"
+
+void Input_UpdateFromBackend(
+    INPUT_STATE *const result, INPUT_LAYOUT layout,
+    const INPUT_BACKEND_IMPL *const backend);
 
 void Input_ConflictHelper(
     INPUT_LAYOUT layout,

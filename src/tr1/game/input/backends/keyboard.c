@@ -83,7 +83,7 @@ static void M_AssignConflict(
 static void M_CheckConflicts(INPUT_LAYOUT layout);
 
 static void M_Init(void);
-static bool M_Update(INPUT_STATE *result, INPUT_LAYOUT layout);
+static bool M_CustomUpdate(INPUT_STATE *result, INPUT_LAYOUT layout);
 static bool M_IsPressed(INPUT_LAYOUT layout, INPUT_ROLE role);
 static bool M_IsRoleConflicted(INPUT_LAYOUT layout, INPUT_ROLE role);
 static const char *M_GetName(INPUT_LAYOUT layout, INPUT_ROLE role);
@@ -413,63 +413,10 @@ static void M_Init(void)
     }
 }
 
-static bool M_Update(INPUT_STATE *const result, const INPUT_LAYOUT layout)
+static bool M_CustomUpdate(INPUT_STATE *const result, const INPUT_LAYOUT layout)
 {
-    // clang-format off
-    result->forward                   = M_Key(layout, INPUT_ROLE_UP);
-    result->back                      = M_Key(layout, INPUT_ROLE_DOWN);
-    result->left                      = M_Key(layout, INPUT_ROLE_LEFT);
-    result->right                     = M_Key(layout, INPUT_ROLE_RIGHT);
-    result->step_left                 = M_Key(layout, INPUT_ROLE_STEP_L);
-    result->step_right                = M_Key(layout, INPUT_ROLE_STEP_R);
-    result->slow                      = M_Key(layout, INPUT_ROLE_SLOW);
-    result->jump                      = M_Key(layout, INPUT_ROLE_JUMP);
-    result->action                    = M_Key(layout, INPUT_ROLE_ACTION);
-    result->draw                      = M_Key(layout, INPUT_ROLE_DRAW);
-    result->look                      = M_Key(layout, INPUT_ROLE_LOOK);
-    result->roll                      = M_Key(layout, INPUT_ROLE_ROLL);
-    result->option                    = M_Key(layout, INPUT_ROLE_OPTION);
-    result->pause                     = M_Key(layout, INPUT_ROLE_PAUSE);
-    result->toggle_photo_mode         = M_Key(layout, INPUT_ROLE_TOGGLE_PHOTO_MODE);
-    result->camera_up                 = M_Key(layout, INPUT_ROLE_CAMERA_UP);
-    result->camera_down               = M_Key(layout, INPUT_ROLE_CAMERA_DOWN);
-    result->camera_forward            = M_Key(layout, INPUT_ROLE_CAMERA_FORWARD);
-    result->camera_back               = M_Key(layout, INPUT_ROLE_CAMERA_BACK);
-    result->camera_left               = M_Key(layout, INPUT_ROLE_CAMERA_LEFT);
-    result->camera_right              = M_Key(layout, INPUT_ROLE_CAMERA_RIGHT);
-    result->enter_console             = M_Key(layout, INPUT_ROLE_ENTER_CONSOLE);
-    result->change_target             = M_Key(layout, INPUT_ROLE_CHANGE_TARGET);
-
-    result->item_cheat                = M_Key(layout, INPUT_ROLE_ITEM_CHEAT);
-    result->fly_cheat                 = M_Key(layout, INPUT_ROLE_FLY_CHEAT);
-    result->level_skip_cheat          = M_Key(layout, INPUT_ROLE_LEVEL_SKIP_CHEAT);
-    result->turbo_cheat               = M_Key(layout, INPUT_ROLE_TURBO_CHEAT);
-    result->health_cheat              = M_Key(layout, INPUT_ROLE_HEALTH_CHEAT);
-
-    result->equip_pistols             = M_Key(layout, INPUT_ROLE_EQUIP_PISTOLS);
-    result->equip_shotgun             = M_Key(layout, INPUT_ROLE_EQUIP_SHOTGUN);
-    result->equip_magnums             = M_Key(layout, INPUT_ROLE_EQUIP_MAGNUMS);
-    result->equip_uzis                = M_Key(layout, INPUT_ROLE_EQUIP_UZIS);
-    result->use_small_medi            = M_Key(layout, INPUT_ROLE_USE_SMALL_MEDI);
-    result->use_big_medi              = M_Key(layout, INPUT_ROLE_USE_BIG_MEDI);
-
-    result->menu_up                   = M_Key(layout, INPUT_ROLE_MENU_UP);
-    result->menu_down                 = M_Key(layout, INPUT_ROLE_MENU_DOWN);
-    result->menu_left                 = M_Key(layout, INPUT_ROLE_MENU_LEFT);
-    result->menu_right                = M_Key(layout, INPUT_ROLE_MENU_RIGHT);
-    result->menu_confirm              = M_Key(layout, INPUT_ROLE_MENU_CONFIRM);
-    result->menu_confirm             |= result->action; // we only do this for keyboard input
-    result->menu_back                 = M_Key(layout, INPUT_ROLE_MENU_BACK);
-
-    result->save                      = M_Key(layout, INPUT_ROLE_SAVE);
-    result->load                      = M_Key(layout, INPUT_ROLE_LOAD);
-
-    result->toggle_fps_counter        = M_Key(layout, INPUT_ROLE_FPS);
-    result->toggle_bilinear_filter    = M_Key(layout, INPUT_ROLE_BILINEAR);
-    result->toggle_perspective_filter = M_Key(layout, INPUT_ROLE_PERSPECTIVE);
-    result->toggle_ui                 = M_Key(layout, INPUT_ROLE_TOGGLE_UI);
-    // clang-format on
-
+    // we only do this for keyboard input
+    result->menu_confirm |= result->action;
     return true;
 }
 
@@ -548,7 +495,7 @@ static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)
 INPUT_BACKEND_IMPL g_Input_Keyboard = {
     .init = M_Init,
     .shutdown = NULL,
-    .update = M_Update,
+    .custom_update = M_CustomUpdate,
     .is_pressed = M_IsPressed,
     .is_role_conflicted = M_IsRoleConflicted,
     .get_name = M_GetName,

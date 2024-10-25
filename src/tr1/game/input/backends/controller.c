@@ -112,7 +112,7 @@ static SDL_GameController *M_FindController(void);
 
 static void M_Init(void);
 static void M_Shutdown(void);
-static bool M_Update(INPUT_STATE *result, INPUT_LAYOUT layout);
+static bool M_CustomUpdate(INPUT_STATE *result, INPUT_LAYOUT layout);
 static bool M_IsPressed(INPUT_LAYOUT layout, INPUT_ROLE role);
 static bool M_IsRoleConflicted(INPUT_LAYOUT layout, INPUT_ROLE role);
 static const char *M_GetName(INPUT_LAYOUT layout, INPUT_ROLE role);
@@ -250,11 +250,17 @@ static const char *M_GetButtonName(const SDL_GameControllerButton button)
 
 static bool M_JoyBtn(const SDL_GameControllerButton button)
 {
+    if (m_Controller == NULL) {
+        return false;
+    }
     return SDL_GameControllerGetButton(m_Controller, button);
 }
 
 static int16_t M_JoyAxis(const SDL_GameControllerAxis axis)
 {
+    if (m_Controller == NULL) {
+        return false;
+    }
     const Sint16 value = SDL_GameControllerGetAxis(m_Controller, axis);
     if (value < -SDL_JOYSTICK_AXIS_MAX / 2) {
         return -1;
@@ -406,54 +412,12 @@ static void M_Shutdown(void)
     }
 }
 
-static bool M_Update(INPUT_STATE *const result, const INPUT_LAYOUT layout)
+static bool M_CustomUpdate(INPUT_STATE *const result, const INPUT_LAYOUT layout)
 {
     if (m_Controller == NULL) {
         return false;
     }
-
-    // clang-format off
-    result->forward                |= M_GetBindState(layout, INPUT_ROLE_UP);
-    result->back                   |= M_GetBindState(layout, INPUT_ROLE_DOWN);
-    result->left                   |= M_GetBindState(layout, INPUT_ROLE_LEFT);
-    result->right                  |= M_GetBindState(layout, INPUT_ROLE_RIGHT);
-    result->step_left              |= M_GetBindState(layout, INPUT_ROLE_STEP_L);
-    result->step_right             |= M_GetBindState(layout, INPUT_ROLE_STEP_R);
-    result->slow                   |= M_GetBindState(layout, INPUT_ROLE_SLOW);
-    result->jump                   |= M_GetBindState(layout, INPUT_ROLE_JUMP);
-    result->action                 |= M_GetBindState(layout, INPUT_ROLE_ACTION);
-    result->draw                   |= M_GetBindState(layout, INPUT_ROLE_DRAW);
-    result->look                   |= M_GetBindState(layout, INPUT_ROLE_LOOK);
-    result->roll                   |= M_GetBindState(layout, INPUT_ROLE_ROLL);
-    result->option                 |= M_GetBindState(layout, INPUT_ROLE_OPTION);
-    result->pause                  |= M_GetBindState(layout, INPUT_ROLE_PAUSE);
-    result->toggle_photo_mode      |= M_GetBindState(layout, INPUT_ROLE_TOGGLE_PHOTO_MODE);
-    result->camera_up              |= M_GetBindState(layout, INPUT_ROLE_CAMERA_UP);
-    result->camera_down            |= M_GetBindState(layout, INPUT_ROLE_CAMERA_DOWN);
-    result->camera_forward         |= M_GetBindState(layout, INPUT_ROLE_CAMERA_FORWARD);
-    result->camera_back            |= M_GetBindState(layout, INPUT_ROLE_CAMERA_BACK);
-    result->camera_left            |= M_GetBindState(layout, INPUT_ROLE_CAMERA_LEFT);
-    result->camera_right           |= M_GetBindState(layout, INPUT_ROLE_CAMERA_RIGHT);
-    result->item_cheat             |= M_GetBindState(layout, INPUT_ROLE_ITEM_CHEAT);
-    result->fly_cheat              |= M_GetBindState(layout, INPUT_ROLE_FLY_CHEAT);
-    result->level_skip_cheat       |= M_GetBindState(layout, INPUT_ROLE_LEVEL_SKIP_CHEAT);
-    result->turbo_cheat            |= M_GetBindState(layout, INPUT_ROLE_TURBO_CHEAT);
-    result->equip_pistols          |= M_GetBindState(layout, INPUT_ROLE_EQUIP_PISTOLS);
-    result->equip_shotgun          |= M_GetBindState(layout, INPUT_ROLE_EQUIP_SHOTGUN);
-    result->equip_magnums          |= M_GetBindState(layout, INPUT_ROLE_EQUIP_MAGNUMS);
-    result->equip_uzis             |= M_GetBindState(layout, INPUT_ROLE_EQUIP_UZIS);
-    result->use_small_medi         |= M_GetBindState(layout, INPUT_ROLE_USE_SMALL_MEDI);
-    result->use_big_medi           |= M_GetBindState(layout, INPUT_ROLE_USE_BIG_MEDI);
-    result->save                   |= M_GetBindState(layout, INPUT_ROLE_SAVE);
-    result->load                   |= M_GetBindState(layout, INPUT_ROLE_LOAD);
-    result->toggle_fps_counter     |= M_GetBindState(layout, INPUT_ROLE_FPS);
-    result->toggle_bilinear_filter |= M_GetBindState(layout, INPUT_ROLE_BILINEAR);
-    result->toggle_ui              |= M_GetBindState(layout, INPUT_ROLE_TOGGLE_UI);
-    result->change_target          |= M_GetBindState(layout, INPUT_ROLE_CHANGE_TARGET);
-    result->menu_confirm           |= M_GetBindState(layout, INPUT_ROLE_MENU_CONFIRM);
-    result->menu_back              |= M_GetBindState(layout, INPUT_ROLE_MENU_BACK);
-    result->menu_back              |= M_JoyBtn(SDL_CONTROLLER_BUTTON_Y);
-    // clang-format on
+    result->menu_back |= M_JoyBtn(SDL_CONTROLLER_BUTTON_Y);
     return true;
 }
 
@@ -619,7 +583,7 @@ static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)
 INPUT_BACKEND_IMPL g_Input_Controller = {
     .init = M_Init,
     .shutdown = M_Shutdown,
-    .update = M_Update,
+    .custom_update = M_CustomUpdate,
     .is_pressed = M_IsPressed,
     .is_role_conflicted = M_IsRoleConflicted,
     .get_name = M_GetName,

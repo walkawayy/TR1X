@@ -7,7 +7,7 @@
 typedef struct {
     void (*init)(void);
     void (*shutdown)(void);
-    bool (*update)(INPUT_STATE *result, INPUT_LAYOUT layout);
+    bool (*custom_update)(INPUT_STATE *result, INPUT_LAYOUT layout);
     bool (*is_pressed)(INPUT_LAYOUT layout, INPUT_ROLE role);
     bool (*is_role_conflicted)(INPUT_LAYOUT layout, INPUT_ROLE role);
     const char *(*get_name)(INPUT_LAYOUT layout, INPUT_ROLE role);
