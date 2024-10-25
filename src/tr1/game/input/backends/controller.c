@@ -1,6 +1,6 @@
-#include "game/input/controller.h"
+#include "game/input/backends/controller.h"
 
-#include "game/input/internal.h"
+#include "game/input/backends/internal.h"
 
 #include <libtrx/log.h>
 
@@ -616,7 +616,7 @@ static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)
     return false;
 }
 
-INPUT_BACKEND_IMPL g_InputController = {
+INPUT_BACKEND_IMPL g_Input_Controller = {
     .init = M_Init,
     .shutdown = M_Shutdown,
     .update = M_Update,

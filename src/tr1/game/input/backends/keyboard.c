@@ -1,6 +1,6 @@
-#include "game/input/keyboard.h"
+#include "game/input/backends/keyboard.h"
 
-#include "game/input/internal.h"
+#include "game/input/backends/internal.h"
 
 #include <SDL2/SDL_keyboard.h>
 
@@ -545,7 +545,7 @@ static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)
     return false;
 }
 
-INPUT_BACKEND_IMPL g_InputKeyboard = {
+INPUT_BACKEND_IMPL g_Input_Keyboard = {
     .init = M_Init,
     .shutdown = NULL,
     .update = M_Update,

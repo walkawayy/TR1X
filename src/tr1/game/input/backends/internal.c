@@ -1,4 +1,4 @@
-#include "game/input/internal.h"
+#include "game/input/backends/internal.h"
 
 void Input_ConflictHelper(
     const INPUT_LAYOUT layout,

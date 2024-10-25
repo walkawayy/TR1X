@@ -2,8 +2,8 @@
 
 #include "config.h"
 #include "game/clock.h"
-#include "game/input/controller.h"
-#include "game/input/keyboard.h"
+#include "game/input/backends/controller.h"
+#include "game/input/backends/keyboard.h"
 #include "global/vars.h"
 
 #include <stdint.h>
@@ -58,44 +58,44 @@ static INPUT_BACKEND_IMPL *M_GetBackend(const INPUT_BACKEND backend)
 {
     switch (backend) {
     case INPUT_BACKEND_KEYBOARD:
-        return &g_InputKeyboard;
+        return &g_Input_Keyboard;
     case INPUT_BACKEND_CONTROLLER:
-        return &g_InputController;
+        return &g_Input_Controller;
     }
     return NULL;
 }
 
 void Input_Init(void)
 {
-    if (g_InputKeyboard.init != NULL) {
-        g_InputKeyboard.init();
+    if (g_Input_Keyboard.init != NULL) {
+        g_Input_Keyboard.init();
     }
-    if (g_InputController.init != NULL) {
-        g_InputController.init();
+    if (g_Input_Controller.init != NULL) {
+        g_Input_Controller.init();
     }
 }
 
 void Input_Shutdown(void)
 {
-    if (g_InputKeyboard.shutdown != NULL) {
-        g_InputKeyboard.shutdown();
+    if (g_Input_Keyboard.shutdown != NULL) {
+        g_Input_Keyboard.shutdown();
     }
-    if (g_InputController.shutdown != NULL) {
-        g_InputController.shutdown();
+    if (g_Input_Controller.shutdown != NULL) {
+        g_Input_Controller.shutdown();
     }
 }
 
 void Input_InitController(void)
 {
-    if (g_InputController.init != NULL) {
-        g_InputController.init();
+    if (g_Input_Controller.init != NULL) {
+        g_Input_Controller.init();
     }
 }
 
 void Input_ShutdownController(void)
 {
-    if (g_InputController.shutdown != NULL) {
-        g_InputController.shutdown();
+    if (g_Input_Controller.shutdown != NULL) {
+        g_Input_Controller.shutdown();
     }
 }
 
@@ -111,8 +111,8 @@ bool Input_IsRoleRebindable(const INPUT_ROLE role)
 void Input_Update(void)
 {
     g_Input.any = 0;
-    g_InputKeyboard.update(&g_Input, g_Config.input.layout);
-    g_InputController.update(&g_Input, g_Config.input.cntlr_layout);
+    g_Input_Keyboard.update(&g_Input, g_Config.input.layout);
+    g_Input_Controller.update(&g_Input, g_Config.input.cntlr_layout);
 
     g_Input.camera_reset |= g_Input.look;
     g_Input.menu_up |= g_Input.forward;
