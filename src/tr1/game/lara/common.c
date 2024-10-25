@@ -69,12 +69,6 @@ void Lara_Control(void)
         Lara_Cheat_EndLevel();
     }
 
-    if (g_InputDB.health_cheat) {
-        item->hit_points +=
-            (g_Input.slow ? -2 : 2) * LARA_MAX_HITPOINTS / 100; // change by 2%
-        CLAMP(item->hit_points, 0, LARA_MAX_HITPOINTS);
-    }
-
     if (g_InputDB.item_cheat) {
         Lara_Cheat_GiveAllItems();
     }

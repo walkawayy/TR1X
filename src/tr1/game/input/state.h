@@ -25,7 +25,6 @@ typedef union INPUT_STATE {
         uint64_t item_cheat : 1;
         uint64_t level_skip_cheat : 1;
         uint64_t turbo_cheat : 1;
-        uint64_t health_cheat : 1;
         uint64_t camera_up : 1;
         uint64_t camera_down : 1;
         uint64_t camera_forward : 1;
