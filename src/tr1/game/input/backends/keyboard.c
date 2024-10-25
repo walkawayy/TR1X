@@ -15,54 +15,11 @@ const Uint8 *m_KeyboardState;
 static bool m_Conflicts[INPUT_LAYOUT_NUMBER_OF][INPUT_ROLE_NUMBER_OF] = { 0 };
 
 static BUILTIN_KEYBOARD_LAYOUT m_BuiltinLayout[] = {
-    // clang-format off
-    { INPUT_ROLE_UP,                SDL_SCANCODE_UP },
-    { INPUT_ROLE_DOWN,              SDL_SCANCODE_DOWN },
-    { INPUT_ROLE_LEFT,              SDL_SCANCODE_LEFT },
-    { INPUT_ROLE_RIGHT,             SDL_SCANCODE_RIGHT },
-    { INPUT_ROLE_STEP_L,            SDL_SCANCODE_DELETE },
-    { INPUT_ROLE_STEP_R,            SDL_SCANCODE_PAGEDOWN },
-    { INPUT_ROLE_SLOW,              SDL_SCANCODE_RSHIFT },
-    { INPUT_ROLE_JUMP,              SDL_SCANCODE_RALT },
-    { INPUT_ROLE_ACTION,            SDL_SCANCODE_RCTRL },
-    { INPUT_ROLE_DRAW,              SDL_SCANCODE_SPACE },
-    { INPUT_ROLE_LOOK,              SDL_SCANCODE_KP_0 },
-    { INPUT_ROLE_ROLL,              SDL_SCANCODE_END },
-    { INPUT_ROLE_OPTION,            SDL_SCANCODE_ESCAPE },
-    { INPUT_ROLE_FLY_CHEAT,         SDL_SCANCODE_O },
-    { INPUT_ROLE_ITEM_CHEAT,        SDL_SCANCODE_I },
-    { INPUT_ROLE_LEVEL_SKIP_CHEAT,  SDL_SCANCODE_L },
-    { INPUT_ROLE_TURBO_CHEAT,       SDL_SCANCODE_TAB },
-    { INPUT_ROLE_PAUSE,             SDL_SCANCODE_P },
-    { INPUT_ROLE_CAMERA_FORWARD,    SDL_SCANCODE_W },
-    { INPUT_ROLE_CAMERA_BACK,       SDL_SCANCODE_S },
-    { INPUT_ROLE_CAMERA_LEFT,       SDL_SCANCODE_A },
-    { INPUT_ROLE_CAMERA_RIGHT,      SDL_SCANCODE_D },
-    { INPUT_ROLE_EQUIP_PISTOLS,     SDL_SCANCODE_1 },
-    { INPUT_ROLE_EQUIP_SHOTGUN,     SDL_SCANCODE_2 },
-    { INPUT_ROLE_EQUIP_MAGNUMS,     SDL_SCANCODE_3 },
-    { INPUT_ROLE_EQUIP_UZIS,        SDL_SCANCODE_4 },
-    { INPUT_ROLE_USE_SMALL_MEDI,    SDL_SCANCODE_8 },
-    { INPUT_ROLE_USE_BIG_MEDI,      SDL_SCANCODE_9 },
-    { INPUT_ROLE_SAVE,              SDL_SCANCODE_F5 },
-    { INPUT_ROLE_LOAD,              SDL_SCANCODE_F6 },
-    { INPUT_ROLE_FPS,               SDL_SCANCODE_F2 },
-    { INPUT_ROLE_BILINEAR,          SDL_SCANCODE_F3 },
-    { INPUT_ROLE_ENTER_CONSOLE,     SDL_SCANCODE_SLASH },
-    { INPUT_ROLE_CHANGE_TARGET,     SDL_SCANCODE_Z },
-    { INPUT_ROLE_TOGGLE_UI,         SDL_SCANCODE_H },
-    { INPUT_ROLE_CAMERA_UP,         SDL_SCANCODE_Q },
-    { INPUT_ROLE_CAMERA_DOWN,       SDL_SCANCODE_E },
-    { INPUT_ROLE_TOGGLE_PHOTO_MODE, SDL_SCANCODE_F1 },
-    { INPUT_ROLE_UNBIND_KEY,        SDL_SCANCODE_BACKSPACE },
-    { INPUT_ROLE_RESET_BINDINGS,    SDL_SCANCODE_R },
-    { INPUT_ROLE_PERSPECTIVE,       SDL_SCANCODE_F4 },
-    { INPUT_ROLE_MENU_UP,           SDL_SCANCODE_UP },
-    { INPUT_ROLE_MENU_DOWN,         SDL_SCANCODE_DOWN },
-    { INPUT_ROLE_MENU_LEFT,         SDL_SCANCODE_LEFT },
-    { INPUT_ROLE_MENU_RIGHT,        SDL_SCANCODE_RIGHT },
-    { INPUT_ROLE_MENU_CONFIRM,      SDL_SCANCODE_RETURN },
-    { INPUT_ROLE_MENU_BACK,         SDL_SCANCODE_ESCAPE },
+// clang-format off
+#define INPUT_KEYBOARD_ASSIGN(role, key) { role, key },
+#if TR_VERSION == 1
+#include "keyboard_tr1.def"
+#endif
     { -1, SDL_SCANCODE_UNKNOWN },
     // clang-format on
 };
@@ -402,20 +359,29 @@ static void M_Init(void)
 {
     m_KeyboardState = SDL_GetKeyboardState(NULL);
 
-    for (int32_t layout = INPUT_LAYOUT_DEFAULT; layout < INPUT_LAYOUT_NUMBER_OF;
-         layout++) {
-        for (int32_t i = 0; m_BuiltinLayout[i].role != (INPUT_ROLE)-1; i++) {
-            const BUILTIN_KEYBOARD_LAYOUT *const builtin = &m_BuiltinLayout[i];
-            m_Layout[layout][builtin->role] = builtin->scancode;
-        }
-        M_CheckConflicts(layout);
+    // first, reset the roles to null
+    for (INPUT_ROLE role = 0; role < INPUT_ROLE_NUMBER_OF; role++) {
+        m_Layout[INPUT_LAYOUT_DEFAULT][role] = SDL_SCANCODE_UNKNOWN;
+    }
+    // then load actually defined default bindings
+    for (int32_t i = 0; m_BuiltinLayout[i].role != (INPUT_ROLE)-1; i++) {
+        const BUILTIN_KEYBOARD_LAYOUT *const builtin = &m_BuiltinLayout[i];
+        m_Layout[INPUT_LAYOUT_DEFAULT][builtin->role] = builtin->scancode;
+    }
+    M_CheckConflicts(INPUT_LAYOUT_DEFAULT);
+
+    for (int32_t layout = INPUT_LAYOUT_CUSTOM_1;
+         layout < INPUT_LAYOUT_NUMBER_OF; layout++) {
+        M_ResetLayout(layout);
     }
 }
 
 static bool M_CustomUpdate(INPUT_STATE *const result, const INPUT_LAYOUT layout)
 {
     // we only do this for keyboard input
+#if TR_VERSION == 1
     result->menu_confirm |= result->action;
+#endif
     return true;
 }
 
@@ -476,8 +442,9 @@ static void M_ResetLayout(const INPUT_LAYOUT layout)
     for (INPUT_ROLE role = 0; role < INPUT_ROLE_NUMBER_OF; role++) {
         const SDL_Scancode scancode =
             M_GetAssignedScancode(INPUT_LAYOUT_DEFAULT, role);
-        M_AssignScancode(layout, role, scancode);
+        m_Layout[layout][role] = scancode;
     }
+    M_CheckConflicts(layout);
 }
 
 static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)

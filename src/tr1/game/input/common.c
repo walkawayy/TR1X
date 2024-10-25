@@ -2,6 +2,7 @@
 
 #include "config.h"
 #include "game/clock.h"
+#include "game/game_string.h"
 #include "game/input/backends/controller.h"
 #include "game/input/backends/keyboard.h"
 #include "global/vars.h"
@@ -18,6 +19,12 @@ INPUT_STATE g_OldInputDB = { 0 };
 static int32_t m_HoldBack = 0;
 static int32_t m_HoldForward = 0;
 static bool m_ListenMode = false;
+static const GAME_STRING_ID m_LayoutMap[INPUT_LAYOUT_NUMBER_OF] = {
+    [INPUT_LAYOUT_DEFAULT] = GS_ID(CONTROL_DEFAULT_KEYS),
+    [INPUT_LAYOUT_CUSTOM_1] = GS_ID(CONTROL_CUSTOM_1),
+    [INPUT_LAYOUT_CUSTOM_2] = GS_ID(CONTROL_CUSTOM_2),
+    [INPUT_LAYOUT_CUSTOM_3] = GS_ID(CONTROL_CUSTOM_3),
+};
 
 static INPUT_STATE M_GetDebounced(INPUT_STATE input);
 static INPUT_BACKEND_IMPL *M_GetBackend(INPUT_BACKEND backend);
@@ -249,6 +256,11 @@ void Input_UnassignRole(
     const INPUT_ROLE role)
 {
     M_GetBackend(backend)->unassign_role(layout, role);
+}
+
+const char *Input_GetLayoutName(const INPUT_LAYOUT layout)
+{
+    return GameString_Get(m_LayoutMap[layout]);
 }
 
 const char *Input_GetKeyName(

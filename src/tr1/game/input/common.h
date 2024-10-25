@@ -58,6 +58,9 @@ bool Input_ReadAndAssignRole(
 void Input_UnassignRole(
     INPUT_BACKEND backend, INPUT_LAYOUT layout, INPUT_ROLE role);
 
+// Get the layout human-readable name.
+const char *Input_GetLayoutName(const INPUT_LAYOUT layout);
+
 // Given the input layout and input key role, get the assigned key name.
 const char *Input_GetKeyName(
     INPUT_BACKEND backend, INPUT_LAYOUT layout, INPUT_ROLE role);

@@ -27,54 +27,13 @@ typedef struct {
 } BUILTIN_CONTROLLER_LAYOUT;
 
 static BUILTIN_CONTROLLER_LAYOUT m_BuiltinLayout[] = {
-    // clang-format off
-    { INPUT_ROLE_UP,                { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_UP },       0 } },
-    { INPUT_ROLE_DOWN,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_DOWN },     0 } },
-    { INPUT_ROLE_LEFT,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_LEFT },     0 } },
-    { INPUT_ROLE_RIGHT,             { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_RIGHT },    0 } },
-    { INPUT_ROLE_STEP_L,            { BT_AXIS,   { SDL_CONTROLLER_AXIS_TRIGGERLEFT },     1 } },
-    { INPUT_ROLE_STEP_R,            { BT_AXIS,   { SDL_CONTROLLER_AXIS_TRIGGERRIGHT },    1 } },
-    { INPUT_ROLE_SLOW,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_RIGHTSHOULDER }, 0 } },
-    { INPUT_ROLE_JUMP,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_X },             0 } },
-    { INPUT_ROLE_ACTION,            { BT_BUTTON, { SDL_CONTROLLER_BUTTON_A },             0 } },
-    { INPUT_ROLE_DRAW,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_Y },             0 } },
-    { INPUT_ROLE_LOOK,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_LEFTSHOULDER },  0 } },
-    { INPUT_ROLE_ROLL,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_B },             0 } },
-    { INPUT_ROLE_OPTION,            { BT_BUTTON, { SDL_CONTROLLER_BUTTON_BACK },          0 } },
-    { INPUT_ROLE_FLY_CHEAT,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_ITEM_CHEAT,        { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_LEVEL_SKIP_CHEAT,  { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_TURBO_CHEAT,       { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_PAUSE,             { BT_BUTTON, { SDL_CONTROLLER_BUTTON_START },         0 } },
-    { INPUT_ROLE_CAMERA_FORWARD,    { BT_AXIS,   { SDL_CONTROLLER_AXIS_RIGHTY },          -1 } },
-    { INPUT_ROLE_CAMERA_BACK,       { BT_AXIS,   { SDL_CONTROLLER_AXIS_RIGHTY },          1 } },
-    { INPUT_ROLE_CAMERA_LEFT,       { BT_AXIS,   { SDL_CONTROLLER_AXIS_RIGHTX },          -1 } },
-    { INPUT_ROLE_CAMERA_RIGHT,      { BT_AXIS,   { SDL_CONTROLLER_AXIS_RIGHTX },          1 } },
-    { INPUT_ROLE_EQUIP_PISTOLS,     { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_EQUIP_SHOTGUN,     { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_EQUIP_MAGNUMS,     { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_EQUIP_UZIS,        { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_USE_SMALL_MEDI,    { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_USE_BIG_MEDI,      { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_SAVE,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_LOAD,              { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_FPS,               { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_BILINEAR,          { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_ENTER_CONSOLE,     { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_CHANGE_TARGET,     { BT_BUTTON, { SDL_CONTROLLER_BUTTON_LEFTSTICK },     0 } },
-    { INPUT_ROLE_TOGGLE_UI,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_CAMERA_UP,         { BT_AXIS,   { SDL_CONTROLLER_AXIS_LEFTY },           -1 } },
-    { INPUT_ROLE_CAMERA_DOWN,       { BT_AXIS,   { SDL_CONTROLLER_AXIS_LEFTY },           1 } },
-    { INPUT_ROLE_TOGGLE_PHOTO_MODE, { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_PERSPECTIVE,       { BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID },       0 } },
-    { INPUT_ROLE_MENU_UP,           { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_UP },       0 } },
-    { INPUT_ROLE_MENU_DOWN,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_DOWN },     0 } },
-    { INPUT_ROLE_MENU_LEFT,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_LEFT },     0 } },
-    { INPUT_ROLE_MENU_RIGHT,        { BT_BUTTON, { SDL_CONTROLLER_BUTTON_DPAD_RIGHT },    0 } },
-    { INPUT_ROLE_MENU_CONFIRM,      { BT_BUTTON, { SDL_CONTROLLER_BUTTON_A },             0 } },
-    { INPUT_ROLE_MENU_BACK,         { BT_BUTTON, { SDL_CONTROLLER_BUTTON_B },             0 } },
-    { -1,                           { 0,         { 0 },                                   0 } },
-    // clang-format on
+#define INPUT_CONTROLLER_ASSIGN(role, button_type, bind, axis_dir)             \
+    { role, { button_type, { bind }, axis_dir } },
+#if TR_VERSION == 1
+    #include "game/input/backends/controller_tr1.def"
+#endif
+    // guard
+    { -1, { 0, { 0 }, 0 } },
 };
 
 static CONTROLLER_MAP m_Layout[INPUT_LAYOUT_NUMBER_OF][INPUT_ROLE_NUMBER_OF];
@@ -385,14 +344,22 @@ static SDL_GameController *M_FindController(void)
 
 static void M_Init(void)
 {
-    for (int32_t layout = INPUT_LAYOUT_DEFAULT; layout < INPUT_LAYOUT_NUMBER_OF;
-         layout++) {
-        for (int32_t i = 0; m_BuiltinLayout[i].role != (INPUT_ROLE)-1; i++) {
-            const BUILTIN_CONTROLLER_LAYOUT *const builtin =
-                &m_BuiltinLayout[i];
-            m_Layout[layout][builtin->role] = builtin->map;
-        }
-        M_CheckConflicts(layout);
+    // first, reset the roles to null
+    for (INPUT_ROLE role = 0; role < INPUT_ROLE_NUMBER_OF; role++) {
+        m_Layout[INPUT_LAYOUT_DEFAULT][role] = (CONTROLLER_MAP) {
+            BT_BUTTON, { SDL_CONTROLLER_BUTTON_INVALID }, 0
+        };
+    }
+    // then load actually defined default bindings
+    for (int32_t i = 0; m_BuiltinLayout[i].role != (INPUT_ROLE)-1; i++) {
+        const BUILTIN_CONTROLLER_LAYOUT *const builtin = &m_BuiltinLayout[i];
+        m_Layout[INPUT_LAYOUT_DEFAULT][builtin->role] = builtin->map;
+    }
+    M_CheckConflicts(INPUT_LAYOUT_DEFAULT);
+
+    for (int32_t layout = INPUT_LAYOUT_CUSTOM_1;
+         layout < INPUT_LAYOUT_NUMBER_OF; layout++) {
+        M_ResetLayout(layout);
     }
 
     int32_t result = SDL_Init(SDL_INIT_GAMECONTROLLER | SDL_INIT_SENSOR);
@@ -416,7 +383,9 @@ static bool M_CustomUpdate(INPUT_STATE *const result, const INPUT_LAYOUT layout)
     if (m_Controller == NULL) {
         return false;
     }
+#if TR_VERSION == 1
     result->menu_back |= M_JoyBtn(SDL_CONTROLLER_BUTTON_Y);
+#endif
     return true;
 }
 

@@ -40,11 +40,6 @@ typedef enum {
 } CONTROL_TEXT;
 
 typedef struct {
-    INPUT_LAYOUT layout;
-    GAME_STRING_ID layout_string;
-} LAYOUT_GS_MAP;
-
-typedef struct {
     int role;
     GAME_STRING_ID game_string;
     bool can_unbind;
@@ -86,13 +81,6 @@ static MENU m_ControlMenu = {
     .last_role = 0,
     .row_num = KC_TITLE,
     .prev_row_num = KC_TITLE,
-};
-
-static const LAYOUT_GS_MAP m_LayoutMap[] = {
-    { INPUT_LAYOUT_DEFAULT, GS_ID(CONTROL_DEFAULT_KEYS) },
-    { INPUT_LAYOUT_CUSTOM_1, GS_ID(CONTROL_CUSTOM_1) },
-    { INPUT_LAYOUT_CUSTOM_2, GS_ID(CONTROL_CUSTOM_2) },
-    { INPUT_LAYOUT_CUSTOM_3, GS_ID(CONTROL_CUSTOM_3) },
 };
 
 static const TEXT_COLUMN_PLACEMENT CtrlTextPlacementNormal[] = {
@@ -250,9 +238,8 @@ static void M_InitText(INPUT_BACKEND backend, INPUT_LAYOUT layout)
         col++;
     }
 
-    m_Text[TEXT_TITLE] = Text_Create(
-        0, TOP_Y - BORDER / 2,
-        GameString_Get(m_LayoutMap[layout].layout_string));
+    m_Text[TEXT_TITLE] =
+        Text_Create(0, TOP_Y - BORDER / 2, Input_GetLayoutName(layout));
     Text_CentreH(m_Text[TEXT_TITLE], true);
     Text_CentreV(m_Text[TEXT_TITLE], true);
     Text_AddBackground(m_Text[TEXT_TITLE], 0, 0, 0, 0, TS_REQUESTED);
@@ -353,9 +340,7 @@ static void M_UpdateText(INPUT_BACKEND backend, INPUT_LAYOUT layout)
     Text_ChangeText(m_Text[TEXT_UNBIND], m_UnbindGS);
 
     if (m_ControlMenu.cur_role == KC_TITLE) {
-        Text_ChangeText(
-            m_Text[TEXT_TITLE],
-            GameString_Get(m_LayoutMap[layout].layout_string));
+        Text_ChangeText(m_Text[TEXT_TITLE], Input_GetLayoutName(layout));
 
         int32_t title_w = Text_GetWidth(m_Text[TEXT_TITLE]);
         Text_SetPos(
