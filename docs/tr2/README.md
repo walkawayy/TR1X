@@ -29,6 +29,7 @@ decompilation process. We recognize that there is much work to be done.
 - fixed controls dialog remapping being too sensitive
 - fixed the distorted skybox in room 5 of Barkhang Monastery
 - fixed Lara reloading the harpoon gun after every shot in NG+
+- fixed the dragon reviving itself after Lara removes the dagger in rare circumstances
 
 #### Visuals
 
