@@ -1,3 +1,3 @@
-#include "game/input/backends/base.h"
+#include "base.h"
 
 extern INPUT_BACKEND_IMPL g_Input_Keyboard;

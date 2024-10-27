@@ -379,20 +379,20 @@ typedef struct __unaligned {
 } VERTEX_INFO;
 
 typedef enum { // decompiled
-    INPUT_ROLE_FORWARD     = 0,
-    INPUT_ROLE_BACK        = 1,
-    INPUT_ROLE_LEFT        = 2,
-    INPUT_ROLE_RIGHT       = 3,
-    INPUT_ROLE_STEP_LEFT   = 4,
-    INPUT_ROLE_STEP_RIGHT  = 5,
-    INPUT_ROLE_SLOW        = 6,
-    INPUT_ROLE_JUMP        = 7,
-    INPUT_ROLE_ACTION      = 8,
-    INPUT_ROLE_DRAW_WEAPON = 9,
-    INPUT_ROLE_FLARE       = 10,
-    INPUT_ROLE_LOOK        = 11,
-    INPUT_ROLE_ROLL        = 12,
-    INPUT_ROLE_OPTION      = 13,
+    INPUT_ROLE_FORWARD   = 0,
+    INPUT_ROLE_BACK      = 1,
+    INPUT_ROLE_LEFT      = 2,
+    INPUT_ROLE_RIGHT     = 3,
+    INPUT_ROLE_STEP_L    = 4,
+    INPUT_ROLE_STEP_R    = 5,
+    INPUT_ROLE_SLOW      = 6,
+    INPUT_ROLE_JUMP      = 7,
+    INPUT_ROLE_ACTION    = 8,
+    INPUT_ROLE_DRAW      = 9,
+    INPUT_ROLE_USE_FLARE = 10,
+    INPUT_ROLE_LOOK      = 11,
+    INPUT_ROLE_ROLL      = 12,
+    INPUT_ROLE_OPTION    = 13,
 } INPUT_ROLE;
 
 typedef struct __unaligned {
@@ -3865,19 +3865,19 @@ typedef enum {
 0x004471F0  0x0022  +R      bool __cdecl DInputCreate(void);
 0x00447220  0x001A  +R      void __cdecl DInputRelease(void);
 0x00447240  0x005A  +R      void __cdecl WinInReadKeyboard(LPVOID lpInputData);
-0x004472A0  0x00F3  -R      DWORD __cdecl WinInReadJoystick(int32_t *x, int32_t *y);
+0x004472A0  0x00F3  +R      DWORD __cdecl WinInReadJoystick(int32_t *x, int32_t *y);
 0x004473A0  0x0005  x       sub_4473A0
-0x004473B0  0x007F  -R      bool __cdecl WinInputInit(void);
-0x00447430  0x0024  -R      bool __cdecl DInputEnumDevices(JOYSTICK_LIST *joystickList);
-0x00447460  0x00E8  -R      BOOL __stdcall DInputEnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
+0x004473B0  0x007F  +R      bool __cdecl WinInputInit(void);
+0x00447430  0x0024  +R      bool __cdecl DInputEnumDevices(JOYSTICK_LIST *joystickList);
+0x00447460  0x00E8  +R      BOOL __stdcall DInputEnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
 0x00447550  0x001F  +       void __thiscall S_FlaggedString_Create(STRING_FLAGGED *string, int32_t size);
-0x00447570  0x004E  -R      JOYSTICK_NODE *__cdecl GetJoystick(GUID *lpGuid);
-0x004475C0  0x00C9  -R      void __cdecl DInputKeyboardCreate(void);
-0x00447690  0x0029  -R      void __cdecl DInputKeyboardRelease(void);
-0x004476C0  0x00E4  -R      bool __cdecl DInputJoystickCreate(void);
-0x004477B0  0x002D  -R      void __cdecl WinInStart(void);
-0x004477E0  0x000F  -R      void __cdecl WinInFinish(void);
-0x004477F0  0x0017  -R      void __cdecl WinInRunControlPanel(HWND hWnd);
+0x00447570  0x004E  +R      JOYSTICK_NODE *__cdecl GetJoystick(GUID *lpGuid);
+0x004475C0  0x00C9  +R      void __cdecl DInputKeyboardCreate(void);
+0x00447690  0x0029  +R      void __cdecl DInputKeyboardRelease(void);
+0x004476C0  0x00E4  +R      bool __cdecl DInputJoystickCreate(void);
+0x004477B0  0x002D  +R      void __cdecl WinInStart(void);
+0x004477E0  0x000F  +R      void __cdecl WinInFinish(void);
+0x004477F0  0x0017  +R      void __cdecl WinInRunControlPanel(HWND hWnd);
 0x00447810  0x0062  *R      void __cdecl IncreaseScreenSize(void);
 0x00447880  0x0062  *R      void __cdecl DecreaseScreenSize(void);
 0x004478F0  0x009F  *R      void __cdecl setup_screen_size(void);
@@ -4455,7 +4455,7 @@ typedef enum {
 0x0051A108  -       uint8_t g_DIKeys[256];
 0x0051A208  +       int32_t g_Input;
 0x0051A20C  -       int8_t g_IsVidModeLock;
-0x0051A210  -       int32_t g_JoyKeys;
+0x0051A210  +       int32_t g_JoyKeys;
 0x0051A214  +       int32_t g_JoyXPos;
 0x0051A218  +       int32_t g_JoyYPos;
 0x0051A220  +       int32_t g_MediPackCooldown;
@@ -4511,7 +4511,7 @@ typedef enum {
 0x00526314  -       int16_t g_CineFrameIdx;
 0x00526320  -       CAMERA_INFO g_Camera;
 0x005263CC  -       BOX_INFO *g_Boxes;
-0x004D855C  -       LPDIRECTINPUT g_DInput;
+0x004D855C  +       LPDIRECTINPUT g_DInput;
 0x004D8560  -       LPDIRECTINPUTDEVICE IDID_SysKeyboard;
 0x0051BDA0  -       BOOL g_IsTitleLoaded;
 0x004D7980  -       int32_t g_Inv_ExtraData[8];

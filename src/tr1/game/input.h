@@ -1,3 +1,3 @@
 #pragma once
 
-#include "game/input/common.h"
+#include <libtrx/game/input.h>

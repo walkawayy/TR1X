@@ -11,14 +11,16 @@ typedef struct {
     SDL_Scancode scancode;
 } BUILTIN_KEYBOARD_LAYOUT;
 
-const Uint8 *m_KeyboardState;
+const Uint8 *m_KeyboardState = NULL;
 static bool m_Conflicts[INPUT_LAYOUT_NUMBER_OF][INPUT_ROLE_NUMBER_OF] = { 0 };
 
 static BUILTIN_KEYBOARD_LAYOUT m_BuiltinLayout[] = {
 // clang-format off
 #define INPUT_KEYBOARD_ASSIGN(role, key) { role, key },
 #if TR_VERSION == 1
-#include "keyboard_tr1.def"
+#include "game/input/backends/keyboard_tr1.def"
+#elif TR_VERSION == 2
+#include "game/input/backends/keyboard_tr2.def"
 #endif
     { -1, SDL_SCANCODE_UNKNOWN },
     // clang-format on
@@ -381,6 +383,10 @@ static bool M_CustomUpdate(INPUT_STATE *const result, const INPUT_LAYOUT layout)
     // we only do this for keyboard input
 #if TR_VERSION == 1
     result->menu_confirm |= result->action;
+#elif TR_VERSION == 2
+    result->menu_confirm |= result->action;
+    result->toggle_fullscreen =
+        KEY_DOWN(SDL_SCANCODE_RETURN) && KEY_DOWN(SDL_SCANCODE_LALT);
 #endif
     return true;
 }

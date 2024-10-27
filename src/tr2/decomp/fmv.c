@@ -359,13 +359,11 @@ void __cdecl WinPlayFMV(const char *const file_name, const bool is_playback)
         Video_SetSurfaceSize(video, g_PhdWinWidth, g_PhdWinHeight);
 
         Video_PumpEvents(video);
-
+        Shell_ProcessEvents();
         WinVidSpinMessageLoop(false);
 
-        if (Input_Update()) {
-            Video_Stop(video);
-            break;
-        }
+        Input_Update();
+        Shell_ProcessInput();
         if (g_InputDB.option) {
             Video_Stop(video);
             break;
@@ -387,4 +385,9 @@ bool __cdecl S_IntroFMV(
     const char *const file_name_1, const char *const file_name_2)
 {
     return IntroFMV(file_name_1, file_name_2);
+}
+
+bool FMV_IsPlaying(void)
+{
+    return g_IsFMVPlaying;
 }

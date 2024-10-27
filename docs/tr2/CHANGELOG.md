@@ -1,4 +1,27 @@
 ## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.5...develop) - ××××-××-××
+- changed the inputs backend from DirectX to SDL (#1695)
+    - improved controller support to match TR1X
+    - changed the number of custom layouts to 3
+    - changed default key bindings according to the following table:
+        | Key                           | Old binding | New binding  | Reason
+        | ----------------------------- | ----------- | ------------ | -----
+        | Flare                         | Comma (,)   | Period (.)   | To maintain forward compatibility with TR3
+        | Screenshot                    | S           | Print Screen | To maintain compatibility with TR1X
+        | Toggle bilinear filter        | F8          | F3           | To maintain compatibility with TR1X
+        | Toggle perspective filter     | Shift+F8    | F4           | To maintain compatibility with TR1X
+        | Toggle z-buffer               | F7          | F7           | Likely to be permanently enabled in the future
+        | Toggle triple buffering       | Shift+F7    | **Removed**  | Obscure setting, will be either removed or available via the ingame UI at some point
+        | Toggle dither                 | F11         | **Removed**  | Obscure setting, will be either removed or available via the ingame UI at some point
+        | Toggle fullscreen             | F12         | Alt-Enter    | To maintain compatibility with TR1X
+        | Toggle rendering mode         | Shift+F12   | F12          | No more conflict to require Shift
+        | Decrease resolution           | F1          | Shift+F1     | F3 and F4 are already taken
+        | Increase resolution           | F2          | F1           | F3 and F4 are already taken
+        | Decrease internal screen size | F3          | Shift+F2     | F3 and F4 are already taken
+        | Increase internal screen size | F4          | F2           | F3 and F4 are already taken
+    - removed "falling through" to the default layout, with the exception of keyboard arrows (matching TR1X behavior)
+    - removed hardcoded Shift+F7 key binding for toggling triple buffering
+    - removed hardcoded `0` key binding for flares
+    - removed hardcoded cooldown of 15 frames for medipacks
 - improved FMV mode appearance - removed black scanlines (#1729)
 - improved FMV mode behavior - stopped switching screen resolutions (#1729)
 - improved screenshots: now saved in the screenshots/ directory with level titles and timestamps as JPG or PNG, similar to TR1X (#1773)

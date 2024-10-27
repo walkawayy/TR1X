@@ -5,11 +5,13 @@
 #include "game/demo.h"
 #include "game/gameflow/gameflow_new.h"
 #include "game/input.h"
+#include "game/inventory/backpack.h"
 #include "game/inventory/common.h"
 #include "game/lara/control.h"
 #include "game/music.h"
 #include "game/overlay.h"
 #include "game/room_draw.h"
+#include "game/shell.h"
 #include "game/sound.h"
 #include "game/text.h"
 #include "global/funcs.h"
@@ -42,7 +44,10 @@ int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
             return GFD_START_GAME | LV_FIRST;
         }
 
+        Shell_ProcessEvents();
         Input_Update();
+        Shell_ProcessInput();
+        Game_ProcessInput();
 
         if (demo_mode) {
             if (g_InputDB.any) {
@@ -178,6 +183,7 @@ int32_t __cdecl Game_Draw(void)
     Overlay_DrawGameInfo(true);
     S_OutputPolyList();
     g_Camera.num_frames = S_DumpScreen();
+    Shell_ProcessEvents();
     S_AnimateTextures(g_Camera.num_frames);
     return g_Camera.num_frames;
 }
@@ -189,6 +195,7 @@ int32_t __cdecl Game_DrawCinematic(void)
     Text_Draw();
     S_OutputPolyList();
     g_Camera.num_frames = S_DumpScreen();
+    Shell_ProcessEvents();
     S_AnimateTextures(g_Camera.num_frames);
     return g_Camera.num_frames;
 }
@@ -315,4 +322,40 @@ bool Game_IsPlayable(void)
     }
 
     return true;
+}
+
+void Game_ProcessInput(void)
+{
+    if (g_GameInfo.current_level.type == GFL_DEMO) {
+        return;
+    }
+
+    if (g_InputDB.equip_pistols && Inv_RequestItem(O_PISTOL_OPTION)) {
+        g_Lara.request_gun_type = LGT_PISTOLS;
+    } else if (g_InputDB.equip_shotgun && Inv_RequestItem(O_SHOTGUN_OPTION)) {
+        g_Lara.request_gun_type = LGT_SHOTGUN;
+    } else if (g_InputDB.equip_magnums && Inv_RequestItem(O_MAGNUM_OPTION)) {
+        g_Lara.request_gun_type = LGT_MAGNUMS;
+    } else if (g_InputDB.equip_uzis && Inv_RequestItem(O_UZI_OPTION)) {
+        g_Lara.request_gun_type = LGT_UZIS;
+    } else if (g_InputDB.equip_harpoon && Inv_RequestItem(O_HARPOON_OPTION)) {
+        g_Lara.request_gun_type = LGT_HARPOON;
+    } else if (g_InputDB.equip_m16 && Inv_RequestItem(O_M16_OPTION)) {
+        g_Lara.request_gun_type = LGT_M16;
+    } else if (
+        g_InputDB.equip_grenade_launcher && Inv_RequestItem(O_GRENADE_OPTION)) {
+        g_Lara.request_gun_type = LGT_GRENADE;
+    }
+
+    if (g_InputDB.use_small_medi && Inv_RequestItem(O_SMALL_MEDIPACK_OPTION)) {
+        Lara_UseItem(O_SMALL_MEDIPACK_OPTION);
+    }
+    if (g_InputDB.use_big_medi && Inv_RequestItem(O_LARGE_MEDIPACK_OPTION)) {
+        Lara_UseItem(O_LARGE_MEDIPACK_OPTION);
+    }
+
+    if (g_GameFlow.load_save_disabled) {
+        g_Input.save = 0;
+        g_Input.load = 0;
+    }
 }

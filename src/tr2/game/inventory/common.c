@@ -1,6 +1,7 @@
 #include "game/inventory/common.h"
 
 #include "game/demo.h"
+#include "game/game.h"
 #include "game/input.h"
 #include "game/inventory/backpack.h"
 #include "game/inventory/ring.h"
@@ -14,6 +15,7 @@
 #include "game/option/option.h"
 #include "game/output.h"
 #include "game/overlay.h"
+#include "game/shell.h"
 #include "game/sound.h"
 #include "game/text.h"
 #include "global/const.h"
@@ -248,7 +250,10 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
         }
 
         Inv_Ring_CalcAdders(&ring, 24);
+        Shell_ProcessEvents();
         Input_Update();
+        Shell_ProcessInput();
+        Game_ProcessInput();
 
         if (g_Inv_DemoMode) {
             if (g_InputDB.any) {
@@ -401,6 +406,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
         Sound_EndScene();
 
         const int32_t frames = S_DumpScreen();
+        Shell_ProcessEvents();
         g_Inv_NFrames = frames;
         g_Camera.num_frames = frames;
         if (g_CurrentLevel) {

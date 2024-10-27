@@ -24,12 +24,13 @@ static void M_Free(UI_CONTROLS_INPUT_SELECTOR *self);
 
 static void M_UpdateText(UI_CONTROLS_INPUT_SELECTOR *const self)
 {
-    const uint16_t key =
-        Input_GetAssignedKey(self->controller->active_layout, self->input_role);
-    if (Input_GetKeyName(key) == NULL) {
+    const char *const key_name = Input_GetKeyName(
+        self->controller->backend, self->controller->active_layout,
+        self->input_role);
+    if (key_name == NULL) {
         UI_Label_ChangeText(self->choice, "BAD");
     } else {
-        UI_Label_ChangeText(self->choice, Input_GetKeyName(key));
+        UI_Label_ChangeText(self->choice, key_name);
     }
     UI_Label_ChangeText(self->label, Input_GetRoleName(self->input_role));
 }
@@ -67,9 +68,7 @@ static void M_Control(UI_CONTROLS_INPUT_SELECTOR *const self)
             || self->controller->state
                 == UI_CONTROLS_STATE_NAVIGATE_INPUTS_DEBOUNCE) {
             UI_Label_AddFrame(self->label);
-        } else if (
-            self->controller->state == UI_CONTROLS_STATE_LISTEN
-            || self->controller->state == UI_CONTROLS_STATE_LISTEN_DEBOUNCE) {
+        } else if (self->controller->state == UI_CONTROLS_STATE_LISTEN) {
             UI_Label_AddFrame(self->choice);
         }
     }
@@ -78,14 +77,10 @@ static void M_Control(UI_CONTROLS_INPUT_SELECTOR *const self)
 
     // Flash conflicts
     UI_Label_Flash(self->choice, false, 0);
-    const uint16_t key1 =
-        Input_GetAssignedKey(self->controller->active_layout, self->input_role);
-    for (INPUT_ROLE role = 0; role < INPUT_ROLE_NUMBER_OF; role++) {
-        const uint16_t key2 =
-            Input_GetAssignedKey(self->controller->active_layout, role);
-        if (role != self->input_role && key1 == key2) {
-            UI_Label_Flash(self->choice, true, 20);
-        }
+    if (Input_IsKeyConflicted(
+            self->controller->backend, self->controller->active_layout,
+            self->input_role)) {
+        UI_Label_Flash(self->choice, true, 20);
     }
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/input/common.h"
+#include "../common.h"
 
 #include <stdbool.h>
 

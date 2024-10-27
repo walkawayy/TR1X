@@ -1,7 +1,8 @@
-#include "game/shell.h"
+#include "game/shell/common.h"
 
 #include "config.h"
 #include "decomp/decomp.h"
+#include "decomp/fmv.h"
 #include "game/background.h"
 #include "game/console/common.h"
 #include "game/demo.h"
@@ -20,6 +21,7 @@
 #include <libtrx/game/ui/common.h>
 #include <libtrx/memory.h>
 
+#include <SDL2/SDL.h>
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -39,7 +41,10 @@ void __cdecl Shell_Main(void)
     Text_Init();
     UI_Init();
     Console_Init();
+
+    Sound_Init();
     Music_Init();
+    Input_Init();
 
     Config_Read();
     if (!S_InitialiseSystem()) {
@@ -65,7 +70,6 @@ void __cdecl Shell_Main(void)
     g_HiRes = 0;
 
     TempVideoAdjust(1, 1.0);
-    Input_Update();
 
     g_IsVidModeLock = 1;
     S_DisplayPicture("data\\legal.pcx", 0);
@@ -73,6 +77,7 @@ void __cdecl Shell_Main(void)
     S_CopyBufferToScreen();
     S_OutputPolyList();
     S_DumpScreen();
+    Shell_ProcessEvents();
     FadeToPal(30, g_GamePalette8);
     S_Wait(180, 1);
     S_FadeToBlack();
@@ -169,7 +174,6 @@ void __cdecl Shell_Shutdown(void)
 {
     GameString_Shutdown();
     Console_Shutdown();
-    WinInFinish();
     BGND_Free();
     RenderFinish(false);
     WinVidFinish();
@@ -202,4 +206,53 @@ void __cdecl Shell_ExitSystemFmt(const char *fmt, ...)
     Shell_ExitSystem(message);
 
     Memory_FreePointer(&message);
+}
+
+// TODO: try to call this function in a single place after introducing phasers.
+void Shell_ProcessEvents(void)
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event) != 0) {
+        switch (event.type) {
+        case SDL_QUIT:
+            g_IsMessageLoopClosed = true;
+            g_IsGameWindowMinimized = true;
+            g_StopInventory = true;
+            break;
+
+        case SDL_KEYDOWN: {
+            // NOTE: This normally would get handled by Input_Update,
+            // but by the time Input_Update gets ran, we may already have lost
+            // some keypresses if the player types really fast, so we need to
+            // react sooner.
+            if (!FMV_IsPlaying() && !Console_IsOpened()
+                && Input_IsPressed(
+                    INPUT_BACKEND_KEYBOARD, g_Config.input.keyboard_layout,
+                    INPUT_ROLE_ENTER_CONSOLE)) {
+                Console_Open();
+            } else {
+                UI_HandleKeyDown(event.key.keysym.sym);
+            }
+            break;
+        }
+
+        case SDL_TEXTEDITING:
+            UI_HandleTextEdit(event.text.text);
+            break;
+
+        case SDL_TEXTINPUT:
+            UI_HandleTextEdit(event.text.text);
+            break;
+
+        case SDL_CONTROLLERDEVICEADDED:
+        case SDL_JOYDEVICEADDED:
+            Input_InitController();
+            break;
+
+        case SDL_CONTROLLERDEVICEREMOVED:
+        case SDL_JOYDEVICEREMOVED:
+            Input_ShutdownController();
+            break;
+        }
+    }
 }

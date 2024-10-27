@@ -195,7 +195,8 @@ dll_sources = [
   'game/room.c',
   'game/room_draw.c',
   'game/savegame/common.c',
-  'game/shell.c',
+  'game/shell/common.c',
+  'game/shell/input.c',
   'game/sound.c',
   'game/text.c',
   'game/ui/common.c',
@@ -215,7 +216,6 @@ dll_sources = [
   'main_dll.c',
   'specific/s_audio_sample.c',
   'specific/s_flagged_string.c',
-  'specific/s_input.c',
   dll_resources,
 ]
 

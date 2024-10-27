@@ -202,7 +202,6 @@ void S_Shell_SpinMessageLoop(void)
                 S_Shell_ToggleFullscreen();
                 break;
             }
-
             break;
 
         case SDL_WINDOWEVENT:

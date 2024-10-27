@@ -298,7 +298,6 @@
 #define g_MinWindowHeight (*(int32_t*)0x004D838C)
 #define g_IsGameWindowActive (*(bool*)0x004D8390)
 #define g_MessageLoopCounter (*(int32_t*)0x004D8394)
-#define g_DInput (*(LPDIRECTINPUT*)0x004D855C)
 #define IDID_SysKeyboard (*(LPDIRECTINPUTDEVICE*)0x004D8560)
 #define g_ScreenSizer (*(int32_t*)0x004D8568)
 #define g_IsVidSizeLock (*(int32_t*)0x004D856C)

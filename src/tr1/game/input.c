@@ -1,33 +1,20 @@
-#include "game/input/common.h"
+#include "game/input.h"
 
 #include "config.h"
 #include "game/clock.h"
-#include "game/game_string.h"
-#include "game/input/backends/controller.h"
-#include "game/input/backends/keyboard.h"
 #include "global/vars.h"
 
-#include <stdint.h>
+#include <libtrx/game/input/backends/base.h>
+#include <libtrx/game/input/backends/controller.h>
+#include <libtrx/game/input/backends/keyboard.h>
 
 #define DELAY_FRAMES 12
 #define HOLD_FRAMES 3
 
-INPUT_STATE g_Input = { 0 };
-INPUT_STATE g_InputDB = { 0 };
-INPUT_STATE g_OldInputDB = { 0 };
-
 static int32_t m_HoldBack = 0;
 static int32_t m_HoldForward = 0;
-static bool m_ListenMode = false;
-static const GAME_STRING_ID m_LayoutMap[INPUT_LAYOUT_NUMBER_OF] = {
-    [INPUT_LAYOUT_DEFAULT] = GS_ID(CONTROL_DEFAULT_KEYS),
-    [INPUT_LAYOUT_CUSTOM_1] = GS_ID(CONTROL_CUSTOM_1),
-    [INPUT_LAYOUT_CUSTOM_2] = GS_ID(CONTROL_CUSTOM_2),
-    [INPUT_LAYOUT_CUSTOM_3] = GS_ID(CONTROL_CUSTOM_3),
-};
 
 static INPUT_STATE M_GetDebounced(INPUT_STATE input);
-static INPUT_BACKEND_IMPL *M_GetBackend(INPUT_BACKEND backend);
 static void M_UpdateFromBackend(
     INPUT_STATE *s, const INPUT_BACKEND_IMPL *backend, int32_t layout);
 
@@ -63,17 +50,6 @@ static INPUT_STATE M_GetDebounced(const INPUT_STATE input)
     return result;
 }
 
-static INPUT_BACKEND_IMPL *M_GetBackend(const INPUT_BACKEND backend)
-{
-    switch (backend) {
-    case INPUT_BACKEND_KEYBOARD:
-        return &g_Input_Keyboard;
-    case INPUT_BACKEND_CONTROLLER:
-        return &g_Input_Controller;
-    }
-    return NULL;
-}
-
 static void M_UpdateFromBackend(
     INPUT_STATE *const s, const INPUT_BACKEND_IMPL *const backend,
     const int32_t layout)
@@ -91,7 +67,7 @@ static void M_UpdateFromBackend(
     s->draw                      |= backend->is_pressed(layout, INPUT_ROLE_DRAW);
     s->look                      |= backend->is_pressed(layout, INPUT_ROLE_LOOK);
     s->roll                      |= backend->is_pressed(layout, INPUT_ROLE_ROLL);
-    s->option                    |= backend->is_pressed(layout, INPUT_ROLE_OPTION);
+
     s->pause                     |= backend->is_pressed(layout, INPUT_ROLE_PAUSE);
     s->toggle_photo_mode         |= backend->is_pressed(layout, INPUT_ROLE_TOGGLE_PHOTO_MODE);
     s->camera_up                 |= backend->is_pressed(layout, INPUT_ROLE_CAMERA_UP);
@@ -115,6 +91,7 @@ static void M_UpdateFromBackend(
     s->use_small_medi            |= backend->is_pressed(layout, INPUT_ROLE_USE_SMALL_MEDI);
     s->use_big_medi              |= backend->is_pressed(layout, INPUT_ROLE_USE_BIG_MEDI);
 
+    s->option                    |= backend->is_pressed(layout, INPUT_ROLE_OPTION);
     s->menu_up                   |= backend->is_pressed(layout, INPUT_ROLE_MENU_UP);
     s->menu_down                 |= backend->is_pressed(layout, INPUT_ROLE_MENU_DOWN);
     s->menu_left                 |= backend->is_pressed(layout, INPUT_ROLE_MENU_LEFT);
@@ -132,49 +109,6 @@ static void M_UpdateFromBackend(
     // clang-format on
 
     backend->custom_update(s, layout);
-}
-
-void Input_Init(void)
-{
-    if (g_Input_Keyboard.init != NULL) {
-        g_Input_Keyboard.init();
-    }
-    if (g_Input_Controller.init != NULL) {
-        g_Input_Controller.init();
-    }
-}
-
-void Input_Shutdown(void)
-{
-    if (g_Input_Keyboard.shutdown != NULL) {
-        g_Input_Keyboard.shutdown();
-    }
-    if (g_Input_Controller.shutdown != NULL) {
-        g_Input_Controller.shutdown();
-    }
-}
-
-void Input_InitController(void)
-{
-    if (g_Input_Controller.init != NULL) {
-        g_Input_Controller.init();
-    }
-}
-
-void Input_ShutdownController(void)
-{
-    if (g_Input_Controller.shutdown != NULL) {
-        g_Input_Controller.shutdown();
-    }
-}
-
-bool Input_IsRoleRebindable(const INPUT_ROLE role)
-{
-    return role != INPUT_ROLE_UNBIND_KEY && role != INPUT_ROLE_RESET_BINDINGS
-        && role != INPUT_ROLE_PERSPECTIVE && role != INPUT_ROLE_MENU_CONFIRM
-        && role != INPUT_ROLE_MENU_BACK && role != INPUT_ROLE_MENU_LEFT
-        && role != INPUT_ROLE_MENU_RIGHT && role != INPUT_ROLE_MENU_UP
-        && role != INPUT_ROLE_MENU_DOWN;
 }
 
 void Input_Update(void)
@@ -224,80 +158,8 @@ void Input_Update(void)
 
     g_InputDB = M_GetDebounced(g_Input);
 
-    if (m_ListenMode) {
-        g_Input = (INPUT_STATE) { 0 };
-        g_InputDB = (INPUT_STATE) { 0 };
+    if (Input_IsInListenMode()) {
+        g_Input.any = 0;
+        g_InputDB.any = 0;
     }
-}
-
-bool Input_IsPressed(
-    const INPUT_BACKEND backend, const INPUT_LAYOUT layout,
-    const INPUT_ROLE role)
-{
-    return M_GetBackend(backend)->is_pressed(layout, role);
-}
-
-bool Input_IsKeyConflicted(
-    const INPUT_BACKEND backend, const INPUT_LAYOUT layout,
-    const INPUT_ROLE role)
-{
-    return M_GetBackend(backend)->is_role_conflicted(layout, role);
-}
-
-bool Input_ReadAndAssignRole(
-    const INPUT_BACKEND backend, const INPUT_LAYOUT layout,
-    const INPUT_ROLE role)
-{
-    return M_GetBackend(backend)->read_and_assign(layout, role);
-}
-
-void Input_UnassignRole(
-    const INPUT_BACKEND backend, const INPUT_LAYOUT layout,
-    const INPUT_ROLE role)
-{
-    M_GetBackend(backend)->unassign_role(layout, role);
-}
-
-const char *Input_GetLayoutName(const INPUT_LAYOUT layout)
-{
-    return GameString_Get(m_LayoutMap[layout]);
-}
-
-const char *Input_GetKeyName(
-    const INPUT_BACKEND backend, const INPUT_LAYOUT layout,
-    const INPUT_ROLE role)
-{
-    return M_GetBackend(backend)->get_name(layout, role);
-}
-
-void Input_ResetLayout(const INPUT_BACKEND backend, const INPUT_LAYOUT layout)
-{
-    return M_GetBackend(backend)->reset_layout(layout);
-}
-
-void Input_EnterListenMode(void)
-{
-    m_ListenMode = true;
-}
-
-void Input_ExitListenMode(void)
-{
-    m_ListenMode = false;
-    Input_Update();
-    g_OldInputDB.any = g_Input.any;
-    g_InputDB.any = g_Input.any;
-}
-
-bool Input_AssignFromJSONObject(
-    const INPUT_BACKEND backend, const INPUT_LAYOUT layout,
-    JSON_OBJECT *const bind_obj)
-{
-    return M_GetBackend(backend)->assign_from_json_object(layout, bind_obj);
-}
-
-bool Input_AssignToJSONObject(
-    const INPUT_BACKEND backend, const INPUT_LAYOUT layout,
-    JSON_OBJECT *const bind_obj, const INPUT_ROLE role)
-{
-    return M_GetBackend(backend)->assign_to_json_object(layout, bind_obj, role);
 }

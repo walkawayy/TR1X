@@ -6,6 +6,7 @@
 #include <libtrx/config/map.h>
 // import order guard
 
+#include "game/input.h"
 #include "global/types.h"
 
 const CONFIG_OPTION g_ConfigOptionMap[] = {

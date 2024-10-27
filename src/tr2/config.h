@@ -9,6 +9,11 @@ typedef struct {
     bool loaded;
 
     struct {
+        int32_t keyboard_layout;
+        int32_t controller_layout;
+    } input;
+
+    struct {
         bool fix_m16_accuracy;
     } gameplay;
 

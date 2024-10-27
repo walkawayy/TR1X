@@ -1,49 +1,61 @@
 #include "game/ui/controllers/controls.h"
 
 #include "game/input.h"
+#include "game/shell.h"
 #include "global/vars.h"
 
+#include <libtrx/game/ui/events.h>
 #include <libtrx/utils.h>
 
-#include <dinput.h>
+#include <assert.h>
 
 static const INPUT_ROLE m_LeftRoles[] = {
-    INPUT_ROLE_UP,    INPUT_ROLE_DOWN,      INPUT_ROLE_LEFT,
-    INPUT_ROLE_RIGHT, INPUT_ROLE_STEP_LEFT, INPUT_ROLE_STEP_RIGHT,
-    INPUT_ROLE_SLOW,  (INPUT_ROLE)-1,
+    INPUT_ROLE_UP,     INPUT_ROLE_DOWN,   INPUT_ROLE_LEFT, INPUT_ROLE_RIGHT,
+    INPUT_ROLE_STEP_L, INPUT_ROLE_STEP_R, INPUT_ROLE_SLOW, (INPUT_ROLE)-1,
 };
 
 static const INPUT_ROLE m_RightRoles[] = {
-    INPUT_ROLE_JUMP,   INPUT_ROLE_ACTION,  INPUT_ROLE_DRAW_WEAPON,
-    INPUT_ROLE_FLARE,  INPUT_ROLE_LOOK,    INPUT_ROLE_ROLL,
-    INPUT_ROLE_OPTION, INPUT_ROLE_CONSOLE, (INPUT_ROLE)-1,
+    INPUT_ROLE_JUMP,      INPUT_ROLE_ACTION,        INPUT_ROLE_DRAW,
+    INPUT_ROLE_USE_FLARE, INPUT_ROLE_LOOK,          INPUT_ROLE_ROLL,
+    INPUT_ROLE_OPTION,    INPUT_ROLE_ENTER_CONSOLE, (INPUT_ROLE)-1,
 };
 
 static const INPUT_ROLE *M_GetInputRoles(int32_t col);
+static void M_CycleLayout(UI_CONTROLS_CONTROLLER *controller, int32_t dir);
 static bool M_NavigateLayout(UI_CONTROLS_CONTROLLER *controller);
 static bool M_NavigateInputs(UI_CONTROLS_CONTROLLER *controller);
-static bool M_ListenDebounce(UI_CONTROLS_CONTROLLER *controller);
-static bool M_Listen(UI_CONTROLS_CONTROLLER *controller);
 static bool M_NavigateInputsDebounce(UI_CONTROLS_CONTROLLER *controller);
+static bool M_Listen(UI_CONTROLS_CONTROLLER *controller);
+static bool M_ListenDebounce(UI_CONTROLS_CONTROLLER *controller);
 
 static const INPUT_ROLE *M_GetInputRoles(const int32_t col)
 {
     return col == 0 ? m_LeftRoles : m_RightRoles;
 }
 
+static void M_CycleLayout(
+    UI_CONTROLS_CONTROLLER *const controller, const int32_t dir)
+{
+    controller->active_layout += dir;
+    controller->active_layout += INPUT_LAYOUT_NUMBER_OF;
+    controller->active_layout %= INPUT_LAYOUT_NUMBER_OF;
+
+    const EVENT event = {
+        .name = "layout_change",
+        .sender = NULL,
+        .data = NULL,
+    };
+    EventManager_Fire(controller->events, &event);
+}
+
 static bool M_NavigateLayout(UI_CONTROLS_CONTROLLER *const controller)
 {
     if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
         controller->state = UI_CONTROLS_STATE_EXIT;
-    } else if (g_InputDB.right) {
-        controller->active_layout++;
-        controller->active_layout %= INPUT_MAX_LAYOUT;
     } else if (g_InputDB.left) {
-        if (controller->active_layout == 0) {
-            controller->active_layout = INPUT_MAX_LAYOUT - 1;
-        } else {
-            controller->active_layout--;
-        }
+        M_CycleLayout(controller, -1);
+    } else if (g_InputDB.right) {
+        M_CycleLayout(controller, 1);
     } else if (g_InputDB.back && controller->active_layout != 0) {
         controller->state = UI_CONTROLS_STATE_NAVIGATE_INPUTS;
         controller->active_col = 0;
@@ -93,7 +105,7 @@ static bool M_NavigateInputs(UI_CONTROLS_CONTROLLER *const controller)
             }
         }
     } else if (g_InputDB.menu_confirm) {
-        controller->state = UI_CONTROLS_STATE_LISTEN_DEBOUNCE;
+        controller->state = UI_CONTROLS_STATE_NAVIGATE_INPUTS_DEBOUNCE;
     } else {
         return false;
     }
@@ -102,9 +114,11 @@ static bool M_NavigateInputs(UI_CONTROLS_CONTROLLER *const controller)
     return true;
 }
 
-static bool M_ListenDebounce(UI_CONTROLS_CONTROLLER *const controller)
+static bool M_NavigateInputsDebounce(UI_CONTROLS_CONTROLLER *const controller)
 {
-    if (Input_IsAnythingPressed()) {
+    Shell_ProcessEvents();
+    Input_Update();
+    if (g_Input.any) {
         return false;
     }
     Input_EnterListenMode();
@@ -114,64 +128,48 @@ static bool M_ListenDebounce(UI_CONTROLS_CONTROLLER *const controller)
 
 static bool M_Listen(UI_CONTROLS_CONTROLLER *const controller)
 {
-    int32_t pressed = 0;
-
-    if (g_JoyKeys != 0) {
-        for (int32_t i = 0; i < 32; i++) {
-            if (g_JoyKeys & (1 << i)) {
-                pressed = i;
-                break;
-            }
-        }
-        if (!pressed) {
-            return false;
-        }
-        pressed += 0x100;
-    } else {
-        for (int32_t i = 0; i < 256; i++) {
-            if (g_DIKeys[i] & 0x80) {
-                pressed = i;
-                break;
-            }
-        }
-        if (!pressed) {
-            return false;
-        }
-    }
-
-    if (!pressed
-        // clang-format off
-        || Input_GetKeyName(pressed) == NULL
-        || pressed == DIK_RETURN
-        || pressed == DIK_LEFT
-        || pressed == DIK_RIGHT
-        || pressed == DIK_UP
-        || pressed == DIK_DOWN
-        // clang-format on
-    ) {
-        g_Input = (INPUT_STATE) { 0 };
-        g_InputDB = (INPUT_STATE) { 0 };
-        return false;
-    }
-
-    if (pressed != DIK_ESCAPE) {
-        Input_AssignKey(
-            controller->active_layout, controller->active_role, pressed);
-    }
-
-    controller->state = UI_CONTROLS_STATE_NAVIGATE_INPUTS_DEBOUNCE;
-    return true;
-}
-
-static bool M_NavigateInputsDebounce(UI_CONTROLS_CONTROLLER *const controller)
-{
-    if (Input_IsAnythingPressed()) {
+    if (!Input_ReadAndAssignRole(
+            controller->backend, controller->active_layout,
+            controller->active_role)) {
         return false;
     }
 
     Input_ExitListenMode();
+
+    const EVENT event = {
+        .name = "key_change",
+        .sender = NULL,
+        .data = NULL,
+    };
+    EventManager_Fire(controller->events, &event);
+
+    controller->state = UI_CONTROLS_STATE_LISTEN_DEBOUNCE;
+    return true;
+}
+
+static bool M_ListenDebounce(UI_CONTROLS_CONTROLLER *const controller)
+{
+    if (g_Input.any) {
+        return false;
+    }
+
     controller->state = UI_CONTROLS_STATE_NAVIGATE_INPUTS;
     return true;
+}
+
+void UI_ControlsController_Init(UI_CONTROLS_CONTROLLER *const controller)
+{
+    assert(controller->events == NULL);
+    controller->backend = INPUT_BACKEND_KEYBOARD;
+    controller->state = UI_CONTROLS_STATE_NAVIGATE_LAYOUT;
+
+    controller->events = EventManager_Create();
+}
+
+void UI_ControlsController_Shutdown(UI_CONTROLS_CONTROLLER *const controller)
+{
+    EventManager_Free(controller->events);
+    controller->events = NULL;
 }
 
 bool UI_ControlsController_Control(UI_CONTROLS_CONTROLLER *const controller)
@@ -181,12 +179,12 @@ bool UI_ControlsController_Control(UI_CONTROLS_CONTROLLER *const controller)
         return M_NavigateLayout(controller);
     case UI_CONTROLS_STATE_NAVIGATE_INPUTS:
         return M_NavigateInputs(controller);
-    case UI_CONTROLS_STATE_LISTEN_DEBOUNCE:
-        return M_ListenDebounce(controller);
-    case UI_CONTROLS_STATE_LISTEN:
-        return M_Listen(controller);
     case UI_CONTROLS_STATE_NAVIGATE_INPUTS_DEBOUNCE:
         return M_NavigateInputsDebounce(controller);
+    case UI_CONTROLS_STATE_LISTEN:
+        return M_Listen(controller);
+    case UI_CONTROLS_STATE_LISTEN_DEBOUNCE:
+        return M_ListenDebounce(controller);
     default:
         return false;
     }

@@ -351,6 +351,10 @@
     },
 
     "game_strings": {
+        "CONTROL_CUSTOM_1": "Custom Scheme 1",
+        "CONTROL_CUSTOM_2": "Custom Scheme 2",
+        "CONTROL_CUSTOM_3": "Custom Scheme 3",
+        "CONTROL_DEFAULT_KEYS": "Default Keys",
         "MISC_OFF": "Off",
         "MISC_ON": "On",
         "OSD_AMBIGUOUS_INPUT_2": "Ambiguous input: %s and %s",

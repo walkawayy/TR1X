@@ -42,7 +42,7 @@ void __cdecl Gun_Control(void)
     } else if (g_Lara.gun_status == LGS_ARMLESS) {
         if (g_Input.draw) {
             g_Lara.request_gun_type = g_Lara.last_gun_type;
-        } else if (g_InputDB.flare) {
+        } else if (g_InputDB.use_flare) {
             if (g_Lara.gun_type == LGT_FLARE) {
                 g_Lara.gun_status = LGS_UNDRAW;
             } else if (Inv_RequestItem(O_FLARES_ITEM)) {
@@ -78,7 +78,7 @@ void __cdecl Gun_Control(void)
             }
         }
     } else if (g_Lara.gun_status == LGS_READY) {
-        if ((g_InputDB.flare) && Inv_RequestItem(O_FLARES_ITEM)) {
+        if (g_InputDB.use_flare && Inv_RequestItem(O_FLARES_ITEM)) {
             g_Lara.request_gun_type = LGT_FLARE;
         }
 

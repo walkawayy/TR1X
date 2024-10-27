@@ -29,7 +29,6 @@
 #include "global/funcs.h"
 #include "global/vars.h"
 #include "lib/ddraw.h"
-#include "lib/dinput.h"
 #include "specific/s_flagged_string.h"
 
 #include <libtrx/engine/image.h>
@@ -39,8 +38,8 @@
 #include <libtrx/memory.h>
 #include <libtrx/utils.h>
 
+#include <SDL2/SDL.h>
 #include <assert.h>
-#include <dinput.h>
 #include <stdio.h>
 
 #define IDI_MAINICON 100
@@ -193,12 +192,10 @@ int32_t __cdecl GameInit(void)
     Music_Shutdown();
     UT_InitAccurateTimer();
     // clang-format off
-    Sound_Init();
     return WinVidInit()
         && Direct3DInit()
         && RenderInit()
         && InitTextures()
-        && WinInputInit()
         && TIME_Init()
         && HWR_Init()
         && BGND_Init();
@@ -280,31 +277,15 @@ int32_t __cdecl RenderErrorBox(int32_t error_code)
 
 bool __cdecl DInputCreate(void)
 {
-    return SUCCEEDED(DirectInputCreate(g_GameModule, 1280, &g_DInput, NULL));
+    return true;
 }
 
 void __cdecl DInputRelease(void)
 {
-    if (g_DInput) {
-        IDirectInput_Release(g_DInput);
-        g_DInput = NULL;
-    }
 }
 
 void __cdecl WinInReadKeyboard(uint8_t *input_data)
 {
-    if (SUCCEEDED(IDirectInputDevice_GetDeviceState(
-            IDID_SysKeyboard, 256, input_data))) {
-        return;
-    }
-
-    if (SUCCEEDED(IDirectInputDevice_Acquire(IDID_SysKeyboard))
-        && SUCCEEDED(IDirectInputDevice_GetDeviceState(
-            IDID_SysKeyboard, 256, input_data))) {
-        return;
-    }
-
-    memset(input_data, 0, 256);
 }
 
 int32_t __cdecl WinGameStart(void)
@@ -312,7 +293,6 @@ int32_t __cdecl WinGameStart(void)
     // try {
     WinVidStart();
     RenderStart(true);
-    WinInStart();
     // } catch (int32_t error) {
     //     return error;
     // }
@@ -502,16 +482,6 @@ bool __cdecl WinVidSpinMessageLoop(bool need_wait)
                 g_IsGameToExit = true;
                 g_StopInventory = true;
                 g_MessageLoopCounter--;
-                return 0;
-            } else if (msg.message == WM_KEYDOWN) {
-                UI_HandleKeyDown(msg.wParam);
-                return 0;
-            } else if (msg.message == WM_KEYUP) {
-                UI_HandleKeyUp(msg.wParam);
-                return 0;
-            } else if (msg.message == WM_CHAR) {
-                char insert_string[2] = { msg.wParam, '\0' };
-                UI_HandleTextEdit(insert_string);
                 return 0;
             }
         }
@@ -963,15 +933,15 @@ int32_t __cdecl Game_Cutscene_Control(const int32_t nframes)
                 return 4;
             }
 
-            if (Input_Update()) {
-                return 3;
-            }
+            Shell_ProcessEvents();
+            Input_Update();
             if (g_InputDB.action) {
                 return 1;
             }
             if (g_InputDB.option) {
                 return 2;
             }
+            Shell_ProcessInput();
 
             g_DynamicLightCount = 0;
 
@@ -2043,8 +2013,11 @@ bool __cdecl DDrawCreate(LPGUID lpGUID)
         return false;
     }
 
-    g_DDraw->lpVtbl->SetCooperativeLevel(
-        g_DDraw, g_GameWindowHandle, DDSCL_NORMAL);
+    if (FAILED(g_DDraw->lpVtbl->SetCooperativeLevel(
+            g_DDraw, g_GameWindowHandle, DDSCL_NORMAL))) {
+        return false;
+    }
+
     return true;
 }
 
@@ -2617,6 +2590,19 @@ bool __cdecl WinVidCreateGameWindow(void)
         return false;
     }
 
+    int32_t result = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO);
+    if (result < 0) {
+        Shell_ExitSystemFmt(
+            "Error while calling SDL_Init: 0x%lx, %s", result, SDL_GetError());
+        return false;
+    }
+
+    SDL_Window *sdl_window = SDL_CreateWindowFrom(g_GameWindowHandle);
+    if (sdl_window == NULL) {
+        Shell_ExitSystemFmt("Failed to create SDL window: %s", SDL_GetError());
+        return false;
+    }
+
     RECT rect;
     GetWindowRect(g_GameWindowHandle, &rect);
     g_GameWindowX = rect.left;
@@ -2772,13 +2758,7 @@ void __cdecl S_LoadSettings(void)
     }
 
     GetRegistryFloatValue("Sizer", &g_GameSizerCopy, 1.0);
-    GetRegistryBinaryValue(
-        "Layout", (uint8_t *)&g_Layout[1],
-        sizeof(uint16_t) * INPUT_ROLE_NUMBER_OF, 0);
-
     CloseGameRegistryKey();
-
-    Input_CheckConflictsWithDefaults();
 
     Sound_SetMasterVolume(6 * g_OptionSoundVolume + 4);
 
@@ -2796,9 +2776,6 @@ void __cdecl S_SaveSettings(void)
     SetRegistryDwordValue("SoundFxVolume", g_OptionSoundVolume);
     SetRegistryDwordValue("DetailLevel", g_DetailLevel);
     SetRegistryFloatValue("Sizer", g_GameSizerCopy);
-    SetRegistryBinaryValue(
-        "Layout", (uint8_t *)&g_Layout[1],
-        sizeof(uint16_t) * INPUT_ROLE_NUMBER_OF);
     CloseGameRegistryKey();
 }
 
@@ -2809,7 +2786,9 @@ void __cdecl S_Wait(int32_t frames, const BOOL input_check)
             if (g_Input.any) {
                 break;
             }
+            Shell_ProcessEvents();
             Input_Update();
+            Shell_ProcessInput();
 
             int32_t passed;
             do {
@@ -2824,7 +2803,9 @@ void __cdecl S_Wait(int32_t frames, const BOOL input_check)
     }
 
     while (frames > 0) {
+        Shell_ProcessEvents();
         Input_Update();
+        Shell_ProcessInput();
         if (input_check && g_Input.any) {
             break;
         }

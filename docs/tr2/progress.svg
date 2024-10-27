@@ -69,10 +69,10 @@
 </g>
 <g transform="translate(0 116)">
 <text x="0" y="7.50">Tomb2.exe progress according to the physical function order:</text>
-<text class="todo" style="font-size: 12px; " x="747" y="9"><tspan text-anchor="end"><tspan class="decompiled">70.02% (871)</tspan> · <tspan class="known">27.57% (343)</tspan> · <tspan class="todo">0% (0)</tspan> · <tspan class="unused">2.41% (30)</tspan></tspan></text>
+<text class="todo" style="font-size: 12px; " x="747" y="9"><tspan text-anchor="end"><tspan class="decompiled">70.90% (882)</tspan> · <tspan class="known">26.69% (332)</tspan> · <tspan class="todo">0% (0)</tspan> · <tspan class="unused">2.41% (30)</tspan></tspan></text>
 <g transform="translate(0 20)">
-<rect width="523.02" height="6" x="0" y="0" class="decompiled"/>
-<rect width="205.97" height="6" x="523.02" y="0" class="known"/>
+<rect width="529.63" height="6" x="0" y="0" class="decompiled"/>
+<rect width="199.36" height="6" x="529.63" y="0" class="known"/>
 <rect width="18.01" height="6" x="728.99" y="0" class="unused"/>
 </g>
 <g transform="translate(0 31)">
@@ -961,19 +961,19 @@
 <rect width="12" height="12" x="480" y="255" class="decompiled"><title>bool __cdecl DInputCreate(void);</title></rect>
 <rect width="12" height="12" x="495" y="255" class="decompiled"><title>void __cdecl DInputRelease(void);</title></rect>
 <rect width="12" height="12" x="510" y="255" class="decompiled"><title>void __cdecl WinInReadKeyboard(LPVOID lpInputData);</title></rect>
-<rect width="12" height="12" x="525" y="255" class="known"><title>DWORD __cdecl WinInReadJoystick(int32_t *x, int32_t *y);</title></rect>
+<rect width="12" height="12" x="525" y="255" class="decompiled"><title>DWORD __cdecl WinInReadJoystick(int32_t *x, int32_t *y);</title></rect>
 <rect width="12" height="12" x="540" y="255" class="unused"><title>sub_4473A0</title></rect>
-<rect width="12" height="12" x="555" y="255" class="known"><title>bool __cdecl WinInputInit(void);</title></rect>
-<rect width="12" height="12" x="570" y="255" class="known"><title>bool __cdecl DInputEnumDevices(JOYSTICK_LIST *joystickList);</title></rect>
-<rect width="12" height="12" x="585" y="255" class="known"><title>BOOL __stdcall DInputEnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);</title></rect>
+<rect width="12" height="12" x="555" y="255" class="decompiled"><title>bool __cdecl WinInputInit(void);</title></rect>
+<rect width="12" height="12" x="570" y="255" class="decompiled"><title>bool __cdecl DInputEnumDevices(JOYSTICK_LIST *joystickList);</title></rect>
+<rect width="12" height="12" x="585" y="255" class="decompiled"><title>BOOL __stdcall DInputEnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);</title></rect>
 <rect width="12" height="12" x="600" y="255" class="decompiled"><title>void __thiscall S_FlaggedString_Create(STRING_FLAGGED *string, int32_t size);</title></rect>
-<rect width="12" height="12" x="615" y="255" class="known"><title>JOYSTICK_NODE *__cdecl GetJoystick(GUID *lpGuid);</title></rect>
-<rect width="12" height="12" x="630" y="255" class="known"><title>void __cdecl DInputKeyboardCreate(void);</title></rect>
-<rect width="12" height="12" x="645" y="255" class="known"><title>void __cdecl DInputKeyboardRelease(void);</title></rect>
-<rect width="12" height="12" x="660" y="255" class="known"><title>bool __cdecl DInputJoystickCreate(void);</title></rect>
-<rect width="12" height="12" x="675" y="255" class="known"><title>void __cdecl WinInStart(void);</title></rect>
-<rect width="12" height="12" x="690" y="255" class="known"><title>void __cdecl WinInFinish(void);</title></rect>
-<rect width="12" height="12" x="705" y="255" class="known"><title>void __cdecl WinInRunControlPanel(HWND hWnd);</title></rect>
+<rect width="12" height="12" x="615" y="255" class="decompiled"><title>JOYSTICK_NODE *__cdecl GetJoystick(GUID *lpGuid);</title></rect>
+<rect width="12" height="12" x="630" y="255" class="decompiled"><title>void __cdecl DInputKeyboardCreate(void);</title></rect>
+<rect width="12" height="12" x="645" y="255" class="decompiled"><title>void __cdecl DInputKeyboardRelease(void);</title></rect>
+<rect width="12" height="12" x="660" y="255" class="decompiled"><title>bool __cdecl DInputJoystickCreate(void);</title></rect>
+<rect width="12" height="12" x="675" y="255" class="decompiled"><title>void __cdecl WinInStart(void);</title></rect>
+<rect width="12" height="12" x="690" y="255" class="decompiled"><title>void __cdecl WinInFinish(void);</title></rect>
+<rect width="12" height="12" x="705" y="255" class="decompiled"><title>void __cdecl WinInRunControlPanel(HWND hWnd);</title></rect>
 <rect width="12" height="12" x="720" y="255" class="known"><title>void __cdecl IncreaseScreenSize(void);</title></rect>
 <rect width="12" height="12" x="735" y="255" class="known"><title>void __cdecl DecreaseScreenSize(void);</title></rect>
 <rect width="12" height="12" x="0" y="270" class="known"><title>void __cdecl setup_screen_size(void);</title></rect>
@@ -1324,10 +1324,10 @@
 </g>
 <g transform="translate(0 546)">
 <text x="0" y="7.50">Tomb2.exe progress according to the function sizes:</text>
-<text class="todo" style="font-size: 12px; " x="747" y="9"><tspan text-anchor="end"><tspan class="decompiled">74.33%</tspan> · <tspan class="known">25.34%</tspan> · <tspan class="todo">0%</tspan> · <tspan class="unused">0.33%</tspan></tspan></text>
+<text class="todo" style="font-size: 12px; " x="747" y="9"><tspan text-anchor="end"><tspan class="decompiled">74.70%</tspan> · <tspan class="known">24.97%</tspan> · <tspan class="todo">0%</tspan> · <tspan class="unused">0.33%</tspan></tspan></text>
 <g transform="translate(0 20)">
-<rect width="555.27" height="6" x="0" y="0" class="decompiled"/>
-<rect width="189.29" height="6" x="555.27" y="0" class="known"/>
+<rect width="558.04" height="6" x="0" y="0" class="decompiled"/>
+<rect width="186.52" height="6" x="558.04" y="0" class="known"/>
 <rect width="2.44" height="6" x="744.56" y="0" class="unused"/>
 </g>
 <g transform="translate(0 31)">
@@ -1708,7 +1708,7 @@
 <rect width="10.97" height="11.43" x="680.21" y="108.19" class="decompiled"><title>void __cdecl Output_InsertPolygons(const int16_t *obj_ptr, int32_t clip);</title></rect>
 <rect width="10.97" height="11.43" x="694.18" y="108.19" class="known"><title>void __cdecl ControlBubble1(int16_t fx_num);</title></rect>
 <rect width="10.97" height="11.43" x="708.15" y="108.19" class="decompiled"><title>void __cdecl Lara_SurfaceCollision(ITEM *item, COLL_INFO *coll);</title></rect>
-<rect width="10.97" height="11.43" x="722.12" y="108.19" class="known"><title>DWORD __cdecl WinInReadJoystick(int32_t *x, int32_t *y);</title></rect>
+<rect width="10.97" height="11.43" x="722.12" y="108.19" class="decompiled"><title>DWORD __cdecl WinInReadJoystick(int32_t *x, int32_t *y);</title></rect>
 <rect width="10.91" height="11.43" x="736.09" y="108.19" class="decompiled"><title>int32_t __cdecl Box_StalkBox(const ITEM *item, const ITEM *enemy, int16_t box_num);</title></rect>
 <rect width="10.64" height="11.72" x="494.60" y="122.62" class="decompiled"><title>void __cdecl Gun_Rifle_FireShotgun(void);</title></rect>
 <rect width="10.64" height="11.60" x="494.60" y="137.34" class="known"><title>void __cdecl SphereOfDoom(int16_t item_num);</title></rect>
@@ -1718,14 +1718,14 @@
 <rect width="10.64" height="11.29" x="494.60" y="195.48" class="decompiled"><title>void __cdecl Lara_State_SurfTread(ITEM *item, COLL_INFO *coll);</title></rect>
 <rect width="10.64" height="11.23" x="494.60" y="209.77" class="decompiled"><title>void __cdecl Output_InsertRoom(const int16_t *obj_ptr, int32_t is_outside);</title></rect>
 <rect width="10.64" height="11.11" x="494.60" y="224.01" class="known"><title>void __cdecl Output_CalculateObjectLighting(const ITEM *item, const FRAME_INFO *frame);</title></rect>
-<rect width="10.64" height="11.11" x="494.60" y="238.12" class="known"><title>BOOL __stdcall DInputEnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);</title></rect>
+<rect width="10.64" height="11.11" x="494.60" y="238.12" class="decompiled"><title>BOOL __stdcall DInputEnumDevicesCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);</title></rect>
 <rect width="10.64" height="11.11" x="494.60" y="252.23" class="known"><title>void __cdecl CalculateWibbleTable(void);</title></rect>
 <rect width="10.64" height="11.05" x="494.60" y="266.34" class="decompiled"><title>void __cdecl Camera_RefreshFromTrigger(int16_t type, const int16_t *data);</title></rect>
 <rect width="10.64" height="11.05" x="494.60" y="280.39" class="decompiled"><title>int32_t __cdecl Lara_TestWaterStepOut(ITEM *item, COLL_INFO *coll);</title></rect>
 <rect width="10.64" height="11.05" x="494.60" y="294.43" class="decompiled"><title>int32_t __cdecl S_Audio_Sample_Play(int32_t sample_id, int32_t volume, int32_t pitch, int32_t pan, int32_t flags);</title></rect>
 <rect width="10.64" height="10.99" x="494.60" y="308.48" class="decompiled"><title>void __cdecl Lara_TouchLava(ITEM *item);</title></rect>
 <rect width="10.64" height="10.99" x="494.60" y="322.47" class="decompiled"><title>void __cdecl RenderFinish(bool need_to_clear_textures);</title></rect>
-<rect width="10.64" height="10.87" x="494.60" y="336.46" class="known"><title>bool __cdecl DInputJoystickCreate(void);</title></rect>
+<rect width="10.64" height="10.87" x="494.60" y="336.46" class="decompiled"><title>bool __cdecl DInputJoystickCreate(void);</title></rect>
 <rect width="10.64" height="10.87" x="494.60" y="350.33" class="known"><title>void __cdecl S_InitialisePolyList(BOOL clear_back_buffer);</title></rect>
 <rect width="10.64" height="10.81" x="494.60" y="364.19" class="decompiled"><title>void __cdecl Effect_Kill(int16_t fx_num);</title></rect>
 <rect width="10.72" height="10.72" x="508.24" y="122.62" class="known"><title>void __cdecl BigBowlControl(int16_t item_num);</title></rect>
@@ -1770,7 +1770,7 @@
 <rect width="9.86" height="10.10" x="560.49" y="136.34" class="decompiled"><title>void __cdecl Output_InsertFlatRect(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t z, uint8_t color_idx);</title></rect>
 <rect width="9.86" height="10.10" x="573.36" y="136.34" class="decompiled"><title>int32_t __cdecl Item_TestBoundsCollide(const ITEM *src_item, const ITEM *dst_item, int32_t radius);</title></rect>
 <rect width="9.80" height="10.10" x="586.22" y="136.34" class="decompiled"><title>void __cdecl Lara_State_Wade(ITEM *item, COLL_INFO *coll);</title></rect>
-<rect width="9.74" height="10.10" x="599.02" y="136.34" class="known"><title>void __cdecl DInputKeyboardCreate(void);</title></rect>
+<rect width="9.74" height="10.10" x="599.02" y="136.34" class="decompiled"><title>void __cdecl DInputKeyboardCreate(void);</title></rect>
 <rect width="9.67" height="10.10" x="611.75" y="136.34" class="decompiled"><title>void __cdecl Room_GetNearbyRooms(int32_t x, int32_t y, int32_t z, int32_t r, int32_t h, int16_t room_num);</title></rect>
 <rect width="9.67" height="10.10" x="624.42" y="136.34" class="decompiled"><title>void __cdecl Door_Control(int16_t item_num);</title></rect>
 <rect width="9.67" height="10.10" x="637.09" y="136.34" class="known"><title>BYTE __cdecl FindNearestPaletteEntry(RGB_888 *palette, int32_t red, int32_t green, int32_t blue, bool ignore_sys_palette);</title></rect>
@@ -1961,7 +1961,7 @@
 <rect width="7.40" height="7.13" x="578.21" y="247.42" class="known"><title>void __cdecl ControlExplosion1(int16_t fx_num);</title></rect>
 <rect width="7.40" height="7.13" x="578.21" y="257.55" class="decompiled"><title>int32_t __cdecl Lara_DeflectEdge(ITEM *item, COLL_INFO *coll);</title></rect>
 <rect width="7.40" height="7.13" x="578.21" y="267.68" class="decompiled"><title>void __cdecl SkidooDriver_Initialise(int16_t item_num);</title></rect>
-<rect width="7.40" height="7.13" x="578.21" y="277.81" class="known"><title>bool __cdecl WinInputInit(void);</title></rect>
+<rect width="7.40" height="7.13" x="578.21" y="277.81" class="decompiled"><title>bool __cdecl WinInputInit(void);</title></rect>
 <rect width="7.40" height="7.13" x="578.21" y="287.94" class="decompiled"><title>void __cdecl Random_Seed(void);</title></rect>
 <rect width="7.40" height="7.13" x="578.21" y="298.07" class="decompiled"><title>void __cdecl Option_DoInventory(INVENTORY_ITEM *item);</title></rect>
 <rect width="7.40" height="7.05" x="578.21" y="308.20" class="known"><title>void __cdecl BellControl(int16_t item_num);</title></rect>
@@ -2130,7 +2130,7 @@
 <rect width="4.94" height="5.15" x="624.52" y="369.85" class="decompiled"><title>void __cdecl Gun_Pistols_DrawMeshes(LARA_GUN_TYPE weapon_type);</title></rect>
 <rect width="4.97" height="5.12" x="632.45" y="252.89" class="decompiled"><title>int32_t __cdecl MovableBlock_TestDestination(ITEM *item, int32_t block_height);</title></rect>
 <rect width="4.97" height="5.12" x="640.42" y="252.89" class="known"><title>void __cdecl ControlGunShot(int16_t fx_num);</title></rect>
-<rect width="4.97" height="5.12" x="648.39" y="252.89" class="known"><title>JOYSTICK_NODE *__cdecl GetJoystick(GUID *lpGuid);</title></rect>
+<rect width="4.97" height="5.12" x="648.39" y="252.89" class="decompiled"><title>JOYSTICK_NODE *__cdecl GetJoystick(GUID *lpGuid);</title></rect>
 <rect width="4.97" height="5.12" x="656.35" y="252.89" class="known"><title>bool __cdecl OpenGameRegistryKey(LPCTSTR key);</title></rect>
 <rect width="4.97" height="5.12" x="664.32" y="252.89" class="known"><title>double __cdecl UT_Microseconds(void);</title></rect>
 <rect width="4.86" height="5.12" x="672.28" y="252.89" class="decompiled"><title>void __cdecl Lara_State_Extra_StartAnim(ITEM *item, COLL_INFO *coll);</title></rect>
@@ -2330,7 +2330,7 @@
 <rect width="3.18" height="3.17" x="737.76" y="302.76" class="known"><title>void __cdecl S_DrawScreenFBox(int32_t sx, int32_t sy, int32_t z, int32_t width, int32_t height, BYTE color_idx, const GOURAUD_FILL *gour, uint16_t flags);</title></rect>
 <rect width="3.05" height="3.17" x="743.95" y="302.76" class="decompiled"><title>void __cdecl Demo_GetInput(void);</title></rect>
 <rect width="3.39" height="2.85" x="681.03" y="308.93" class="decompiled"><title>BOOL __cdecl Overlay_FlashCounter(void);</title></rect>
-<rect width="3.39" height="2.85" x="687.41" y="308.93" class="known"><title>void __cdecl WinInStart(void);</title></rect>
+<rect width="3.39" height="2.85" x="687.41" y="308.93" class="decompiled"><title>void __cdecl WinInStart(void);</title></rect>
 <rect width="3.24" height="2.85" x="693.80" y="308.93" class="known"><title>void __cdecl ChandelierFX(ITEM *item);</title></rect>
 <rect width="3.24" height="2.85" x="700.04" y="308.93" class="decompiled"><title>void __cdecl Overlay_DrawModeInfo(void);</title></rect>
 <rect width="3.24" height="2.85" x="706.29" y="308.93" class="decompiled"><title>void __cdecl Inv_Ring_CalcAdders(RING_INFO *ring, int16_t rotation_duration);</title></rect>
@@ -2354,7 +2354,7 @@
 <rect width="2.95" height="2.85" x="687.21" y="314.78" class="decompiled"><title>int32_t __cdecl S_Audio_Sample_CalculateSampleVolume(int32_t volume);</title></rect>
 <rect width="2.95" height="2.85" x="693.16" y="314.78" class="known"><title>LONG __cdecl SetRegistryBoolValue(LPCTSTR lpValueName, bool value);</title></rect>
 <rect width="2.81" height="2.85" x="699.11" y="314.78" class="decompiled"><title>void __cdecl Text_AddOutline(TEXTSTRING *string, int16_t enable, int16_t color, uint16_t *gour_ptr, uint16_t flags);</title></rect>
-<rect width="2.81" height="2.85" x="704.93" y="314.78" class="known"><title>void __cdecl DInputKeyboardRelease(void);</title></rect>
+<rect width="2.81" height="2.85" x="704.93" y="314.78" class="decompiled"><title>void __cdecl DInputKeyboardRelease(void);</title></rect>
 <rect width="2.81" height="2.85" x="710.74" y="314.78" class="decompiled"><title>void __cdecl HWR_ResetTexSource(void);</title></rect>
 <rect width="2.67" height="2.85" x="716.55" y="314.78" class="decompiled"><title>void __cdecl Overlay_MakeAmmoString(char *string);</title></rect>
 <rect width="2.67" height="2.85" x="722.22" y="314.78" class="decompiled"><title>int32_t __cdecl CalculateWindowHeight(int32_t width, int32_t height);</title></rect>
@@ -2379,7 +2379,7 @@
 <rect width="2.72" height="2.22" x="715.86" y="320.63" class="decompiled"><title>void __cdecl Inv_RemoveInventoryText(void);</title></rect>
 <rect width="2.72" height="2.22" x="721.58" y="320.63" class="decompiled"><title>void __cdecl Sound_Shutdown(void);</title></rect>
 <rect width="2.72" height="2.22" x="727.29" y="320.63" class="decompiled"><title>int16_t __cdecl Text_GetTextLength(const char *text);</title></rect>
-<rect width="2.72" height="2.22" x="733.01" y="320.63" class="known"><title>bool __cdecl DInputEnumDevices(JOYSTICK_LIST *joystickList);</title></rect>
+<rect width="2.72" height="2.22" x="733.01" y="320.63" class="decompiled"><title>bool __cdecl DInputEnumDevices(JOYSTICK_LIST *joystickList);</title></rect>
 <rect width="2.72" height="2.22" x="738.73" y="320.63" class="decompiled"><title>void __cdecl HWR_TexSource(HWR_TEXTURE_HANDLE tex_source);</title></rect>
 <rect width="2.56" height="2.22" x="744.44" y="320.63" class="known"><title>void __cdecl RubbleFX(ITEM *item);</title></rect>
 <rect width="2.57" height="2.21" x="692.67" y="325.85" class="known"><title>void __cdecl ExplosionFX(ITEM *item);</title></rect>
@@ -2459,7 +2459,7 @@
 <rect width="1.79" height="1.16" x="726.85" y="340.99" class="known"><title>int32_t __cdecl UT_MessageBox(LPCTSTR lpText, HWND hWnd);</title></rect>
 <rect width="1.59" height="1.16" x="731.64" y="340.99" class="known"><title>void __cdecl AssaultReset(ITEM *item);</title></rect>
 <rect width="1.59" height="1.16" x="736.23" y="340.99" class="decompiled"><title>void __cdecl Text_SetScale(TEXTSTRING *string, int32_t scale_h, int32_t scale_v);</title></rect>
-<rect width="1.59" height="1.16" x="740.82" y="340.99" class="known"><title>void __cdecl WinInRunControlPanel(HWND hWnd);</title></rect>
+<rect width="1.59" height="1.16" x="740.82" y="340.99" class="decompiled"><title>void __cdecl WinInRunControlPanel(HWND hWnd);</title></rect>
 <rect width="1.59" height="1.16" x="745.41" y="340.99" class="unused"><title>sub_44E860</title></rect>
 <rect width="1.28" height="1.46" x="717.27" y="345.15" class="known"><title>void __cdecl SE_GraphicsAdapterSet(HWND hwndDlg, DISPLAY_ADAPTER_NODE *adapter);</title></rect>
 <rect width="1.28" height="1.46" x="721.55" y="345.15" class="decompiled"><title>void __cdecl S_Audio_Sample_OutCloseTrack(int32_t track_id);</title></rect>
@@ -2500,7 +2500,7 @@
 <rect width="0.52" height="0.77" x="736.12" y="353.40" class="decompiled"><title>void __cdecl Text_RemoveOutline(TEXTSTRING *string);</title></rect>
 <rect width="0.52" height="0.77" x="739.65" y="353.40" class="unused"><title>sub_44E880</title></rect>
 <rect width="0.52" height="0.77" x="743.17" y="353.40" class="known"><title>void __cdecl ScreenPartialDump(void);</title></rect>
-<rect width="0.30" height="0.77" x="746.70" y="353.40" class="known"><title>void __cdecl WinInFinish(void);</title></rect>
+<rect width="0.30" height="0.77" x="746.70" y="353.40" class="decompiled"><title>void __cdecl WinInFinish(void);</title></rect>
 <rect width="0.35" height="0.72" x="728.85" y="357.17" class="known"><title>void __cdecl S_FinishInventory(void);</title></rect>
 <rect width="0.35" height="0.72" x="728.85" y="360.89" class="known"><title>bool __cdecl IsNewRegistryKeyCreated(void);</title></rect>
 <rect width="0.35" height="0.47" x="728.85" y="364.61" class="decompiled"><title>bool __cdecl S_PlayFMV(const char *file_name);</title></rect>

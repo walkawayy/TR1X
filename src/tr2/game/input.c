@@ -1,57 +1,20 @@
 #include "game/input.h"
 
+#include "config.h"
 #include "game/console/common.h"
+#include "game/shell.h"
 #include "global/funcs.h"
 #include "global/vars.h"
-#include "specific/s_input.h"
 
-static const char *m_KeyNames[] = {
-    NULL,   "ESC",   "1",     "2",     "3",     "4",     "5",     "6",
-    "7",    "8",     "9",     "0",     "-",     "+",     "BKSP",  "TAB",
-    "Q",    "W",     "E",     "R",     "T",     "Y",     "U",     "I",
-    "O",    "P",     "<",     ">",     "RET",   "CTRL",  "A",     "S",
-    "D",    "F",     "G",     "H",     "J",     "K",     "L",     ";",
-    "'",    "`",     "SHIFT", "#",     "Z",     "X",     "C",     "V",
-    "B",    "N",     "M",     ",",     ".",     "/",     "SHIFT", "PADx",
-    "ALT",  "SPACE", "CAPS",  NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    "NMLK",  NULL,    "PAD7",
-    "PAD8", "PAD9",  "PAD-",  "PAD4",  "PAD5",  "PAD6",  "PAD+",  "PAD1",
-    "PAD2", "PAD3",  "PAD0",  "PAD.",  NULL,    NULL,    "\\",    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    "ENTER", "CTRL",  NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    "SHIFT", NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    "PAD/",  NULL,    NULL,
-    "ALT",  NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    "HOME",
-    "UP",   "PGUP",  NULL,    "LEFT",  NULL,    "RIGHT", NULL,    "END",
-    "DOWN", "PGDN",  "INS",   "DEL",   NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    NULL,   NULL,    NULL,    NULL,    NULL,    NULL,    NULL,    NULL,
-    "JOY1", "JOY2",  "JOY3",  "JOY4",  "JOY5",  "JOY6",  "JOY7",  "JOY8",
-    "JOY9", "JOY10", "JOY11", "JOY12", "JOY13", "JOY14", "JOY15", "JOY16",
-};
+#include <libtrx/game/input/backends/base.h>
+#include <libtrx/game/input/backends/controller.h>
+#include <libtrx/game/input/backends/keyboard.h>
 
-INPUT_STATE g_Input = { 0 };
-INPUT_STATE g_InputDB = { 0 };
-INPUT_STATE g_OldInputDB = { 0 };
-bool g_ConflictLayout[INPUT_ROLE_NUMBER_OF] = { false };
+static INPUT_STATE M_GetDebounced(INPUT_STATE input);
+static void M_UpdateFromBackend(
+    INPUT_STATE *s, const INPUT_BACKEND_IMPL *backend, INPUT_LAYOUT layout);
 
-static bool m_ListenMode = false;
-
-static INPUT_STATE __cdecl M_GetDebounced(INPUT_STATE input);
-
-static INPUT_STATE __cdecl M_GetDebounced(const INPUT_STATE input)
+static INPUT_STATE M_GetDebounced(const INPUT_STATE input)
 {
     INPUT_STATE result;
     result.any = input.any & ~g_OldInputDB.any;
@@ -60,102 +23,106 @@ static INPUT_STATE __cdecl M_GetDebounced(const INPUT_STATE input)
     return result;
 }
 
-bool Input_Update(void)
+static void M_UpdateFromBackend(
+    INPUT_STATE *const s, const INPUT_BACKEND_IMPL *const backend,
+    const INPUT_LAYOUT layout)
 {
-    bool result = S_Input_Update();
+    // clang-format off
+    s->forward                     |= backend->is_pressed(layout, INPUT_ROLE_UP);
+    s->back                        |= backend->is_pressed(layout, INPUT_ROLE_DOWN);
+    s->left                        |= backend->is_pressed(layout, INPUT_ROLE_LEFT);
+    s->right                       |= backend->is_pressed(layout, INPUT_ROLE_RIGHT);
+    s->step_left                   |= backend->is_pressed(layout, INPUT_ROLE_STEP_L);
+    s->step_right                  |= backend->is_pressed(layout, INPUT_ROLE_STEP_R);
+    s->slow                        |= backend->is_pressed(layout, INPUT_ROLE_SLOW);
+    s->jump                        |= backend->is_pressed(layout, INPUT_ROLE_JUMP);
+    s->action                      |= backend->is_pressed(layout, INPUT_ROLE_ACTION);
+    s->draw                        |= backend->is_pressed(layout, INPUT_ROLE_DRAW);
+    s->look                        |= backend->is_pressed(layout, INPUT_ROLE_LOOK);
+    s->roll                        |= backend->is_pressed(layout, INPUT_ROLE_ROLL);
+
+    s->enter_console               |= backend->is_pressed(layout, INPUT_ROLE_ENTER_CONSOLE);
+    s->save                        |= backend->is_pressed(layout, INPUT_ROLE_SAVE);
+    s->load                        |= backend->is_pressed(layout, INPUT_ROLE_LOAD);
+
+    s->equip_pistols               |= backend->is_pressed(layout, INPUT_ROLE_EQUIP_PISTOLS);
+    s->equip_shotgun               |= backend->is_pressed(layout, INPUT_ROLE_EQUIP_SHOTGUN);
+    s->equip_magnums               |= backend->is_pressed(layout, INPUT_ROLE_EQUIP_MAGNUMS);
+    s->equip_uzis                  |= backend->is_pressed(layout, INPUT_ROLE_EQUIP_UZIS);
+    s->equip_harpoon               |= backend->is_pressed(layout, INPUT_ROLE_EQUIP_HARPOON);
+    s->equip_m16                   |= backend->is_pressed(layout, INPUT_ROLE_EQUIP_M16);
+    s->equip_grenade_launcher      |= backend->is_pressed(layout, INPUT_ROLE_EQUIP_GRENADE_LAUNCHER);
+    s->use_flare                   |= backend->is_pressed(layout, INPUT_ROLE_USE_FLARE);
+    s->use_small_medi              |= backend->is_pressed(layout, INPUT_ROLE_USE_SMALL_MEDI);
+    s->use_big_medi                |= backend->is_pressed(layout, INPUT_ROLE_USE_BIG_MEDI);
+
+    s->option                      |= backend->is_pressed(layout, INPUT_ROLE_OPTION);
+    s->menu_up                     |= backend->is_pressed(layout, INPUT_ROLE_MENU_UP);
+    s->menu_down                   |= backend->is_pressed(layout, INPUT_ROLE_MENU_DOWN);
+    s->menu_left                   |= backend->is_pressed(layout, INPUT_ROLE_MENU_LEFT);
+    s->menu_right                  |= backend->is_pressed(layout, INPUT_ROLE_MENU_RIGHT);
+    s->menu_confirm                |= backend->is_pressed(layout, INPUT_ROLE_MENU_CONFIRM);
+    s->menu_back                   |= backend->is_pressed(layout, INPUT_ROLE_MENU_BACK);
+
+    s->screenshot                  |= backend->is_pressed(layout, INPUT_ROLE_SCREENSHOT);
+    s->switch_resolution           |= backend->is_pressed(layout, INPUT_ROLE_SWITCH_RESOLUTION);
+    s->switch_internal_screen_size |= backend->is_pressed(layout, INPUT_ROLE_SWITCH_INTERNAL_SCREEN_SIZE);
+    s->toggle_bilinear_filter      |= backend->is_pressed(layout, INPUT_ROLE_TOGGLE_BILINEAR_FILTER);
+    s->toggle_perspective_filter   |= backend->is_pressed(layout, INPUT_ROLE_TOGGLE_PERSPECTIVE_FILTER);
+    s->toggle_z_buffer             |= backend->is_pressed(layout, INPUT_ROLE_TOGGLE_Z_BUFFER);
+    s->toggle_dither               |= backend->is_pressed(layout, INPUT_ROLE_TOGGLE_DITHER);
+    s->toggle_fullscreen           |= backend->is_pressed(layout, INPUT_ROLE_TOGGLE_FULLSCREEN);
+    s->toggle_rendering_mode       |= backend->is_pressed(layout, INPUT_ROLE_TOGGLE_RENDERING_MODE);
+    // clang-format on
+
+    backend->custom_update(s, layout);
+}
+
+void Input_Update(void)
+{
+    g_Input.any = 0;
+
+    M_UpdateFromBackend(
+        &g_Input, &g_Input_Keyboard, g_Config.input.keyboard_layout);
+    M_UpdateFromBackend(
+        &g_Input, &g_Input_Controller, g_Config.input.controller_layout);
+
+    g_Input.option &= g_Camera.type != CAM_CINEMATIC;
+    g_Input.roll |= g_Input.forward && g_Input.back;
+    g_Input.menu_back |= g_Input.option;
+    if (g_Input.left && g_Input.right) {
+        g_Input.left = 0;
+        g_Input.right = 0;
+    }
 
     g_InputDB = M_GetDebounced(g_Input);
 
-    if (m_ListenMode) {
-        g_Input = (INPUT_STATE) { 0 };
-        g_InputDB = (INPUT_STATE) { 0 };
-        return result;
-    }
-
-    if (!g_IsFMVPlaying && g_InputDB.console) {
-        Console_Open();
+    if (Input_IsInListenMode()) {
         g_Input = (INPUT_STATE) { 0 };
         g_InputDB = (INPUT_STATE) { 0 };
     }
-
-    return result;
-}
-
-uint16_t Input_GetAssignedKey(const int32_t layout, const INPUT_ROLE role)
-{
-    return g_Layout[layout].key[role];
-}
-
-void Input_AssignKey(
-    const int32_t layout, const INPUT_ROLE role, const uint16_t key)
-{
-    g_Layout[layout].key[role] = key;
-}
-
-const char *Input_GetLayoutName(const int32_t layout)
-{
-    // clang-format off
-    switch (layout) {
-    case 0: return g_GF_PCStrings[GF_S_PC_DEFAULT_KEYS];
-    case 1: return g_GF_PCStrings[GF_S_PC_USER_KEYS];
-    default: return "";
-    }
-    // clang-format on
 }
 
 const char *Input_GetRoleName(const INPUT_ROLE role)
 {
     // clang-format off
     switch (role) {
-    case INPUT_ROLE_UP:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_RUN];
-    case INPUT_ROLE_DOWN:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_BACK];
-    case INPUT_ROLE_LEFT:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_LEFT];
-    case INPUT_ROLE_RIGHT:       return g_GF_GameStrings[GF_S_GAME_KEYMAP_RIGHT];
-    case INPUT_ROLE_STEP_LEFT:   return g_GF_GameStrings[GF_S_GAME_KEYMAP_STEP_LEFT];
-    case INPUT_ROLE_STEP_RIGHT:  return g_GF_GameStrings[GF_S_GAME_KEYMAP_STEP_RIGHT];
-    case INPUT_ROLE_SLOW:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_WALK];
-    case INPUT_ROLE_JUMP:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_JUMP];
-    case INPUT_ROLE_ACTION:      return g_GF_GameStrings[GF_S_GAME_KEYMAP_ACTION];
-    case INPUT_ROLE_DRAW_WEAPON: return g_GF_GameStrings[GF_S_GAME_KEYMAP_DRAW_WEAPON];
-    case INPUT_ROLE_FLARE:       return g_GF_GameStrings[GF_S_GAME_KEYMAP_FLARE];
-    case INPUT_ROLE_LOOK:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_LOOK];
-    case INPUT_ROLE_ROLL:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_ROLL];
-    case INPUT_ROLE_OPTION:      return g_GF_GameStrings[GF_S_GAME_KEYMAP_INVENTORY];
-    case INPUT_ROLE_CONSOLE:     return "Console";
-    default:                     return "";
+    case INPUT_ROLE_UP:            return g_GF_GameStrings[GF_S_GAME_KEYMAP_RUN];
+    case INPUT_ROLE_DOWN:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_BACK];
+    case INPUT_ROLE_LEFT:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_LEFT];
+    case INPUT_ROLE_RIGHT:         return g_GF_GameStrings[GF_S_GAME_KEYMAP_RIGHT];
+    case INPUT_ROLE_STEP_L:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_STEP_LEFT];
+    case INPUT_ROLE_STEP_R:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_STEP_RIGHT];
+    case INPUT_ROLE_SLOW:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_WALK];
+    case INPUT_ROLE_JUMP:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_JUMP];
+    case INPUT_ROLE_ACTION:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_ACTION];
+    case INPUT_ROLE_DRAW:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_DRAW_WEAPON];
+    case INPUT_ROLE_USE_FLARE:     return g_GF_GameStrings[GF_S_GAME_KEYMAP_FLARE];
+    case INPUT_ROLE_LOOK:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_LOOK];
+    case INPUT_ROLE_ROLL:          return g_GF_GameStrings[GF_S_GAME_KEYMAP_ROLL];
+    case INPUT_ROLE_OPTION:        return g_GF_GameStrings[GF_S_GAME_KEYMAP_INVENTORY];
+    case INPUT_ROLE_ENTER_CONSOLE: return "Console";
+    default:                       return "";
     }
     // clang-format on
-}
-
-const char *Input_GetKeyName(const uint16_t key)
-{
-    return m_KeyNames[key];
-}
-
-void __cdecl Input_CheckConflictsWithDefaults(void)
-{
-    for (int32_t i = 0; i < INPUT_ROLE_NUMBER_OF; i++) {
-        g_ConflictLayout[i] = false;
-        for (int32_t j = 0; j < INPUT_ROLE_NUMBER_OF; j++) {
-            const uint16_t key1 = Input_GetAssignedKey(0, i);
-            const uint16_t key2 = Input_GetAssignedKey(1, j);
-            if (key1 == key2) {
-                g_ConflictLayout[i] = true;
-                break;
-            }
-        }
-    }
-}
-
-void Input_EnterListenMode(void)
-{
-    m_ListenMode = true;
-}
-
-void Input_ExitListenMode(void)
-{
-    m_ListenMode = false;
-    S_Input_Update();
-    g_OldInputDB = g_Input;
-    g_InputDB = M_GetDebounced(g_Input);
 }

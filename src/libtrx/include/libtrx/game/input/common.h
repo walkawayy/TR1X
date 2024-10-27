@@ -1,9 +1,8 @@
 #pragma once
 
-#include "game/input/role.h"
-#include "game/input/state.h"
-
-#include <libtrx/json.h>
+#include "../../json.h"
+#include "role.h"
+#include "state.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -73,6 +72,9 @@ void Input_EnterListenMode(void);
 
 // Enables updating g_Input.
 void Input_ExitListenMode(void);
+
+// Checks whether updates are disabled.
+bool Input_IsInListenMode(void);
 
 // Restores the user configuration by converting the JSON object back into the
 // original input layout.

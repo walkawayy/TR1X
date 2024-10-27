@@ -93,7 +93,6 @@ UI_WIDGET *UI_ControlsDialog_Create(UI_CONTROLS_CONTROLLER *const controller)
     };
 
     self->controller = controller;
-    self->controller->state = UI_CONTROLS_STATE_NAVIGATE_LAYOUT;
 
     self->layout_selector = UI_ControlsLayoutSelector_Create(self->controller);
     self->left_column = UI_ControlsColumn_Create(0, self->controller);

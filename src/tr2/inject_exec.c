@@ -86,7 +86,6 @@
 #include "inject_util.h"
 #include "specific/s_audio_sample.h"
 #include "specific/s_flagged_string.h"
-#include "specific/s_input.h"
 
 static void M_DecompGeneral(const bool enable);
 static void M_DecompFMV(const bool enable);
@@ -133,7 +132,6 @@ static void M_Lot(bool enable);
 static void M_Objects(bool enable);
 
 static void M_S_Audio_Sample(bool enable);
-static void M_S_Input(bool enable);
 static void M_S_FlaggedString(bool enable);
 
 static void M_DecompGeneral(const bool enable)
@@ -1110,11 +1108,6 @@ static void M_S_Audio_Sample(const bool enable)
     INJECT(enable, 0x004553C0, S_Audio_Sample_OutIsTrackPlaying);
 }
 
-static void M_S_Input(const bool enable)
-{
-    INJECT(enable, 0x0044D8F0, S_Input_Key);
-}
-
 static void M_S_FlaggedString(const bool enable)
 {
     INJECT(enable, 0x00445F00, S_FlaggedString_Delete);
@@ -1174,6 +1167,5 @@ void Inject_Exec(void)
     M_Objects(true);
 
     M_S_Audio_Sample(true);
-    M_S_Input(true);
     M_S_FlaggedString(true);
 }

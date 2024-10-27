@@ -4,6 +4,7 @@
 #include "game/music.h"
 #include "game/overlay.h"
 #include "game/requester.h"
+#include "game/shell.h"
 #include "game/text.h"
 #include "global/funcs.h"
 #include "global/types.h"
@@ -314,14 +315,18 @@ int32_t __cdecl LevelStats(const int32_t level_num)
     S_CopyScreenToBuffer();
 
     while (g_Input.menu_confirm) {
+        Shell_ProcessEvents();
         Input_Update();
+        Shell_ProcessInput();
     }
 
     while (true) {
         S_InitialisePolyList(0);
         S_CopyBufferToScreen();
 
+        Shell_ProcessEvents();
         Input_Update();
+        Shell_ProcessInput();
 
         if (g_IsGameToExit) {
             break;
@@ -364,14 +369,18 @@ int32_t __cdecl GameStats(const int32_t level_num)
 
     Overlay_HideGameInfo();
     while (g_Input.menu_confirm) {
+        Shell_ProcessEvents();
         Input_Update();
+        Shell_ProcessInput();
     }
 
     while (true) {
         S_InitialisePolyList(0);
         S_CopyBufferToScreen();
 
+        Shell_ProcessEvents();
         Input_Update();
+        Shell_ProcessInput();
 
         if (g_IsGameToExit) {
             break;
