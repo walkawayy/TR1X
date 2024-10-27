@@ -90,7 +90,7 @@ void __cdecl Switch_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = &g_Items[item_num];
-    if ((g_Input & IN_ACTION) == 0 || item->status != IS_INACTIVE
+    if (!g_Input.action || item->status != IS_INACTIVE
         || g_Lara.gun_status != LGS_ARMLESS || lara_item->status
         || lara_item->current_anim_state != LS_STOP
         || !Item_TestPosition(g_SwitchBounds, &g_Items[item_num], lara_item)) {
@@ -123,7 +123,7 @@ void __cdecl Switch_CollisionUW(
 {
     ITEM *const item = &g_Items[item_num];
 
-    if (!(g_Input & IN_ACTION) || item->status != IS_INACTIVE
+    if (!g_Input.action || item->status != IS_INACTIVE
         || g_Lara.water_status != LWS_UNDERWATER
         || g_Lara.gun_status != LGS_ARMLESS
         || lara_item->current_anim_state != LS_TREAD) {

@@ -45,7 +45,7 @@ void __cdecl Option_Detail(INVENTORY_ITEM *const item)
         M_InitText();
     }
 
-    if ((g_InputDB & IN_BACK) && g_DetailLevel > 0) {
+    if (g_InputDB.back && g_DetailLevel > 0) {
         Text_RemoveOutline(g_DetailText[g_DetailLevel]);
         Text_RemoveBackground(g_DetailText[g_DetailLevel]);
         g_DetailLevel--;
@@ -53,7 +53,7 @@ void __cdecl Option_Detail(INVENTORY_ITEM *const item)
         Text_AddBackground(
             g_DetailText[g_DetailLevel], 148, 0, 0, 0, 8, 0, 0, 0);
     }
-    if ((g_InputDB & IN_FORWARD) && g_DetailLevel < 2) {
+    if (g_InputDB.forward && g_DetailLevel < 2) {
         Text_RemoveOutline(g_DetailText[g_DetailLevel]);
         Text_RemoveBackground(g_DetailText[g_DetailLevel]);
         g_DetailLevel++;
@@ -74,7 +74,7 @@ void __cdecl Option_Detail(INVENTORY_ITEM *const item)
         break;
     }
 
-    if (g_InputDB & (IN_SELECT | IN_DESELECT)) {
+    if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
         M_ShutdownText();
     }
 }

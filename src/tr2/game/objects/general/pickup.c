@@ -88,7 +88,7 @@ static void M_DoAboveWater(const int16_t item_num, ITEM *const lara_item)
         return;
     }
 
-    if ((g_Input & IN_ACTION) && !lara_item->gravity
+    if (g_Input.action && !lara_item->gravity
         && lara_item->current_anim_state == LS_STOP
         && g_Lara.gun_status == LGS_ARMLESS
         && (g_Lara.gun_type != LGT_FLARE || item->object_id != O_FLARE_ITEM)) {
@@ -148,7 +148,7 @@ static void M_DoUnderwater(const int16_t item_num, ITEM *const lara_item)
         return;
     }
 
-    if ((g_Input & IN_ACTION) && lara_item->current_anim_state == LS_TREAD
+    if (g_Input.action && lara_item->current_anim_state == LS_TREAD
         && g_Lara.gun_status == LGS_ARMLESS
         && (g_Lara.gun_type != LGT_FLARE || item->object_id != O_FLARE_ITEM)) {
         if (!Lara_MovePosition(&g_PickupPositionUW, item, lara_item)) {

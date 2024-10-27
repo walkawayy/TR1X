@@ -194,7 +194,7 @@ void __cdecl Dragon_Collision(
          || (anim == DRAGON_ANIM_RESURRECT
              && item->frame_num - g_Anims[item->anim_num].frame_base
                  <= DRAGON_ALMOST_LIVE))
-        && (g_Input & IN_ACTION) && item->object_id == O_DRAGON_BACK
+        && g_Input.action && item->object_id == O_DRAGON_BACK
         && !lara_item->gravity && shift <= DRAGON_MID
         && shift > DRAGON_CLOSE - 350 && side_shift > -350 && side_shift < 350
         && angle > PHD_90 - 30 * PHD_DEGREE

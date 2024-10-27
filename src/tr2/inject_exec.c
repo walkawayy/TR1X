@@ -481,7 +481,6 @@ static void M_Text(const bool enable)
 static void M_Input(const bool enable)
 {
     INJECT(enable, 0x0044DA10, Input_Update);
-    INJECT(enable, 0x004239C0, Input_GetDebounced);
 }
 
 static void M_Output(const bool enable)

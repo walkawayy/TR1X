@@ -33,22 +33,22 @@ static const INPUT_ROLE *M_GetInputRoles(const int32_t col)
 
 static bool M_NavigateLayout(UI_CONTROLS_CONTROLLER *const controller)
 {
-    if ((g_InputDB & IN_DESELECT) || (g_InputDB & IN_SELECT)) {
+    if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
         controller->state = UI_CONTROLS_STATE_EXIT;
-    } else if (g_InputDB & IN_RIGHT) {
+    } else if (g_InputDB.right) {
         controller->active_layout++;
         controller->active_layout %= INPUT_MAX_LAYOUT;
-    } else if (g_InputDB & IN_LEFT) {
+    } else if (g_InputDB.left) {
         if (controller->active_layout == 0) {
             controller->active_layout = INPUT_MAX_LAYOUT - 1;
         } else {
             controller->active_layout--;
         }
-    } else if ((g_InputDB & IN_BACK) && controller->active_layout != 0) {
+    } else if (g_InputDB.back && controller->active_layout != 0) {
         controller->state = UI_CONTROLS_STATE_NAVIGATE_INPUTS;
         controller->active_col = 0;
         controller->active_row = 0;
-    } else if ((g_InputDB & IN_FORWARD) && controller->active_layout != 0) {
+    } else if (g_InputDB.forward && controller->active_layout != 0) {
         controller->state = UI_CONTROLS_STATE_NAVIGATE_INPUTS;
         controller->active_col = 1;
         controller->active_row = UI_ControlsController_GetInputRoleCount(1) - 1;
@@ -62,15 +62,15 @@ static bool M_NavigateLayout(UI_CONTROLS_CONTROLLER *const controller)
 
 static bool M_NavigateInputs(UI_CONTROLS_CONTROLLER *const controller)
 {
-    if (g_InputDB & IN_DESELECT) {
+    if (g_InputDB.menu_back) {
         controller->state = UI_CONTROLS_STATE_EXIT;
-    } else if (g_InputDB & (IN_LEFT | IN_RIGHT)) {
+    } else if (g_InputDB.left || g_InputDB.right) {
         controller->active_col ^= 1;
         CLAMP(
             controller->active_row, 0,
             UI_ControlsController_GetInputRoleCount(controller->active_col)
                 - 1);
-    } else if (g_InputDB & IN_FORWARD) {
+    } else if (g_InputDB.forward) {
         controller->active_row--;
         if (controller->active_row < 0) {
             if (controller->active_col == 0) {
@@ -81,7 +81,7 @@ static bool M_NavigateInputs(UI_CONTROLS_CONTROLLER *const controller)
                     UI_ControlsController_GetInputRoleCount(0) - 1;
             }
         }
-    } else if (g_InputDB & IN_BACK) {
+    } else if (g_InputDB.back) {
         controller->active_row++;
         if (controller->active_row >= UI_ControlsController_GetInputRoleCount(
                 controller->active_col)) {
@@ -92,7 +92,7 @@ static bool M_NavigateInputs(UI_CONTROLS_CONTROLLER *const controller)
                 controller->state = UI_CONTROLS_STATE_NAVIGATE_LAYOUT;
             }
         }
-    } else if (g_InputDB & IN_SELECT) {
+    } else if (g_InputDB.menu_confirm) {
         controller->state = UI_CONTROLS_STATE_LISTEN_DEBOUNCE;
     } else {
         return false;
@@ -149,8 +149,8 @@ static bool M_Listen(UI_CONTROLS_CONTROLLER *const controller)
         || pressed == DIK_DOWN
         // clang-format on
     ) {
-        g_Input = 0;
-        g_InputDB = 0;
+        g_Input = (INPUT_STATE) { 0 };
+        g_InputDB = (INPUT_STATE) { 0 };
         return false;
     }
 

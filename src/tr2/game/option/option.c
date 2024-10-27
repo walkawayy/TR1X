@@ -44,7 +44,7 @@ void __cdecl Option_DoInventory(INVENTORY_ITEM *const item)
     case O_KEY_OPTION_4:
     case O_PICKUP_OPTION_1:
     case O_PICKUP_OPTION_2:
-        g_InputDB |= IN_SELECT;
+        g_InputDB.menu_confirm = 1;
         break;
 
     case O_PISTOL_AMMO_OPTION:
@@ -57,7 +57,7 @@ void __cdecl Option_DoInventory(INVENTORY_ITEM *const item)
         return;
 
     default:
-        if ((g_InputDB & IN_SELECT) || (g_InputDB & IN_DESELECT)) {
+        if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
             item->goal_frame = 0;
             item->anim_direction = -1;
         }

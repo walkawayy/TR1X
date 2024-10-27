@@ -64,7 +64,7 @@ void __cdecl Option_Sound(INVENTORY_ITEM *const item)
         M_InitText();
     }
 
-    if ((g_InputDB & IN_FORWARD) && g_SoundOptionLine > 0) {
+    if (g_InputDB.forward && g_SoundOptionLine > 0) {
         Text_RemoveOutline(g_SoundText[g_SoundOptionLine]);
         Text_RemoveBackground(g_SoundText[g_SoundOptionLine]);
         g_SoundOptionLine--;
@@ -75,7 +75,7 @@ void __cdecl Option_Sound(INVENTORY_ITEM *const item)
             g_SoundText[g_SoundOptionLine], 1, INV_COLOR_ORANGE, 0, 0);
     }
 
-    if ((g_InputDB & IN_BACK) && g_SoundOptionLine < 1) {
+    if (g_InputDB.back && g_SoundOptionLine < 1) {
         Text_RemoveOutline(g_SoundText[g_SoundOptionLine]);
         Text_RemoveBackground(g_SoundText[g_SoundOptionLine]);
         g_SoundOptionLine++;
@@ -88,12 +88,12 @@ void __cdecl Option_Sound(INVENTORY_ITEM *const item)
 
     if (g_SoundOptionLine) {
         bool changed = false;
-        if ((g_Input & IN_LEFT) && g_OptionSoundVolume > 0) {
+        if (g_Input.left && g_OptionSoundVolume > 0) {
             g_Inv_IsOptionsDelay = 1;
             g_Inv_OptionsDelayCounter = 10;
             g_OptionSoundVolume--;
             changed = true;
-        } else if ((g_Input & IN_RIGHT) && g_OptionSoundVolume < 10) {
+        } else if (g_Input.right && g_OptionSoundVolume < 10) {
             g_Inv_IsOptionsDelay = 1;
             g_Inv_OptionsDelayCounter = 10;
             g_OptionSoundVolume++;
@@ -113,10 +113,10 @@ void __cdecl Option_Sound(INVENTORY_ITEM *const item)
         }
     } else {
         bool changed = false;
-        if ((g_Input & IN_LEFT) && g_OptionMusicVolume > 0) {
+        if (g_Input.left && g_OptionMusicVolume > 0) {
             g_OptionMusicVolume--;
             changed = true;
-        } else if ((g_Input & IN_RIGHT) && g_OptionMusicVolume < 10) {
+        } else if (g_Input.right && g_OptionMusicVolume < 10) {
             g_OptionMusicVolume++;
             changed = true;
         }
@@ -137,7 +137,7 @@ void __cdecl Option_Sound(INVENTORY_ITEM *const item)
         }
     }
 
-    if (g_InputDB & (IN_SELECT | IN_DESELECT)) {
+    if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
         Option_Sound_Shutdown();
     }
 }

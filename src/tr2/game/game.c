@@ -45,16 +45,15 @@ int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
         Input_Update();
 
         if (demo_mode) {
-            if (g_InputDB != 0) {
+            if (g_InputDB.any) {
                 return g_GameFlow.on_demo_interrupt;
             }
-            Demo_GetInput();
-            if (g_Input == -1) {
-                g_Input = 0;
+            if (!Demo_GetInput()) {
+                g_Input = (INPUT_STATE) { 0 };
                 return g_GameFlow.on_demo_end;
             }
         } else if (g_GameFlow.no_input_timeout) {
-            if (g_InputDB != 0) {
+            if (g_InputDB.any) {
                 g_NoInputCounter = 0;
             } else {
                 g_NoInputCounter++;
@@ -65,7 +64,7 @@ int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
         }
 
         if (g_Lara.death_timer > DEATH_WAIT
-            || (g_Lara.death_timer > DEATH_WAIT_INPUT && g_Input != 0)
+            || (g_Lara.death_timer > DEATH_WAIT_INPUT && g_Input.any)
             || g_OverlayStatus == 2) {
             if (demo_mode) {
                 return g_GameFlow.on_death_demo_mode;
@@ -87,16 +86,16 @@ int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
             }
         }
 
-        if (((g_InputDB & (IN_LOAD | IN_SAVE | IN_OPTION))
+        if (((g_InputDB.load || g_InputDB.save || g_InputDB.option)
              || g_OverlayStatus <= 0)
             && g_Lara.death_timer == 0 && !g_Lara.extra_anim) {
             if (g_OverlayStatus > 0) {
                 if (g_GameFlow.load_save_disabled) {
                     g_OverlayStatus = 0;
-                } else if (g_Input & IN_LOAD) {
+                } else if (g_Input.load) {
                     g_OverlayStatus = -1;
                 } else {
-                    g_OverlayStatus = g_Input & IN_SAVE ? -2 : 0;
+                    g_OverlayStatus = g_Input.save ? -2 : 0;
                 }
             } else {
                 GAME_FLOW_DIR dir;

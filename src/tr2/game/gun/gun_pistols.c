@@ -100,7 +100,7 @@ void __cdecl Gun_Pistols_Undraw(const LARA_GUN_TYPE weapon_type)
         g_Lara.right_arm.lock = 0;
     }
 
-    if (!(g_Input & IN_LOOK)) {
+    if (!g_Input.look) {
         g_Lara.head_x_rot =
             (g_Lara.left_arm.rot.x + g_Lara.right_arm.rot.x) / 4;
         g_Lara.head_y_rot =
@@ -153,7 +153,7 @@ void __cdecl Gun_Pistols_Control(const LARA_GUN_TYPE weapon_type)
 {
     const WEAPON_INFO *const winfo = &g_Weapons[weapon_type];
 
-    if (g_Input & IN_ACTION) {
+    if (g_Input.action) {
         Gun_TargetInfo(winfo);
     } else {
         g_Lara.target = NULL;
@@ -205,8 +205,7 @@ void __cdecl Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
     int16_t angles[2];
 
     int32_t frame_r = g_Lara.right_arm.frame_num;
-    if (!g_Lara.right_arm.lock
-        && (!(g_Input & IN_ACTION) || g_Lara.target != NULL)) {
+    if (!g_Lara.right_arm.lock && (!g_Input.action || g_Lara.target != NULL)) {
         if (frame_r >= LF_G_RECOIL_START && frame_r <= LF_G_RECOIL_END) {
             frame_r = LF_G_AIM_END;
         } else if (frame_r >= LF_G_AIM_BEND && frame_r <= LF_G_AIM_END) {
@@ -219,7 +218,7 @@ void __cdecl Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
     } else if (frame_r >= LF_G_AIM_START && frame_r <= LF_G_AIM_EXTEND) {
         frame_r++;
     } else if (frame_r == LF_G_AIM_END) {
-        if (g_Input & IN_ACTION) {
+        if (g_Input.action) {
             angles[0] = g_Lara.right_arm.rot.y + g_LaraItem->rot.y;
             angles[1] = g_Lara.right_arm.rot.x;
             if (Gun_FireWeapon(
@@ -249,8 +248,7 @@ void __cdecl Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
     Gun_Pistols_SetArmInfo(&g_Lara.right_arm, frame_r);
 
     int16_t frame_l = g_Lara.left_arm.frame_num;
-    if (!g_Lara.left_arm.lock
-        && (!(g_Input & IN_ACTION) || g_Lara.target != NULL)) {
+    if (!g_Lara.left_arm.lock && (!g_Input.action || g_Lara.target != NULL)) {
         if (frame_l >= LF_G_RECOIL_START && frame_l <= LF_G_RECOIL_END) {
             frame_l = LF_G_AIM_END;
         } else if (frame_l >= LF_G_AIM_BEND && frame_l <= LF_G_AIM_END) {
@@ -263,7 +261,7 @@ void __cdecl Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
     } else if (frame_l >= LF_G_AIM_START && frame_l <= LF_G_AIM_EXTEND) {
         frame_l++;
     } else if (frame_l == LF_G_AIM_END) {
-        if (g_Input & IN_ACTION) {
+        if (g_Input.action) {
             angles[0] = g_Lara.left_arm.rot.y + g_LaraItem->rot.y;
             angles[1] = g_Lara.left_arm.rot.x;
             if (Gun_FireWeapon(

@@ -17,17 +17,17 @@
 
 void __cdecl Lara_SwimTurn(ITEM *const item)
 {
-    if (g_Input & IN_FORWARD) {
+    if (g_Input.forward) {
         item->rot.x -= LARA_TURN_RATE_UW;
-    } else if (g_Input & IN_BACK) {
+    } else if (g_Input.back) {
         item->rot.x += LARA_TURN_RATE_UW;
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_MED_TURN);
         item->rot.z -= LARA_LEAN_RATE_SWIM;
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, LARA_MED_TURN);
         item->rot.z += LARA_LEAN_RATE_SWIM;
@@ -40,18 +40,18 @@ void __cdecl Lara_State_Walk(ITEM *item, COLL_INFO *coll)
         item->goal_anim_state = LS_STOP;
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_SLOW_TURN);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, +LARA_SLOW_TURN);
     }
 
-    if (g_Input & IN_FORWARD) {
+    if (g_Input.forward) {
         if (g_Lara.water_status == LWS_WADE) {
             item->goal_anim_state = LS_WADE;
-        } else if (g_Input & IN_SLOW) {
+        } else if (g_Input.slow) {
             item->goal_anim_state = LS_WALK;
         } else {
             item->goal_anim_state = LS_RUN;
@@ -68,7 +68,7 @@ void __cdecl Lara_State_Run(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if (g_Input & IN_ROLL) {
+    if (g_Input.roll) {
         item->anim_num = LA_ROLL_START;
         item->current_anim_state = LS_ROLL;
         item->goal_anim_state = LS_STOP;
@@ -76,12 +76,12 @@ void __cdecl Lara_State_Run(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_FAST_TURN);
         item->rot.z -= LARA_LEAN_RATE;
         CLAMPL(item->rot.z, -LARA_LEAN_MAX);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, +LARA_FAST_TURN);
         item->rot.z += LARA_LEAN_RATE;
@@ -94,12 +94,12 @@ void __cdecl Lara_State_Run(ITEM *item, COLL_INFO *coll)
         g_JumpPermitted = 1;
     }
 
-    if ((g_Input & IN_JUMP) && g_JumpPermitted && !item->gravity) {
+    if (g_Input.jump && g_JumpPermitted && !item->gravity) {
         item->goal_anim_state = LS_FORWARD_JUMP;
-    } else if (g_Input & IN_FORWARD) {
+    } else if (g_Input.forward) {
         if (g_Lara.water_status == LWS_WADE) {
             item->goal_anim_state = LS_WADE;
-        } else if (g_Input & IN_SLOW) {
+        } else if (g_Input.slow) {
             item->goal_anim_state = LS_WALK;
         } else {
             item->goal_anim_state = LS_RUN;
@@ -116,7 +116,7 @@ void __cdecl Lara_State_Stop(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_ROLL) && g_Lara.water_status != LWS_WADE) {
+    if (g_Input.roll && g_Lara.water_status != LWS_WADE) {
         item->anim_num = LA_ROLL_START;
         item->current_anim_state = LS_ROLL;
         item->goal_anim_state = LS_STOP;
@@ -125,44 +125,44 @@ void __cdecl Lara_State_Stop(ITEM *item, COLL_INFO *coll)
     }
 
     item->goal_anim_state = LS_STOP;
-    if (g_Input & IN_LOOK) {
+    if (g_Input.look) {
         Lara_LookUpDown();
     }
 
-    if (g_Input & IN_STEP_LEFT) {
+    if (g_Input.step_left) {
         item->goal_anim_state = LS_STEP_LEFT;
-    } else if (g_Input & IN_STEP_RIGHT) {
+    } else if (g_Input.step_right) {
         item->goal_anim_state = LS_STEP_RIGHT;
-    } else if (g_Input & IN_LEFT) {
+    } else if (g_Input.left) {
         item->goal_anim_state = LS_TURN_LEFT;
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         item->goal_anim_state = LS_TURN_RIGHT;
     }
 
     if (g_Lara.water_status == LWS_WADE) {
-        if (g_Input & IN_JUMP) {
+        if (g_Input.jump) {
             item->goal_anim_state = LS_COMPRESS;
         }
 
-        if (g_Input & IN_FORWARD) {
-            if (g_Input & IN_SLOW) {
+        if (g_Input.forward) {
+            if (g_Input.slow) {
                 Lara_State_Wade(item, coll);
             } else {
                 Lara_State_Walk(item, coll);
             }
-        } else if (g_Input & IN_BACK) {
+        } else if (g_Input.back) {
             Lara_State_Back(item, coll);
         }
-    } else if (g_Input & IN_JUMP) {
+    } else if (g_Input.jump) {
         item->goal_anim_state = LS_COMPRESS;
-    } else if (g_Input & IN_FORWARD) {
-        if (g_Input & IN_SLOW) {
+    } else if (g_Input.forward) {
+        if (g_Input.slow) {
             Lara_State_Walk(item, coll);
         } else {
             Lara_State_Run(item, coll);
         }
-    } else if (g_Input & IN_BACK) {
-        if (g_Input & IN_SLOW) {
+    } else if (g_Input.back) {
+        if (g_Input.slow) {
             Lara_State_Back(item, coll);
         } else {
             item->goal_anim_state = LS_FAST_BACK;
@@ -179,13 +179,13 @@ void __cdecl Lara_State_ForwardJump(ITEM *item, COLL_INFO *coll)
 
     if (item->goal_anim_state != LS_DEATH && item->goal_anim_state != LS_STOP
         && item->goal_anim_state != LS_RUN) {
-        if ((g_Input & IN_ACTION) && g_Lara.gun_status == LGS_ARMLESS) {
+        if (g_Input.action && g_Lara.gun_status == LGS_ARMLESS) {
             item->goal_anim_state = LS_REACH;
         }
-        if ((g_Input & IN_ROLL) || (g_Input & IN_BACK)) {
+        if (g_Input.roll || g_Input.back) {
             item->goal_anim_state = LS_TWIST;
         }
-        if ((g_Input & IN_SLOW) && g_Lara.gun_status == LGS_ARMLESS) {
+        if (g_Input.slow && g_Lara.gun_status == LGS_ARMLESS) {
             item->goal_anim_state = LS_SWAN_DIVE;
         }
         if (item->fall_speed > LARA_FAST_FALL_SPEED) {
@@ -193,10 +193,10 @@ void __cdecl Lara_State_ForwardJump(ITEM *item, COLL_INFO *coll)
         }
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_JUMP_TURN);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, +LARA_JUMP_TURN);
     }
@@ -205,10 +205,10 @@ void __cdecl Lara_State_ForwardJump(ITEM *item, COLL_INFO *coll)
 void __cdecl Lara_State_FastBack(ITEM *item, COLL_INFO *coll)
 {
     item->goal_anim_state = LS_STOP;
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_MED_TURN);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, LARA_MED_TURN);
     }
@@ -226,22 +226,22 @@ void __cdecl Lara_State_TurnRight(ITEM *item, COLL_INFO *coll)
     if (g_Lara.gun_status == LWS_WADE) {
         item->goal_anim_state = LS_FAST_TURN;
     } else if (g_Lara.turn_rate > LARA_SLOW_TURN) {
-        if (g_Input & IN_SLOW) {
+        if (g_Input.slow) {
             g_Lara.turn_rate = LARA_SLOW_TURN;
         } else {
             item->goal_anim_state = LS_FAST_TURN;
         }
     }
 
-    if (g_Input & IN_FORWARD) {
+    if (g_Input.forward) {
         if (g_Lara.water_status == LWS_WADE) {
             item->goal_anim_state = LS_WADE;
-        } else if (g_Input & IN_SLOW) {
+        } else if (g_Input.slow) {
             item->goal_anim_state = LS_WALK;
         } else {
             item->goal_anim_state = LS_RUN;
         }
-    } else if (!(g_Input & IN_RIGHT)) {
+    } else if (!g_Input.right) {
         item->goal_anim_state = LS_STOP;
     }
 }
@@ -255,25 +255,25 @@ void __cdecl Lara_State_TurnLeft(ITEM *item, COLL_INFO *coll)
 
     g_Lara.turn_rate -= LARA_TURN_RATE;
 
-    if (g_Lara.gun_status == IN_LEFT) {
+    if (g_Lara.gun_status == LGS_READY) {
         item->goal_anim_state = LS_FAST_TURN;
     } else if (g_Lara.turn_rate < -LARA_SLOW_TURN) {
-        if (g_Input & IN_SLOW) {
+        if (g_Input.slow) {
             g_Lara.turn_rate = -LARA_SLOW_TURN;
         } else {
             item->goal_anim_state = LS_FAST_TURN;
         }
     }
 
-    if (g_Input & IN_FORWARD) {
-        if (g_Lara.water_status == IN_LEFT) {
+    if (g_Input.forward) {
+        if (g_Lara.water_status == LWS_WADE) {
             item->goal_anim_state = LS_WADE;
-        } else if (g_Input & IN_SLOW) {
+        } else if (g_Input.slow) {
             item->goal_anim_state = LS_WALK;
         } else {
             item->goal_anim_state = LS_RUN;
         }
-    } else if (!(g_Input & IN_LEFT)) {
+    } else if (!g_Input.left) {
         item->goal_anim_state = LS_STOP;
     }
 }
@@ -295,7 +295,7 @@ void __cdecl Lara_State_FastFall(ITEM *item, COLL_INFO *coll)
 
 void __cdecl Lara_State_Hang(ITEM *item, COLL_INFO *coll)
 {
-    if (g_Input & IN_LOOK) {
+    if (g_Input.look) {
         Lara_LookUpDown();
     }
 
@@ -303,9 +303,9 @@ void __cdecl Lara_State_Hang(ITEM *item, COLL_INFO *coll)
     coll->enable_baddie_push = 0;
     g_Camera.target_angle = CAM_HANG_ANGLE;
     g_Camera.target_elevation = CAM_HANG_ELEVATION;
-    if ((g_Input & IN_LEFT) || (g_Input & IN_STEP_LEFT)) {
+    if (g_Input.left || g_Input.step_left) {
         item->goal_anim_state = LS_HANG_LEFT;
-    } else if ((g_Input & IN_RIGHT) || (g_Input & IN_STEP_RIGHT)) {
+    } else if (g_Input.right || g_Input.step_right) {
         item->goal_anim_state = LS_HANG_RIGHT;
     }
 }
@@ -326,24 +326,24 @@ void __cdecl Lara_State_Splat(ITEM *item, COLL_INFO *coll)
 void __cdecl Lara_State_Compress(ITEM *item, COLL_INFO *coll)
 {
     if (g_Lara.water_status != LWS_WADE) {
-        if ((g_Input & IN_FORWARD)
+        if (g_Input.forward
             && Lara_FloorFront(item, item->rot.y, STEP_L) >= -STEPUP_HEIGHT) {
             item->goal_anim_state = LS_FORWARD_JUMP;
             g_Lara.move_angle = item->rot.y;
         } else if (
-            (g_Input & IN_LEFT)
+            g_Input.left
             && Lara_FloorFront(item, item->rot.y - PHD_90, STEP_L)
                 >= -STEPUP_HEIGHT) {
             item->goal_anim_state = LS_LEFT_JUMP;
             g_Lara.move_angle = item->rot.y - PHD_90;
         } else if (
-            (g_Input & IN_RIGHT)
+            g_Input.right
             && Lara_FloorFront(item, item->rot.y + PHD_90, STEP_L)
                 >= -STEPUP_HEIGHT) {
             item->goal_anim_state = LS_RIGHT_JUMP;
             g_Lara.move_angle = item->rot.y + PHD_90;
         } else if (
-            (g_Input & IN_BACK)
+            g_Input.back
             && Lara_FloorFront(item, item->rot.y + PHD_180, STEP_L)
                 >= -STEPUP_HEIGHT) {
             item->goal_anim_state = LS_BACK_JUMP;
@@ -363,17 +363,16 @@ void __cdecl Lara_State_Back(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_BACK)
-        && ((g_Input & IN_SLOW) || g_Lara.water_status == LWS_WADE)) {
+    if (g_Input.back && (g_Input.slow || g_Lara.water_status == LWS_WADE)) {
         item->goal_anim_state = LS_BACK;
     } else {
         item->goal_anim_state = LS_STOP;
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_SLOW_TURN);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, LARA_SLOW_TURN);
     }
@@ -394,12 +393,12 @@ void __cdecl Lara_State_FastTurn(ITEM *item, COLL_INFO *coll)
 
     if (g_Lara.turn_rate >= 0) {
         g_Lara.turn_rate = LARA_FAST_TURN;
-        if (!(g_Input & IN_RIGHT)) {
+        if (!g_Input.right) {
             item->goal_anim_state = LS_STOP;
         }
     } else {
         g_Lara.turn_rate = -LARA_FAST_TURN;
-        if (!(g_Input & IN_LEFT)) {
+        if (!g_Input.left) {
             item->goal_anim_state = LS_STOP;
         }
     }
@@ -413,14 +412,14 @@ void __cdecl Lara_State_StepRight(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if (!(g_Input & IN_STEP_RIGHT)) {
+    if (!g_Input.step_right) {
         item->goal_anim_state = LS_STOP;
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_SLOW_TURN);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, LARA_SLOW_TURN);
     }
@@ -434,14 +433,14 @@ void __cdecl Lara_State_StepLeft(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if (!(g_Input & IN_STEP_LEFT)) {
+    if (!g_Input.step_left) {
         item->goal_anim_state = LS_STOP;
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_SLOW_TURN);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, LARA_SLOW_TURN);
     }
@@ -451,7 +450,7 @@ void __cdecl Lara_State_Slide(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.flags = CF_NO_CHUNKY;
     g_Camera.target_elevation = CAM_SLIDE_ELEVATION;
-    if ((g_Input & IN_JUMP) && !(g_Input & IN_BACK)) {
+    if (g_Input.jump && !g_Input.back) {
         item->goal_anim_state = LS_FORWARD_JUMP;
     }
 }
@@ -467,8 +466,7 @@ void __cdecl Lara_State_BackJump(ITEM *item, COLL_INFO *coll)
     if (item->goal_anim_state == LS_RUN) {
         item->goal_anim_state = LS_STOP;
     } else if (
-        ((g_Input & IN_FORWARD) || (g_Input & IN_ROLL))
-        && item->goal_anim_state != LS_STOP) {
+        (g_Input.forward || g_Input.roll) && item->goal_anim_state != LS_STOP) {
         item->goal_anim_state = LS_TWIST;
     }
 }
@@ -481,7 +479,7 @@ void __cdecl Lara_State_RightJump(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_LEFT) && item->goal_anim_state != LS_STOP) {
+    if (g_Input.left && item->goal_anim_state != LS_STOP) {
         item->goal_anim_state = LS_TWIST;
     }
 }
@@ -494,7 +492,7 @@ void __cdecl Lara_State_LeftJump(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_RIGHT) && item->goal_anim_state != LS_STOP) {
+    if (g_Input.right && item->goal_anim_state != LS_STOP) {
         item->goal_anim_state = LS_TWIST;
     }
 }
@@ -513,7 +511,7 @@ void __cdecl Lara_State_Fallback(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_ACTION) && g_Lara.gun_status == LGS_ARMLESS) {
+    if (g_Input.action && g_Lara.gun_status == LGS_ARMLESS) {
         item->goal_anim_state = LS_REACH;
     }
 }
@@ -524,7 +522,7 @@ void __cdecl Lara_State_HangLeft(ITEM *item, COLL_INFO *coll)
     coll->enable_baddie_push = 0;
     g_Camera.target_angle = CAM_HANG_ANGLE;
     g_Camera.target_elevation = CAM_HANG_ELEVATION;
-    if (!(g_Input & IN_LEFT) && !(g_Input & IN_STEP_LEFT)) {
+    if (!g_Input.left && !g_Input.step_left) {
         item->goal_anim_state = LS_HANG;
     }
 }
@@ -535,14 +533,14 @@ void __cdecl Lara_State_HangRight(ITEM *item, COLL_INFO *coll)
     coll->enable_baddie_push = 0;
     g_Camera.target_angle = CAM_HANG_ANGLE;
     g_Camera.target_elevation = CAM_HANG_ELEVATION;
-    if (!(g_Input & IN_RIGHT) && !(g_Input & IN_STEP_RIGHT)) {
+    if (!g_Input.right && !g_Input.step_right) {
         item->goal_anim_state = LS_HANG;
     }
 }
 
 void __cdecl Lara_State_SlideBack(ITEM *item, COLL_INFO *coll)
 {
-    if ((g_Input & IN_JUMP) && !(g_Input & IN_FORWARD)) {
+    if (g_Input.jump && !g_Input.forward) {
         item->goal_anim_state = LS_BACK_JUMP;
     }
 }
@@ -562,7 +560,7 @@ void __cdecl Lara_State_PPReady(ITEM *item, COLL_INFO *coll)
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
     g_Camera.target_angle = CAM_PP_READY_ANGLE;
-    if (!(g_Input & IN_ACTION)) {
+    if (!g_Input.action) {
         item->goal_anim_state = LS_STOP;
     }
 }
@@ -625,7 +623,7 @@ void __cdecl Lara_State_SwanDive(ITEM *item, COLL_INFO *coll)
 
 void __cdecl Lara_State_FastDive(ITEM *item, COLL_INFO *coll)
 {
-    if ((g_Input & IN_ROLL) && item->goal_anim_state == LS_FAST_DIVE) {
+    if (g_Input.roll && item->goal_anim_state == LS_FAST_DIVE) {
         item->goal_anim_state = LS_TWIST;
     }
     coll->enable_spaz = 0;
@@ -648,23 +646,23 @@ void __cdecl Lara_State_Wade(ITEM *item, COLL_INFO *coll)
     }
 
     g_Camera.target_elevation = CAM_WADE_ELEVATION;
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         g_Lara.turn_rate -= LARA_TURN_RATE;
         CLAMPL(g_Lara.turn_rate, -LARA_FAST_TURN);
         item->rot.z -= LARA_LEAN_RATE;
         CLAMPL(item->rot.z, -LARA_LEAN_MAX);
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         g_Lara.turn_rate += LARA_TURN_RATE;
         CLAMPG(g_Lara.turn_rate, LARA_FAST_TURN);
         item->rot.z += LARA_LEAN_RATE;
         CLAMPG(item->rot.z, LARA_LEAN_MAX);
     }
 
-    if (g_Input & IN_FORWARD) {
+    if (g_Input.forward) {
         if (g_Lara.water_status != LWS_ABOVE_WATER) {
             item->goal_anim_state = LS_WADE;
         } else {
-            item->goal_anim_state = IN_FORWARD;
+            item->goal_anim_state = LS_RUN;
         }
     } else {
         item->goal_anim_state = LS_STOP;
@@ -682,7 +680,7 @@ void __cdecl Lara_State_Zipline(ITEM *item, COLL_INFO *coll)
 
     coll->trigger = g_TriggerIndex;
 
-    if (!(g_Input & IN_ACTION)) {
+    if (!g_Input.action) {
         item->goal_anim_state = LS_FORWARD_JUMP;
         Lara_Animate(item);
         g_LaraItem->gravity = 1;
@@ -839,7 +837,7 @@ void __cdecl Lara_State_ClimbLeft(ITEM *item, COLL_INFO *coll)
     coll->enable_baddie_push = 0;
     g_Camera.target_angle = CAM_CLIMB_LEFT_ANGLE;
     g_Camera.target_elevation = CAM_CLIMB_LEFT_ELEVATION;
-    if (!(g_Input & IN_LEFT) && !(g_Input & IN_STEP_LEFT)) {
+    if (!g_Input.left && !g_Input.step_left) {
         item->goal_anim_state = LS_CLIMB_STANCE;
     }
 }
@@ -850,7 +848,7 @@ void __cdecl Lara_State_ClimbRight(ITEM *item, COLL_INFO *coll)
     coll->enable_baddie_push = 0;
     g_Camera.target_angle = CAM_CLIMB_RIGHT_ANGLE;
     g_Camera.target_elevation = CAM_CLIMB_RIGHT_ELEVATION;
-    if (!(g_Input & IN_RIGHT) && !(g_Input & IN_STEP_RIGHT)) {
+    if (!g_Input.right && !g_Input.step_right) {
         item->goal_anim_state = LS_CLIMB_STANCE;
     }
 }
@@ -861,15 +859,15 @@ void __cdecl Lara_State_ClimbStance(ITEM *item, COLL_INFO *coll)
     coll->enable_baddie_push = 0;
     g_Camera.target_elevation = CAM_CLIMB_STANCE_ELEVATION;
 
-    if (g_Input & IN_LOOK) {
+    if (g_Input.look) {
         Lara_LookUpDown();
     }
 
-    if ((g_Input & IN_LEFT) || (g_Input & IN_STEP_LEFT)) {
+    if (g_Input.left || g_Input.step_left) {
         item->goal_anim_state = LS_CLIMB_LEFT;
-    } else if ((g_Input & IN_RIGHT) || (g_Input & IN_STEP_RIGHT)) {
+    } else if (g_Input.right || g_Input.step_right) {
         item->goal_anim_state = LS_CLIMB_RIGHT;
-    } else if ((g_Input & IN_JUMP)) {
+    } else if (g_Input.jump) {
         item->goal_anim_state = LS_BACK_JUMP;
         g_Lara.gun_status = LGS_ARMLESS;
         g_Lara.move_angle = item->rot.y + PHD_180;
@@ -906,12 +904,12 @@ void __cdecl Lara_State_SurfSwim(ITEM *item, COLL_INFO *coll)
     }
 
     g_Lara.dive_count = 0;
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         item->rot.y -= LARA_SLOW_TURN;
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         item->rot.y += LARA_SLOW_TURN;
     }
-    if (!(g_Input & LS_RUN) || (g_Input & LS_BACK)) {
+    if (!g_Input.forward || g_Input.back) {
         item->goal_anim_state = LS_SURF_TREAD;
     }
     item->fall_speed += 8;
@@ -926,12 +924,12 @@ void __cdecl Lara_State_SurfBack(ITEM *item, COLL_INFO *coll)
     }
 
     g_Lara.dive_count = 0;
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         item->rot.y -= LARA_SURF_TURN;
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         item->rot.y += LARA_SURF_TURN;
     }
-    if (!(g_Input & IN_BACK)) {
+    if (!g_Input.back) {
         item->goal_anim_state = LS_SURF_TREAD;
     }
     item->fall_speed += 8;
@@ -946,12 +944,12 @@ void __cdecl Lara_State_SurfLeft(ITEM *item, COLL_INFO *coll)
     }
 
     g_Lara.dive_count = 0;
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         item->rot.y -= LARA_SURF_TURN;
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         item->rot.y += LARA_SURF_TURN;
     }
-    if (!(g_Input & IN_STEP_LEFT)) {
+    if (!g_Input.step_left) {
         item->goal_anim_state = LS_SURF_TREAD;
     }
     item->fall_speed += 8;
@@ -966,12 +964,12 @@ void __cdecl Lara_State_SurfRight(ITEM *item, COLL_INFO *coll)
     }
 
     g_Lara.dive_count = 0;
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         item->rot.y -= LARA_SURF_TURN;
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         item->rot.y += LARA_SURF_TURN;
     }
-    if (!(g_Input & IN_STEP_RIGHT)) {
+    if (!g_Input.step_right) {
         item->goal_anim_state = LS_SURF_TREAD;
     }
     item->fall_speed += 8;
@@ -987,30 +985,30 @@ void __cdecl Lara_State_SurfTread(ITEM *item, COLL_INFO *coll)
         item->goal_anim_state = LS_UW_DEATH;
         return;
     }
-    if (g_Input & IN_LOOK) {
+    if (g_Input.look) {
         Lara_LookUpDown();
         return;
     }
 
-    if (g_Input & IN_LEFT) {
+    if (g_Input.left) {
         item->rot.y -= LARA_SLOW_TURN;
-    } else if (g_Input & IN_RIGHT) {
+    } else if (g_Input.right) {
         item->rot.y += LARA_SLOW_TURN;
     }
 
-    if (g_Input & IN_FORWARD) {
+    if (g_Input.forward) {
         item->goal_anim_state = LS_SURF_SWIM;
-    } else if (g_Input & IN_BACK) {
+    } else if (g_Input.back) {
         item->goal_anim_state = LS_SURF_BACK;
     }
 
-    if (g_Input & IN_STEP_LEFT) {
+    if (g_Input.step_left) {
         item->goal_anim_state = LS_SURF_LEFT;
-    } else if (g_Input & IN_STEP_RIGHT) {
+    } else if (g_Input.step_right) {
         item->goal_anim_state = LS_SURF_RIGHT;
     }
 
-    if (g_Input & IN_JUMP) {
+    if (g_Input.jump) {
         g_Lara.dive_count++;
         if (g_Lara.dive_count == 10) {
             item->anim_num = LA_ONWATER_DIVE;
@@ -1033,7 +1031,7 @@ void __cdecl Lara_State_Swim(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_ROLL)) {
+    if (g_Input.roll) {
         item->current_anim_state = LS_WATER_ROLL;
         item->anim_num = LA_UNDERWATER_ROLL_START;
         item->frame_num = g_Anims[item->anim_num].frame_base;
@@ -1048,7 +1046,7 @@ void __cdecl Lara_State_Swim(ITEM *item, COLL_INFO *coll)
         CLAMPG(item->fall_speed, LARA_MAX_SWIM_SPEED);
     }
 
-    if (!(g_Input & IN_JUMP)) {
+    if (!g_Input.jump) {
         item->goal_anim_state = LS_GLIDE;
     }
 }
@@ -1060,7 +1058,7 @@ void __cdecl Lara_State_Glide(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_ROLL) != 0) {
+    if (g_Input.roll) {
         item->current_anim_state = LS_WATER_ROLL;
         item->anim_num = LA_UNDERWATER_ROLL_START;
         item->frame_num = g_Anims[item->anim_num].frame_base;
@@ -1068,7 +1066,7 @@ void __cdecl Lara_State_Glide(ITEM *item, COLL_INFO *coll)
     }
 
     Lara_SwimTurn(item);
-    if (g_Input & IN_JUMP) {
+    if (g_Input.jump) {
         item->goal_anim_state = LS_SWIM;
     }
     item->fall_speed -= LARA_UW_FRICTION;
@@ -1085,18 +1083,18 @@ void __cdecl Lara_State_Tread(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if (g_Input & IN_ROLL) {
+    if (g_Input.roll) {
         item->current_anim_state = LS_WATER_ROLL;
         item->anim_num = LA_UNDERWATER_ROLL_START;
         item->frame_num = g_Anims[item->anim_num].frame_base;
         return;
     }
 
-    if (g_Input & IN_LOOK) {
+    if (g_Input.look) {
         Lara_LookUpDown();
     }
     Lara_SwimTurn(item);
-    if (g_Input & IN_JUMP) {
+    if (g_Input.jump) {
         item->goal_anim_state = LS_SWIM;
     }
     item->fall_speed -= LARA_UW_FRICTION;
@@ -1108,7 +1106,7 @@ void __cdecl Lara_State_Tread(ITEM *item, COLL_INFO *coll)
 
 void __cdecl Lara_State_Dive(ITEM *item, COLL_INFO *coll)
 {
-    if (g_Input & IN_FORWARD) {
+    if (g_Input.forward) {
         item->rot.x -= PHD_DEGREE;
     }
 }

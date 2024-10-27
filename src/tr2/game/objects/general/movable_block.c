@@ -223,8 +223,8 @@ void __cdecl MovableBlock_Collision(
 {
     ITEM *const item = Item_Get(item_num);
 
-    if (!(g_Input & IN_ACTION) || item->status == IS_ACTIVE
-        || lara_item->gravity || lara_item->pos.y != item->pos.y) {
+    if (!g_Input.action || item->status == IS_ACTIVE || lara_item->gravity
+        || lara_item->pos.y != item->pos.y) {
         return;
     }
 
@@ -296,13 +296,13 @@ void __cdecl MovableBlock_Collision(
             return;
         }
 
-        if (g_Input & IN_FORWARD) {
+        if (g_Input.forward) {
             if (!MovableBlock_TestPush(item, WALL_L, quadrant)) {
                 return;
             }
             item->goal_anim_state = MBS_PUSH;
             lara_item->goal_anim_state = LS_PUSH_BLOCK;
-        } else if (g_Input & IN_BACK) {
+        } else if (g_Input.back) {
             if (!MovableBlock_TestPull(item, WALL_L, quadrant)) {
                 return;
             }

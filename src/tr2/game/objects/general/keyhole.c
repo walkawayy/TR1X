@@ -50,7 +50,7 @@ void __cdecl Keyhole_Collision(
     }
 
     ITEM *const item = &g_Items[item_num];
-    if ((g_Inv_Chosen == NO_OBJECT && !(g_Input & IN_ACTION))
+    if ((g_Inv_Chosen == NO_OBJECT && !g_Input.action)
         || g_Lara.gun_status != LGS_ARMLESS || lara_item->gravity) {
         return;
     }

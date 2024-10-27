@@ -3,6 +3,7 @@
 #include "decomp/decomp.h"
 #include "game/game.h"
 #include "game/gameflow.h"
+#include "game/input.h"
 #include "game/items.h"
 #include "game/lara/cheat.h"
 #include "game/random.h"
@@ -18,7 +19,7 @@ static struct {
 
 static int32_t m_DemoLevel = 0;
 static int32_t m_DemoLevel2 = 0;
-static int32_t m_OldDemoInputDB = 0;
+static INPUT_STATE m_OldDemoInputDB = { 0 };
 
 static void M_PrepareConfig(void);
 static void M_RestoreConfig(void);
@@ -104,7 +105,7 @@ int32_t __cdecl Demo_Start(int32_t level_num)
     Text_CentreV(text, true);
     Text_CentreH(text, true);
 
-    m_OldDemoInputDB = 0;
+    m_OldDemoInputDB = (INPUT_STATE) { 0 };
     g_Inv_DemoMode = true;
     GAME_FLOW_DIR dir = Game_Loop(true);
     g_Inv_DemoMode = false;
@@ -144,16 +145,21 @@ void __cdecl Demo_LoadLaraPos(void)
     g_DemoCount += 8;
 }
 
-void __cdecl Demo_GetInput(void)
+bool __cdecl Demo_GetInput(void)
 {
     if (g_DemoCount >= MAX_DEMO_SIZE) {
-        g_Input = -1;
-    } else {
-        g_Input = g_DemoPtr[g_DemoCount];
+        return false;
+        ;
     }
-    if (g_Input != -1) {
-        g_InputDB = g_Input & ~m_OldDemoInputDB;
-        m_OldDemoInputDB = g_Input;
-        g_DemoCount++;
+
+    const int32_t input = g_DemoPtr[g_DemoCount];
+    if (input == -1) {
+        return false;
     }
+
+    g_Input.any = input;
+    g_InputDB.any = g_Input.any & ~m_OldDemoInputDB.any;
+    m_OldDemoInputDB = g_Input;
+    g_DemoCount++;
+    return true;
 }

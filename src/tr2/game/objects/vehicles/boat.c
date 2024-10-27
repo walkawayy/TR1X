@@ -100,7 +100,7 @@ int32_t __cdecl Boat_CheckGetOn(
     const int16_t rot = boat->rot.y - lara->rot.y;
 
     if (g_Lara.water_status == LWS_SURFACE || g_Lara.water_status == LWS_WADE) {
-        if (!(g_Input & IN_ACTION) || lara->gravity || boat->speed) {
+        if (!g_Input.action || lara->gravity || boat->speed) {
             return 0;
         }
 
@@ -486,17 +486,16 @@ int32_t __cdecl Boat_UserControl(ITEM *const boat)
         return no_turn;
     }
 
-    if ((g_Input & IN_LOOK) && !boat->speed) {
+    if (g_Input.look && !boat->speed) {
         Lara_LookUpDown();
         return no_turn;
     }
 
-    if (g_Input & IN_JUMP) {
+    if (g_Input.jump) {
         return no_turn;
     }
 
-    if (((g_Input & IN_LEFT) && !(g_Input & IN_BACK))
-        || ((g_Input & IN_RIGHT) && (g_Input & IN_BACK))) {
+    if ((g_Input.left && !g_Input.back) || (g_Input.right && g_Input.back)) {
         if (boat_data->boat_turn > 0) {
             boat_data->boat_turn -= BOAT_UNDO_TURN;
         } else {
@@ -505,8 +504,7 @@ int32_t __cdecl Boat_UserControl(ITEM *const boat)
         }
         no_turn = 0;
     } else if (
-        ((g_Input & IN_RIGHT) && !(g_Input & IN_BACK))
-        || ((g_Input & IN_LEFT) && (g_Input & IN_BACK))) {
+        (g_Input.right && !g_Input.back) || (g_Input.left && g_Input.back)) {
         if (boat_data->boat_turn < 0) {
             boat_data->boat_turn += BOAT_UNDO_TURN;
         } else {
@@ -516,18 +514,18 @@ int32_t __cdecl Boat_UserControl(ITEM *const boat)
         no_turn = 0;
     }
 
-    if (g_Input & IN_BACK) {
+    if (g_Input.back) {
         if (boat->speed > 0) {
             boat->speed -= BOAT_BRAKE;
         } else if (boat->speed > BOAT_MAX_BACK) {
             boat->speed += BOAT_REVERSE;
         }
-    } else if (g_Input & IN_FORWARD) {
+    } else if (g_Input.forward) {
         int32_t max_speed;
-        if ((g_Input & IN_ACTION)) {
+        if (g_Input.action) {
             max_speed = BOAT_FAST_SPEED;
         } else {
-            max_speed = (g_Input & IN_SLOW) ? BOAT_SLOW_SPEED : BOAT_MAX_SPEED;
+            max_speed = g_Input.slow ? BOAT_SLOW_SPEED : BOAT_MAX_SPEED;
         }
 
         if (boat->speed < max_speed) {
@@ -538,7 +536,7 @@ int32_t __cdecl Boat_UserControl(ITEM *const boat)
         }
     } else if (
         boat->speed >= 0 && boat->speed < BOAT_MIN_SPEED
-        && ((g_Input & IN_LEFT) || (g_Input & IN_RIGHT))) {
+        && (g_Input.left || g_Input.right)) {
         boat->speed = BOAT_MIN_SPEED;
     } else if (boat->speed > BOAT_SLOWDOWN) {
         boat->speed -= BOAT_SLOWDOWN;
@@ -589,10 +587,10 @@ void __cdecl Boat_Animation(const ITEM *const boat, const int32_t collide)
 
     switch (lara->current_anim_state) {
     case BOAT_STILL:
-        if (g_Input & IN_JUMP) {
-            if (g_Input & IN_RIGHT) {
+        if (g_Input.jump) {
+            if (g_Input.right) {
                 lara->goal_anim_state = BOAT_JUMP_R;
-            } else if (g_Input & IN_LEFT) {
+            } else if (g_Input.left) {
                 lara->goal_anim_state = BOAT_JUMP_L;
             }
         }
@@ -603,10 +601,10 @@ void __cdecl Boat_Animation(const ITEM *const boat, const int32_t collide)
         break;
 
     case BOAT_MOVING:
-        if (g_Input & IN_JUMP) {
-            if (g_Input & IN_RIGHT) {
+        if (g_Input.jump) {
+            if (g_Input.right) {
                 lara->goal_anim_state = BOAT_JUMP_R;
-            } else if (g_Input & IN_LEFT) {
+            } else if (g_Input.left) {
                 lara->goal_anim_state = BOAT_JUMP_L;
             }
         } else if (boat->speed <= 0) {

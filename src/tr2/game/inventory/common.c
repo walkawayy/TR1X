@@ -251,18 +251,17 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
         Input_Update();
 
         if (g_Inv_DemoMode) {
-            if (g_InputDB != 0) {
+            if (g_InputDB.any) {
                 return g_GameFlow.on_demo_interrupt;
             }
-            Demo_GetInput();
-            if (g_Input == -1) {
+            if (!Demo_GetInput()) {
                 return g_GameFlow.on_demo_end;
             }
-        } else if (g_InputDB != 0) {
+        } else if (g_InputDB.any) {
             g_NoInputCounter = 0;
         }
 
-        if (g_Inv_Mode != INV_TITLE_MODE || g_Input != 0 || g_InputDB != 0) {
+        if (g_Inv_Mode != INV_TITLE_MODE || g_Input.any || g_InputDB.any) {
             g_NoInputCounter = 0;
         } else if (g_GameFlow.num_demos || g_GameFlow.no_input_timeout) {
             g_NoInputCounter++;
@@ -278,8 +277,8 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
         if ((g_Inv_Mode == INV_SAVE_MODE || g_Inv_Mode == INV_LOAD_MODE
              || g_Inv_Mode == INV_DEATH_MODE)
             && !pass_open) {
-            g_InputDB = IN_SELECT;
-            g_Input = 0;
+            g_Input = (INPUT_STATE) { 0 };
+            g_InputDB = (INPUT_STATE) { 0, .menu_confirm = 1 };
         }
 
         for (int32_t frame = 0; frame < g_Inv_NFrames; frame++) {
@@ -353,7 +352,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                         }
                     } else if (
                         ring.number_of_objects == 1
-                        || (!(g_Input & IN_RIGHT) && !(g_Input & IN_LEFT))) {
+                        || (!g_Input.right && !g_Input.left)) {
                         g_LsAdder = HIGH_LIGHT;
                         inv_item->y_rot += 256;
                     }
@@ -364,8 +363,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                      || imo.status == RNG_DESELECTING
                      || imo.status == RNG_DESELECT
                      || imo.status == RNG_CLOSING_ITEM)
-                    && !ring.rotating && !(g_Input & IN_LEFT)
-                    && !(g_Input & IN_RIGHT)) {
+                    && !ring.rotating && !g_Input.left && !g_Input.right) {
                     Inv_RingNotActive(inv_item);
                 }
             }
@@ -412,20 +410,20 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
         if (!ring.rotating) {
             switch (imo.status) {
             case RNG_OPEN:
-                if ((g_Input & IN_RIGHT) != 0 && ring.number_of_objects > 1) {
+                if (g_Input.right && ring.number_of_objects > 1) {
                     Inv_Ring_RotateLeft(&ring);
                     Sound_Effect(SFX_MENU_ROTATE, 0, SPM_ALWAYS);
                     break;
                 }
 
-                if ((g_Input & IN_LEFT) != 0 && ring.number_of_objects > 1) {
+                if (g_Input.left && ring.number_of_objects > 1) {
                     Inv_Ring_RotateRight(&ring);
                     Sound_Effect(SFX_MENU_ROTATE, 0, SPM_ALWAYS);
                     break;
                 }
 
                 if (demo_needed
-                    || (((g_InputDB & IN_OPTION) || (g_InputDB & IN_DESELECT))
+                    || ((g_InputDB.option || g_InputDB.menu_back)
                         && g_Inv_Mode != INV_TITLE_MODE)) {
                     Sound_Effect(SFX_MENU_SPINOUT, 0, SPM_ALWAYS);
                     g_Inv_Chosen = NO_OBJECT;
@@ -444,11 +442,11 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                     Inv_Ring_MotionCameraPos(&ring, -1536);
                     Inv_Ring_MotionRotation(
                         &ring, PHD_180, ring.ring_pos.rot.y + PHD_180);
-                    g_Input = 0;
-                    g_InputDB = 0;
+                    g_Input = (INPUT_STATE) { 0 };
+                    g_InputDB = (INPUT_STATE) { 0 };
                 }
 
-                if ((g_InputDB & IN_SELECT) != 0) {
+                if (g_InputDB.menu_confirm) {
                     if ((g_Inv_Mode == INV_SAVE_MODE
                          || g_Inv_Mode == INV_LOAD_MODE
                          || g_Inv_Mode == INV_DEATH_MODE)
@@ -477,8 +475,8 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                         &ring, 0,
                         -16384 - ring.angle_adder * ring.current_object);
                     Inv_Ring_MotionItemSelect(&ring, inv_item);
-                    g_Input = 0;
-                    g_InputDB = 0;
+                    g_Input = (INPUT_STATE) { 0 };
+                    g_InputDB = (INPUT_STATE) { 0 };
 
                     switch (inv_item->object_id) {
                     case O_COMPASS_OPTION:
@@ -505,8 +503,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                     }
                 }
 
-                if ((g_InputDB & IN_FORWARD) != 0
-                    && inventory_mode != INV_TITLE_MODE
+                if (g_InputDB.forward && inventory_mode != INV_TITLE_MODE
                     && inventory_mode != INV_KEYS_MODE) {
                     if (ring.type == RT_OPTION) {
                         if (g_Inv_MainObjectsCount > 0) {
@@ -518,7 +515,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                             Inv_Ring_MotionCameraPitch(&ring, 0x2000);
                             imo.misc = 0x2000;
                         }
-                        g_InputDB = 0;
+                        g_InputDB = (INPUT_STATE) { 0 };
                     } else if (ring.type == RT_MAIN) {
                         if (g_Inv_KeyObjectsCount > 0) {
                             Inv_Ring_MotionSetup(
@@ -529,12 +526,11 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                             Inv_Ring_MotionCameraPitch(&ring, 0x2000);
                             imo.misc = 0x2000;
                         }
-                        g_Input = 0;
-                        g_InputDB = 0;
+                        g_Input = (INPUT_STATE) { 0 };
+                        g_InputDB = (INPUT_STATE) { 0 };
                     }
                 } else if (
-                    (g_InputDB & IN_BACK) != 0
-                    && inventory_mode != INV_TITLE_MODE
+                    g_InputDB.back && inventory_mode != INV_TITLE_MODE
                     && inventory_mode != INV_KEYS_MODE) {
                     if (ring.type == RT_KEYS) {
                         if (g_Inv_MainObjectsCount > 0) {
@@ -546,8 +542,8 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                             Inv_Ring_MotionCameraPitch(&ring, -0x2000);
                             imo.misc = -0x2000;
                         }
-                        g_Input = 0;
-                        g_InputDB = 0;
+                        g_Input = (INPUT_STATE) { 0 };
+                        g_InputDB = (INPUT_STATE) { 0 };
                     } else if (ring.type == RT_MAIN) {
                         if (g_Inv_OptionObjectsCount > 0
                             && !g_GameFlow.lockout_option_ring) {
@@ -559,7 +555,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                             Inv_Ring_MotionCameraPitch(&ring, -0x2000);
                             imo.misc = -0x2000;
                         }
-                        g_InputDB = 0;
+                        g_InputDB = (INPUT_STATE) { 0 };
                     }
                 }
                 break;
@@ -656,23 +652,23 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                 if (!busy && !g_Inv_IsOptionsDelay) {
                     Option_DoInventory(inv_item);
 
-                    if (g_InputDB & IN_DESELECT) {
+                    if (g_InputDB.menu_back) {
                         inv_item->sprite_list = NULL;
                         Inv_Ring_MotionSetup(
                             &ring, RNG_CLOSING_ITEM, RNG_DESELECT, 0);
-                        g_Input = 0;
-                        g_InputDB = 0;
+                        g_Input = (INPUT_STATE) { 0 };
+                        g_InputDB = (INPUT_STATE) { 0 };
                         if (g_Inv_Mode == INV_LOAD_MODE
                             || g_Inv_Mode == INV_SAVE_MODE) {
                             Inv_Ring_MotionSetup(
                                 &ring, RNG_CLOSING_ITEM, RNG_EXITING_INVENTORY,
                                 0);
-                            g_InputDB = 0;
-                            g_Input = 0;
+                            g_Input = (INPUT_STATE) { 0 };
+                            g_InputDB = (INPUT_STATE) { 0 };
                         }
                     }
 
-                    if ((g_InputDB & IN_SELECT) != 0) {
+                    if (g_InputDB.menu_confirm) {
                         inv_item->sprite_list = NULL;
                         g_Inv_Chosen = inv_item->object_id;
                         if (ring.type != RT_MAIN) {
@@ -692,8 +688,8 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                                 &ring, RNG_CLOSING_ITEM, RNG_EXITING_INVENTORY,
                                 0);
                         }
-                        g_Input = 0;
-                        g_InputDB = 0;
+                        g_Input = (INPUT_STATE) { 0 };
+                        g_InputDB = (INPUT_STATE) { 0 };
                     }
                 }
                 break;
@@ -704,8 +700,8 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
                 Inv_Ring_MotionSetup(&ring, RNG_DESELECTING, RNG_OPEN, 16);
                 Inv_Ring_MotionRotation(
                     &ring, 0, -16384 - ring.angle_adder * ring.current_object);
-                g_Input = 0;
-                g_InputDB = 0;
+                g_Input = (INPUT_STATE) { 0 };
+                g_InputDB = (INPUT_STATE) { 0 };
                 break;
 
             case RNG_CLOSING_ITEM: {
@@ -752,7 +748,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
     g_Inv_IsActive = 0;
 
     // enable buffering
-    g_OldInputDB = 0;
+    g_OldInputDB = (INPUT_STATE) { 0 };
 
     if (demo_needed) {
         return GFD_START_DEMO;

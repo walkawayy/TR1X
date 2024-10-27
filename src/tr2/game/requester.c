@@ -274,7 +274,7 @@ int32_t __cdecl Requester_Display(
         }
     }
 
-    if (g_InputDB & IN_BACK) {
+    if (g_InputDB.back) {
         if (req->no_selector) {
             req->line_old_offset = req->line_offset;
             if (req->visible_count + req->line_offset < req->items_count) {
@@ -294,7 +294,7 @@ int32_t __cdecl Requester_Display(
         return 0;
     }
 
-    if (g_InputDB & IN_FORWARD) {
+    if (g_InputDB.forward) {
         if (req->no_selector) {
             req->line_old_offset = req->line_offset;
             if (req->line_offset > 0) {
@@ -314,8 +314,8 @@ int32_t __cdecl Requester_Display(
         return 0;
     }
 
-    if (!(g_InputDB & IN_SELECT)) {
-        if ((g_InputDB & IN_DESELECT) && destroy) {
+    if (!g_InputDB.menu_confirm) {
+        if (g_InputDB.menu_back && destroy) {
             Requester_Shutdown(req);
             return -1;
         }
@@ -329,7 +329,7 @@ int32_t __cdecl Requester_Display(
         && !strcmp(
             g_PasswordText1->content,
             g_GF_GameStrings[GF_S_GAME_PASSPORT_LOAD_GAME])) {
-        g_Input = 0;
+        g_Input = (INPUT_STATE) { 0 };
         return 0;
     }
 

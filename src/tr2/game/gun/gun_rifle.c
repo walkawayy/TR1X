@@ -56,7 +56,7 @@ void __cdecl Gun_Rifle_Control(const LARA_GUN_TYPE weapon_type)
 {
     const WEAPON_INFO *const winfo = &g_Weapons[weapon_type];
 
-    if (g_Input & IN_ACTION) {
+    if (g_Input.action) {
         Gun_TargetInfo(winfo);
     } else {
         g_Lara.target = NULL;
@@ -322,8 +322,7 @@ void __cdecl Gun_Rifle_Animate(const LARA_GUN_TYPE weapon_type)
         } else if (g_Lara.water_status == LWS_UNDERWATER || running) {
             item->goal_anim_state = LA_G_UAIM;
         } else if (
-            ((g_Input & IN_ACTION) && g_Lara.target == NULL)
-            || g_Lara.left_arm.lock) {
+            (g_Input.action && g_Lara.target == NULL) || g_Lara.left_arm.lock) {
             item->goal_anim_state = LA_G_RECOIL;
         } else {
             item->goal_anim_state = LA_G_UNAIM;
@@ -338,8 +337,7 @@ void __cdecl Gun_Rifle_Animate(const LARA_GUN_TYPE weapon_type)
         } else if (g_Lara.water_status != LWS_UNDERWATER && !running) {
             item->goal_anim_state = LA_G_AIM;
         } else if (
-            ((g_Input & IN_ACTION) && g_Lara.target == NULL)
-            || g_Lara.left_arm.lock) {
+            (g_Input.action && g_Lara.target == NULL) || g_Lara.left_arm.lock) {
             item->goal_anim_state = LA_G_URECOIL;
         } else {
             item->goal_anim_state = LA_G_UUNAIM;
@@ -351,7 +349,7 @@ void __cdecl Gun_Rifle_Animate(const LARA_GUN_TYPE weapon_type)
             item->goal_anim_state = LA_G_UNAIM;
             if (g_Lara.water_status != LWS_UNDERWATER && !running
                 && !m_HarpoonFired) {
-                if (g_Input & IN_ACTION) {
+                if (g_Input.action) {
                     if (g_Lara.target == NULL || g_Lara.left_arm.lock) {
                         switch (weapon_type) {
                         case LGT_HARPOON:
@@ -392,7 +390,7 @@ void __cdecl Gun_Rifle_Animate(const LARA_GUN_TYPE weapon_type)
         } else if (m_M16Firing) {
             Sound_Effect(SFX_M16_FIRE, &g_LaraItem->pos, SPM_NORMAL);
         } else if (
-            weapon_type == LGT_SHOTGUN && !(g_Input & IN_ACTION)
+            weapon_type == LGT_SHOTGUN && !g_Input.action
             && !g_Lara.left_arm.lock) {
             item->goal_anim_state = LA_G_UNAIM;
         }
@@ -403,7 +401,7 @@ void __cdecl Gun_Rifle_Animate(const LARA_GUN_TYPE weapon_type)
             item->goal_anim_state = LA_G_UUNAIM;
             if ((g_Lara.water_status == LWS_UNDERWATER || running)
                 && !m_HarpoonFired) {
-                if (g_Input & IN_ACTION) {
+                if (g_Input.action) {
                     if (g_Lara.target == NULL || g_Lara.left_arm.lock) {
                         if (weapon_type == LGT_HARPOON) {
                             Gun_Rifle_FireHarpoon();

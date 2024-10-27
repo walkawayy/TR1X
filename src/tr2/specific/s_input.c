@@ -118,81 +118,81 @@ bool __cdecl S_Input_Update(void)
     int32_t joy_ypos = 0;
     g_JoyKeys = WinInReadJoystick(&joy_xpos, &joy_ypos);
 
-    INPUT_STATE input = 0;
+    INPUT_STATE input = { 0 };
     if (joy_xpos < -8) {
-        input |= IN_LEFT;
+        input.left = 1;
     } else if (joy_xpos > 8) {
-        input |= IN_RIGHT;
+        input.right = 1;
     }
 
     if (joy_ypos > 8) {
-        input |= IN_BACK;
+        input.back = 1;
     } else if (joy_ypos < -8) {
-        input |= IN_FORWARD;
+        input.forward = 1;
     }
 
-    if (S_Input_Key(INPUT_ROLE_FORWARD)) {
-        input |= IN_FORWARD;
+    if (S_Input_Key(INPUT_ROLE_UP)) {
+        input.forward = 1;
     }
-    if (S_Input_Key(INPUT_ROLE_BACK)) {
-        input |= IN_BACK;
+    if (S_Input_Key(INPUT_ROLE_DOWN)) {
+        input.back = 1;
     }
     if (S_Input_Key(INPUT_ROLE_LEFT)) {
-        input |= IN_LEFT;
+        input.left = 1;
     }
     if (S_Input_Key(INPUT_ROLE_RIGHT)) {
-        input |= IN_RIGHT;
+        input.right = 1;
     }
     if (S_Input_Key(INPUT_ROLE_STEP_LEFT)) {
-        input |= IN_STEP_LEFT;
+        input.step_left = 1;
     }
     if (S_Input_Key(INPUT_ROLE_STEP_RIGHT)) {
-        input |= IN_STEP_RIGHT;
+        input.step_right = 1;
     }
     if (S_Input_Key(INPUT_ROLE_SLOW)) {
-        input |= IN_SLOW;
+        input.slow = 1;
     }
     if (S_Input_Key(INPUT_ROLE_JUMP)) {
-        input |= IN_JUMP;
+        input.jump = 1;
     }
 
     if (S_Input_Key(INPUT_ROLE_ACTION)) {
-        input |= IN_ACTION;
+        input.action = 1;
     }
     if (S_Input_Key(INPUT_ROLE_DRAW_WEAPON)) {
-        input |= IN_DRAW;
+        input.draw = 1;
     }
     if (S_Input_Key(INPUT_ROLE_FLARE)) {
-        input |= IN_FLARE;
+        input.flare = 1;
     }
     if (S_Input_Key(INPUT_ROLE_LOOK)) {
-        input |= IN_LOOK;
+        input.look = 1;
     }
     if (S_Input_Key(INPUT_ROLE_ROLL)) {
-        input |= IN_ROLL;
+        input.roll = 1;
     }
 
     if (S_Input_Key(INPUT_ROLE_CONSOLE)) {
-        input |= IN_CONSOLE;
+        input.console = 1;
     }
 
     if (S_Input_Key(INPUT_ROLE_OPTION) && g_Camera.type != CAM_CINEMATIC) {
-        input |= IN_OPTION;
+        input.option = 1;
     }
-    if ((input & IN_FORWARD) && (input & IN_BACK)) {
-        input |= IN_ROLL;
+    if (input.forward && input.back) {
+        input.roll = 1;
     }
 
-    if (KEY_DOWN(DIK_RETURN) || (input & IN_ACTION)) {
-        input |= IN_SELECT;
+    if (KEY_DOWN(DIK_RETURN) || input.action) {
+        input.menu_confirm = 1;
     }
     if (KEY_DOWN(DIK_ESCAPE)) {
-        input |= IN_DESELECT;
+        input.menu_back = 1;
     }
 
-    if ((input & IN_LEFT) && (input & IN_RIGHT)) {
-        input &= ~IN_LEFT;
-        input &= ~IN_RIGHT;
+    if (input.left && input.right) {
+        input.left = 0;
+        input.right = 0;
     }
 
     if (g_IsFMVPlaying || Console_IsOpened()) {
@@ -501,9 +501,9 @@ bool __cdecl S_Input_Update(void)
 
     if (!g_GameFlow.load_save_disabled) {
         if (KEY_DOWN(DIK_F5)) {
-            input |= IN_SAVE;
+            input.save = 1;
         } else if (KEY_DOWN(DIK_F6)) {
-            input |= IN_LOAD;
+            input.load = 1;
         }
     }
 

@@ -59,8 +59,8 @@ void __cdecl ShowGymStatsText(const char *const time_str, const int32_t type)
 
     if (g_StatsRequester.ready) {
         if (!Requester_Display(&g_StatsRequester, 1, 1)) {
-            g_InputDB = 0;
-            g_Input = 0;
+            g_Input = (INPUT_STATE) { 0 };
+            g_InputDB = (INPUT_STATE) { 0 };
         }
         return;
     }
@@ -120,8 +120,8 @@ void __cdecl ShowStatsText(const char *const time_str, const int32_t type)
             &g_StatsRequester, 0, g_GF_GameStrings[GF_S_GAME_MISC_TIME_TAKEN],
             REQ_ALIGN_LEFT, time_str, REQ_ALIGN_RIGHT);
         if (!Requester_Display(&g_StatsRequester, type, 1)) {
-            g_InputDB = 0;
-            g_Input = 0;
+            g_Input = (INPUT_STATE) { 0 };
+            g_InputDB = (INPUT_STATE) { 0 };
         }
         return;
     }
@@ -213,8 +213,8 @@ void __cdecl ShowEndStatsText(void)
 
     if (g_StatsRequester.ready) {
         if (!Requester_Display(&g_StatsRequester, 0, 1)) {
-            g_InputDB = 0;
-            g_Input = 0;
+            g_Input = (INPUT_STATE) { 0 };
+            g_InputDB = (INPUT_STATE) { 0 };
         }
         return;
     }
@@ -313,7 +313,7 @@ int32_t __cdecl LevelStats(const int32_t level_num)
     Overlay_HideGameInfo();
     S_CopyScreenToBuffer();
 
-    while (g_Input & IN_SELECT) {
+    while (g_Input.menu_confirm) {
         Input_Update();
     }
 
@@ -336,7 +336,7 @@ int32_t __cdecl LevelStats(const int32_t level_num)
         S_OutputPolyList();
         S_DumpScreen();
 
-        if (g_InputDB & IN_SELECT) {
+        if (g_InputDB.menu_confirm) {
             break;
         }
     }
@@ -363,7 +363,7 @@ int32_t __cdecl GameStats(const int32_t level_num)
     start->statistics.medipacks = g_SaveGame.statistics.medipacks;
 
     Overlay_HideGameInfo();
-    while (g_Input & IN_SELECT) {
+    while (g_Input.menu_confirm) {
         Input_Update();
     }
 
@@ -386,7 +386,7 @@ int32_t __cdecl GameStats(const int32_t level_num)
         S_OutputPolyList();
         S_DumpScreen();
 
-        if (g_InputDB & IN_SELECT) {
+        if (g_InputDB.menu_confirm) {
             break;
         }
     }

@@ -4378,7 +4378,7 @@ typedef enum {
 0x004D7960  -       TEXTSTRING* g_Inv_UpArrow2;
 0x004D7964  -       TEXTSTRING* g_Inv_DownArrow1;
 0x004D7968  -       TEXTSTRING* g_Inv_DownArrow2;
-0x004D796C  -       uint32_t g_InputDB;
+0x004D796C  +       uint32_t g_InputDB;
 0x004D7978  -       uint16_t g_Inv_IsActive;
 0x004D79A0  -       BOOL g_Inv_DemoMode;
 0x004D79B4  -       BOOL g_Inv_IsOptionsDelay;
@@ -4453,7 +4453,7 @@ typedef enum {
 0x0051A0CC  -       char *g_GameBuf_MemBase;
 0x0051A0D0  +       BOOL g_ConflictLayout[14]; // INPUT_ROLE_NUMBER_OF
 0x0051A108  -       uint8_t g_DIKeys[256];
-0x0051A208  -       int32_t g_Input;
+0x0051A208  +       int32_t g_Input;
 0x0051A20C  -       int8_t g_IsVidModeLock;
 0x0051A210  -       int32_t g_JoyKeys;
 0x0051A214  +       int32_t g_JoyXPos;
@@ -4716,7 +4716,7 @@ typedef enum {
 0x00521FA0  -       char g_GF_SecretInvItems[27]; // GF_ADD_INV_NUMBER_OF
 0x00521FC0  -       char g_GF_Add2InvItems[27]; // GF_ADD_INV_NUMBER_OF
 0x004D9ECC  -       int32_t g_GameMode; // GAMEMODE
-0x004D7970  -       int32_t g_OldInputDB;
+0x004D7970  +       int32_t g_OldInputDB;
 0x004D7948  -       TEXTSTRING *g_Inv_ItemText[3]; // IT_NUMBER_OF
 0x004D7950  -       TEXTSTRING *g_Inv_LevelText;
 0x004D7958  -       TEXTSTRING *g_Inv_TagText;

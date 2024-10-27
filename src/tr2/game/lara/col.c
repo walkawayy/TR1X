@@ -24,9 +24,9 @@ void __cdecl Lara_CollideStop(ITEM *const item, const COLL_INFO *const coll)
         item->current_anim_state = coll->old_anim_state;
         item->anim_num = coll->old_anim_num;
         item->frame_num = coll->old_frame_num;
-        if (g_Input & IN_LEFT) {
+        if (g_Input.left) {
             item->goal_anim_state = LS_TURN_LEFT;
-        } else if (g_Input & IN_RIGHT) {
+        } else if (g_Input.right) {
             item->goal_anim_state = LS_TURN_RIGHT;
         } else {
             item->goal_anim_state = LS_STOP;
@@ -59,7 +59,7 @@ bool __cdecl Lara_Fallen(ITEM *const item, const COLL_INFO *const coll)
 bool __cdecl Lara_TestWaterClimbOut(
     ITEM *const item, const COLL_INFO *const coll)
 {
-    if (coll->coll_type != COLL_FRONT || !(g_Input & IN_ACTION)
+    if (coll->coll_type != COLL_FRONT || !g_Input.action
         || coll->side_front.type == HT_BIG_SLOPE) {
         return false;
     }
@@ -373,8 +373,7 @@ void __cdecl Lara_Col_ForwardJump(ITEM *item, COLL_INFO *coll)
     if (Lara_LandedBad(item, coll)) {
         item->goal_anim_state = LS_DEATH;
     } else if (
-        g_Lara.water_status != LWS_WADE && (g_Input & IN_FORWARD)
-        && !(g_Input & IN_SLOW)) {
+        g_Lara.water_status != LWS_WADE && g_Input.forward && !g_Input.slow) {
         item->goal_anim_state = LS_RUN;
     } else {
         item->goal_anim_state = LS_STOP;
@@ -502,7 +501,7 @@ void __cdecl Lara_Col_Hang(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if ((g_Input & IN_FORWARD)) {
+    if (g_Input.forward) {
         if (coll->side_front.floor <= -850 || coll->side_front.floor >= -650
             || coll->side_front.floor - coll->side_front.ceiling < 0
             || coll->side_left.floor - coll->side_left.ceiling < 0
@@ -516,13 +515,13 @@ void __cdecl Lara_Col_Hang(ITEM *item, COLL_INFO *coll)
                 item->anim_num = LA_LADDER_UP_HANGING;
                 item->frame_num = g_Anims[item->anim_num].frame_base;
             }
-        } else if (g_Input & IN_SLOW) {
+        } else if (g_Input.slow) {
             item->goal_anim_state = LS_GYMNAST;
         } else {
             item->goal_anim_state = LS_NULL;
         }
     } else if (
-        (g_Input & IN_BACK) && g_Lara.climb_status
+        g_Input.back && g_Lara.climb_status
         && item->anim_num == LA_REACH_TO_HANG
         && item->frame_num == g_Anims[item->anim_num].frame_base + 21) {
         item->goal_anim_state = LS_HANG;
@@ -739,9 +738,9 @@ void __cdecl Lara_Col_UpJump(ITEM *item, COLL_INFO *coll)
     if (coll->coll_type != COLL_NONE) {
         item->speed = item->speed > 0 ? 2 : -2;
     } else if (item->fall_speed < -70) {
-        if (g_Input & IN_FORWARD && item->speed < 5) {
+        if (g_Input.forward && item->speed < 5) {
             item->speed++;
-        } else if (g_Input & IN_BACK && item->speed > -5) {
+        } else if (g_Input.back && item->speed > -5) {
             item->speed -= 2;
         }
     }
@@ -1023,7 +1022,7 @@ void __cdecl Lara_Col_ClimbStance(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if (g_Input & IN_FORWARD) {
+    if (g_Input.forward) {
         if (item->goal_anim_state == LS_NULL) {
             return;
         }
@@ -1073,7 +1072,7 @@ void __cdecl Lara_Col_ClimbStance(ITEM *item, COLL_INFO *coll)
 
         item->goal_anim_state = LS_CLIMBING;
         item->pos.y += shift;
-    } else if (g_Input & IN_BACK) {
+    } else if (g_Input.back) {
         if (item->goal_anim_state == LS_HANG) {
             return;
         }
@@ -1151,7 +1150,7 @@ void __cdecl Lara_Col_Climbing(ITEM *item, COLL_INFO *coll)
 
     item->pos.y += STEP_L;
 
-    if (!result_r || !result_l || !(g_Input & IN_FORWARD)) {
+    if (!result_r || !result_l || !g_Input.forward) {
         item->goal_anim_state = LS_CLIMB_STANCE;
         if (yshift) {
             Lara_Animate(item);
@@ -1205,7 +1204,7 @@ void __cdecl Lara_Col_ClimbDown(ITEM *item, COLL_INFO *coll)
 
     item->pos.y -= STEP_L;
 
-    if (!result_r || !result_l || !(g_Input & IN_BACK)) {
+    if (!result_r || !result_l || !g_Input.back) {
         item->goal_anim_state = LS_CLIMB_STANCE;
         if (yshift) {
             Lara_Animate(item);

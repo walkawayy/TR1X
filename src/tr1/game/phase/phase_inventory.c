@@ -1119,7 +1119,7 @@ static void M_End(void)
 
     Inv_Destroy();
     if (g_Config.enable_buffering) {
-        g_OldInputDB.any = 0;
+        g_OldInputDB = (INPUT_STATE) { 0 };
     }
     if (g_InvMode == INV_TITLE_MODE) {
         Music_Stop();

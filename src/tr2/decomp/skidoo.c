@@ -164,7 +164,7 @@ void __cdecl Skidoo_Initialise(const int16_t item_num)
 
 int32_t __cdecl Skidoo_CheckGetOn(const int16_t item_num, COLL_INFO *const coll)
 {
-    if (!(g_Input & IN_ACTION) || g_Lara.gun_status != LGS_ARMLESS
+    if (!g_Input.action || g_Lara.gun_status != LGS_ARMLESS
         || g_LaraItem->gravity) {
         return SKIDOO_GET_ON_NONE;
     }
@@ -467,23 +467,23 @@ int32_t __cdecl Skidoo_UserControl(
     if (skidoo->pos.y >= height - STEP_L) {
         *out_pitch = skidoo->speed + (height - skidoo->pos.y);
 
-        if (skidoo->speed == 0 && (g_Input & IN_LOOK)) {
+        if (skidoo->speed == 0 && g_Input.look) {
             Lara_LookUpDown();
         }
 
-        if (((g_Input & IN_LEFT) && !(g_Input & IN_BACK))
-            || ((g_Input & IN_RIGHT) && (g_Input & IN_BACK))) {
+        if ((g_Input.left && !g_Input.back)
+            || (g_Input.right && g_Input.back)) {
             skidoo_data->skidoo_turn -= SKIDOO_TURN;
             CLAMPL(skidoo_data->skidoo_turn, -SKIDOO_MAX_TURN);
         }
 
-        if (((g_Input & IN_RIGHT) && !(g_Input & IN_BACK))
-            || ((g_Input & IN_LEFT) && (g_Input & IN_BACK))) {
+        if ((g_Input.right && !g_Input.back)
+            || (g_Input.left && g_Input.back)) {
             skidoo_data->skidoo_turn += SKIDOO_TURN;
             CLAMPG(skidoo_data->skidoo_turn, SKIDOO_MAX_TURN);
         }
 
-        if (g_Input & IN_BACK) {
+        if (g_Input.back) {
             if (skidoo->speed > 0) {
                 skidoo->speed -= SKIDOO_BRAKE;
             } else {
@@ -492,11 +492,11 @@ int32_t __cdecl Skidoo_UserControl(
                 }
                 drive = true;
             }
-        } else if (g_Input & IN_FORWARD) {
+        } else if (g_Input.forward) {
             int32_t max_speed;
-            if ((g_Input & IN_ACTION) && !M_IsArmed(skidoo_data)) {
+            if (g_Input.action && !M_IsArmed(skidoo_data)) {
                 max_speed = SKIDOO_FAST_SPEED;
-            } else if (g_Input & IN_SLOW) {
+            } else if (g_Input.slow) {
                 max_speed = SKIDOO_SLOW_SPEED;
             } else {
                 max_speed = SKIDOO_MAX_SPEED;
@@ -513,7 +513,7 @@ int32_t __cdecl Skidoo_UserControl(
             drive = true;
         } else if (
             skidoo->speed >= 0 && skidoo->speed < SKIDOO_MIN_SPEED
-            && (g_Input & (IN_LEFT | IN_RIGHT))) {
+            && (g_Input.left || g_Input.right)) {
             skidoo->speed = SKIDOO_MIN_SPEED;
             drive = true;
         } else if (skidoo->speed > SKIDOO_SLOWDOWN) {
@@ -524,7 +524,7 @@ int32_t __cdecl Skidoo_UserControl(
         } else {
             skidoo->speed = 0;
         }
-    } else if (g_Input & (IN_FORWARD | IN_BACK)) {
+    } else if (g_Input.forward || g_Input.back) {
         drive = true;
         *out_pitch = skidoo_data->pitch + 50;
     }
@@ -610,21 +610,21 @@ void __cdecl Skidoo_Animation(
         }
         if (dead) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_FALLOFF;
-        } else if (g_Input & IN_LEFT) {
+        } else if (g_Input.left) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_LEFT;
-        } else if (g_Input & IN_RIGHT) {
+        } else if (g_Input.right) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_RIGHT;
         }
         break;
 
     case LARA_STATE_SKIDOO_LEFT:
-        if (!(g_Input & IN_LEFT)) {
+        if (!g_Input.left) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_SIT;
         }
         break;
 
     case LARA_STATE_SKIDOO_RIGHT:
-        if (!(g_Input & IN_RIGHT)) {
+        if (!g_Input.right) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_SIT;
         }
         break;
@@ -655,22 +655,22 @@ void __cdecl Skidoo_Animation(
 
         g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_STILL;
 
-        if (g_Input & IN_JUMP) {
-            if ((g_Input & IN_RIGHT)
+        if (g_Input.jump) {
+            if (g_Input.right
                 && Skidoo_CheckGetOffOK(LARA_STATE_SKIDOO_GET_OFF_R)) {
                 g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_GET_OFF_R;
                 skidoo->speed = 0;
             } else if (
-                (g_Input & IN_LEFT)
+                g_Input.left
                 && Skidoo_CheckGetOffOK(LARA_STATE_SKIDOO_GET_OFF_L)) {
                 g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_GET_OFF_L;
                 skidoo->speed = 0;
             }
-        } else if (g_Input & IN_LEFT) {
+        } else if (g_Input.left) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_LEFT;
-        } else if (g_Input & IN_RIGHT) {
+        } else if (g_Input.right) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_RIGHT;
-        } else if (g_Input & (IN_BACK | IN_FORWARD)) {
+        } else if (g_Input.back || g_Input.forward) {
             g_LaraItem->goal_anim_state = LARA_STATE_SKIDOO_SIT;
         }
         break;
@@ -765,7 +765,7 @@ void __cdecl Skidoo_Guns(void)
     Gun_GetNewTarget(winfo);
     Gun_AimWeapon(winfo, &g_Lara.right_arm);
 
-    if (!(g_Input & IN_ACTION)) {
+    if (!g_Input.action) {
         return;
     }
 
@@ -815,10 +815,10 @@ int32_t __cdecl Skidoo_Control(void)
     bool dead = false;
     if (g_LaraItem->hit_points <= 0) {
         dead = true;
-        g_Input &= ~IN_BACK;
-        g_Input &= ~IN_FORWARD;
-        g_Input &= ~IN_LEFT;
-        g_Input &= ~IN_RIGHT;
+        g_Input.back = 0;
+        g_Input.forward = 0;
+        g_Input.left = 0;
+        g_Input.right = 0;
     } else if (g_LaraItem->current_anim_state == LARA_STATE_SKIDOO_LET_GO) {
         dead = true;
         collide = 0;

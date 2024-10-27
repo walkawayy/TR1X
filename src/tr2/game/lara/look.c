@@ -8,13 +8,13 @@ void __cdecl Lara_LookUpDown(void)
 {
     g_Camera.type = CAM_LOOK;
 
-    if (g_Input & IN_FORWARD) {
-        g_Input &= ~IN_FORWARD;
+    if (g_Input.forward) {
+        g_Input.forward = 0;
         if (g_Lara.head_x_rot > MIN_HEAD_TILT) {
             g_Lara.head_x_rot -= HEAD_TURN;
         }
-    } else if (g_Input & IN_BACK) {
-        g_Input &= ~IN_BACK;
+    } else if (g_Input.back) {
+        g_Input.back = 0;
         if (g_Lara.head_x_rot < MAX_HEAD_TILT) {
             g_Lara.head_x_rot += HEAD_TURN;
         }
@@ -29,12 +29,12 @@ void __cdecl Lara_LookLeftRight(void)
 {
     g_Camera.type = CAM_LOOK;
 
-    if (g_Input & IN_LEFT) {
-        g_Input &= ~IN_LEFT;
+    if (g_Input.left) {
+        g_Input.left = 0;
         if (g_Lara.head_y_rot > MIN_HEAD_ROTATION)
             g_Lara.head_y_rot -= HEAD_TURN;
-    } else if (g_Input & IN_RIGHT) {
-        g_Input &= ~IN_RIGHT;
+    } else if (g_Input.right) {
+        g_Input.right = 0;
         if (g_Lara.head_y_rot < MAX_HEAD_ROTATION)
             g_Lara.head_y_rot += HEAD_TURN;
     }

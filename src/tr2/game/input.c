@@ -42,34 +42,42 @@ static const char *m_KeyNames[] = {
     "JOY9", "JOY10", "JOY11", "JOY12", "JOY13", "JOY14", "JOY15", "JOY16",
 };
 
+INPUT_STATE g_Input = { 0 };
+INPUT_STATE g_InputDB = { 0 };
+INPUT_STATE g_OldInputDB = { 0 };
 bool g_ConflictLayout[INPUT_ROLE_NUMBER_OF] = { false };
-bool m_ListenMode = false;
+
+static bool m_ListenMode = false;
+
+static INPUT_STATE __cdecl M_GetDebounced(INPUT_STATE input);
+
+static INPUT_STATE __cdecl M_GetDebounced(const INPUT_STATE input)
+{
+    INPUT_STATE result;
+    result.any = input.any & ~g_OldInputDB.any;
+
+    g_OldInputDB = input;
+    return result;
+}
 
 bool Input_Update(void)
 {
     bool result = S_Input_Update();
 
-    g_InputDB = Input_GetDebounced(g_Input);
+    g_InputDB = M_GetDebounced(g_Input);
 
     if (m_ListenMode) {
-        g_Input = 0;
-        g_InputDB = 0;
+        g_Input = (INPUT_STATE) { 0 };
+        g_InputDB = (INPUT_STATE) { 0 };
         return result;
     }
 
-    if (!g_IsFMVPlaying && (g_InputDB & IN_CONSOLE)) {
+    if (!g_IsFMVPlaying && g_InputDB.console) {
         Console_Open();
-        g_Input = 0;
-        g_InputDB = 0;
+        g_Input = (INPUT_STATE) { 0 };
+        g_InputDB = (INPUT_STATE) { 0 };
     }
 
-    return result;
-}
-
-int32_t __cdecl Input_GetDebounced(const int32_t input)
-{
-    const int32_t result = input & ~g_OldInputDB;
-    g_OldInputDB = input;
     return result;
 }
 
@@ -149,5 +157,5 @@ void Input_ExitListenMode(void)
     m_ListenMode = false;
     S_Input_Update();
     g_OldInputDB = g_Input;
-    g_InputDB = Input_GetDebounced(g_Input);
+    g_InputDB = M_GetDebounced(g_Input);
 }

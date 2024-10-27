@@ -40,9 +40,9 @@ void __cdecl Gun_Control(void)
     if (g_LaraItem->hit_points <= 0) {
         g_Lara.gun_status = LGS_ARMLESS;
     } else if (g_Lara.gun_status == LGS_ARMLESS) {
-        if (g_Input & IN_DRAW) {
+        if (g_Input.draw) {
             g_Lara.request_gun_type = g_Lara.last_gun_type;
-        } else if (g_InputDB & IN_FLARE) {
+        } else if (g_InputDB.flare) {
             if (g_Lara.gun_type == LGT_FLARE) {
                 g_Lara.gun_status = LGS_UNDRAW;
             } else if (Inv_RequestItem(O_FLARES_ITEM)) {
@@ -50,7 +50,7 @@ void __cdecl Gun_Control(void)
             }
         }
 
-        if (g_Lara.request_gun_type != g_Lara.gun_type || (g_Input & IN_DRAW)) {
+        if (g_Lara.request_gun_type != g_Lara.gun_type || g_Input.draw) {
             if (g_Lara.request_gun_type == LGT_FLARE
                 || (g_Lara.skidoo == NO_ITEM && g_Lara.water_status != LWS_CHEAT
                     && (g_Lara.request_gun_type == LGT_HARPOON
@@ -78,11 +78,11 @@ void __cdecl Gun_Control(void)
             }
         }
     } else if (g_Lara.gun_status == LGS_READY) {
-        if ((g_InputDB & IN_FLARE) && Inv_RequestItem(O_FLARES_ITEM)) {
+        if ((g_InputDB.flare) && Inv_RequestItem(O_FLARES_ITEM)) {
             g_Lara.request_gun_type = LGT_FLARE;
         }
 
-        if ((g_Input & IN_DRAW) || g_Lara.request_gun_type != g_Lara.gun_type) {
+        if (g_Input.draw || g_Lara.request_gun_type != g_Lara.gun_type) {
             g_Lara.gun_status = LGS_UNDRAW;
         } else if (
             g_Lara.gun_type == LGT_HARPOON
@@ -191,7 +191,7 @@ void __cdecl Gun_Control(void)
         break;
 
     case LGS_READY:
-        if (g_Lara.pistol_ammo.ammo && (g_Input & IN_ACTION)) {
+        if (g_Lara.pistol_ammo.ammo && g_Input.action) {
             g_Lara.mesh_ptrs[LM_HEAD] =
                 g_Meshes[g_Objects[O_LARA_UZIS].mesh_idx + LM_HEAD];
         } else {
@@ -203,7 +203,7 @@ void __cdecl Gun_Control(void)
             g_Camera.type = CAM_COMBAT;
         }
 
-        if (g_Input & IN_ACTION) {
+        if (g_Input.action) {
             AMMO_INFO *const ammo = Gun_GetAmmoInfo(g_Lara.gun_type);
             assert(ammo != NULL);
 

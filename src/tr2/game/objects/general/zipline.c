@@ -20,7 +20,7 @@ typedef enum {
 void __cdecl Zipline_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
-    if (!(g_Input & IN_ACTION) || g_Lara.gun_status != LGS_ARMLESS
+    if (!g_Input.action || g_Lara.gun_status != LGS_ARMLESS
         || lara_item->gravity || lara_item->current_anim_state != LS_STOP) {
         return;
     }

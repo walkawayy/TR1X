@@ -38,7 +38,7 @@ void __cdecl Lara_HandleAboveWater(ITEM *const item, COLL_INFO *const coll)
     coll->enable_baddie_push = 1;
     coll->enable_spaz = 1;
 
-    if ((g_Input & IN_LOOK) && !g_Lara.extra_anim && g_Lara.look) {
+    if (g_Input.look && !g_Lara.extra_anim && g_Lara.look) {
         Lara_LookLeftRight();
     } else {
         Lara_ResetLook();
@@ -114,7 +114,7 @@ void __cdecl Lara_HandleSurface(ITEM *const item, COLL_INFO *const coll)
     coll->enable_baddie_push = 0;
     coll->enable_spaz = 0;
 
-    if ((g_Input & IN_LOOK) && g_Lara.look) {
+    if (g_Input.look && g_Lara.look) {
         Lara_LookLeftRight();
     } else {
         Lara_ResetLook();
@@ -170,7 +170,7 @@ void __cdecl Lara_HandleUnderwater(ITEM *const item, COLL_INFO *const coll)
     coll->enable_baddie_push = 1;
     coll->enable_spaz = 0;
 
-    if ((g_Input & IN_LOOK) && g_Lara.look) {
+    if (g_Input.look && g_Lara.look) {
         Lara_LookLeftRight();
     } else {
         Lara_ResetLook();
@@ -226,7 +226,7 @@ void __cdecl Lara_HandleUnderwater(ITEM *const item, COLL_INFO *const coll)
     if (g_Lara.water_status == LWS_CHEAT) {
         if (m_OpenDoorsCheatCooldown) {
             m_OpenDoorsCheatCooldown--;
-        } else if (g_InputDB & IN_DRAW) {
+        } else if (g_InputDB.draw) {
             m_OpenDoorsCheatCooldown = FRAMES_PER_SECOND;
             Lara_Cheat_OpenNearestDoor();
         }
@@ -474,7 +474,7 @@ void __cdecl Lara_Control(const int16_t item_num)
         item->hit_points = LARA_MAX_HITPOINTS;
         g_Lara.death_timer = 0;
         Lara_HandleUnderwater(item, &coll);
-        if (g_Input & IN_SLOW && !(g_Input & IN_LOOK)) {
+        if (g_Input.slow && !g_Input.look) {
             Lara_Cheat_ExitFlyMode();
         }
         break;

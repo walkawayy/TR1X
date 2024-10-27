@@ -398,7 +398,7 @@ void __cdecl Lara_HangTest(ITEM *item, COLL_INFO *coll)
     Lara_GetCollisionInfo(item, coll);
 
     if (g_Lara.climb_status) {
-        if (!(g_Input & IN_ACTION) || item->hit_points <= 0) {
+        if (!g_Input.action || item->hit_points <= 0) {
             XYZ_32 pos = {
                 .x = 0,
                 .y = 0,
@@ -442,7 +442,7 @@ void __cdecl Lara_HangTest(ITEM *item, COLL_INFO *coll)
         return;
     }
 
-    if (!(g_Input & IN_ACTION) || item->hit_points <= 0
+    if (!g_Input.action || item->hit_points <= 0
         || coll->side_front.floor > 0) {
         item->goal_anim_state = LS_UP_JUMP;
         item->current_anim_state = LS_UP_JUMP;
@@ -520,7 +520,7 @@ int32_t __cdecl Lara_TestEdgeCatch(ITEM *item, COLL_INFO *coll, int32_t *edge)
 
 int32_t __cdecl Lara_TestHangJumpUp(ITEM *item, COLL_INFO *coll)
 {
-    if (coll->coll_type != COLL_FRONT || !(g_Input & IN_ACTION)
+    if (coll->coll_type != COLL_FRONT || !g_Input.action
         || g_Lara.gun_status != LGS_ARMLESS || coll->hit_static
         || coll->side_mid.ceiling > -STEPUP_HEIGHT) {
         return 0;
@@ -562,7 +562,7 @@ int32_t __cdecl Lara_TestHangJumpUp(ITEM *item, COLL_INFO *coll)
 
 int32_t __cdecl Lara_TestHangJump(ITEM *item, COLL_INFO *coll)
 {
-    if (coll->coll_type != COLL_FRONT || !(g_Input & IN_ACTION)
+    if (coll->coll_type != COLL_FRONT || !g_Input.action
         || g_Lara.gun_status != LGS_ARMLESS || coll->hit_static
         || coll->side_mid.ceiling > -STEPUP_HEIGHT
         || coll->side_mid.floor < 200) {
@@ -638,7 +638,7 @@ int32_t __cdecl Lara_TestHangSwingIn(ITEM *item, PHD_ANGLE angle)
 
 int32_t __cdecl Lara_TestVault(ITEM *item, COLL_INFO *coll)
 {
-    if (coll->coll_type != COLL_FRONT || !(g_Input & IN_ACTION)
+    if (coll->coll_type != COLL_FRONT || !g_Input.action
         || g_Lara.gun_status != LGS_ARMLESS) {
         return 0;
     }
@@ -831,7 +831,7 @@ int32_t __cdecl Lara_CheckForLetGo(ITEM *item, COLL_INFO *coll)
     const SECTOR *const sector = Room_GetSector(x, y, z, &room_num);
     Room_GetHeight(sector, x, y, z);
     coll->trigger = g_TriggerIndex;
-    if ((g_Input & IN_ACTION) && item->hit_points > 0) {
+    if (g_Input.action && item->hit_points > 0) {
         return 0;
     }
 
@@ -1406,9 +1406,9 @@ void __cdecl Lara_DoClimbLeftRight(
     const int32_t shift)
 {
     if (result == 1) {
-        if (g_Input & IN_LEFT) {
+        if (g_Input.left) {
             item->goal_anim_state = LS_CLIMB_LEFT;
-        } else if (g_Input & IN_RIGHT) {
+        } else if (g_Input.right) {
             item->goal_anim_state = LS_CLIMB_RIGHT;
         } else {
             item->goal_anim_state = LS_CLIMB_STANCE;

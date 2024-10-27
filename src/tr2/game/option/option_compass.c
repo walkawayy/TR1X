@@ -20,7 +20,7 @@ void __cdecl Option_Compass(INVENTORY_ITEM *const item)
         ShowStatsText(buffer, 1);
     }
 
-    if ((g_InputDB & IN_SELECT) || (g_InputDB & IN_DESELECT)) {
+    if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
         item->anim_direction = 1;
         item->goal_frame = item->frames_total - 1;
     }

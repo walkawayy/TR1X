@@ -25,7 +25,7 @@ void __cdecl Option_Controls(INVENTORY_ITEM *const item)
     if (m_ControlsDialogController.state == UI_CONTROLS_STATE_EXIT) {
         Option_Controls_Shutdown();
     } else {
-        g_Input = 0;
-        g_InputDB = 0;
+        g_Input = (INPUT_STATE) { 0 };
+        g_InputDB = (INPUT_STATE) { 0 };
     }
 }

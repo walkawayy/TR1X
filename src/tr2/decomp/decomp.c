@@ -966,10 +966,10 @@ int32_t __cdecl Game_Cutscene_Control(const int32_t nframes)
             if (Input_Update()) {
                 return 3;
             }
-            if (g_InputDB & IN_ACTION) {
+            if (g_InputDB.action) {
                 return 1;
             }
-            if (g_InputDB & IN_OPTION) {
+            if (g_InputDB.option) {
                 return 2;
             }
 
@@ -2806,7 +2806,7 @@ void __cdecl S_Wait(int32_t frames, const BOOL input_check)
 {
     if (input_check) {
         while (frames > 0) {
-            if (g_Input != 0) {
+            if (g_Input.any) {
                 break;
             }
             Input_Update();
@@ -2825,7 +2825,7 @@ void __cdecl S_Wait(int32_t frames, const BOOL input_check)
 
     while (frames > 0) {
         Input_Update();
-        if (input_check && g_Input != 0) {
+        if (input_check && g_Input.any) {
             break;
         }
 
