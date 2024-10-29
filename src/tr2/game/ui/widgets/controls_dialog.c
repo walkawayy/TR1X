@@ -1,7 +1,9 @@
 #include "game/ui/widgets/controls_dialog.h"
 
+#include "game/game_string.h"
+#include "game/ui/widgets/controls_backend_selector.h"
 #include "game/ui/widgets/controls_column.h"
-#include "game/ui/widgets/controls_layout_selector.h"
+#include "game/ui/widgets/controls_layout_editor.h"
 
 #include <libtrx/game/ui/common.h>
 #include <libtrx/game/ui/widgets/stack.h>
@@ -12,11 +14,8 @@ typedef struct {
     UI_WIDGET_VTABLE vtable;
     UI_CONTROLS_CONTROLLER *controller;
     UI_WIDGET *window;
-    UI_WIDGET *layout_selector;
-    UI_WIDGET *outer_stack;
-    UI_WIDGET *column_stack;
-    UI_WIDGET *left_column;
-    UI_WIDGET *right_column;
+    UI_WIDGET *backend_selector;
+    UI_WIDGET *layout_editor;
 } UI_CONTROLS_DIALOG;
 
 static void M_DoLayout(UI_CONTROLS_DIALOG *self);
@@ -52,13 +51,22 @@ static void M_SetPosition(
 
 static void M_Control(UI_CONTROLS_DIALOG *const self)
 {
+    // Trigger the UI updates only if anything has changed.
     if (UI_ControlsController_Control(self->controller)) {
-        // Trigger the UI updates only if anything has changed.
+        // Set the root widget - backend selector modal or the inputs modal
+        if (self->controller->state == UI_CONTROLS_STATE_NAVIGATE_BACKEND
+            || self->controller->state == UI_CONTROLS_STATE_EXIT) {
+            UI_Window_SetTitle(self->window, GS(CONTROL_CUSTOMIZE));
+            UI_Window_SetRootWidget(self->window, self->backend_selector);
+        } else {
+            UI_Window_SetTitle(self->window, NULL);
+            UI_Window_SetRootWidget(self->window, self->layout_editor);
+        }
+        M_DoLayout(self);
+
         if (self->window->control != NULL) {
             self->window->control(self->window);
         }
-        // Reposition the header.
-        UI_Stack_DoLayout(self->outer_stack);
     }
 }
 
@@ -71,11 +79,8 @@ static void M_Draw(UI_CONTROLS_DIALOG *const self)
 
 static void M_Free(UI_CONTROLS_DIALOG *const self)
 {
-    self->left_column->free(self->left_column);
-    self->right_column->free(self->right_column);
-    self->column_stack->free(self->column_stack);
-    self->outer_stack->free(self->outer_stack);
-    self->layout_selector->free(self->layout_selector);
+    self->layout_editor->free(self->layout_editor);
+    self->backend_selector->free(self->backend_selector);
     self->window->free(self->window);
     Memory_Free(self);
 }
@@ -94,22 +99,12 @@ UI_WIDGET *UI_ControlsDialog_Create(UI_CONTROLS_CONTROLLER *const controller)
 
     self->controller = controller;
 
-    self->layout_selector = UI_ControlsLayoutSelector_Create(self->controller);
-    self->left_column = UI_ControlsColumn_Create(0, self->controller);
-    self->right_column = UI_ControlsColumn_Create(1, self->controller);
+    self->layout_editor = UI_ControlsLayoutEditor_Create(self->controller);
+    self->backend_selector =
+        UI_ControlsBackendSelector_Create(self->controller);
+    self->window = UI_Window_Create(self->backend_selector, 5, 5, 10, 5);
 
-    self->column_stack = UI_Stack_Create(
-        UI_STACK_LAYOUT_HORIZONTAL, UI_STACK_AUTO_SIZE, UI_STACK_AUTO_SIZE);
-    UI_Stack_AddChild(self->column_stack, self->left_column);
-    UI_Stack_AddChild(self->column_stack, self->right_column);
-
-    self->outer_stack = UI_Stack_Create(
-        UI_STACK_LAYOUT_VERTICAL, UI_STACK_AUTO_SIZE, UI_STACK_AUTO_SIZE);
-    UI_Stack_SetHAlign(self->outer_stack, UI_STACK_H_ALIGN_CENTER);
-    UI_Stack_AddChild(self->outer_stack, self->layout_selector);
-    UI_Stack_AddChild(self->outer_stack, self->column_stack);
-
-    self->window = UI_Window_Create(self->outer_stack, 5, 5, 15, 5);
+    UI_Window_SetTitle(self->window, GS(CONTROL_CUSTOMIZE));
 
     M_DoLayout(self);
     return (UI_WIDGET *)self;

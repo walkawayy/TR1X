@@ -34,8 +34,9 @@ static void M_InitText(void)
     Text_AddBackground(m_Text[TEXT_TITLE], 176, 0, 0, 0, TS_HEADING);
     Text_AddOutline(m_Text[TEXT_TITLE], true, TS_HEADING);
 
-    m_Text[TEXT_KEYBOARD] = Text_Create(0, 0, GS(CONTROL_KEYBOARD));
-    m_Text[TEXT_CONTROLLER] = Text_Create(0, 25, GS(CONTROL_CONTROLLER));
+    m_Text[TEXT_KEYBOARD] = Text_Create(0, 0, GS(CONTROL_BACKEND_KEYBOARD));
+    m_Text[TEXT_CONTROLLER] =
+        Text_Create(0, 25, GS(CONTROL_BACKEND_CONTROLLER));
 
     Text_AddBackground(m_Text[g_OptionSelected], 128, 0, 0, 0, TS_REQUESTED);
     Text_AddOutline(m_Text[g_OptionSelected], true, TS_REQUESTED);

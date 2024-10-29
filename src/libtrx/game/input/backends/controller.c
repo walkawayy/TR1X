@@ -37,6 +37,108 @@ static BUILTIN_CONTROLLER_LAYOUT m_BuiltinLayout[] = {
     { -1, { 0, { 0 }, 0 } },
 };
 
+#if TR_VERSION == 1
+    #define M_ICON_X "\206"
+    #define M_ICON_CIRCLE "\205"
+    #define M_ICON_SQUARE "\207"
+    #define M_ICON_TRIANGLE "\204"
+    #define M_ICON_UP "\203 "
+    #define M_ICON_DOWN "\202 "
+    #define M_ICON_LEFT "\200 "
+    #define M_ICON_RIGHT "\201 "
+    #define M_ICON_L1 "^"
+    #define M_ICON_R1 "_"
+    #define M_ICON_L2 "\300"
+    #define M_ICON_R2 "{"
+#elif TR_VERSION == 2
+    #define M_ICON_X "\\{x}"
+    #define M_ICON_CIRCLE "\\{circle}"
+    #define M_ICON_SQUARE "\\{square}"
+    #define M_ICON_TRIANGLE "\\{triangle}"
+    #define M_ICON_UP "\\{up} "
+    #define M_ICON_DOWN "\\{down} "
+    #define M_ICON_LEFT "\\{left} "
+    #define M_ICON_RIGHT "\\{right} "
+    #define M_ICON_L1 "\\{l1}"
+    #define M_ICON_R1 "\\{r1}"
+    #define M_ICON_L2 "\\{l2}"
+    #define M_ICON_R2 "\\{r2}"
+#endif
+
+// TODO: replace all of the text with icons
+#if TR_VERSION == 1
+    #define M_NAME_L_ANALOG_LEFT "L STICK " M_ICON_LEFT
+    #define M_NAME_L_ANALOG_UP "L STICK " M_ICON_UP
+    #define M_NAME_L_ANALOG_RIGHT "L STICK " M_ICON_RIGHT
+    #define M_NAME_L_ANALOG_DOWN "L STICK " M_ICON_DOWN
+    #define M_NAME_R_ANALOG_LEFT "R STICK " M_ICON_LEFT
+    #define M_NAME_R_ANALOG_UP "R STICK " M_ICON_UP
+    #define M_NAME_R_ANALOG_RIGHT "R STICK " M_ICON_RIGHT
+    #define M_NAME_R_ANALOG_DOWN "R STICK " M_ICON_DOWN
+    #define M_NAME_L_TRIGGER "L TRIGGER"
+    #define M_NAME_R_TRIGGER "R TRIGGER"
+    #define M_NAME_ZL "ZL"
+#elif TR_VERSION == 2
+    #define M_NAME_L_ANALOG_LEFT "LSTK" M_ICON_LEFT
+    #define M_NAME_L_ANALOG_UP "LSTK " M_ICON_UP
+    #define M_NAME_L_ANALOG_RIGHT "LSTK" M_ICON_RIGHT
+    #define M_NAME_L_ANALOG_DOWN "LSTK" M_ICON_DOWN
+    #define M_NAME_R_ANALOG_LEFT "RSTK" M_ICON_LEFT
+    #define M_NAME_R_ANALOG_UP "RSTK" M_ICON_UP
+    #define M_NAME_R_ANALOG_RIGHT "RSTK" M_ICON_RIGHT
+    #define M_NAME_R_ANALOG_DOWN "RSTK" M_ICON_DOWN
+    #define M_NAME_L_TRIGGER "LTRIG"
+    #define M_NAME_R_TRIGGER "RTRIG"
+    #define M_NAME_ZL "ZL"
+#endif
+
+#define M_NAME_ZR "ZR"
+#define M_NAME_BACK "BACK"
+
+#if TR_VERSION == 1
+    #define M_NAME_CAPTURE "CAPTURE"
+    #define M_NAME_CREATE "CREATE"
+#elif TR_VERSION == 2
+    #define M_NAME_CAPTURE "CAPTR"
+    #define M_NAME_CREATE "CREAT"
+#endif
+
+#define M_NAME_HOME "HOME"
+#define M_NAME_XBOX "XBOX"
+#define M_NAME_START "START"
+#define M_NAME_SHARE "SHARE"
+
+#if TR_VERSION == 1
+    #define M_NAME_TOUCHPAD "TOUCHPAD"
+#elif TR_VERSION == 2
+    #define M_NAME_TOUCHPAD "TOUCH"
+#endif
+
+#define M_NAME_L3 "L3"
+#define M_NAME_R3 "R3"
+#define M_NAME_MIC "MIC"
+#define M_NAME_PADDLE_1 "PADDLE 1"
+#define M_NAME_PADDLE_2 "PADDLE 2"
+#define M_NAME_PADDLE_3 "PADDLE 3"
+#define M_NAME_PADDLE_4 "PADDLE 4"
+
+#if TR_VERSION == 1
+    #define M_NAME_L_STICK "L STICK"
+    #define M_NAME_R_STICK "R STICK"
+    #define M_NAME_L_BUMPER "L BUMPER"
+    #define M_NAME_R_BUMPER "R BUMPER"
+#elif TR_VERSION == 2
+    #define M_NAME_L_STICK "LSTIC"
+    #define M_NAME_R_STICK "RSTIC"
+    #define M_NAME_L_BUMPER "LBUMP"
+    #define M_NAME_R_BUMPER "RBUMP"
+#endif
+
+#define M_NAME_A "A"
+#define M_NAME_B "B"
+#define M_NAME_X "X"
+#define M_NAME_Y "Y"
+
 static CONTROLLER_MAP m_Layout[INPUT_LAYOUT_NUMBER_OF][INPUT_ROLE_NUMBER_OF];
 
 static SDL_GameController *m_Controller = NULL;
@@ -84,127 +186,91 @@ static bool M_ReadAndAssign(INPUT_LAYOUT layout, INPUT_ROLE role);
 
 static const char *M_GetButtonName(const SDL_GameControllerButton button)
 {
-    // clang-format off
+    // First switch: Handle platform-specific deviations from defaults
     switch (m_ControllerType) {
-        case SDL_CONTROLLER_TYPE_PS3:
-        case SDL_CONTROLLER_TYPE_PS4:
-        case SDL_CONTROLLER_TYPE_PS5:
-            switch (button) {
-                case SDL_CONTROLLER_BUTTON_INVALID:       return "";
-                case SDL_CONTROLLER_BUTTON_A:             return "\206";
-                case SDL_CONTROLLER_BUTTON_B:             return "\205";
-                case SDL_CONTROLLER_BUTTON_X:             return "\207";
-                case SDL_CONTROLLER_BUTTON_Y:             return "\204";
-                case SDL_CONTROLLER_BUTTON_BACK:          return "CREATE";
-                case SDL_CONTROLLER_BUTTON_GUIDE:         return "HOME"; /* Home button*/
-                case SDL_CONTROLLER_BUTTON_START:         return "START";
-                case SDL_CONTROLLER_BUTTON_LEFTSTICK:     return "L3";
-                case SDL_CONTROLLER_BUTTON_RIGHTSTICK:    return "R3";
-                case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:  return "^";
-                case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return "_";
-                case SDL_CONTROLLER_BUTTON_DPAD_UP:       return "\203 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_DOWN:     return "\202 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_LEFT:     return "\200 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:    return "\201 ";
-                case SDL_CONTROLLER_BUTTON_MISC1:         return "MIC";      /* PS5 microphone button */
-                case SDL_CONTROLLER_BUTTON_PADDLE1:       return "PADDLE 1"; /* Xbox Elite paddle P1 (upper left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE2:       return "PADDLE 2"; /* Xbox Elite paddle P3 (upper right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE3:       return "PADDLE 3"; /* Xbox Elite paddle P2 (lower left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE4:       return "PADDLE 4"; /* Xbox Elite paddle P4 (lower right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_TOUCHPAD:      return "TOUCHPAD"; /* PS4/PS5 touchpad button */
-                case SDL_CONTROLLER_BUTTON_MAX:           return "";
-            }
-            break;
+    case SDL_CONTROLLER_TYPE_PS3:
+    case SDL_CONTROLLER_TYPE_PS4:
+    case SDL_CONTROLLER_TYPE_PS5:
+        // clang-format off
+        switch (button) {
+        case SDL_CONTROLLER_BUTTON_A:             return M_ICON_X;
+        case SDL_CONTROLLER_BUTTON_B:             return M_ICON_CIRCLE;
+        case SDL_CONTROLLER_BUTTON_X:             return M_ICON_SQUARE;
+        case SDL_CONTROLLER_BUTTON_Y:             return M_ICON_TRIANGLE;
+        case SDL_CONTROLLER_BUTTON_BACK:          return M_NAME_CREATE;
+        case SDL_CONTROLLER_BUTTON_START:         return M_NAME_START;
+        case SDL_CONTROLLER_BUTTON_LEFTSTICK:     return M_NAME_L3;
+        case SDL_CONTROLLER_BUTTON_RIGHTSTICK:    return M_NAME_R3;
+        case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:  return M_ICON_L1;
+        case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return M_ICON_R1;
+        case SDL_CONTROLLER_BUTTON_MISC1:         return M_NAME_MIC;
+        default: break;
+        }
+        // clang-format on
+        break;
 
-        case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO:
-        case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR:
-            switch (button) {
-                case SDL_CONTROLLER_BUTTON_INVALID:       return "INVALID";
-                case SDL_CONTROLLER_BUTTON_A:             return "B";
-                case SDL_CONTROLLER_BUTTON_B:             return "A";
-                case SDL_CONTROLLER_BUTTON_X:             return "Y";
-                case SDL_CONTROLLER_BUTTON_Y:             return "X";
-                case SDL_CONTROLLER_BUTTON_BACK:          return "BACK";
-                case SDL_CONTROLLER_BUTTON_GUIDE:         return "HOME"; /* Home button*/
-                case SDL_CONTROLLER_BUTTON_START:         return "START";
-                case SDL_CONTROLLER_BUTTON_LEFTSTICK:     return "L STICK";
-                case SDL_CONTROLLER_BUTTON_RIGHTSTICK:    return "R STICK";
-                case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:  return "L BUTTON";
-                case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return "R BUTTON";
-                case SDL_CONTROLLER_BUTTON_DPAD_UP:       return "\203 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_DOWN:     return "\202 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_LEFT:     return "\200 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:    return "\201 ";
-                case SDL_CONTROLLER_BUTTON_MISC1:         return "CAPTURE";  /* Nintendo Switch capture button */
-                case SDL_CONTROLLER_BUTTON_PADDLE1:       return "PADDLE 1"; /* Xbox Elite paddle P1 (upper left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE2:       return "PADDLE 2"; /* Xbox Elite paddle P3 (upper right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE3:       return "PADDLE 3"; /* Xbox Elite paddle P2 (lower left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE4:       return "PADDLE 4"; /* Xbox Elite paddle P4 (lower right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_TOUCHPAD:      return "TOUCHPAD"; /* PS4/PS5 touchpad button */
-                case SDL_CONTROLLER_BUTTON_MAX:           return "";
-            }
-            break;
+    case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO:
+    case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR:
+        // clang-format off
+        switch (button) {
+        case SDL_CONTROLLER_BUTTON_A:             return M_NAME_B;
+        case SDL_CONTROLLER_BUTTON_B:             return M_NAME_A;
+        case SDL_CONTROLLER_BUTTON_X:             return M_NAME_Y;
+        case SDL_CONTROLLER_BUTTON_Y:             return M_NAME_X;
+        case SDL_CONTROLLER_BUTTON_START:         return M_NAME_START;
+        case SDL_CONTROLLER_BUTTON_MISC1:         return M_NAME_CAPTURE;
+        default: break;
+        }
+        // clang-format on
+        break;
 
-        case SDL_CONTROLLER_TYPE_XBOX360:
-        case SDL_CONTROLLER_TYPE_XBOXONE:
-            switch (button) {
-                case SDL_CONTROLLER_BUTTON_INVALID:       return "INVALID";
-                case SDL_CONTROLLER_BUTTON_A:             return "A";
-                case SDL_CONTROLLER_BUTTON_B:             return "B";
-                case SDL_CONTROLLER_BUTTON_X:             return "X";
-                case SDL_CONTROLLER_BUTTON_Y:             return "Y";
-                case SDL_CONTROLLER_BUTTON_BACK:          return "BACK";
-                case SDL_CONTROLLER_BUTTON_GUIDE:         return "XBOX"; /* Home button*/
-                case SDL_CONTROLLER_BUTTON_START:         return "START";
-                case SDL_CONTROLLER_BUTTON_LEFTSTICK:     return "L STICK";
-                case SDL_CONTROLLER_BUTTON_RIGHTSTICK:    return "R STICK";
-                case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:  return "L BUMPER";
-                case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return "R BUMPER";
-                case SDL_CONTROLLER_BUTTON_DPAD_UP:       return "\203 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_DOWN:     return "\202 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_LEFT:     return "\200 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:    return "\201 ";
-                case SDL_CONTROLLER_BUTTON_MISC1:         return "SHARE";    /* Xbox Series X share button */
-                case SDL_CONTROLLER_BUTTON_PADDLE1:       return "PADDLE 1"; /* Xbox Elite paddle P1 (upper left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE2:       return "PADDLE 2"; /* Xbox Elite paddle P3 (upper right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE3:       return "PADDLE 3"; /* Xbox Elite paddle P2 (lower left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE4:       return "PADDLE 4"; /* Xbox Elite paddle P4 (lower right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_TOUCHPAD:      return "TOUCHPAD"; /* PS4/PS5 touchpad button */
-                case SDL_CONTROLLER_BUTTON_MAX:           return "";
-            }
-            break;
+    case SDL_CONTROLLER_TYPE_XBOX360:
+    case SDL_CONTROLLER_TYPE_XBOXONE:
+        // clang-format off
+        switch (button) {
+        case SDL_CONTROLLER_BUTTON_GUIDE:         return M_NAME_XBOX;
+        default: break;
+        }
+        // clang-format on
+        break;
 
-        default:
-            switch (button) {
-                case SDL_CONTROLLER_BUTTON_INVALID:       return "INVALID";
-                case SDL_CONTROLLER_BUTTON_A:             return "A";
-                case SDL_CONTROLLER_BUTTON_B:             return "B";
-                case SDL_CONTROLLER_BUTTON_X:             return "X";
-                case SDL_CONTROLLER_BUTTON_Y:             return "Y";
-                case SDL_CONTROLLER_BUTTON_BACK:          return "BACK";
-                case SDL_CONTROLLER_BUTTON_GUIDE:         return "HOME"; /* Home button*/
-                case SDL_CONTROLLER_BUTTON_START:         return "START";
-                case SDL_CONTROLLER_BUTTON_LEFTSTICK:     return "L STICK";
-                case SDL_CONTROLLER_BUTTON_RIGHTSTICK:    return "R STICK";
-                case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:  return "L BUMPER";
-                case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return "R BUMPER";
-                case SDL_CONTROLLER_BUTTON_DPAD_UP:       return "\203 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_DOWN:     return "\202 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_LEFT:     return "\200 ";
-                case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:    return "\201 ";
-                case SDL_CONTROLLER_BUTTON_MISC1:         return "SHARE"; /* Xbox Series X share button, PS5 microphone button, Nintendo Switch Pro capture button, Amazon Luna microphone button */
-                case SDL_CONTROLLER_BUTTON_PADDLE1:       return "PADDLE 1"; /* Xbox Elite paddle P1 (upper left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE2:       return "PADDLE 2"; /* Xbox Elite paddle P3 (upper right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE3:       return "PADDLE 3"; /* Xbox Elite paddle P2 (lower left, facing the back) */
-                case SDL_CONTROLLER_BUTTON_PADDLE4:       return "PADDLE 4"; /* Xbox Elite paddle P4 (lower right, facing the back) */
-                case SDL_CONTROLLER_BUTTON_TOUCHPAD:      return "TOUCHPAD"; /* PS4/PS5 touchpad button */
-                case SDL_CONTROLLER_BUTTON_MAX:           return "";
-            }
-            break;
-
+    default:
+        break;
     }
-    // clang-format on
-    return "????";
+
+    // Second switch: Provide default mappings for all keys
+    switch (button) {
+    case SDL_CONTROLLER_BUTTON_INVALID:
+    case SDL_CONTROLLER_BUTTON_MAX:
+        return "";
+
+        // clang-format off
+    case SDL_CONTROLLER_BUTTON_A:             return M_NAME_A;
+    case SDL_CONTROLLER_BUTTON_B:             return M_NAME_B;
+    case SDL_CONTROLLER_BUTTON_X:             return M_NAME_X;
+    case SDL_CONTROLLER_BUTTON_Y:             return M_NAME_Y;
+    case SDL_CONTROLLER_BUTTON_BACK:          return M_NAME_BACK;
+    case SDL_CONTROLLER_BUTTON_GUIDE:         return M_NAME_HOME;
+    case SDL_CONTROLLER_BUTTON_START:         return M_NAME_START;
+    case SDL_CONTROLLER_BUTTON_LEFTSTICK:     return M_NAME_L_STICK;
+    case SDL_CONTROLLER_BUTTON_RIGHTSTICK:    return M_NAME_R_STICK;
+    case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:  return M_NAME_L_BUMPER;
+    case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return M_NAME_R_BUMPER;
+    case SDL_CONTROLLER_BUTTON_DPAD_UP:       return M_ICON_UP;
+    case SDL_CONTROLLER_BUTTON_DPAD_DOWN:     return M_ICON_DOWN;
+    case SDL_CONTROLLER_BUTTON_DPAD_LEFT:     return M_ICON_LEFT;
+    case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:    return M_ICON_RIGHT;
+    case SDL_CONTROLLER_BUTTON_MISC1:         return M_NAME_SHARE;
+    case SDL_CONTROLLER_BUTTON_PADDLE1:       return M_NAME_PADDLE_1;
+    case SDL_CONTROLLER_BUTTON_PADDLE2:       return M_NAME_PADDLE_2;
+    case SDL_CONTROLLER_BUTTON_PADDLE3:       return M_NAME_PADDLE_3;
+    case SDL_CONTROLLER_BUTTON_PADDLE4:       return M_NAME_PADDLE_4;
+    case SDL_CONTROLLER_BUTTON_TOUCHPAD:      return M_NAME_TOUCHPAD;
+        // clang-format on
+
+    default:
+        return "????";
+    }
 }
 
 static bool M_JoyBtn(const SDL_GameControllerButton button)
@@ -405,12 +471,12 @@ static const char *M_GetAxisName(
         case SDL_CONTROLLER_TYPE_PS5:
             switch (axis) {
                 case SDL_CONTROLLER_AXIS_INVALID:         return "";
-                case SDL_CONTROLLER_AXIS_LEFTX:           return axis_dir == -1 ? "L ANALOG LEFT" : "L ANALOG RIGHT";
-                case SDL_CONTROLLER_AXIS_LEFTY:           return axis_dir == -1 ? "L ANALOG UP" : "L ANALOG DOWN";
-                case SDL_CONTROLLER_AXIS_RIGHTX:          return axis_dir == -1 ? "R ANALOG LEFT" : "R ANALOG RIGHT";
-                case SDL_CONTROLLER_AXIS_RIGHTY:          return axis_dir == -1 ? "R ANALOG UP" : "R ANALOG DOWN";
-                case SDL_CONTROLLER_AXIS_TRIGGERLEFT:     return "\300";
-                case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:    return "{";
+                case SDL_CONTROLLER_AXIS_LEFTX:           return axis_dir == -1 ? M_NAME_L_ANALOG_LEFT : M_NAME_L_ANALOG_RIGHT;
+                case SDL_CONTROLLER_AXIS_LEFTY:           return axis_dir == -1 ? M_NAME_L_ANALOG_UP : M_NAME_L_ANALOG_DOWN;
+                case SDL_CONTROLLER_AXIS_RIGHTX:          return axis_dir == -1 ? M_NAME_R_ANALOG_LEFT : M_NAME_R_ANALOG_RIGHT;
+                case SDL_CONTROLLER_AXIS_RIGHTY:          return axis_dir == -1 ? M_NAME_R_ANALOG_UP : M_NAME_R_ANALOG_DOWN;
+                case SDL_CONTROLLER_AXIS_TRIGGERLEFT:     return M_ICON_L2;
+                case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:    return M_ICON_R2;
                 case SDL_CONTROLLER_AXIS_MAX:             return "";
             }
             break;
@@ -419,12 +485,12 @@ static const char *M_GetAxisName(
         case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR:
             switch (axis) {
                 case SDL_CONTROLLER_AXIS_INVALID:         return "";
-                case SDL_CONTROLLER_AXIS_LEFTX:           return axis_dir == -1 ? "L ANALOG LEFT" : "L ANALOG RIGHT";
-                case SDL_CONTROLLER_AXIS_LEFTY:           return axis_dir == -1 ? "L ANALOG UP" : "L ANALOG DOWN";
-                case SDL_CONTROLLER_AXIS_RIGHTX:          return axis_dir == -1 ? "R ANALOG LEFT" : "R ANALOG RIGHT";
-                case SDL_CONTROLLER_AXIS_RIGHTY:          return axis_dir == -1 ? "R ANALOG UP" : "R ANALOG DOWN";
-                case SDL_CONTROLLER_AXIS_TRIGGERLEFT:     return "ZL";
-                case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:    return "ZR";
+                case SDL_CONTROLLER_AXIS_LEFTX:           return axis_dir == -1 ? M_NAME_L_ANALOG_LEFT : M_NAME_L_ANALOG_RIGHT;
+                case SDL_CONTROLLER_AXIS_LEFTY:           return axis_dir == -1 ? M_NAME_L_ANALOG_UP : M_NAME_L_ANALOG_DOWN;
+                case SDL_CONTROLLER_AXIS_RIGHTX:          return axis_dir == -1 ? M_NAME_R_ANALOG_LEFT : M_NAME_R_ANALOG_RIGHT;
+                case SDL_CONTROLLER_AXIS_RIGHTY:          return axis_dir == -1 ? M_NAME_R_ANALOG_UP : M_NAME_R_ANALOG_DOWN;
+                case SDL_CONTROLLER_AXIS_TRIGGERLEFT:     return M_NAME_ZL;
+                case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:    return M_NAME_ZR;
                 case SDL_CONTROLLER_AXIS_MAX:             return "";
             }
             break;
@@ -434,12 +500,12 @@ static const char *M_GetAxisName(
         default:
             switch (axis) {
                 case SDL_CONTROLLER_AXIS_INVALID:         return "";
-                case SDL_CONTROLLER_AXIS_LEFTX:           return axis_dir == -1 ? "L ANALOG LEFT" : "L ANALOG RIGHT";
-                case SDL_CONTROLLER_AXIS_LEFTY:           return axis_dir == -1 ? "L ANALOG UP" : "L ANALOG DOWN";
-                case SDL_CONTROLLER_AXIS_RIGHTX:          return axis_dir == -1 ? "R ANALOG LEFT" : "R ANALOG RIGHT";
-                case SDL_CONTROLLER_AXIS_RIGHTY:          return axis_dir == -1 ? "R ANALOG UP" : "R ANALOG DOWN";
-                case SDL_CONTROLLER_AXIS_TRIGGERLEFT:     return "L TRIGGER";
-                case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:    return "R TRIGGER";
+                case SDL_CONTROLLER_AXIS_LEFTX:           return axis_dir == -1 ? M_NAME_L_ANALOG_LEFT : M_NAME_L_ANALOG_RIGHT;
+                case SDL_CONTROLLER_AXIS_LEFTY:           return axis_dir == -1 ? M_NAME_L_ANALOG_UP : M_NAME_L_ANALOG_DOWN;
+                case SDL_CONTROLLER_AXIS_RIGHTX:          return axis_dir == -1 ? M_NAME_R_ANALOG_LEFT : M_NAME_R_ANALOG_RIGHT;
+                case SDL_CONTROLLER_AXIS_RIGHTY:          return axis_dir == -1 ? M_NAME_R_ANALOG_UP : M_NAME_R_ANALOG_DOWN;
+                case SDL_CONTROLLER_AXIS_TRIGGERLEFT:     return M_NAME_L_TRIGGER;
+                case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:    return M_NAME_R_TRIGGER;
                 case SDL_CONTROLLER_AXIS_MAX:             return "";
             }
             break;

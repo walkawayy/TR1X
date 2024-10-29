@@ -48,10 +48,37 @@ static void M_CycleLayout(
     EventManager_Fire(controller->events, &event);
 }
 
+static bool M_NavigateBackend(UI_CONTROLS_CONTROLLER *const controller)
+{
+    if (g_InputDB.menu_down && controller->backend == INPUT_BACKEND_KEYBOARD) {
+        controller->backend = INPUT_BACKEND_CONTROLLER;
+        return true;
+    }
+
+    if (g_InputDB.menu_up && controller->backend == INPUT_BACKEND_CONTROLLER) {
+        controller->backend = INPUT_BACKEND_KEYBOARD;
+        return true;
+    }
+
+    if (g_InputDB.menu_back) {
+        controller->state = UI_CONTROLS_STATE_EXIT;
+        return true;
+    }
+
+    if (g_InputDB.menu_confirm) {
+        controller->state = UI_CONTROLS_STATE_NAVIGATE_LAYOUT;
+        return true;
+    }
+
+    return false;
+}
+
 static bool M_NavigateLayout(UI_CONTROLS_CONTROLLER *const controller)
 {
-    if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
+    if (g_InputDB.menu_confirm) {
         controller->state = UI_CONTROLS_STATE_EXIT;
+    } else if (g_InputDB.menu_back) {
+        controller->state = UI_CONTROLS_STATE_NAVIGATE_BACKEND;
     } else if (g_InputDB.left) {
         M_CycleLayout(controller, -1);
     } else if (g_InputDB.right) {
@@ -75,7 +102,7 @@ static bool M_NavigateLayout(UI_CONTROLS_CONTROLLER *const controller)
 static bool M_NavigateInputs(UI_CONTROLS_CONTROLLER *const controller)
 {
     if (g_InputDB.menu_back) {
-        controller->state = UI_CONTROLS_STATE_EXIT;
+        controller->state = UI_CONTROLS_STATE_NAVIGATE_BACKEND;
     } else if (g_InputDB.left || g_InputDB.right) {
         controller->active_col ^= 1;
         CLAMP(
@@ -161,7 +188,7 @@ void UI_ControlsController_Init(UI_CONTROLS_CONTROLLER *const controller)
 {
     assert(controller->events == NULL);
     controller->backend = INPUT_BACKEND_KEYBOARD;
-    controller->state = UI_CONTROLS_STATE_NAVIGATE_LAYOUT;
+    controller->state = UI_CONTROLS_STATE_NAVIGATE_BACKEND;
 
     controller->events = EventManager_Create();
 }
@@ -175,6 +202,8 @@ void UI_ControlsController_Shutdown(UI_CONTROLS_CONTROLLER *const controller)
 bool UI_ControlsController_Control(UI_CONTROLS_CONTROLLER *const controller)
 {
     switch (controller->state) {
+    case UI_CONTROLS_STATE_NAVIGATE_BACKEND:
+        return M_NavigateBackend(controller);
     case UI_CONTROLS_STATE_NAVIGATE_LAYOUT:
         return M_NavigateLayout(controller);
     case UI_CONTROLS_STATE_NAVIGATE_INPUTS:

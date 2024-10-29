@@ -402,16 +402,7 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
         Matrix_Pop();
         Overlay_DrawModeInfo();
         Text_Draw();
-        S_OutputPolyList();
         Sound_EndScene();
-
-        const int32_t frames = S_DumpScreen();
-        Shell_ProcessEvents();
-        g_Inv_NFrames = frames;
-        g_Camera.num_frames = frames;
-        if (g_CurrentLevel) {
-            g_SaveGame.statistics.timer += frames / 2;
-        }
 
         if (!ring.rotating) {
             switch (imo.status) {
@@ -746,6 +737,15 @@ int32_t __cdecl Inv_Display(int32_t inventory_mode)
             default:
                 break;
             }
+        }
+
+        S_OutputPolyList();
+        const int32_t frames = S_DumpScreen();
+        Shell_ProcessEvents();
+        g_Inv_NFrames = frames;
+        g_Camera.num_frames = frames;
+        if (g_CurrentLevel) {
+            g_SaveGame.statistics.timer += frames / 2;
         }
     } while (imo.status != RNG_DONE);
 

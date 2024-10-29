@@ -73,6 +73,7 @@ void __cdecl Option_Controls(INVENTORY_ITEM *const item)
     }
 
     m_Dialog->control(m_Dialog);
+    m_Dialog->draw(m_Dialog);
     if (m_Controller.state == UI_CONTROLS_STATE_EXIT) {
         Option_Controls_Shutdown();
     } else {

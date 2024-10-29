@@ -114,6 +114,12 @@ static void M_Free(UI_STACK *const self)
     Memory_Free(self);
 }
 
+void UI_Stack_ClearChildren(UI_WIDGET *const widget)
+{
+    UI_STACK *const self = (UI_STACK *)widget;
+    Vector_Clear(self->children);
+}
+
 void UI_Stack_AddChild(UI_WIDGET *const widget, UI_WIDGET *const child)
 {
     UI_STACK *const self = (UI_STACK *)widget;

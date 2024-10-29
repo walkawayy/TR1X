@@ -25,8 +25,31 @@
 #define IS_CHAR_DIGIT(c) ((c) <= 0xAu)
 
 // TODO: replace textstring == NULL checks with assertions
+typedef struct {
+    const char *name;
+    int32_t sprite_idx;
+} M_SPRITE_NAME;
 
 static TEXTSTRING m_TextStrings[TEXT_MAX_STRINGS] = { 0 };
+static int32_t M_GetSpriteIndexByName(const char *input, size_t len);
+
+static M_SPRITE_NAME m_SpriteNames[] = {
+    { "left", 108 }, { "down", 106 },    { "up", 107 },    { "right", 109 },
+    { "x", 95 },     { "triangle", 93 }, { "square", 96 }, { "circle", 94 },
+    { "l1", 97 },    { "r1", 98 },       { "l2", 99 },     { "r2", 100 },
+    { NULL, -1 },
+};
+
+static int32_t M_GetSpriteIndexByName(const char *const input, const size_t len)
+{
+    for (int32_t i = 0; m_SpriteNames[i].name != NULL; i++) {
+        const M_SPRITE_NAME *const def = &m_SpriteNames[i];
+        if (strncmp(input, def->name, len) == 0) {
+            return def->sprite_idx;
+        }
+    }
+    return -1;
+}
 
 void __cdecl Text_Init(void)
 {
@@ -250,7 +273,9 @@ int32_t __cdecl Text_GetWidth(TEXTSTRING *const text)
     int32_t width = 0;
 
     while (1) {
-        uint8_t c = *content++;
+        int32_t spacing = 0;
+
+        const uint8_t c = *content++;
         if (!c) {
             break;
         }
@@ -259,17 +284,25 @@ int32_t __cdecl Text_GetWidth(TEXTSTRING *const text)
             continue;
         }
 
-        int32_t spacing;
         if (IS_CHAR_SPACE(c)) {
             spacing = text->word_spacing;
         } else if (IS_CHAR_SECRET(c)) {
             spacing = 16;
         } else {
             int16_t sprite_num;
-            if (IS_CHAR_DIGIT(c)) {
+            if (c == '\\' && *content == '{') {
+                const char *const start = content + 1;
+                const char *const end = strchr(start, '}');
+                sprite_num = M_GetSpriteIndexByName(content + 1, end - start);
+                content = end + 1;
+            } else if (IS_CHAR_DIGIT(c)) {
                 sprite_num = c + 81;
             } else {
                 sprite_num = g_TextASCIIMap[c];
+            }
+
+            if (sprite_num == -1) {
+                continue;
             }
 
             // TODO: OG bug - this should check c, not sprite_num
@@ -309,7 +342,7 @@ void __cdecl Text_Draw(void)
     Console_Draw();
     for (int32_t i = 0; i < TEXT_MAX_STRINGS; i++) {
         TEXTSTRING *const text = &m_TextStrings[i];
-        if (text->flags.active) {
+        if (text->flags.active && !text->flags.manual_draw) {
             Text_DrawText(text);
         }
     }
@@ -347,6 +380,7 @@ void __cdecl Text_DrawBorder(
     Output_DrawScreenSprite2D(x0, y0, z, scale_h, h, mesh_idx + 7, 0x1000, 0);
 }
 
+#include <libtrx/log.h>
 void __cdecl Text_DrawText(TEXTSTRING *const text)
 {
     int32_t box_w = 0;
@@ -412,13 +446,23 @@ void __cdecl Text_DrawText(TEXTSTRING *const text)
             const int32_t spacing = 16;
             x += spacing * scale_h / PHD_ONE;
         } else {
-            int32_t sprite_num;
-            if (IS_CHAR_DIGIT(c)) {
+            int16_t sprite_num;
+
+            if (c == '\\' && *content == '{') {
+                const char *const start = content + 1;
+                const char *const end = strchr(start, '}');
+                sprite_num = M_GetSpriteIndexByName(content + 1, end - start);
+                content = end + 1;
+            } else if (IS_CHAR_DIGIT(c)) {
                 sprite_num = c + 81;
             } else if (c <= 0x12) {
                 sprite_num = c + 91;
             } else {
                 sprite_num = g_TextASCIIMap[c];
+            }
+
+            if (sprite_num == -1) {
+                continue;
             }
 
             if (c >= '0' && c <= '9') {

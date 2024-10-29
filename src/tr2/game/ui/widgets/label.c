@@ -14,6 +14,7 @@ typedef struct {
 static int32_t M_GetWidth(const UI_LABEL *self);
 static int32_t M_GetHeight(const UI_LABEL *self);
 static void M_SetPosition(UI_LABEL *self, int32_t x, int32_t y);
+static void M_Draw(UI_LABEL *self);
 static void M_Free(UI_LABEL *self);
 
 static int32_t M_GetWidth(const UI_LABEL *const self)
@@ -38,6 +39,11 @@ static void M_SetPosition(
     Text_SetPos(self->text, x, y + TEXT_HEIGHT);
 }
 
+static void M_Draw(UI_LABEL *const self)
+{
+    Text_DrawText(self->text);
+}
+
 static void M_Free(UI_LABEL *const self)
 {
     Text_Remove(self->text);
@@ -53,7 +59,7 @@ UI_WIDGET *UI_Label_Create(
         .get_height = (UI_WIDGET_GET_HEIGHT)M_GetHeight,
         .set_position = (UI_WIDGET_SET_POSITION)M_SetPosition,
         .control = NULL,
-        .draw = NULL,
+        .draw = (UI_WIDGET_DRAW)M_Draw,
         .free = (UI_WIDGET_FREE)M_Free,
     };
 
@@ -63,6 +69,7 @@ UI_WIDGET *UI_Label_Create(
 
     self->text = Text_Create(0, 0, 16, text);
     Text_SetMultiline(self->text, true);
+    self->text->flags.manual_draw = 1;
 
     return (UI_WIDGET *)self;
 }

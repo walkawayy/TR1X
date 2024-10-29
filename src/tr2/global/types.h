@@ -275,18 +275,19 @@ typedef struct __unaligned {
     union {
         uint32_t all;
         struct {
-            uint32_t active:     1;
-            uint32_t flash:      1;
-            uint32_t rotate_h:   1;
-            uint32_t rotate_v:   1;
-            uint32_t centre_h:   1;
-            uint32_t centre_v:   1;
-            uint32_t hide:       1;
-            uint32_t right:      1;
-            uint32_t bottom:     1;
-            uint32_t background: 1;
-            uint32_t outline:    1;
-            uint32_t multiline:  1;
+            uint32_t active:      1;
+            uint32_t flash:       1;
+            uint32_t rotate_h:    1;
+            uint32_t rotate_v:    1;
+            uint32_t centre_h:    1;
+            uint32_t centre_v:    1;
+            uint32_t hide:        1;
+            uint32_t right:       1;
+            uint32_t bottom:      1;
+            uint32_t background:  1;
+            uint32_t outline:     1;
+            uint32_t multiline:   1;
+            uint32_t manual_draw: 1; // not present in the OG
         };
     } flags;
     uint16_t text_flags;

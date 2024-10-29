@@ -595,13 +595,13 @@
     ],
 
     "strings": {
-        "CONTROL_CONTROLLER": "Controller",
+        "CONTROL_BACKEND_CONTROLLER": "Controller",
+        "CONTROL_BACKEND_KEYBOARD": "Keyboard",
         "CONTROL_CUSTOMIZE": "Customize Controls",
-        "CONTROL_CUSTOM_1": "Custom Scheme 1",
-        "CONTROL_CUSTOM_2": "Custom Scheme 2",
-        "CONTROL_CUSTOM_3": "Custom Scheme 3",
+        "CONTROL_CUSTOM_1": "User Keys 1",
+        "CONTROL_CUSTOM_2": "User Keys 2",
+        "CONTROL_CUSTOM_3": "User Keys 3",
         "CONTROL_DEFAULT_KEYS": "Default Keys",
-        "CONTROL_KEYBOARD": "Keyboard",
         "CONTROL_RESET_DEFAULTS": "Reset All: Hold %s",
         "CONTROL_UNBIND": "Unbind: Hold %s",
         "DETAIL_BILINEAR": "Bilinear",
