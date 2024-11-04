@@ -49,6 +49,7 @@ static const INPUT_ROLE m_RightRoles_CheatsOn[] = {
     INPUT_ROLE_FLY_CHEAT,
     INPUT_ROLE_ITEM_CHEAT,
     INPUT_ROLE_LEVEL_SKIP_CHEAT,
+    INPUT_ROLE_TURBO_CHEAT,
     (INPUT_ROLE)-1,
     // clang-format on
 };

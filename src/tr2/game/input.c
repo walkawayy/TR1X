@@ -138,6 +138,7 @@ void Input_Update(void)
         g_Input.item_cheat = 0;
         g_Input.fly_cheat = 0;
         g_Input.level_skip_cheat = 0;
+        g_Input.turbo_cheat = 0;
     }
 
     g_InputDB = M_GetDebounced(g_Input);
@@ -169,6 +170,7 @@ const char *Input_GetRoleName(const INPUT_ROLE role)
     case INPUT_ROLE_FLY_CHEAT:        return GS(KEYMAP_FLY_CHEAT);
     case INPUT_ROLE_ITEM_CHEAT:       return GS(KEYMAP_ITEM_CHEAT);
     case INPUT_ROLE_LEVEL_SKIP_CHEAT: return GS(KEYMAP_LEVEL_SKIP_CHEAT);
+    case INPUT_ROLE_TURBO_CHEAT:      return GS(KEYMAP_TURBO_CHEAT);
     case INPUT_ROLE_ENTER_CONSOLE:    return GS(KEYMAP_ENTER_CONSOLE);
     default:                          return "";
     }
