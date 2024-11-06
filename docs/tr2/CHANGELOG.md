@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.5...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.6...develop) - ××××-××-××
+
+## [0.6](https://github.com/LostArtefacts/TRX/compare/tr2-0.5...tr2-0.6) - 2024-11-06
 - added a fly cheat key (#1642)
 - added an items cheat key (#1641)
 - added a level skip cheat key (#1640)
