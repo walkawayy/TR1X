@@ -102,7 +102,7 @@ void Lara_Hair_Control(void)
     int32_t height;
     int32_t frac;
     int32_t rate;
-    SPHERE sphere[5];
+    SPHERE sphere[6];
     int32_t j;
     int32_t x;
     int32_t y;
@@ -235,6 +235,14 @@ void Lara_Hair_Control(void)
         sphere[2].r = DISABLE_REFLECTION_BIT(objptr[3]);
         Matrix_Pop_I();
 
+        // neck
+        sphere[5].x = (2 * sphere[2].x + sphere[1].x)
+            / 3; // sphere[5] is an extra sphere added between the head and
+                 // torso sphere to simulate a neck sphere
+        sphere[5].y = (2 * sphere[2].y + sphere[1].y) / 3;
+        sphere[5].z = (2 * sphere[2].z + sphere[1].z) / 3;
+        sphere[5].r = 5 * sphere[2].r / 4;
+
         Matrix_TranslateRel_I(HAIR_OFFSET_X, HAIR_OFFSET_Y, HAIR_OFFSET_Z);
         Matrix_Interpolate();
 
@@ -310,6 +318,14 @@ void Lara_Hair_Control(void)
         sphere[2].z = g_MatrixPtr->_23 >> W2V_SHIFT;
         sphere[2].r = DISABLE_REFLECTION_BIT(objptr[3]);
         Matrix_Pop();
+
+        // neck
+        sphere[5].x = (2 * sphere[2].x + sphere[1].x)
+            / 3; // sphere[5] is an extra sphere added between the head and
+                 // torso sphere to simulate a neck sphere
+        sphere[5].y = (2 * sphere[2].y + sphere[1].y) / 3;
+        sphere[5].z = (2 * sphere[2].z + sphere[1].z) / 3;
+        sphere[5].r = 5 * sphere[2].r / 4;
 
         Matrix_TranslateRel(HAIR_OFFSET_X, HAIR_OFFSET_Y, HAIR_OFFSET_Z);
     }
