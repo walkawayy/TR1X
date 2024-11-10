@@ -8,6 +8,7 @@
 #include "global/funcs.h"
 #include "global/vars.h"
 
+#include <libtrx/log.h>
 #include <libtrx/utils.h>
 
 #include <assert.h>
@@ -142,6 +143,7 @@ void __cdecl Item_Initialise(const int16_t item_num)
     }
 
     if ((item->flags & IF_CODE_BITS) == IF_CODE_BITS) {
+        LOG_DEBUG("Init item_num: %d", item_num);
         item->flags &= ~IF_CODE_BITS;
         item->flags |= IF_REVERSE;
         Item_AddActive(item_num);
@@ -626,7 +628,10 @@ int32_t __cdecl Item_IsTriggerActive(ITEM *const item)
 {
     const bool ok = !(item->flags & IF_REVERSE);
 
+    LOG_DEBUG("object_id: %d; item->flags: %d", item->object_id, item->flags);
+
     if ((item->flags & IF_CODE_BITS) != IF_CODE_BITS) {
+        LOG_DEBUG("!ok");
         return !ok;
     }
 

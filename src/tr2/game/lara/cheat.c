@@ -19,6 +19,7 @@
 #include "global/utils.h"
 #include "global/vars.h"
 
+#include <libtrx/log.h>
 #include <libtrx/utils.h>
 #include <libtrx/vector.h>
 
@@ -220,15 +221,20 @@ bool Lara_Cheat_OpenNearestDoor(void)
             continue;
         }
 
+        LOG_DEBUG("open item_num: %d; obj id: %d", item_num, item->object_id);
+
         if (!item->active) {
             Item_AddActive(item_num);
             item->flags |= IF_CODE_BITS;
             opened++;
+            LOG_DEBUG("!item->active opened++ flags: %d", item->flags);
         } else if (item->flags & IF_CODE_BITS) {
             item->flags &= ~IF_CODE_BITS;
+            LOG_DEBUG("closed++ flags: %d", item->flags);
             closed++;
         } else {
             item->flags |= IF_CODE_BITS;
+            LOG_DEBUG("opened++ flags: %d", item->flags);
             opened++;
         }
         item->timer = 0;

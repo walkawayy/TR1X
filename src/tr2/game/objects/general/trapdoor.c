@@ -2,6 +2,8 @@
 
 #include "game/items.h"
 
+#include <libtrx/log.h>
+
 typedef enum {
     TRAPDOOR_STATE_CLOSED,
     TRAPDOOR_STATE_OPEN,
@@ -80,13 +82,24 @@ void __cdecl Trapdoor_Ceiling(
 void __cdecl Trapdoor_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
+    LOG_DEBUG(
+        "item_num: %d; item->current_anim_state: %d; item->flags: %d", item_num,
+        item->current_anim_state, item->flags);
     if (Item_IsTriggerActive(item)) {
+        LOG_DEBUG(
+            "active item->current_anim_state: %d; item->flags: %d",
+            item->current_anim_state, item->flags);
         if (item->current_anim_state == TRAPDOOR_STATE_CLOSED) {
             item->goal_anim_state = TRAPDOOR_STATE_OPEN;
+            LOG_DEBUG("set TRAPDOOR_STATE_OPEN: %d", item->goal_anim_state);
         }
     } else {
+        LOG_DEBUG(
+            "else item->current_anim_state: %d; item->flags: %d",
+            item->current_anim_state, item->flags);
         if (item->current_anim_state == TRAPDOOR_STATE_OPEN) {
             item->goal_anim_state = TRAPDOOR_STATE_CLOSED;
+            LOG_DEBUG("set TRAPDOOR_STATE_CLOSED: %d", item->goal_anim_state);
         }
     }
     Item_Animate(item);

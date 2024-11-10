@@ -15,6 +15,7 @@
 #include "global/funcs.h"
 #include "global/vars.h"
 
+#include <libtrx/log.h>
 #include <libtrx/utils.h>
 
 #include <assert.h>
@@ -475,13 +476,26 @@ void __cdecl Room_TestTriggers(const int16_t *fd, bool heavy)
 
             if (type == TT_SWITCH) {
                 item->flags ^= flags & IF_CODE_BITS;
+                LOG_DEBUG(
+                    "TT_SWITCH item num: %d; flags: %d", value, item->flags);
             } else if (type == TT_ANTIPAD || type == TT_ANTITRIGGER) {
                 item->flags &= ~(flags & IF_CODE_BITS);
+                LOG_DEBUG(
+                    "TT_ANTI item num: %d; flags: %d", value, item->flags);
                 if (flags & IF_ONE_SHOT) {
                     item->flags |= IF_ONE_SHOT;
+                    LOG_DEBUG(
+                        "TT_ANTI IF_ONE_SHOT item num: %d; flags: %d", value,
+                        item->flags);
                 }
             } else if ((flags & IF_CODE_BITS) != 0) {
+                LOG_DEBUG(
+                    "BEFORE IF_CODE_BITS item num: %d; flags: %d", value,
+                    item->flags);
                 item->flags |= flags & IF_CODE_BITS;
+                LOG_DEBUG(
+                    "AFTER IF_CODE_BITS item num: %d; flags: %d", value,
+                    item->flags);
             }
 
             if ((item->flags & IF_CODE_BITS) != IF_CODE_BITS) {
@@ -490,6 +504,8 @@ void __cdecl Room_TestTriggers(const int16_t *fd, bool heavy)
 
             if (flags & IF_ONE_SHOT) {
                 item->flags |= IF_ONE_SHOT;
+                LOG_DEBUG(
+                    "IF_ONE_SHOT item num: %d; flags: %d", value, item->flags);
             }
 
             if (!item->active) {
