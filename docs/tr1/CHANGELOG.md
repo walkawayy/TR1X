@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.6...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.6.1...develop) - ××××-××-××
+
+## [4.6.1](https://github.com/LostArtefacts/TRX/compare/tr1-4.6...tr1-4.6.1) - 2024-11-25
 - added ability to disable saves completely by setting the save slot to 0 (#1954)
 - fixed invisible walls being present in front of some doors (#1948, regression from 4.6)
 - fixed big font scale causing text overlaps in the graphics options (#1946)
