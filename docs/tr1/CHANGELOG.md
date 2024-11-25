@@ -1,4 +1,4 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.6...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.6.1...develop) - ××××-××-××
 - added support for Wayland in binary Linux builds (#1927)
 - added support for Unicode in gameflow JSON (#386, #636, #1919 and #1928)
     Expanding on the 4.6's added support for named sequences, we now support
@@ -24,6 +24,8 @@
     Swedish, Turkish and possibly more.
 
     Importantly, Asian and Arabic languages remain unsupported at the moment.
+
+## [4.6.1](https://github.com/LostArtefacts/TRX/compare/tr1-4.6...tr1-4.6.1) - 2024-11-25
 - added ability to disable saves completely by setting the save slot to 0 (#1954)
 - fixed invisible walls being present in front of some doors (#1948, regression from 4.6)
 - fixed big font scale causing text overlaps in the graphics options (#1946)
