@@ -44,6 +44,7 @@ VFILE *VFile_CreateFromBuffer(const char *data, size_t size)
 
 void VFile_Close(VFILE *file)
 {
+    ASSERT(file != NULL);
     Memory_FreePointer(&file->content);
     Memory_FreePointer(&file);
 }

@@ -5,6 +5,7 @@
 #include "global/utils.h"
 
 #include <libtrx/benchmark.h>
+#include <libtrx/debug.h>
 #include <libtrx/log.h>
 #include <libtrx/memory.h>
 #include <libtrx/utils.h>
@@ -433,10 +434,14 @@ void Inject_Cleanup(void)
     }
 
     BENCHMARK *const benchmark = Benchmark_Start();
+    ASSERT(m_Injections != NULL);
 
     for (int32_t i = 0; i < m_NumInjections; i++) {
         INJECTION *const injection = &m_Injections[i];
-        VFile_Close(injection->fp);
+        if (injection->fp != NULL) {
+            VFile_Close(injection->fp);
+            injection->fp = NULL;
+        }
     }
 
     for (int32_t i = 0; i < IDT_NUMBER_OF; i++) {
@@ -445,4 +450,5 @@ void Inject_Cleanup(void)
 
     Memory_FreePointer(&m_Injections);
     Benchmark_End(benchmark, NULL);
+    m_NumInjections = 0;
 }
