@@ -34,6 +34,8 @@
         (b) = (c);                                                             \
     } while (0)
 
+#define ALIGN(a, bytes) ((a + (bytes) - 1) & (~(bytes - 1)))
+
 #define MKTAG(a, b, c, d)                                                      \
     ((a) | ((b) << 8) | ((c) << 16) | ((unsigned)(d) << 24))
 

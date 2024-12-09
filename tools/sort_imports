@@ -58,7 +58,12 @@ def main() -> None:
             "game/music/music_main.c": "game/music.h",
         },
         fix_map={},
-        forced_order=["<ddrawi.h>", "<d3dhal.h>"],
+        forced_order=[
+            "<mmeapi.h>",
+            "<dsound.h>",
+        "<ddrawi.h>",
+        "<d3dhal.h>"
+        ],
     )
 
     sort_imports(
@@ -80,6 +85,7 @@ def main() -> None:
         },
         fix_map={},
         forced_order=[
+            "<dsound.h>",
             "<windows.h>",
             "<dbghelp.h>",
             "<tlhelp32.h>",

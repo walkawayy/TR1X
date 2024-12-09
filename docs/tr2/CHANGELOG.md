@@ -1,14 +1,23 @@
 ## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.6...develop) - ××××-××-××
+- switched to OpenGL rendering
+    - changed fullscreen behavior to use windowed desktop mode
+    - added an option for 1-2-3-4× pixel upscaling (available under the F1/Shift-F1 key)
+    - added the ability to use the window border option at all times (available under the F2/Shift-F2 key)
+    - added the ability to toggle between the SWR/HWR renderer at runtime (available under the F12 key)
+    - added fade effects to the HWR renderer
+    - changed the SWR to use the picture's palette for the background pictures
+- replaced fully the Windows Registry configuration with .json files
+    - removed setup dialog support (using `Tomb2.exe -setup` will have no effect on TR2X)
+    - removed unused detail level option
+    - removed triple buffering option
+    - removed dither option
+- added toggle wireframe option (available with `/set` console command and with Shift+F7)
 - added support for custom levels to enforce values for any config setting (#1846)
 - added an option to fix inventory item usage duplication (#1586)
 - added optional automatic key/puzzle inventory item pre-selection (#1884)
 - added a search feature to the config tool (#1889)
 - added an option to fix rotation on some pickup items to better suit 3D pickup mode (#1613)
-- added an ability to use the game sizer at all times
-- changed config to store certain values in the .json file rather than Windows registry
-    - music volume
-    - sound volume
-    - game sizer
+- added ability to turn fade effects on/off
 - fixed a crash relating to audio decoding (#1895)
 - fixed depth problems when drawing certain rooms (#1853, regression from 0.6)
 - fixed Lara getting stuck in her hit animation if she is hit while mounting the boat or skidoo (#1606)
@@ -35,6 +44,10 @@
 - fixed Lara's left arm becoming stuck if a flare is drawn just before the final cutscene in Home Sweet Home (#1992)
 - fixed game crash when trying to draw too many rooms at once (#1998)
 - fixed resizing game window on the stats dialog cloning the UI elements, eventually crashing the game (#1999)
+- fixed exiting the game with Alt+F4 not immediately working in cutscenes
+- fixed game freezing when starting demo/credits/inventory offscreen
+- fixed controllers dialog missing background in the software renderer mode (#1978, regression from 0.6)
+- fixed distant rooms sometimes not appearing, causing the skybox to be visible when it shouldn't (#2000)
 - removed unused detail level option
 
 ## [0.6](https://github.com/LostArtefacts/TRX/compare/tr2-0.5...tr2-0.6) - 2024-11-06

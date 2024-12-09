@@ -3,20 +3,15 @@
 #include <stdint.h>
 
 typedef struct {
-    int32_t x;
-    int32_t y;
     int32_t width;
     int32_t height;
     int32_t near_z;
     int32_t far_z;
     int16_t view_angle;
-    int32_t screen_width;
-    int32_t screen_height;
+    double render_ar;
 
     // TODO: remove most of these variables if possible
     struct {
-        int32_t win_min_x;
-        int32_t win_min_y;
         int32_t win_max_x;
         int32_t win_max_y;
         int32_t win_width;
@@ -28,13 +23,6 @@ typedef struct {
         int32_t win_top;
         int32_t win_right;
         int32_t win_bottom;
-
-        struct {
-            int32_t left;
-            int32_t bottom;
-            int32_t top;
-            int32_t right;
-        } win_rect;
 
         int32_t persp;
         int32_t near_z;
@@ -56,16 +44,11 @@ typedef struct {
         float flt_win_center_x;
         float flt_win_center_y;
         int32_t view_distance;
-        int32_t screen_width;
-        int32_t screen_height;
         float viewport_aspect_ratio;
     } game_vars;
 } VIEWPORT;
 
-void Viewport_Init(
-    int16_t x, int16_t y, int32_t width, int32_t height, int32_t near_z,
-    int32_t far_z, int16_t view_angle, int32_t screen_width,
-    int32_t screen_height);
+void Viewport_Reset(void);
 
 void Viewport_Restore(const VIEWPORT *ref_vp);
 

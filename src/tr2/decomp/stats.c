@@ -5,6 +5,7 @@
 #include "game/console/common.h"
 #include "game/input.h"
 #include "game/music.h"
+#include "game/output.h"
 #include "game/overlay.h"
 #include "game/requester.h"
 #include "game/shell.h"
@@ -315,24 +316,16 @@ int32_t __cdecl LevelStats(const int32_t level_num)
     sprintf(buffer, "%02d:%02d:%02d", sec / 3600, (sec / 60) % 60, sec % 60);
 
     Music_Play(g_GameFlow.level_complete_track, MPM_ALWAYS);
-
-    FadeToPal(30, g_GamePalette8);
+    Output_LoadBackgroundFromObject();
     Overlay_HideGameInfo();
-    S_CopyScreenToBuffer();
 
+    // TODO: potential fade effects
     while (true) {
         Shell_ProcessEvents();
         Input_Update();
         Shell_ProcessInput();
 
-        S_InitialisePolyList(0);
-        S_CopyBufferToScreen();
-
-        if (g_IsGameToExit) {
-            break;
-        }
-
-        if (g_InputDB.menu_back || g_InputDB.menu_confirm) {
+        if (g_IsGameToExit || g_InputDB.menu_back || g_InputDB.menu_confirm) {
             break;
         }
 
@@ -340,19 +333,21 @@ int32_t __cdecl LevelStats(const int32_t level_num)
             break;
         }
 
+        Output_BeginScene();
+        Output_DrawBackground();
         ShowStatsText(buffer, 0);
         Console_Draw();
         Text_Draw();
-        S_OutputPolyList();
-        S_DumpScreen();
+        Output_DrawPolyList();
+        Output_EndScene();
     }
 
     Requester_Shutdown(&g_StatsRequester);
+    Output_UnloadBackground();
 
     CreateStartInfo(level_num + 1);
     g_SaveGame.current_level = level_num + 1;
     start->available = 0;
-    S_FadeToBlack();
     return 0;
 }
 
@@ -380,26 +375,20 @@ int32_t __cdecl GameStats(const int32_t level_num)
         Input_Update();
         Shell_ProcessInput();
 
-        S_InitialisePolyList(0);
-        S_CopyBufferToScreen();
-
-        if (g_IsGameToExit) {
+        if (g_IsGameToExit || g_InputDB.menu_back || g_InputDB.menu_confirm) {
             break;
         }
-
-        if (g_InputDB.menu_back || g_InputDB.menu_confirm) {
-            break;
-        }
-
         if (g_GF_OverrideDir != (GAME_FLOW_DIR)-1) {
             break;
         }
 
+        Output_BeginScene();
+        Output_DrawBackground();
         ShowEndStatsText();
         Console_Draw();
         Text_Draw();
-        S_OutputPolyList();
-        S_DumpScreen();
+        Output_DrawPolyList();
+        Output_EndScene();
     }
 
     Requester_Shutdown(&g_StatsRequester);
@@ -410,7 +399,7 @@ int32_t __cdecl GameStats(const int32_t level_num)
     }
     g_SaveGame.current_level = LV_FIRST;
 
-    S_DontDisplayPicture();
+    Output_UnloadBackground();
     return 0;
 }
 

@@ -4,7 +4,11 @@
 #include "global/funcs.h"
 #include "global/vars.h"
 
-void __cdecl Option_Detail(INVENTORY_ITEM *const item)
+void Option_Detail_Control(INVENTORY_ITEM *const item)
+{
+}
+
+void Option_Detail_Draw(INVENTORY_ITEM *const item)
 {
 }
 

@@ -118,7 +118,6 @@ void __cdecl Room_SetBounds(
 
     PORTAL_VBUF portal_vbuf[4];
     int32_t z_behind = 0;
-    int32_t z_too_far = 0;
 
     for (int32_t i = 0; i < 4; i++) {
         PORTAL_VBUF *const dvbuf = &portal_vbuf[i];
@@ -136,10 +135,6 @@ void __cdecl Room_SetBounds(
         if (zv <= 0) {
             z_behind++;
             continue;
-        }
-
-        if (zv > g_PhdFarZ) {
-            z_too_far++;
         }
 
         int32_t xs;
@@ -167,7 +162,7 @@ void __cdecl Room_SetBounds(
         }
     }
 
-    if (z_behind == 4 || z_too_far == 4) {
+    if (z_behind == 4) {
         return;
     }
 
@@ -360,7 +355,7 @@ void __cdecl Room_Clip(const ROOM *const r)
     CLAMPL(min_y, g_PhdWinTop);
     CLAMPG(max_x, g_PhdWinRight);
     CLAMPG(max_y, g_PhdWinBottom);
-    S_InsertBackPolygon(min_x, min_y, max_x, max_y);
+    Output_InsertBackPolygon(min_x, min_y, max_x, max_y);
 }
 
 void __cdecl Room_DrawSingleRoomGeometry(const int16_t room_num)
@@ -512,15 +507,11 @@ void __cdecl Room_DrawAllRooms(const int16_t current_room)
             const int16_t *frame =
                 g_Anims[g_Objects[O_SKYBOX].anim_idx].frame_ptr + FBBOX_ROT;
             Matrix_RotYXZsuperpack(&frame, 0);
-            S_InitialisePolyList(0);
             Output_InsertSkybox(g_Meshes[g_Objects[O_SKYBOX].mesh_idx]);
             Matrix_Pop();
         } else {
-            S_InitialisePolyList(1);
             g_Outside = -1;
         }
-    } else {
-        S_InitialisePolyList(0);
     }
 
     if (g_Objects[O_LARA].loaded && !(g_LaraItem->flags & IF_ONE_SHOT)) {

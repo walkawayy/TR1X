@@ -9,9 +9,7 @@
 #include "game/music.h"
 #include "game/objects/common.h"
 #include "game/output.h"
-#include "game/text.h"
 #include "game/viewport.h"
-#include "global/const.h"
 #include "global/funcs.h"
 #include "global/vars.h"
 
@@ -136,16 +134,6 @@ void __cdecl Overlay_DrawAssaultTimer(void)
 
 void __cdecl Overlay_DrawGameInfo(const bool pickup_state)
 {
-    S_OutputPolyList();
-    Output_ClearDepthBuffer();
-    // TODO: this distinction is only about preventing S_InitialisePolyList
-    // from clearing the buffers
-    if (g_SavedAppSettings.render_mode == RM_HARDWARE) {
-        S_InitialisePolyList(false);
-    } else {
-        Output_InitPolyList();
-    }
-
     Overlay_DrawAmmoInfo();
     Overlay_DrawModeInfo();
     if (g_OverlayStatus > 0) {
@@ -230,9 +218,9 @@ void Overlay_DrawHealthBar(void)
 
     const int32_t percent = hit_points * 100 / LARA_MAX_HITPOINTS;
     if (hit_points <= LARA_MAX_HITPOINTS / 4) {
-        S_DrawHealthBar(m_FlashState ? percent : 0);
+        Output_DrawHealthBar(m_FlashState ? percent : 0);
     } else if (g_HealthBarTimer > 0 || g_Lara.gun_status == LGS_READY) {
-        S_DrawHealthBar(percent);
+        Output_DrawHealthBar(percent);
     }
 }
 
@@ -247,9 +235,9 @@ void Overlay_DrawAirBar(void)
     CLAMP(air, 0, LARA_MAX_AIR);
     const int32_t percent = air * 100 / LARA_MAX_AIR;
     if (air <= 450) {
-        S_DrawAirBar(m_FlashState ? percent : 0);
+        Output_DrawAirBar(m_FlashState ? percent : 0);
     } else {
-        S_DrawAirBar(percent);
+        Output_DrawAirBar(percent);
     }
 }
 
@@ -395,11 +383,10 @@ static void M_DrawPickup3D(const DISPLAY_PICKUP *const pickup)
 
     const int32_t vp_width = cell_width;
     const int32_t vp_height = cell_height;
-    const int32_t vp_src_x = old_vp.x + old_vp.width + offscreen_offset;
-    const int32_t vp_dst_x = old_vp.x + old_vp.width
-        - (cell_width / 2 + padding_right) - pickup->grid_x * cell_width;
-    const int32_t vp_src_y =
-        old_vp.y + old_vp.height - (cell_height / 2 + padding_bottom);
+    const int32_t vp_src_x = old_vp.width + offscreen_offset;
+    const int32_t vp_dst_x = old_vp.width - (cell_width / 2 + padding_right)
+        - pickup->grid_x * cell_width;
+    const int32_t vp_src_y = old_vp.height - (cell_height / 2 + padding_bottom);
     const int32_t vp_dst_y = vp_src_y - pickup->grid_y * cell_height;
     const int32_t vp_x = vp_src_x + (vp_dst_x - vp_src_x) * ease;
     const int32_t vp_y = vp_src_y + (vp_dst_y - vp_src_y) * ease;
@@ -455,16 +442,16 @@ static void M_DrawPickup3D(const DISPLAY_PICKUP *const pickup)
 static void M_DrawPickupSprite(const DISPLAY_PICKUP *const pickup)
 {
     const int32_t sprite_height =
-        MIN(GetRenderWidth(), GetRenderHeight() * 640 / 480) / 10;
+        MIN(g_PhdWinWidth, g_PhdWinHeight * 640 / 480) / 10;
     const int32_t sprite_width = sprite_height * 4 / 3;
 
     const int32_t x =
-        GetRenderWidth() - sprite_height - sprite_width * pickup->grid_x;
+        g_PhdWinWidth - sprite_height - sprite_width * pickup->grid_x;
     const int32_t y =
-        GetRenderHeight() - sprite_height - sprite_height * pickup->grid_y;
+        g_PhdWinHeight - sprite_height - sprite_height * pickup->grid_y;
 
     // TODO: use proper scaling
-    const int32_t scale = 12288 * GetRenderWidth() / 640;
+    const int32_t scale = 12288 * g_PhdWinWidth / 640;
     const int16_t sprite_num = pickup->object->mesh_idx;
     Output_DrawPickup(x, y, scale, sprite_num, 4096);
 }

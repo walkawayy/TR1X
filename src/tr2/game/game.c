@@ -6,12 +6,14 @@
 #include "game/camera.h"
 #include "game/console/common.h"
 #include "game/demo.h"
+#include "game/fader.h"
 #include "game/gameflow/gameflow_new.h"
 #include "game/input.h"
 #include "game/inventory/backpack.h"
 #include "game/inventory/common.h"
 #include "game/lara/control.h"
 #include "game/music.h"
+#include "game/output.h"
 #include "game/overlay.h"
 #include "game/room.h"
 #include "game/room_draw.h"
@@ -25,9 +27,13 @@
 #include <libtrx/utils.h>
 
 static int32_t m_FrameCount = 0;
+static bool m_Exiting = false;
+static FADER m_ExitFader = { 0 };
 
 int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
 {
+    Fader_Control(&m_ExitFader);
+
     if (g_GF_OverrideDir != (GAME_FLOW_DIR)-1) {
         return GFD_OVERRIDE;
     }
@@ -180,12 +186,84 @@ int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
     return 0;
 }
 
+int32_t __cdecl Game_ControlCinematic(const int32_t nframes)
+{
+    Fader_Control(&m_ExitFader);
+    g_CineTickCount += g_CineTickRate * nframes;
+
+    if (g_CineTickCount >= 0) {
+        while (1) {
+            if (g_GF_OverrideDir != (GAME_FLOW_DIR)-1) {
+                return 4;
+            }
+
+            Shell_ProcessEvents();
+            Input_Update();
+            if (g_InputDB.action) {
+                return 1;
+            }
+            if (g_InputDB.option) {
+                return 2;
+            }
+            Shell_ProcessInput();
+
+            g_DynamicLightCount = 0;
+
+            for (int32_t id = g_NextItemActive; id != NO_ITEM;) {
+                const ITEM *const item = &g_Items[id];
+                const OBJECT *obj = &g_Objects[item->object_id];
+                if (obj->control != NULL) {
+                    obj->control(id);
+                }
+                id = item->next_active;
+            }
+
+            for (int32_t id = g_NextEffectActive; id != NO_ITEM;) {
+                const FX *const fx = &g_Effects[id];
+                const OBJECT *const obj = &g_Objects[fx->object_id];
+                if (obj->control != NULL) {
+                    obj->control(id);
+                }
+                id = fx->next_active;
+            }
+
+            HairControl(1);
+            Camera_UpdateCutscene();
+
+            g_CineFrameIdx++;
+            if (g_CineFrameIdx >= g_NumCineFrames) {
+                return 1;
+            }
+
+            g_CineTickCount -= 0x10000;
+            if (g_CineTickCount < 0) {
+                break;
+            }
+        }
+    }
+
+    if (Music_GetTimestamp() < 0.0) {
+        g_CineFrameCurrent++;
+    } else {
+        // sync with music
+        g_CineFrameCurrent =
+            Music_GetTimestamp() * FRAMES_PER_SECOND * TICKS_PER_FRAME / 1000.0;
+    }
+
+    return 0;
+}
+
 int32_t __cdecl Game_Draw(void)
 {
+    Output_BeginScene();
     Room_DrawAllRooms(g_Camera.pos.room_num);
+    Output_DrawPolyList();
+
     Overlay_DrawGameInfo(true);
-    S_OutputPolyList();
-    const int32_t frames = S_DumpScreen();
+    Output_DrawPolyList();
+
+    Output_DrawBlackRectangle(m_ExitFader.current.value);
+    const int32_t frames = Output_EndScene();
     g_Camera.num_frames = frames * TICKS_PER_FRAME;
     Shell_ProcessEvents();
     Overlay_Animate(frames);
@@ -196,11 +274,14 @@ int32_t __cdecl Game_Draw(void)
 int32_t __cdecl Game_DrawCinematic(void)
 {
     g_CameraUnderwater = false;
+    Output_BeginScene();
     Room_DrawAllRooms(g_Camera.pos.room_num);
+    Output_DrawPolyList();
     Console_Draw();
     Text_Draw();
-    S_OutputPolyList();
-    g_Camera.num_frames = S_DumpScreen();
+    Output_DrawPolyList();
+    Output_DrawBlackRectangle(m_ExitFader.current.value);
+    g_Camera.num_frames = Output_EndScene();
     Shell_ProcessEvents();
     S_AnimateTextures(g_Camera.num_frames);
     return g_Camera.num_frames;
@@ -246,15 +327,14 @@ int16_t __cdecl Game_Start(
         }
 
         if (g_CurrentLevel == LV_GYM) {
-            S_FadeToBlack();
+            // TODO: fade to black
             return GFD_EXIT_TO_TITLE;
         }
 
-        S_FadeInInventory(1);
         return GFD_LEVEL_COMPLETE | g_CurrentLevel;
     }
 
-    S_FadeToBlack();
+    // TODO: fade to black
     if (!g_Inv_Chosen) {
         return GFD_EXIT_TO_TITLE;
     }
@@ -286,7 +366,10 @@ int32_t __cdecl Game_Loop(const bool demo_mode)
     GAME_FLOW_DIR dir = Game_Control(1, demo_mode);
     while (dir == 0) {
         const int32_t nframes = Game_Draw();
-        if (g_IsGameToExit) {
+        if (g_IsGameToExit && !m_Exiting) {
+            m_Exiting = true;
+            Fader_InitAnyToBlack(&m_ExitFader, FRAMES_PER_SECOND / 3);
+        } else if (m_Exiting && !Fader_IsActive(&m_ExitFader)) {
             dir = GFD_EXIT_GAME;
         } else {
             dir = Game_Control(nframes, demo_mode);
@@ -302,6 +385,53 @@ int32_t __cdecl Game_Loop(const bool demo_mode)
     Music_SetVolume(g_Config.audio.music_volume);
 
     return dir;
+}
+
+int32_t __cdecl Game_LoopCinematic(const int32_t level_num)
+{
+    if (!Level_Initialise(level_num, GFL_CUTSCENE)) {
+        return 2;
+    }
+
+    Room_InitCinematic();
+    CutscenePlayer1_Initialise(g_Lara.item_num);
+    g_Camera.target_angle = g_CineTargetAngle;
+
+    const bool old_sound_active = g_SoundIsActive;
+    g_SoundIsActive = false;
+
+    g_CineFrameIdx = 0;
+
+    if (!Music_PlaySynced(g_CineTrackID)) {
+        return 1;
+    }
+
+    Music_SetVolume(10);
+    g_CineFrameCurrent = 0;
+
+    int32_t result;
+    do {
+        Game_DrawCinematic();
+        int32_t nticks =
+            g_CineFrameCurrent - TICKS_PER_FRAME * (g_CineFrameIdx - 4);
+        CLAMPL(nticks, TICKS_PER_FRAME);
+        if (g_IsGameToExit && !m_Exiting) {
+            m_Exiting = true;
+            Fader_InitAnyToBlack(&m_ExitFader, FRAMES_PER_SECOND / 3);
+        } else if (m_Exiting && !Fader_IsActive(&m_ExitFader)) {
+            result = 5;
+        } else {
+            result = Game_ControlCinematic(nticks);
+        }
+    } while (!result);
+
+    Music_SetVolume(g_Config.audio.music_volume);
+    Music_Stop();
+    g_SoundIsActive = old_sound_active;
+    Sound_StopAllSamples();
+
+    g_LevelComplete = true;
+    return result;
 }
 
 GAMEFLOW_LEVEL_TYPE Game_GetCurrentLevelType(void)

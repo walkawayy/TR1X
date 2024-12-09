@@ -68,18 +68,24 @@ void Option_Controls_Shutdown(void)
     M_Shutdown();
 }
 
-void __cdecl Option_Controls(INVENTORY_ITEM *const item)
+void Option_Controls_Control(INVENTORY_ITEM *const item)
 {
     if (m_Dialog == NULL) {
         M_Init();
     }
 
     m_Dialog->control(m_Dialog);
-    m_Dialog->draw(m_Dialog);
     if (m_Controller.state == UI_CONTROLS_STATE_EXIT) {
         Option_Controls_Shutdown();
     } else {
         g_Input = (INPUT_STATE) { 0 };
         g_InputDB = (INPUT_STATE) { 0 };
+    }
+}
+
+void Option_Controls_Draw(INVENTORY_ITEM *const item)
+{
+    if (m_Dialog != NULL) {
+        m_Dialog->draw(m_Dialog);
     }
 }

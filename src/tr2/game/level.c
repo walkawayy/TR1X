@@ -3,10 +3,10 @@
 #include "decomp/decomp.h"
 #include "game/gamebuf.h"
 #include "game/gameflow/gameflow_new.h"
-#include "game/hwr.h"
 #include "game/inject.h"
 #include "game/items.h"
 #include "game/objects/setup.h"
+#include "game/render/common.h"
 #include "game/room.h"
 #include "game/shell.h"
 #include "global/const.h"
@@ -21,35 +21,33 @@
 #include <libtrx/memory.h>
 
 static void M_LoadFromFile(const char *file_name, int32_t level_num);
-static void __cdecl M_LoadRooms(VFILE *file);
-static void __cdecl M_LoadMeshBase(VFILE *file);
-static void __cdecl M_LoadMeshes(VFILE *file);
-static int32_t __cdecl M_LoadAnims(VFILE *file, int32_t **frame_pointers);
-static void __cdecl M_LoadAnimChanges(VFILE *file);
-static void __cdecl M_LoadAnimRanges(VFILE *file);
-static void __cdecl M_LoadAnimCommands(VFILE *file);
-static void __cdecl M_LoadAnimBones(VFILE *file);
-static void __cdecl M_LoadAnimFrames(VFILE *file);
-static void __cdecl M_LoadObjects(VFILE *file);
-static void __cdecl M_LoadStaticObjects(VFILE *file);
-static void __cdecl M_LoadTextures(VFILE *file);
-static void __cdecl M_LoadSprites(VFILE *file);
-static void __cdecl M_LoadItems(VFILE *file);
-static void __cdecl M_LoadCameras(VFILE *file);
-static void __cdecl M_LoadSoundEffects(VFILE *file);
-static void __cdecl M_LoadBoxes(VFILE *file);
-static void __cdecl M_LoadAnimatedTextures(VFILE *file);
-static void __cdecl M_LoadCinematic(VFILE *file);
-static void __cdecl M_LoadDemo(VFILE *file);
-static void __cdecl M_LoadSamples(VFILE *file);
+static void M_LoadRooms(VFILE *file);
+static void M_LoadMeshBase(VFILE *file);
+static void M_LoadMeshes(VFILE *file);
+static int32_t M_LoadAnims(VFILE *file, int32_t **frame_pointers);
+static void M_LoadAnimChanges(VFILE *file);
+static void M_LoadAnimRanges(VFILE *file);
+static void M_LoadAnimCommands(VFILE *file);
+static void M_LoadAnimBones(VFILE *file);
+static void M_LoadAnimFrames(VFILE *file);
+static void M_LoadObjects(VFILE *file);
+static void M_LoadStaticObjects(VFILE *file);
+static void M_LoadTextures(VFILE *file);
+static void M_LoadSprites(VFILE *file);
+static void M_LoadItems(VFILE *file);
+static void M_LoadCameras(VFILE *file);
+static void M_LoadSoundEffects(VFILE *file);
+static void M_LoadBoxes(VFILE *file);
+static void M_LoadAnimatedTextures(VFILE *file);
+static void M_LoadCinematic(VFILE *file);
+static void M_LoadDemo(VFILE *file);
+static void M_LoadSamples(VFILE *file);
 static void M_CompleteSetup(void);
 
-void __cdecl Level_LoadTexturePages(VFILE *const file)
+static void M_LoadTexturePages(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
-    char *base = NULL;
 
-    const bool is_16_bit = g_TextureFormat.bpp >= 16;
     const int32_t texture_size = TEXTURE_PAGE_WIDTH * TEXTURE_PAGE_HEIGHT;
     const int32_t texture_size_8_bit = texture_size * sizeof(uint8_t);
     const int32_t texture_size_16_bit = texture_size * sizeof(uint16_t);
@@ -57,48 +55,29 @@ void __cdecl Level_LoadTexturePages(VFILE *const file)
     const int32_t num_pages = VFile_ReadS32(file);
     LOG_INFO("texture pages: %d", num_pages);
 
-    if (g_SavedAppSettings.render_mode == RM_SOFTWARE) {
-        for (int32_t i = 0; i < num_pages; i++) {
-            if (g_TexturePageBuffer8[i] == NULL) {
-                g_TexturePageBuffer8[i] =
-                    GameBuf_Alloc(texture_size, GBUF_TEXTURE_PAGES);
-            }
-            VFile_Read(file, g_TexturePageBuffer8[i], texture_size);
+    for (int32_t i = 0; i < num_pages; i++) {
+        if (g_TexturePageBuffer8[i] == NULL) {
+            g_TexturePageBuffer8[i] =
+                GameBuf_Alloc(texture_size_8_bit, GBUF_TEXTURE_PAGES);
         }
-        // skip 16-bit texture pages
-        VFile_Skip(file, num_pages * texture_size_16_bit);
-        goto finish;
+        VFile_Read(file, g_TexturePageBuffer8[i], texture_size_8_bit);
     }
-
-    base = Memory_Alloc(
-        num_pages * (is_16_bit ? texture_size_16_bit : texture_size_8_bit));
-
-    if (is_16_bit) {
-        VFile_Skip(file, num_pages * texture_size_8_bit);
-        char *ptr = base;
-        for (int32_t i = 0; i < num_pages; i++) {
-            VFile_Read(file, ptr, texture_size_16_bit);
-            ptr += texture_size_16_bit;
+    for (int32_t i = 0; i < num_pages; i++) {
+        if (g_TexturePageBuffer16[i] == NULL) {
+            g_TexturePageBuffer16[i] =
+                GameBuf_Alloc(texture_size_16_bit, GBUF_TEXTURE_PAGES);
         }
-        HWR_LoadTexturePages(num_pages, base, NULL);
-    } else {
-        char *ptr = base;
-        for (int32_t i = 0; i < num_pages; i++) {
-            VFile_Read(file, ptr, texture_size_8_bit);
-            ptr += texture_size_8_bit;
-        }
-        VFile_Skip(file, num_pages * texture_size_16_bit);
-        HWR_LoadTexturePages((int32_t)num_pages, base, g_GamePalette8);
+        VFile_Read(file, g_TexturePageBuffer16[i], texture_size_16_bit);
+        LOG_DEBUG("%d", g_TexturePageBuffer16[0][0]);
     }
 
     g_TexturePageCount = num_pages;
 
 finish:
-    Memory_FreePointer(&base);
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadRooms(VFILE *const file)
+static void M_LoadRooms(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
 
@@ -216,7 +195,7 @@ finish:
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadMeshBase(VFILE *const file)
+static void M_LoadMeshBase(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_meshes = VFile_ReadS32(file);
@@ -226,7 +205,7 @@ static void __cdecl M_LoadMeshBase(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadMeshes(VFILE *const file)
+static void M_LoadMeshes(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_mesh_ptrs = VFile_ReadS32(file);
@@ -245,7 +224,7 @@ static void __cdecl M_LoadMeshes(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static int32_t __cdecl M_LoadAnims(VFILE *const file, int32_t **frame_pointers)
+static int32_t M_LoadAnims(VFILE *const file, int32_t **frame_pointers)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_anims = VFile_ReadS32(file);
@@ -279,7 +258,7 @@ static int32_t __cdecl M_LoadAnims(VFILE *const file, int32_t **frame_pointers)
     return num_anims;
 }
 
-static void __cdecl M_LoadAnimChanges(VFILE *const file)
+static void M_LoadAnimChanges(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_anim_changes = VFile_ReadS32(file);
@@ -295,7 +274,7 @@ static void __cdecl M_LoadAnimChanges(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadAnimRanges(VFILE *const file)
+static void M_LoadAnimRanges(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_anim_ranges = VFile_ReadS32(file);
@@ -312,7 +291,7 @@ static void __cdecl M_LoadAnimRanges(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadAnimCommands(VFILE *const file)
+static void M_LoadAnimCommands(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_anim_commands = VFile_ReadS32(file);
@@ -323,7 +302,7 @@ static void __cdecl M_LoadAnimCommands(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadAnimBones(VFILE *const file)
+static void M_LoadAnimBones(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_anim_bones = VFile_ReadS32(file);
@@ -334,7 +313,7 @@ static void __cdecl M_LoadAnimBones(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadAnimFrames(VFILE *const file)
+static void M_LoadAnimFrames(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t anim_frame_data_size = VFile_ReadS32(file);
@@ -347,7 +326,7 @@ static void __cdecl M_LoadAnimFrames(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadObjects(VFILE *const file)
+static void M_LoadObjects(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_objects = VFile_ReadS32(file);
@@ -366,7 +345,7 @@ static void __cdecl M_LoadObjects(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadStaticObjects(VFILE *const file)
+static void M_LoadStaticObjects(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_static_objects = VFile_ReadS32(file);
@@ -392,7 +371,7 @@ static void __cdecl M_LoadStaticObjects(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadTextures(VFILE *const file)
+static void M_LoadTextures(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_textures = VFile_ReadS32(file);
@@ -424,13 +403,16 @@ static void __cdecl M_LoadTextures(VFILE *const file)
             }
         }
         g_LabTextureUVFlag[i] = byte;
+
+        for (int32_t j = 0; j < 4; j++) {
+            g_TextureInfo[i].uv_backup[j] = g_TextureInfo[i].uv[j];
+        }
     }
 
-    AdjustTextureUVs(true);
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadSprites(VFILE *const file)
+static void M_LoadSprites(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_sprites = VFile_ReadS32(file);
@@ -467,7 +449,7 @@ static void __cdecl M_LoadSprites(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadItems(VFILE *const file)
+static void M_LoadItems(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
 
@@ -510,7 +492,7 @@ finish:
     Benchmark_End(benchmark, NULL);
 }
 
-void __cdecl Level_LoadDepthQ(VFILE *const file)
+static void M_LoadDepthQ(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     for (int32_t i = 0; i < 32; i++) {
@@ -518,25 +500,8 @@ void __cdecl Level_LoadDepthQ(VFILE *const file)
         g_DepthQTable[i].index[0] = 0;
     }
 
-    if (g_GameVid_IsWindowedVGA) {
-        RGB_888 palette[256];
-        CopyBitmapPalette(
-            g_GamePalette8, g_DepthQTable[0].index, 32 * sizeof(DEPTHQ_ENTRY),
-            palette);
-        SyncSurfacePalettes(
-            g_DepthQTable, 256, 32, 256, g_GamePalette8, g_DepthQTable, 256,
-            palette, true);
-        memcpy(g_GamePalette8, palette, sizeof(g_GamePalette8));
-
-        for (int32_t i = 0; i < 256; i++) {
-            g_DepthQIndex[i] = S_FindColor(
-                g_GamePalette8[i].red, g_GamePalette8[i].green,
-                g_GamePalette8[i].blue);
-        }
-    } else {
-        for (int32_t i = 0; i < 256; i++) {
-            g_DepthQIndex[i] = g_DepthQTable[24].index[i];
-        }
+    for (int32_t i = 0; i < 256; i++) {
+        g_DepthQIndex[i] = g_DepthQTable[24].index[i];
     }
 
     for (int32_t i = 0; i < 32; i++) {
@@ -555,7 +520,7 @@ void __cdecl Level_LoadDepthQ(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-void __cdecl Level_LoadPalettes(VFILE *const file)
+static void M_LoadPalettes(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     VFile_Read(file, g_GamePalette8, sizeof(RGB_888) * 256);
@@ -575,7 +540,7 @@ void __cdecl Level_LoadPalettes(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadCameras(VFILE *const file)
+static void M_LoadCameras(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     g_NumCameras = VFile_ReadS32(file);
@@ -599,7 +564,7 @@ finish:
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadSoundEffects(VFILE *const file)
+static void M_LoadSoundEffects(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
 
@@ -624,7 +589,7 @@ finish:
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadBoxes(VFILE *const file)
+static void M_LoadBoxes(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     g_BoxCount = VFile_ReadS32(file);
@@ -669,7 +634,7 @@ static void __cdecl M_LoadBoxes(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadAnimatedTextures(VFILE *const file)
+static void M_LoadAnimatedTextures(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     const int32_t num_ranges = VFile_ReadS32(file);
@@ -679,7 +644,7 @@ static void __cdecl M_LoadAnimatedTextures(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadCinematic(VFILE *const file)
+static void M_LoadCinematic(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     g_NumCineFrames = VFile_ReadS16(file);
@@ -707,7 +672,7 @@ finish:
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadDemo(VFILE *const file)
+static void M_LoadDemo(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     g_DemoCount = 0;
@@ -728,7 +693,7 @@ static void __cdecl M_LoadDemo(VFILE *const file)
     Benchmark_End(benchmark, NULL);
 }
 
-static void __cdecl M_LoadSamples(VFILE *const file)
+static void M_LoadSamples(VFILE *const file)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     int32_t *sample_offsets = NULL;
@@ -765,12 +730,10 @@ static void __cdecl M_LoadSamples(VFILE *const file)
     const char *const file_name = "data\\main.sfx";
     const char *full_path = File_GetFullPath(file_name);
     LOG_DEBUG("Loading samples from %s", full_path);
-    HANDLE sfx_handle = CreateFileA(
-        full_path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,
-        NULL);
+    MYFILE *const fp = File_Open(full_path, FILE_OPEN_READ);
     Memory_FreePointer(&full_path);
 
-    if (sfx_handle == INVALID_HANDLE_VALUE) {
+    if (fp == NULL) {
         Shell_ExitSystemFmt(
             "Could not open %s file: 0x%x", file_name, GetLastError());
         goto finish;
@@ -780,7 +743,7 @@ static void __cdecl M_LoadSamples(VFILE *const file)
     int32_t sample_id = 0;
     for (int32_t i = 0; sample_id < num_samples; i++) {
         char header[0x2C];
-        ReadFileSync(sfx_handle, header, 0x2C, NULL, NULL);
+        File_ReadData(fp, header, 0x2C);
         if (*(int32_t *)(header + 0) != 0x46464952
             || *(int32_t *)(header + 8) != 0x45564157
             || *(int32_t *)(header + 36) != 0x61746164) {
@@ -791,14 +754,14 @@ static void __cdecl M_LoadSamples(VFILE *const file)
         const int32_t aligned_size = (data_size + 1) & ~1;
 
         if (sample_offsets[sample_id] != i) {
-            SetFilePointer(sfx_handle, aligned_size, NULL, FILE_CURRENT);
+            File_Seek(fp, aligned_size, FILE_SEEK_CUR);
             continue;
         }
 
         const size_t sample_data_size = 0x2C + aligned_size;
         char *sample_data = Memory_Alloc(sample_data_size);
         memcpy(sample_data, header, 0x2C);
-        ReadFileSync(sfx_handle, sample_data + 0x2C, aligned_size, NULL, NULL);
+        File_ReadData(fp, sample_data + 0x2C, aligned_size);
 
         const bool result =
             Audio_Sample_LoadSingle(sample_id, sample_data, sample_data_size);
@@ -810,7 +773,7 @@ static void __cdecl M_LoadSamples(VFILE *const file)
 
         sample_id++;
     }
-    CloseHandle(sfx_handle);
+    File_Close(fp);
 
 finish:
     Memory_FreePointer(&sample_offsets);
@@ -844,10 +807,10 @@ static void M_LoadFromFile(const char *const file_name, const int32_t level_num)
     }
 
     g_LevelFilePalettesOffset = VFile_GetPos(file);
-    Level_LoadPalettes(file);
+    M_LoadPalettes(file);
 
     g_LevelFileTexPagesOffset = VFile_GetPos(file);
-    Level_LoadTexturePages(file);
+    M_LoadTexturePages(file);
     VFile_Skip(file, 4);
 
     M_LoadRooms(file);
@@ -883,8 +846,7 @@ static void M_LoadFromFile(const char *const file_name, const int32_t level_num)
     M_LoadAnimatedTextures(file);
     M_LoadItems(file);
 
-    g_LevelFileDepthQOffset = VFile_GetPos(file);
-    Level_LoadDepthQ(file);
+    M_LoadDepthQ(file);
     M_LoadCinematic(file);
     M_LoadDemo(file);
     M_LoadSamples(file);
@@ -909,6 +871,8 @@ static void M_CompleteSetup(void)
     for (int32_t i = 0; i < item_count; i++) {
         Item_Initialise(i);
     }
+
+    Render_Reset(RENDER_RESET_PALETTE | RENDER_RESET_TEXTURES);
 
     Benchmark_End(benchmark, NULL);
 }

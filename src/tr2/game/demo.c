@@ -6,6 +6,7 @@
 #include "game/input.h"
 #include "game/items.h"
 #include "game/lara/cheat.h"
+#include "game/output.h"
 #include "game/random.h"
 #include "game/room.h"
 #include "game/shell.h"
@@ -99,7 +100,7 @@ int32_t __cdecl Demo_Start(int32_t level_num)
     Random_SeedControl(0xD371F947);
 
     TEXTSTRING *const text = Text_Create(
-        0, g_DumpHeight / 2 - 16, g_GF_PCStrings[GF_S_PC_DEMO_MODE]);
+        0, g_PhdWinHeight / 2 - 16, g_GF_PCStrings[GF_S_PC_DEMO_MODE]);
 
     Text_Flash(text, true, 20);
     Text_CentreV(text, true);
@@ -115,7 +116,6 @@ int32_t __cdecl Demo_Start(int32_t level_num)
     M_RestoreConfig();
 
     *s = start;
-    S_FadeToBlack();
     if (dir == GFD_OVERRIDE) {
         dir = g_GF_OverrideDir;
         g_GF_OverrideDir = (GAME_FLOW_DIR)-1;

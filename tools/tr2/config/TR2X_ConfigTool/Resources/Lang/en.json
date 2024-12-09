@@ -10,6 +10,11 @@
     "screenshot_format": {
       "jpg": "JPEG",
       "png": "PNG"
+    },
+    "aspect_mode": {
+      "any": "Any",
+      "16:9": "16:9",
+      "4:3": "4:3"
     }
   },
   "Properties": {
@@ -41,9 +46,21 @@
       "Title": "Key item pre-selection",
       "Description": "When Lara presses action against a keyhole or puzzle slot, and she has the corresponding item in the inventory, that item will be pre-selected."
     },
+    "aspect_mode": {
+      "Title": "Aspect mode",
+      "Description": "Set the aspect ratio of the game output."
+    },
     "screenshot_format": {
       "Title": "Screenshot format",
       "Description": "Screenshot file format."
+    },
+    "enable_lara_mic" : {
+      "Title": "Microphone at Lara",
+      "Description": "Set the microphone to be at Lara's position. If disabled, the microphone will be at the camera's position."
+    },
+    "enable_fade_effects": {
+      "Title": "Fade effects",
+      "Description": "Enable fade transitions, for example between credit graphics."
     }
   }
 }

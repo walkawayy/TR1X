@@ -9,10 +9,12 @@
 
 #include <libtrx/config/file.h>
 #include <libtrx/debug.h>
+#include <libtrx/log.h>
 
 #include <stdio.h>
 
 CONFIG g_Config = { 0 };
+CONFIG g_SavedConfig = { 0 };
 
 static const char *m_ConfigPath = "cfg/TR2X.json5";
 
@@ -113,6 +115,8 @@ void Config_LoadFromJSON(JSON_OBJECT *root_obj)
 {
     ConfigFile_LoadOptions(root_obj, g_ConfigOptionMap);
     M_LoadInputConfig(root_obj);
+    g_Config.loaded = true;
+    g_SavedConfig = g_Config;
 }
 
 void Config_DumpToJSON(JSON_OBJECT *root_obj)
@@ -126,12 +130,30 @@ void Config_Sanitize(void)
     CLAMP(
         g_Config.gameplay.turbo_speed, CLOCK_TURBO_SPEED_MIN,
         CLOCK_TURBO_SPEED_MAX);
+    CLAMP(g_Config.rendering.scaler, 1, 4);
+
+    if (g_Config.rendering.render_mode != RM_HARDWARE
+        && g_Config.rendering.render_mode != RM_SOFTWARE) {
+        g_Config.rendering.render_mode = RM_SOFTWARE;
+    }
+    if (g_Config.rendering.aspect_mode != AM_ANY
+        && g_Config.rendering.aspect_mode != AM_16_9) {
+        g_Config.rendering.aspect_mode = AM_4_3;
+    }
+    if (g_Config.rendering.texel_adjust_mode != TAM_DISABLED
+        && g_Config.rendering.texel_adjust_mode != TAM_BILINEAR_ONLY) {
+        g_Config.rendering.texel_adjust_mode = TAM_ALWAYS;
+    }
+    CLAMP(g_Config.rendering.nearest_adjustment, 0, 256);
+    CLAMP(g_Config.rendering.linear_adjustment, 0, 256);
 }
 
 void Config_ApplyChanges(void)
 {
     Sound_SetMasterVolume(g_Config.audio.sound_volume);
     Music_SetVolume(g_Config.audio.music_volume);
+
+    g_SavedConfig = g_Config;
 }
 
 const CONFIG_OPTION *Config_GetOptionMap(void)

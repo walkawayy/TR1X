@@ -8,6 +8,7 @@
 #include "game/input.h"
 #include "game/inventory/backpack.h"
 #include "game/lara/control.h"
+#include "game/overlay.h"
 #include "global/const.h"
 #include "global/funcs.h"
 #include "global/vars.h"
@@ -18,8 +19,6 @@
 static void M_ToggleBilinearFiltering(void);
 static void M_TogglePerspectiveCorrection(void);
 static void M_ToggleZBuffer(void);
-static void M_ToggleTripleBuffering(void);
-static void M_ToggleDither(void);
 static void M_ToggleFullscreen(void);
 static void M_ToggleRenderingMode(void);
 static void M_DecreaseResolutionOrBPP(void);
@@ -29,215 +28,93 @@ static void M_IncreaseInternalScreenSize(void);
 
 static void M_ToggleBilinearFiltering(void)
 {
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    new_settings.bilinear_filtering = !new_settings.bilinear_filtering;
-    GameApplySettings(&new_settings);
+    g_Config.rendering.texture_filter =
+        g_Config.rendering.texture_filter == GFX_TF_BILINEAR ? GFX_TF_NN
+                                                             : GFX_TF_BILINEAR;
+    Overlay_DisplayModeInfo(
+        g_Config.rendering.texture_filter == GFX_TF_BILINEAR ? "Bilinear On"
+                                                             : "Bilinear Off");
+    Config_Write();
 }
 
 static void M_TogglePerspectiveCorrection(void)
 {
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    new_settings.perspective_correct = !new_settings.perspective_correct;
-    g_PerspectiveDistance = g_SavedAppSettings.perspective_correct
+    g_Config.rendering.enable_perspective_filter =
+        !g_Config.rendering.enable_perspective_filter;
+    g_PerspectiveDistance = g_Config.rendering.enable_perspective_filter
         ? SW_DETAIL_HIGH
         : SW_DETAIL_MEDIUM;
-    GameApplySettings(&new_settings);
+    Overlay_DisplayModeInfo(
+        g_Config.rendering.enable_perspective_filter
+            ? "Perspective correction enabled"
+            : "Perspective correction disabled");
+    Config_Write();
 }
 
 static void M_ToggleZBuffer(void)
 {
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    new_settings.zbuffer = !new_settings.zbuffer;
-    GameApplySettings(&new_settings);
-}
-
-static void M_ToggleTripleBuffering(void)
-{
-    if (g_SavedAppSettings.fullscreen) {
-        return;
+    if (g_Input.slow) {
+        g_Config.rendering.enable_wireframe =
+            !g_Config.rendering.enable_wireframe;
+        Overlay_DisplayModeInfo(
+            g_Config.rendering.enable_wireframe ? "Wireframe On"
+                                                : "Wireframe Off");
+    } else {
+        g_Config.rendering.enable_zbuffer = !g_Config.rendering.enable_zbuffer;
+        Overlay_DisplayModeInfo(
+            g_Config.rendering.enable_zbuffer ? "Z-Buffer On" : "Z-Buffer Off");
     }
-
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    new_settings.triple_buffering = !new_settings.triple_buffering;
-    GameApplySettings(&new_settings);
-}
-
-static void M_ToggleDither(void)
-{
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    new_settings.dither = !new_settings.dither;
-    GameApplySettings(&new_settings);
+    Config_Write();
 }
 
 static void M_ToggleFullscreen(void)
 {
-    if (g_IsVidModeLock) {
-        return;
-    }
-
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    new_settings.fullscreen = !new_settings.fullscreen;
-    if (g_SavedAppSettings.fullscreen) {
-        const int32_t win_width = MAX(g_PhdWinWidth, 320);
-        const int32_t win_height = MAX(g_PhdWinHeight, 240);
-        new_settings.window_height = win_height;
-        new_settings.window_width = CalculateWindowWidth(win_width, win_height);
-        new_settings.triple_buffering = 0;
-        GameApplySettings(&new_settings);
-        setup_screen_size();
-    } else {
-        const DISPLAY_MODE_LIST *const mode_list =
-            new_settings.render_mode == RM_HARDWARE
-            ? &g_CurrentDisplayAdapter.hw_disp_mode_list
-            : &g_CurrentDisplayAdapter.sw_disp_mode_list;
-
-        if (mode_list->count > 0) {
-            const DISPLAY_MODE target_mode = {
-                .width = g_GameVid_Width,
-                .height = g_GameVid_Height,
-                .bpp = g_GameVid_BPP,
-                .vga = VGA_NO_VGA,
-            };
-
-            const DISPLAY_MODE_NODE *mode = NULL;
-            for (mode = mode_list->head; mode != NULL; mode = mode->next) {
-                if (!CompareVideoModes(&mode->body, &target_mode)) {
-                    break;
-                }
-            }
-
-            if (mode == NULL) {
-                mode = mode_list->tail;
-            }
-
-            new_settings.video_mode = mode;
-            GameApplySettings(&new_settings);
-        }
-    }
+    g_Config.window.is_fullscreen = !g_Config.window.is_fullscreen;
+    Config_Write();
 }
 
 static void M_ToggleRenderingMode(void)
 {
-    if (g_IsVidModeLock || g_Inv_IsActive) {
-        return;
-    }
-
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    new_settings.render_mode =
-        new_settings.render_mode == RM_HARDWARE ? RM_SOFTWARE : RM_HARDWARE;
-
-    const DISPLAY_MODE_LIST *const mode_list =
-        new_settings.render_mode == RM_HARDWARE
-        ? &g_CurrentDisplayAdapter.hw_disp_mode_list
-        : &g_CurrentDisplayAdapter.sw_disp_mode_list;
-
-    if (mode_list->count == 0) {
-        return;
-    }
-
-    const DISPLAY_MODE target_mode = {
-        .width = g_GameVid_Width,
-        .height = g_GameVid_Height,
-        .bpp = new_settings.render_mode == RM_HARDWARE ? 16 : 8,
-        .vga = VGA_NO_VGA,
-    };
-
-    const DISPLAY_MODE_NODE *mode = NULL;
-    for (mode = mode_list->head; mode != NULL; mode = mode->next) {
-        if (!CompareVideoModes(&mode->body, &target_mode)) {
-            break;
-        }
-    }
-
-    if (mode == NULL) {
-        mode = mode_list->tail;
-    }
-
-    new_settings.video_mode = mode;
-    new_settings.fullscreen = 1;
-    GameApplySettings(&new_settings);
+    g_Config.rendering.render_mode =
+        g_Config.rendering.render_mode == RM_HARDWARE ? RM_SOFTWARE
+                                                      : RM_HARDWARE;
+    Overlay_DisplayModeInfo(
+        g_Config.rendering.render_mode == RM_HARDWARE ? "Hardware Rendering"
+                                                      : "Software Rendering");
+    Config_Write();
 }
 
 static void M_DecreaseResolutionOrBPP(void)
 {
-    if (g_IsVidSizeLock || g_Camera.type == CAM_CINEMATIC
-        || g_GameFlow.screen_sizing_disabled
-        || !g_SavedAppSettings.fullscreen) {
+    if (g_Camera.type == CAM_CINEMATIC) {
         return;
     }
 
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    const DISPLAY_MODE_NODE *const current_mode = new_settings.video_mode;
-    const DISPLAY_MODE_NODE *mode = current_mode;
-    if (mode != NULL) {
-        mode = mode->previous;
-    }
-
-    if (new_settings.render_mode == RM_HARDWARE) {
-        for (; mode != NULL; mode = mode->previous) {
-            if (g_Input.slow) {
-                if (mode->body.width == current_mode->body.width
-                    && mode->body.height == current_mode->body.height
-                    && mode->body.vga == current_mode->body.vga
-                    && mode->body.bpp < current_mode->body.bpp) {
-                    break;
-                }
-            } else if (
-                mode->body.vga == current_mode->body.vga
-                && mode->body.bpp == current_mode->body.bpp) {
-                break;
-            }
-        }
-    }
-
-    if (mode != NULL) {
-        new_settings.video_mode = mode;
-        GameApplySettings(&new_settings);
-    }
+    g_Config.rendering.scaler--;
+    Config_Sanitize();
+    char mode_string[64] = { 0 };
+    sprintf(mode_string, "Scaler: %d", g_Config.rendering.scaler);
+    Overlay_DisplayModeInfo(mode_string);
+    Config_Write();
 }
 
 static void M_IncreaseResolutionOrBPP(void)
 {
-    if (g_IsVidSizeLock || g_Camera.type == CAM_CINEMATIC
-        || g_GameFlow.screen_sizing_disabled
-        || !g_SavedAppSettings.fullscreen) {
+    if (g_Camera.type == CAM_CINEMATIC) {
         return;
     }
 
-    APP_SETTINGS new_settings = g_SavedAppSettings;
-    const DISPLAY_MODE_NODE *const current_mode = new_settings.video_mode;
-    const DISPLAY_MODE_NODE *mode = current_mode;
-    if (mode != NULL) {
-        mode = mode->next;
-    }
-
-    if (new_settings.render_mode == RM_HARDWARE) {
-        for (; mode != NULL; mode = mode->next) {
-            if (g_Input.slow) {
-                if (mode->body.width == current_mode->body.width
-                    && mode->body.height == current_mode->body.height
-                    && mode->body.vga == current_mode->body.vga
-                    && mode->body.bpp > current_mode->body.bpp) {
-                    break;
-                }
-            } else if (
-                mode->body.vga == current_mode->body.vga
-                && mode->body.bpp == current_mode->body.bpp) {
-                break;
-            }
-        }
-    }
-    if (mode != NULL) {
-        new_settings.video_mode = mode;
-        GameApplySettings(&new_settings);
-    }
+    g_Config.rendering.scaler++;
+    Config_Sanitize();
+    char mode_string[64] = { 0 };
+    sprintf(mode_string, "Scaler: %d", g_Config.rendering.scaler);
+    Overlay_DisplayModeInfo(mode_string);
+    Config_Write();
 }
 
 static void M_DecreaseInternalScreenSize(void)
 {
-    if (g_IsVidSizeLock || g_Camera.type == CAM_CINEMATIC
-        || g_GameFlow.screen_sizing_disabled
-        || !g_SavedAppSettings.fullscreen) {
+    if (g_Camera.type == CAM_CINEMATIC) {
         return;
     }
 
@@ -246,9 +123,7 @@ static void M_DecreaseInternalScreenSize(void)
 
 static void M_IncreaseInternalScreenSize(void)
 {
-    if (g_IsVidSizeLock || g_Camera.type == CAM_CINEMATIC
-        || g_GameFlow.screen_sizing_disabled
-        || !g_SavedAppSettings.fullscreen) {
+    if (g_Camera.type == CAM_CINEMATIC) {
         return;
     }
 
@@ -271,9 +146,9 @@ void Shell_ProcessInput(void)
 
     if (g_InputDB.switch_internal_screen_size) {
         if (g_Input.slow) {
-            M_DecreaseInternalScreenSize();
-        } else {
             M_IncreaseInternalScreenSize();
+        } else {
+            M_DecreaseInternalScreenSize();
         }
     }
 
@@ -287,10 +162,6 @@ void Shell_ProcessInput(void)
 
     if (g_InputDB.toggle_z_buffer) {
         M_ToggleZBuffer();
-    }
-
-    if (g_InputDB.toggle_dither) {
-        M_ToggleDither();
     }
 
     if (g_InputDB.toggle_fullscreen) {

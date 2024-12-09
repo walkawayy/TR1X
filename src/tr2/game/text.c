@@ -64,15 +64,15 @@ void __cdecl Text_DrawText(TEXTSTRING *const text)
         Text_GetWidth(text) * Text_GetScaleH(TEXT_BASE_SCALE) / TEXT_BASE_SCALE;
 
     if (text->flags.centre_h) {
-        x += (GetRenderWidth() - text_width) / 2;
+        x += (g_PhdWinWidth - text_width) / 2;
     } else if (text->flags.right) {
-        x += GetRenderWidth() - text_width;
+        x += g_PhdWinWidth - text_width;
     }
 
     if (text->flags.centre_v) {
-        y += GetRenderHeight() / 2;
+        y += g_PhdWinHeight / 2;
     } else if (text->flags.bottom) {
-        y += GetRenderHeight();
+        y += g_PhdWinHeight;
     }
 
     int32_t box_x = x
@@ -110,7 +110,7 @@ void __cdecl Text_DrawText(TEXTSTRING *const text)
             continue;
         }
 
-        if (x >= 0 && x < GetRenderWidth() && y >= 0 && y < GetRenderHeight()) {
+        if (x >= 0 && x < g_PhdWinWidth && y >= 0 && y < g_PhdWinHeight) {
             Output_DrawScreenSprite2D(
                 x, y, z, scale_h, scale_v,
                 g_Objects[O_ALPHABET].mesh_idx + (*glyph_ptr)->mesh_idx, 4096,
@@ -141,7 +141,7 @@ void __cdecl Text_DrawText(TEXTSTRING *const text)
     }
 
     if (text->flags.background) {
-        S_DrawScreenFBox(
+        Output_DrawScreenFBox(
             box_x, box_y, z + text->background.offset.z, box_w, box_h, 0, NULL,
             0);
     }
@@ -153,17 +153,12 @@ void __cdecl Text_DrawText(TEXTSTRING *const text)
 
 int32_t __cdecl Text_GetScaleH(const uint32_t value)
 {
-    const int32_t render_width = GetRenderWidth();
-    const int32_t render_scale = MAX(render_width, 640) * TEXT_BASE_SCALE / 640;
-    return (value / PHD_HALF) * (render_scale / PHD_HALF);
+    return value * g_PhdWinWidth / 640;
 }
 
 int32_t __cdecl Text_GetScaleV(const uint32_t value)
 {
-    const int32_t render_height = GetRenderHeight();
-    const int32_t render_scale =
-        MAX(render_height, 480) * TEXT_BASE_SCALE / 480;
-    return (value / PHD_HALF) * (render_scale / PHD_HALF);
+    return value * g_PhdWinHeight / 480;
 }
 
 int32_t Text_GetMaxLineLength(void)

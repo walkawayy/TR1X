@@ -2,14 +2,14 @@
 
 #include "memory.h"
 
+#include <windows.h>
+#include <dbghelp.h>
+#include <tlhelp32.h>
 #include <dwarfstack.h>
 #include <process.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
-#include <dbghelp.h>
-#include <tlhelp32.h>
 
 static char *m_MiniDumpPath = NULL;
 static char *M_GetMiniDumpPath(const char *log_path);

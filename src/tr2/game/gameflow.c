@@ -417,13 +417,13 @@ int32_t __cdecl GF_InterpretSequence(
         case GFE_PLAY_FMV:
             if (type != GFL_SAVED) {
                 if (ptr[2] == GFE_PLAY_FMV) {
-                    if (S_IntroFMV(
+                    if (FMV_PlayIntro(
                             g_GF_FMVFilenames[ptr[1]],
                             g_GF_FMVFilenames[ptr[3]])) {
                         return GFD_EXIT_GAME;
                     }
                     ptr += 2;
-                } else if (S_PlayFMV(g_GF_FMVFilenames[ptr[1]])) {
+                } else if (FMV_Play(g_GF_FMVFilenames[ptr[1]])) {
                     return GFD_EXIT_GAME;
                 }
             }
@@ -452,9 +452,9 @@ int32_t __cdecl GF_InterpretSequence(
         case GFE_CUTSCENE:
             if (type != GFL_SAVED) {
                 const int16_t level = g_CurrentLevel;
-                const int32_t result = Game_Cutscene_Start(ptr[1]);
+                const int32_t result = Game_LoopCinematic(ptr[1]);
                 g_CurrentLevel = level;
-                // TODO: make Game_Cutscene_Start return GAME_FLOW_DIR
+                // TODO: make Game_LoopCinematic return GAME_FLOW_DIR
                 if (result == 2
                     && (type == GFL_STORY || type == GFL_MID_STORY)) {
                     return GFD_EXIT_TO_TITLE;

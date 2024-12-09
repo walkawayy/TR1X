@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 
-void __cdecl Option_Compass(INVENTORY_ITEM *const item)
+void Option_Compass_Control(INVENTORY_ITEM *const item)
 {
     char buffer[32];
     const int32_t sec = g_SaveGame.statistics.timer / FRAMES_PER_SECOND;
@@ -26,6 +26,10 @@ void __cdecl Option_Compass(INVENTORY_ITEM *const item)
     }
 
     Sound_Effect(SFX_MENU_STOPWATCH, 0, SPM_ALWAYS);
+}
+
+void Option_Compass_Draw(INVENTORY_ITEM *const item)
+{
 }
 
 void Option_Compass_Shutdown(void)

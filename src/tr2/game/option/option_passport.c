@@ -13,7 +13,7 @@ typedef enum {
     PASSPORT_MODE_SELECT_LEVEL = 2,
 } PASSPORT_MODE;
 
-void __cdecl Option_Passport(INVENTORY_ITEM *const item)
+void Option_Passport_Control(INVENTORY_ITEM *const item)
 {
     Text_Remove(g_Inv_ItemText[IT_NAME]);
     g_Inv_ItemText[IT_NAME] = NULL;
@@ -266,6 +266,10 @@ void __cdecl Option_Passport(INVENTORY_ITEM *const item)
         Text_Remove(g_PasswordText1);
         g_PasswordText1 = NULL;
     }
+}
+
+void Option_Passport_Draw(INVENTORY_ITEM *const item)
+{
 }
 
 void Option_Passport_Shutdown(void)

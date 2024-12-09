@@ -1,6 +1,9 @@
 #pragma once
 
+#include "global/types.h"
+
 #include <libtrx/config.h>
+#include <libtrx/gfx/common.h>
 #include <libtrx/screenshot.h>
 
 #include <stdbool.h>
@@ -15,6 +18,7 @@ typedef struct {
 
     struct {
         bool enable_3d_pickups;
+        bool enable_fade_effects;
         bool fix_item_rots;
     } visuals;
 
@@ -30,12 +34,34 @@ typedef struct {
     struct {
         int32_t sound_volume;
         int32_t music_volume;
+        bool enable_lara_mic;
     } audio;
 
     struct {
+        bool is_fullscreen;
+        bool is_maximized;
+        int32_t x;
+        int32_t y;
+        int32_t width;
+        int32_t height;
+    } window;
+
+    struct {
+        RENDER_MODE render_mode;
+        ASPECT_MODE aspect_mode;
+        bool enable_zbuffer;
+        bool enable_perspective_filter;
+        bool enable_wireframe;
+        float wireframe_width;
+        GFX_TEXTURE_FILTER texture_filter;
         SCREENSHOT_FORMAT screenshot_format;
+        TEXEL_ADJUST_MODE texel_adjust_mode;
+        int32_t nearest_adjustment;
+        int32_t linear_adjustment;
+        int32_t scaler;
         float sizer;
     } rendering;
 } CONFIG;
 
 extern CONFIG g_Config;
+extern CONFIG g_SavedConfig;

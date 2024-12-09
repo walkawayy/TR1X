@@ -3,11 +3,9 @@
 #include "decomp/decomp.h"
 #include "decomp/effects.h"
 #include "decomp/flares.h"
-#include "decomp/fmv.h"
 #include "decomp/savegame.h"
 #include "decomp/skidoo.h"
 #include "decomp/stats.h"
-#include "game/background.h"
 #include "game/box.h"
 #include "game/camera.h"
 #include "game/collide.h"
@@ -21,7 +19,6 @@
 #include "game/gun/gun_misc.h"
 #include "game/gun/gun_pistols.h"
 #include "game/gun/gun_rifle.h"
-#include "game/hwr.h"
 #include "game/input.h"
 #include "game/inventory/backpack.h"
 #include "game/inventory/common.h"
@@ -89,6 +86,7 @@
 #include "game/output.h"
 #include "game/overlay.h"
 #include "game/random.h"
+#include "game/render/hwr.h"
 #include "game/requester.h"
 #include "game/room.h"
 #include "game/room_draw.h"
@@ -96,7 +94,6 @@
 #include "game/sound.h"
 #include "game/text.h"
 #include "inject_util.h"
-#include "specific/s_flagged_string.h"
 
 static void M_DecompGeneral(const bool enable);
 static void M_DecompFMV(const bool enable);
@@ -113,7 +110,6 @@ static void M_Math(bool enable);
 static void M_Matrix(bool enable);
 static void M_Shell(bool enable);
 static void M_Requester(bool enable);
-static void M_Option(bool enable);
 static void M_Text(bool enable);
 static void M_Input(bool enable);
 static void M_Output(bool enable);
@@ -147,9 +143,7 @@ static void M_S_FlaggedString(bool enable);
 static void M_DecompGeneral(const bool enable)
 {
     INJECT(enable, 0x00411F50, Game_SetCutsceneTrack);
-    INJECT(enable, 0x00411F60, Game_Cutscene_Start);
     INJECT(enable, 0x00412080, Room_InitCinematic);
-    INJECT(enable, 0x00412120, Game_Cutscene_Control);
     INJECT(enable, 0x004123D0, Room_FindByPos);
     INJECT(enable, 0x00412450, CutscenePlayer_Control);
     INJECT(enable, 0x00412530, Lara_Control_Cutscene);
@@ -157,162 +151,16 @@ static void M_DecompGeneral(const bool enable)
     INJECT(enable, 0x00412660, CutscenePlayerGen_Initialise);
     INJECT(enable, 0x00414220, Misc_Move3DPosTo3DPos);
     INJECT(enable, 0x0043A280, Level_Initialise);
-    INJECT(enable, 0x00444540, Enumerate3DDevices);
-    INJECT(enable, 0x00444570, D3DCreate);
-    INJECT(enable, 0x004445B0, Enum3DDevicesCallback);
-    INJECT(enable, 0x00444670, D3DIsSupported);
-    INJECT(enable, 0x004446B0, D3DSetViewport);
-    INJECT(enable, 0x00444770, D3DDeviceCreate);
-    INJECT(enable, 0x00444930, Direct3DRelease);
-    INJECT(enable, 0x00444980, Direct3DInit);
-    INJECT(enable, 0x00444BD0, DDrawCreate);
-    INJECT(enable, 0x00444C30, DDrawRelease);
-    INJECT(enable, 0x00444C70, GameWindowCalculateSizeFromClient);
-    INJECT(enable, 0x00444CF0, GameWindowCalculateSizeFromClientByZero);
-    INJECT(enable, 0x00444D60, WinVidSetMinWindowSize);
-    INJECT(enable, 0x00444DB0, WinVidClearMinWindowSize);
-    INJECT(enable, 0x00444DC0, WinVidSetMaxWindowSize);
-    INJECT(enable, 0x00444E10, WinVidClearMaxWindowSize);
-    INJECT(enable, 0x00444E20, CalculateWindowWidth);
-    INJECT(enable, 0x00444E70, CalculateWindowHeight);
-    INJECT(enable, 0x00444EA0, WinVidGetMinMaxInfo);
     INJECT(enable, 0x00444FB0, WinVidFindGameWindow);
-    INJECT(enable, 0x00444FD0, WinVidSpinMessageLoop);
-    INJECT(enable, 0x004450C0, WinVidShowGameWindow);
-    INJECT(enable, 0x00445110, WinVidHideGameWindow);
-    INJECT(enable, 0x00445150, WinVidSetGameWindowSize);
-    INJECT(enable, 0x00445190, ShowDDrawGameWindow);
-    INJECT(enable, 0x00445240, HideDDrawGameWindow);
-    INJECT(enable, 0x004452D0, DDrawSurfaceCreate);
-    INJECT(enable, 0x00445320, DDrawSurfaceRestoreLost);
-    INJECT(enable, 0x00445370, WinVidClearBuffer);
-    INJECT(enable, 0x004453C0, WinVidBufferLock);
-    INJECT(enable, 0x00445400, WinVidBufferUnlock);
-    INJECT(enable, 0x00445430, WinVidCopyBitmapToBuffer);
-    INJECT(enable, 0x004454C0, GetRenderBitDepth);
-    INJECT(enable, 0x00445550, WinVidGetColorBitMasks);
-    INJECT(enable, 0x004455D0, BitMaskGetNumberOfBits);
-    INJECT(enable, 0x00445620, CalculateCompatibleColor);
-    INJECT(enable, 0x00445690, WinVidGetDisplayMode);
-    INJECT(enable, 0x00445720, WinVidGoFullScreen);
-    INJECT(enable, 0x004457B0, WinVidGoWindowed);
-    INJECT(enable, 0x004458C0, WinVidSetDisplayAdapter);
-    INJECT(enable, 0x004459A0, CompareVideoModes);
-    INJECT(enable, 0x004459F0, WinVidGetDisplayModes);
-    INJECT(enable, 0x00445A50, EnumDisplayModesCallback);
-    INJECT(enable, 0x00445E10, WinVidInit);
-    INJECT(enable, 0x00445E50, WinVidGetDisplayAdapters);
-    INJECT(enable, 0x00445F20, EnumerateDisplayAdapters);
-    INJECT(enable, 0x00445F40, EnumDisplayAdaptersCallback);
-    INJECT(enable, 0x00446140, WinVidRegisterGameWindowClass);
-    INJECT(enable, 0x004461B0, WinVidGameWindowProc);
-    INJECT(enable, 0x004467C0, WinVidResizeGameWindow);
-    INJECT(enable, 0x004469A0, WinVidCheckGameWindowPalette);
-    INJECT(enable, 0x00446A60, WinVidCreateGameWindow);
-    INJECT(enable, 0x00446B30, WinVidFreeWindow);
-    INJECT(enable, 0x00446B60, WinVidExitMessage);
-    INJECT(enable, 0x00446BB0, WinVidGetDisplayAdapter);
-    INJECT(enable, 0x00446C00, WinVidStart);
-    INJECT(enable, 0x00446F80, WinVidFinish);
-    INJECT(enable, 0x004471F0, DInputCreate);
-    INJECT(enable, 0x00447220, DInputRelease);
-    INJECT(enable, 0x00447240, WinInReadKeyboard);
     INJECT(enable, 0x00447810, IncreaseScreenSize);
     INJECT(enable, 0x00447880, DecreaseScreenSize);
-    INJECT(enable, 0x004478F0, setup_screen_size);
-    INJECT(enable, 0x00447A10, S_FadeInInventory);
-    INJECT(enable, 0x00447A50, S_FadeOutInventory);
-    INJECT(enable, 0x00448430, CreateScreenBuffers);
-    INJECT(enable, 0x00448570, CreatePrimarySurface);
-    INJECT(enable, 0x00448610, CreateBackBuffer);
-    INJECT(enable, 0x004486B0, CreateClipper);
-    INJECT(enable, 0x00448750, CreateWindowPalette);
-    INJECT(enable, 0x00448830, CreateZBuffer);
-    INJECT(enable, 0x004488F0, GetZBufferDepth);
-    INJECT(enable, 0x00448920, CreateRenderBuffer);
-    INJECT(enable, 0x004489D0, CreatePictureBuffer);
-    INJECT(enable, 0x00448A40, ClearBuffers);
-    INJECT(enable, 0x00448BF0, RestoreLostBuffers);
-    INJECT(enable, 0x00448D30, UpdateFrame);
-    INJECT(enable, 0x00448E00, WaitPrimaryBufferFlip);
-    INJECT(enable, 0x00448E40, RenderInit);
-    INJECT(enable, 0x00448E50, RenderStart);
-    INJECT(enable, 0x00449200, RenderFinish);
-    INJECT(enable, 0x004492F0, ApplySettings);
-    INJECT(enable, 0x00449610, GameApplySettings);
-    INJECT(enable, 0x00449850, UpdateGameResolution);
-    INJECT(enable, 0x004498C0, DecodeErrorMessage);
-    INJECT(enable, 0x00449E50, AdjustTextureUVs);
     INJECT(enable, 0x0044B4B0, S_LoadLevelFile);
     INJECT(enable, 0x0044B4D0, S_UnloadLevelFile);
-    INJECT(enable, 0x0044B500, S_AdjustTexelCoordinates);
-    INJECT(enable, 0x0044B520, S_ReloadLevelGraphics);
-    INJECT(enable, 0x0044C1D0, S_FindColor);
-    INJECT(enable, 0x0044C200, S_DrawScreenLine);
-    INJECT(enable, 0x0044C240, S_DrawScreenBox);
-    INJECT(enable, 0x0044C360, S_DrawScreenFBox);
-    INJECT(enable, 0x0044C3A0, S_FadeToBlack);
     INJECT(enable, 0x0044C3F0, S_Wait);
     INJECT(enable, 0x0044CA70, DisplayCredits);
     INJECT(enable, 0x0044D610, S_InitialiseSystem);
-    INJECT(enable, 0x0044E4E0, RenderErrorBox);
     INJECT(enable, 0x0044E520, WinMain);
-    INJECT(enable, 0x0044E700, GameInit);
-    INJECT(enable, 0x0044E7A0, WinGameStart);
-    INJECT(enable, 0x00450AE0, GetRenderHeight);
-    INJECT(enable, 0x00450AF0, GetRenderWidth);
-    INJECT(enable, 0x00450B00, S_InitialisePolyList);
-    INJECT(enable, 0x00450BF0, S_DumpScreen);
-    INJECT(enable, 0x00450C30, S_ClearScreen);
-    INJECT(enable, 0x00450C40, S_InitialiseScreen);
-    INJECT(enable, 0x00450C80, S_OutputPolyList);
-    INJECT(enable, 0x00450F30, S_InsertBackPolygon);
-    INJECT(enable, 0x00451DE0, S_DisplayPicture);
-    INJECT(enable, 0x00451EF0, S_SyncPictureBufferPalette);
-    INJECT(enable, 0x00451F70, S_DontDisplayPicture);
-    INJECT(enable, 0x00451F80, ScreenDump);
-    INJECT(enable, 0x00451F90, ScreenPartialDump);
-    INJECT(enable, 0x00451FA0, FadeToPal);
-    INJECT(enable, 0x00452170, ScreenClear);
-    INJECT(enable, 0x004521A0, S_CopyScreenToBuffer);
-    INJECT(enable, 0x00452250, S_CopyBufferToScreen);
     INJECT(enable, 0x00454C50, TitleSequence);
-    INJECT(enable, 0x004557A0, CopyBitmapPalette);
-    INJECT(enable, 0x004558E0, FindNearestPaletteEntry);
-    INJECT(enable, 0x004559B0, SyncSurfacePalettes);
-    INJECT(enable, 0x00455A60, CreateTexturePalette);
-    INJECT(enable, 0x00455AF0, GetFreePaletteIndex);
-    INJECT(enable, 0x00455B10, FreePalette);
-    INJECT(enable, 0x00455B40, SafeFreePalette);
-    INJECT(enable, 0x00455B90, CreateTexturePage);
-    INJECT(enable, 0x00455C00, GetFreeTexturePageIndex);
-    INJECT(enable, 0x00455C20, CreateTexturePageSurface);
-    INJECT(enable, 0x00455CC0, TexturePageInit);
-    INJECT(enable, 0x00455E40, Create3DTexture);
-    INJECT(enable, 0x00455E70, SafeFreeTexturePage);
-    INJECT(enable, 0x00455E90, FreeTexturePage);
-    INJECT(enable, 0x00455ED0, TexturePageReleaseVidMemSurface);
-    INJECT(enable, 0x00455F10, FreeTexturePages);
-    INJECT(enable, 0x00455F40, LoadTexturePage);
-    INJECT(enable, 0x00455FF0, ReloadTextures);
-    INJECT(enable, 0x00456030, GetTexturePageHandle);
-    INJECT(enable, 0x00456070, AddTexturePage8);
-    INJECT(enable, 0x00456170, AddTexturePage16);
-    INJECT(enable, 0x00456310, EnumTextureFormatsCallback);
-    INJECT(enable, 0x00456430, EnumerateTextureFormats);
-    INJECT(enable, 0x00456460, CleanupTextures);
-    INJECT(enable, 0x00456470, InitTextures);
-    INJECT(enable, 0x00452690, SE_ReadAppSettings);
-}
-
-static void M_DecompFMV(const bool enable)
-{
-    INJECT(enable, 0x0044BDA0, PlayFMV);
-    INJECT(enable, 0x0044C140, IntroFMV);
-    INJECT(enable, 0x0044BE10, WinPlayFMV);
-    INJECT(enable, 0x0044C0F0, WinStopFMV);
-    INJECT(enable, 0x0044C450, S_PlayFMV);
-    INJECT(enable, 0x0044C460, S_IntroFMV);
 }
 
 static void M_DecompSkidoo(const bool enable)
@@ -392,38 +240,6 @@ static void M_GameBuf(bool enable)
     INJECT(enable, 0x0044D740, GameBuf_Free);
 }
 
-static void M_HWR(bool enable)
-{
-    INJECT(enable, 0x0044CFE0, HWR_InitState);
-    INJECT(enable, 0x0044D110, HWR_ResetTexSource);
-    INJECT(enable, 0x0044D140, HWR_ResetColorKey);
-    INJECT(enable, 0x0044D170, HWR_ResetZBuffer);
-    INJECT(enable, 0x0044D1D0, HWR_TexSource);
-    INJECT(enable, 0x0044D200, HWR_EnableColorKey);
-    INJECT(enable, 0x0044D250, HWR_EnableZBuffer);
-    INJECT(enable, 0x0044D2E0, HWR_BeginScene);
-    INJECT(enable, 0x0044D310, HWR_DrawPolyList);
-    INJECT(enable, 0x0044D490, HWR_LoadTexturePages);
-    INJECT(enable, 0x0044D520, HWR_FreeTexturePages);
-    INJECT(enable, 0x0044D570, HWR_GetPageHandles);
-    INJECT(enable, 0x0044D5B0, HWR_VertexBufferFull);
-    INJECT(enable, 0x0044D5E0, HWR_Init);
-}
-
-static void M_Background(const bool enable)
-{
-    INJECT(enable, 0x00443990, BGND_Make640x480);
-    INJECT(enable, 0x00443B50, BGND_AddTexture);
-    INJECT(enable, 0x00443C10, BGND_GetPageHandles);
-    INJECT(enable, 0x00443C50, BGND_DrawInGameBlack);
-    INJECT(enable, 0x00443CB0, DrawQuad);
-    INJECT(enable, 0x00443D90, BGND_DrawInGameBackground);
-    INJECT(enable, 0x00443FB0, DrawTextureTile);
-    INJECT(enable, 0x00444210, BGND_CenterLighting);
-    INJECT(enable, 0x004444C0, BGND_Free);
-    INJECT(enable, 0x00444510, BGND_Init);
-}
-
 static void M_Camera(const bool enable)
 {
     INJECT(enable, 0x004105A0, Camera_Initialise);
@@ -452,7 +268,9 @@ static void M_Collide(const bool enable)
 static void M_Game(const bool enable)
 {
     INJECT(enable, 0x00414390, Game_Control);
+    INJECT(enable, 0x00412120, Game_ControlCinematic);
     INJECT(enable, 0x00418990, Game_Draw);
+    INJECT(enable, 0x00411F60, Game_LoopCinematic);
     INJECT(enable, 0x00418950, Game_DrawCinematic);
     INJECT(enable, 0x0044C480, Game_Start);
     INJECT(enable, 0x0044C5D0, Game_Loop);
@@ -542,16 +360,6 @@ static void M_Requester(const bool enable)
     INJECT(enable, 0x00426270, Requester_SetSize);
 }
 
-static void M_Option(const bool enable)
-{
-    INJECT(enable, 0x0044EDC0, Option_DoInventory);
-    INJECT(enable, 0x0044EED0, Option_Passport);
-    INJECT(enable, 0x0044F520, Option_Detail);
-    INJECT(enable, 0x0044F800, Option_Sound);
-    INJECT(enable, 0x0044FCA0, Option_Compass);
-    INJECT(enable, 0x0044FE20, Option_Controls);
-}
-
 static void M_Text(const bool enable)
 {
     INJECT(enable, 0x00440450, Text_Init);
@@ -591,70 +399,17 @@ static void M_Output(const bool enable)
     INJECT(enable, 0x00401F40, Output_CalcVerticeLight);
     INJECT(enable, 0x004020B0, Output_CalcRoomVertices);
     INJECT(enable, 0x00402330, Output_RotateLight);
-    INJECT(enable, 0x00402400, Output_InitPolyList);
-    INJECT(enable, 0x00402430, Output_SortPolyList);
-    INJECT(enable, 0x00402470, Output_QuickSort);
-    INJECT(enable, 0x00402540, Output_PrintPolyList);
     INJECT(enable, 0x00402580, Output_AlterFOV);
-    INJECT(enable, 0x00402700, Output_Init);
-    INJECT(enable, 0x00402970, Output_DrawPolyLine);
-    INJECT(enable, 0x00402B10, Output_DrawPolyFlat);
-    INJECT(enable, 0x00402B50, Output_DrawPolyTrans);
-    INJECT(enable, 0x00402B90, Output_DrawPolyGouraud);
-    INJECT(enable, 0x00402BD0, Output_DrawPolyGTMap);
-    INJECT(enable, 0x00402C10, Output_DrawPolyWGTMap);
-    INJECT(enable, 0x00402C50, Output_XGenX);
-    INJECT(enable, 0x00402D30, Output_XGenXG);
-    INJECT(enable, 0x00402E80, Output_XGenXGUV);
-    INJECT(enable, 0x004030A0, Output_XGenXGUVPerspFP);
-    INJECT(enable, 0x00403330, Output_GTMapPersp32FP);
-    INJECT(enable, 0x00404300, Output_WGTMapPersp32FP);
-    INJECT(enable, 0x004057D0, Output_DrawPolyGTMapPersp);
-    INJECT(enable, 0x00405810, Output_DrawPolyWGTMapPersp);
-    INJECT(enable, 0x00405850, Output_VisibleZClip);
-    INJECT(enable, 0x004058C0, Output_ZedClipper);
-    INJECT(enable, 0x00405A00, Output_XYGUVClipper);
-    INJECT(enable, 0x00405F20, Output_InsertObjectGT4);
-    INJECT(enable, 0x00406980, Output_InsertObjectGT3);
-    INJECT(enable, 0x00407200, Output_XYGClipper);
-    INJECT(enable, 0x00407630, Output_InsertObjectG4);
-    INJECT(enable, 0x00407A10, Output_InsertObjectG3);
-    INJECT(enable, 0x00407D30, Output_XYClipper);
-    INJECT(enable, 0x00408000, Output_InsertTrans8);
-    INJECT(enable, 0x004084B0, Output_InsertTransQuad);
-    INJECT(enable, 0x00408590, Output_InsertFlatRect);
-    INJECT(enable, 0x00408660, Output_InsertLine);
-    INJECT(enable, 0x00408720, Output_InsertGT3_ZBuffered);
-    INJECT(enable, 0x00408D70, Output_DrawClippedPoly_Textured);
-    INJECT(enable, 0x00408EB0, Output_InsertGT4_ZBuffered);
-    INJECT(enable, 0x00409300, Output_InsertObjectGT4_ZBuffered);
-    INJECT(enable, 0x004093A0, Output_InsertObjectGT3_ZBuffered);
-    INJECT(enable, 0x00409450, Output_InsertObjectG4_ZBuffered);
-    INJECT(enable, 0x004097F0, Output_DrawPoly_Gouraud);
-    INJECT(enable, 0x004098F0, Output_InsertObjectG3_ZBuffered);
-    INJECT(enable, 0x00409BD0, Output_InsertFlatRect_ZBuffered);
-    INJECT(enable, 0x00409DA0, Output_InsertLine_ZBuffered);
-    INJECT(enable, 0x00409EE0, Output_InsertGT3_Sorted);
-    INJECT(enable, 0x0040A5F0, Output_InsertClippedPoly_Textured);
-    INJECT(enable, 0x0040A7A0, Output_InsertGT4_Sorted);
-    INJECT(enable, 0x0040AC80, Output_InsertObjectGT4_Sorted);
-    INJECT(enable, 0x0040AD10, Output_InsertObjectGT3_Sorted);
-    INJECT(enable, 0x0040ADB0, Output_InsertObjectG4_Sorted);
-    INJECT(enable, 0x0040B1F0, Output_InsertPoly_Gouraud);
-    INJECT(enable, 0x0040B370, Output_InsertObjectG3_Sorted);
-    INJECT(enable, 0x0040B6C0, Output_InsertSprite_Sorted);
-    INJECT(enable, 0x0040BA10, Output_InsertFlatRect_Sorted);
-    INJECT(enable, 0x0040BB90, Output_InsertLine_Sorted);
-    INJECT(enable, 0x0040BCC0, Output_InsertTrans8_Sorted);
-    INJECT(enable, 0x0040BE60, Output_InsertTransQuad_Sorted);
-    INJECT(enable, 0x0040BFA0, Output_InsertSprite);
     INJECT(enable, 0x0040C050, Output_DrawSprite);
     INJECT(enable, 0x0040C320, Output_DrawPickup);
     INJECT(enable, 0x0040C3B0, Output_InsertRoomSprite);
     INJECT(enable, 0x0040C510, Output_DrawScreenSprite2D);
     INJECT(enable, 0x0040C5B0, Output_DrawScreenSprite);
-    INJECT(enable, 0x0040C650, Output_DrawScaledSpriteC);
     INJECT(enable, 0x0041BA50, Output_InsertPolygons_I);
+    INJECT(enable, 0x00450F80, Output_InsertShadow);
+    INJECT(enable, 0x00451800, Output_DrawHealthBar);
+    INJECT(enable, 0x004519D0, Output_DrawAirBar);
+    INJECT(enable, 0x00451BD0, Output_AnimateTextures);
 }
 
 static void M_Music(const bool enable)
@@ -782,7 +537,6 @@ static void M_Inventory(const bool enable)
     INJECT(enable, 0x00423310, Inv_Construct);
     INJECT(enable, 0x00423470, Inv_SelectMeshes);
     INJECT(enable, 0x00423500, Inv_AnimateInventoryItem);
-    INJECT(enable, 0x00423590, Inv_DrawInventoryItem);
     INJECT(enable, 0x004239E0, Inv_DoInventoryPicture);
     INJECT(enable, 0x004239F0, Inv_DoInventoryBackground);
     INJECT(enable, 0x00423B30, Inv_InitColors);
@@ -1200,17 +954,9 @@ static void M_Objects(const bool enable)
     INJECT(enable, 0x00442F40, Ember_Control);
 }
 
-static void M_S_FlaggedString(const bool enable)
-{
-    INJECT(enable, 0x00445F00, S_FlaggedString_Delete);
-    INJECT(enable, 0x00446100, S_FlaggedString_InitAdapter);
-    INJECT(enable, 0x00447550, S_FlaggedString_Create);
-}
-
 void Inject_Exec(void)
 {
     M_DecompGeneral(true);
-    M_DecompFMV(true);
     M_DecompSkidoo(true);
     M_DecompStats(true);
     M_DecompEffects(true);
@@ -1218,8 +964,6 @@ void Inject_Exec(void)
     M_DecompSavegame(true);
 
     M_GameBuf(true);
-    M_HWR(true);
-    M_Background(true);
 
     M_Camera(true);
     M_Collide(true);
@@ -1229,7 +973,6 @@ void Inject_Exec(void)
     M_Matrix(true);
     M_Shell(true);
     M_Requester(true);
-    M_Option(true);
     M_Text(true);
     M_Input(true);
     M_Output(true);
@@ -1260,6 +1003,4 @@ void Inject_Exec(void)
     M_Box(true);
     M_Lot(true);
     M_Objects(true);
-
-    M_S_FlaggedString(true);
 }

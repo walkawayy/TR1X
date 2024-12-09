@@ -28,7 +28,7 @@ void __cdecl Object_DrawAnimatingItem(const ITEM *item)
     const OBJECT *const obj = Object_GetObject(item->object_id);
 
     if (obj->shadow_size != 0) {
-        S_PrintShadow(obj->shadow_size, &frames[0]->bounds, item);
+        Output_InsertShadow(obj->shadow_size, &frames[0]->bounds, item);
     }
 
     Matrix_Push();

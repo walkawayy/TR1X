@@ -7,7 +7,7 @@ from shared.paths import TR2Paths
 
 FUNCS_H_FILE = TR2Paths.src_dir / "global/funcs.h"
 VARS_H_FILE = TR2Paths.src_dir / "global/vars_decomp.h"
-TYPES_H_FILE = TR2Paths.src_dir / "global/types.h"
+TYPES_H_FILE = TR2Paths.src_dir / "global/types_decomp.h"
 
 
 COMMON_HEADER = [
@@ -146,10 +146,6 @@ def make_types_h(types: list[str]) -> None:
         "#include <libtrx/game/rooms/types.h>",
         "#include <libtrx/game/text.h>",
         "",
-        "#include <ddraw.h>",
-        "#include <ddrawi.h>",
-        "#include <d3dhal.h>",
-        "#include <dsound.h>",
         "#include <stdbool.h>",
         "#include <stdint.h>",
         "#include <windows.h>",

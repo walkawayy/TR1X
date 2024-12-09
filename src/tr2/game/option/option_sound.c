@@ -55,7 +55,7 @@ void Option_Sound_Shutdown(void)
     M_ShutdownText();
 }
 
-void __cdecl Option_Sound(INVENTORY_ITEM *const item)
+void Option_Sound_Control(INVENTORY_ITEM *const item)
 {
     char text[8];
 
@@ -124,4 +124,8 @@ void __cdecl Option_Sound(INVENTORY_ITEM *const item)
     if (g_InputDB.menu_confirm || g_InputDB.menu_back) {
         Option_Sound_Shutdown();
     }
+}
+
+void Option_Sound_Draw(INVENTORY_ITEM *const item)
+{
 }

@@ -4,23 +4,23 @@
 #include "global/funcs.h"
 #include "global/vars.h"
 
-void __cdecl Option_DoInventory(INVENTORY_ITEM *const item)
+void Option_Control(INVENTORY_ITEM *const item)
 {
     switch (item->object_id) {
     case O_PASSPORT_OPTION:
-        Option_Passport(item);
+        Option_Passport_Control(item);
         break;
     case O_COMPASS_OPTION:
-        Option_Compass(item);
+        Option_Compass_Control(item);
         break;
     case O_DETAIL_OPTION:
-        Option_Detail(item);
+        Option_Detail_Control(item);
         break;
     case O_SOUND_OPTION:
-        Option_Sound(item);
+        Option_Sound_Control(item);
         break;
     case O_CONTROL_OPTION:
-        Option_Controls(item);
+        Option_Controls_Control(item);
         break;
     case O_GAMMA_OPTION:
         break;
@@ -65,7 +65,32 @@ void __cdecl Option_DoInventory(INVENTORY_ITEM *const item)
     }
 }
 
-void __cdecl Option_ShutdownInventory(INVENTORY_ITEM *const item)
+void Option_Draw(INVENTORY_ITEM *const item)
+{
+    switch (item->object_id) {
+    case O_PASSPORT_OPTION:
+        Option_Passport_Draw(item);
+        break;
+    case O_COMPASS_OPTION:
+        Option_Compass_Draw(item);
+        break;
+    case O_DETAIL_OPTION:
+        Option_Detail_Draw(item);
+        break;
+    case O_SOUND_OPTION:
+        Option_Sound_Draw(item);
+        break;
+    case O_CONTROL_OPTION:
+        Option_Controls_Draw(item);
+        break;
+    case O_GAMMA_OPTION:
+        break;
+    default:
+        break;
+    }
+}
+
+void Option_Shutdown(INVENTORY_ITEM *const item)
 {
     switch (item->object_id) {
     case O_PASSPORT_OPTION:

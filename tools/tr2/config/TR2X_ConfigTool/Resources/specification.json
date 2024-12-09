@@ -3,6 +3,11 @@
     "screenshot_format": [
       "jpg",
       "png"
+    ],
+    "aspect_mode": [
+      "any",
+      "16:9",
+      "4:3"
     ]
   },
   "CategorisedProperties": [
@@ -71,6 +76,12 @@
           "DefaultValue": true
         },
         {
+          "Field": "aspect_mode",
+          "DataType": "Enum",
+          "EnumKey": "aspect_mode",
+          "DefaultValue": "any"
+        },
+        {
           "Field": "screenshot_format",
           "DataType": "Enum",
           "EnumKey": "screenshot_format",
@@ -82,14 +93,22 @@
       "ID": "sound",
       "Image": "Graphics/graphic6.jpg",
       "Properties": [
-
+        {
+          "Field": "enable_lara_mic",
+          "DataType": "Bool",
+          "DefaultValue": false
+        }
       ]
     },
     {
       "ID": "ui",
       "Image": "Graphics/graphic7.jpg",
       "Properties": [
-
+        {
+          "Field": "enable_fade_effects",
+          "DataType": "Bool",
+          "DefaultValue": true
+        }
       ]
     }
   ]

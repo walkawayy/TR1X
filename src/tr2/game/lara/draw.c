@@ -51,7 +51,7 @@ void __cdecl Lara_Draw(const ITEM *const item)
     }
 
     if (g_Lara.skidoo == NO_ITEM) {
-        S_PrintShadow(object->shadow_size, &frame->bounds, item);
+        Output_InsertShadow(object->shadow_size, &frame->bounds, item);
     }
 
     saved_matrix = *g_MatrixPtr;
@@ -349,7 +349,7 @@ void __cdecl Lara_Draw_I(
     const BOUNDS_16 *const bounds = Item_GetBoundsAccurate(item);
 
     if (g_Lara.skidoo == NO_ITEM) {
-        S_PrintShadow(object->shadow_size, bounds, item);
+        Output_InsertShadow(object->shadow_size, bounds, item);
     }
 
     MATRIX saved_matrix = *g_MatrixPtr;

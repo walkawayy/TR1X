@@ -43,6 +43,9 @@ decompilation process. We recognize that there is much work to be done.
 - fixed a potential crash if Lara is on the skidoo in a room with many other adjoining rooms
 - fixed a softlock in Home Sweet Home if the final cutscene is triggered while Lara is on water surface
 - fixed Lara's left arm becoming stuck if a flare is drawn just before the final cutscene in Home Sweet Home
+- fixed game freezing when starting demo/credits/inventory offscreen
+- fixed exiting the game with Alt+F4 not immediately working in cutscenes
+- fixed a crash when trying to draw too many rooms at once
 - fixed the following floor data issues:
     - **Opera House**: fixed the trigger under item 203 to trigger it rather than item 204
     - **Wreck of the Maria Doria**: fixed room 98 not having water
@@ -62,6 +65,7 @@ decompilation process. We recognize that there is much work to be done.
 #### Input
 - added additional custom control schemes
 - added customizable controller support
+- added ability to hold forward/back to move through menus more quickly
 - fixed setting user keys being very difficult
 - fixed skipping FMVs triggering inventory
 - fixed skipping credits working too fast
@@ -70,14 +74,19 @@ decompilation process. We recognize that there is much work to be done.
 - fixed the dragon counting as more than one kill if allowed to revive
 - fixed enemies that are run over by the skidoo not being counted in the statistics
 
-#### Input
-- added ability to hold forward/back to move through menus more quickly
-
 #### Visuals
 - added support for HD FMVs
+- added wireframe mode
+- added an option for 1-2-3-4× pixel upscaling
+- added the ability to use the window border option at all times
+- added the ability to toggle between the software/hardware renderer at runtime
+- added fade effects to the hardware renderer
+- changed the software renderer to use the picture's palette for the background pictures
+- fixed fullscreen issues
 - fixed TGA screenshots crashing the game
 - fixed the camera being cut off after using the gong hammer in Ice Palace
 - fixed Lara's underwater hue being retained when re-entering a boat
+- fixed distant rooms sometimes not appearing, causing the skybox to be visible when it shouldn't
 - improved FMV mode behavior - stopped switching screen resolutions
 - improved vertex movement when looking through water portals
 
@@ -94,10 +103,13 @@ decompilation process. We recognize that there is much work to be done.
 - added .jpeg/.png screenshots
 - added ability to skip FMVs with both the Action key
 - added ability to skip end credits with the Action and Escape keys
+- ported audio decoding library to ffmpeg
 - ported video decoding library to ffmpeg
-- ported audio output library to SDL
-- ported input method to SDL
+- ported input backend to SDL
+- ported audio backend to SDL
+- ported video backend to SDL
 - fixed screenshots not working in windowed mode
 - fixed screenshots key not getting debounced
 - changed screenshots to be put in the screenshots/ directory
 - changed saves to be put in the saves/ directory
+- removed `-setup` dialog

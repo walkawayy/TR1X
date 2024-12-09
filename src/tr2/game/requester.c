@@ -62,8 +62,8 @@ void __cdecl Requester_Init(REQUEST_INFO *const req)
     req->pitem_flags1 = g_RequesterFlags1;
     req->pitem_flags2 = g_RequesterFlags2;
 
-    req->render_width = GetRenderWidth();
-    req->render_height = GetRenderHeight();
+    req->render_width = g_PhdWinWidth;
+    req->render_height = g_PhdWinHeight;
 }
 
 void __cdecl Requester_Shutdown(REQUEST_INFO *const req)
@@ -79,8 +79,8 @@ int32_t __cdecl Requester_Display(
     const int32_t lines_height = line_qty * req->line_height + 10;
     const int32_t line_one_off = req->y_pos - lines_height;
 
-    const uint32_t render_width = GetRenderWidth();
-    const uint32_t render_height = GetRenderHeight();
+    const uint32_t render_width = g_PhdWinWidth;
+    const uint32_t render_height = g_PhdWinHeight;
     if (render_width != req->render_width
         || render_height != req->render_height) {
         Requester_Shutdown(req);
@@ -466,7 +466,7 @@ void __cdecl Requester_AddItem(
 void __cdecl Requester_SetSize(
     REQUEST_INFO *const req, const int32_t max_lines, const int32_t y_pos)
 {
-    int32_t visible_lines = GetRenderHeight() / 2 / 18;
+    int32_t visible_lines = g_PhdWinHeight / 2 / 18;
     CLAMPG(visible_lines, max_lines);
     req->y_pos = y_pos;
     req->visible_count = visible_lines;

@@ -1,7 +1,6 @@
 #include "game/camera.h"
 
 #include "config.h"
-#include "decomp/decomp.h"
 #include "game/items.h"
 #include "game/los.h"
 #include "game/math.h"
