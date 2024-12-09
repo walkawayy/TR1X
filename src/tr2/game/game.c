@@ -13,6 +13,7 @@
 #include "game/lara/control.h"
 #include "game/music.h"
 #include "game/overlay.h"
+#include "game/room.h"
 #include "game/room_draw.h"
 #include "game/shell.h"
 #include "game/sound.h"

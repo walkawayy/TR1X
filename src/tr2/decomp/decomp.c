@@ -894,7 +894,7 @@ int32_t __cdecl Game_Cutscene_Start(const int32_t level_num)
         return 2;
     }
 
-    Misc_InitCinematicRooms();
+    Room_InitCinematic();
     CutscenePlayer1_Initialise(g_Lara.item_num);
     g_Camera.target_angle = g_CineTargetAngle;
 
@@ -927,24 +927,6 @@ int32_t __cdecl Game_Cutscene_Start(const int32_t level_num)
 
     g_LevelComplete = true;
     return result;
-}
-
-void __cdecl Misc_InitCinematicRooms(void)
-{
-    for (int32_t i = 0; i < g_RoomCount; i++) {
-        const int16_t flipped_room = g_Rooms[i].flipped_room;
-        if (flipped_room != NO_ROOM_NEG) {
-            g_Rooms[flipped_room].bound_active = 1;
-        }
-        g_Rooms[i].flags |= RF_OUTSIDE;
-    }
-
-    g_DrawRoomsCount = 0;
-    for (int32_t i = 0; i < g_RoomCount; i++) {
-        if (!g_Rooms[i].bound_active) {
-            g_DrawRoomsArray[g_DrawRoomsCount++] = i;
-        }
-    }
 }
 
 int32_t __cdecl Game_Cutscene_Control(const int32_t nframes)

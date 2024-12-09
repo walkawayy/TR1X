@@ -3041,7 +3041,7 @@ typedef enum {
 # game/cinema.c
 0x00411F50  0x000A  +       void __cdecl Game_SetCutsceneTrack(int32_t track);
 0x00411F60  0x0112  +       int32_t __cdecl Game_Cutscene_Start(int32_t level_num);
-0x00412080  0x0093  +R      void __cdecl Misc_InitCinematicRooms(void);
+0x00412080  0x0093  +       void __cdecl Room_InitCinematic(void);
 0x00412120  0x016F  +       int32_t __cdecl Game_Cutscene_Control(int32_t nframes);
 0x00412290  0x0138  +       void __cdecl Camera_UpdateCutscene(void);
 0x004123D0  0x007F  +R      int32_t __cdecl Room_FindByPos(int32_t x, int32_t y, int32_t z);
@@ -4541,8 +4541,8 @@ typedef enum {
 0x005263C8  -       uint16_t *g_Overlap;
 0x005206C0  -       CREATURE *g_BaddieSlots;
 0x00526312  +       int16_t g_CineLevelID;
-0x005252B8  -       int32_t g_DrawRoomsCount;
-0x00525B20  -       int16_t g_DrawRoomsArray[100];
+0x005252B8  +       int32_t g_DrawRoomsCount;
+0x00525B20  +       int16_t g_DrawRoomsArray[100];
 0x00525BEC  -       int32_t g_DynamicLightCount;
 0x004D7784  -       int32_t g_CineTickCount;
 0x004D7788  -       int32_t g_OriginalRoom;

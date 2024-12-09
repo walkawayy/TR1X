@@ -10,6 +10,19 @@
 
 #include <libtrx/utils.h>
 
+void Room_MarkToBeDrawn(const int16_t room_num)
+{
+    for (int32_t i = 0; i < g_RoomsToDrawCount; i++) {
+        if (g_RoomsToDraw[i] == room_num) {
+            return;
+        }
+    }
+
+    if (g_RoomsToDrawCount + 1 < MAX_ROOMS_TO_DRAW) {
+        g_RoomsToDraw[g_RoomsToDrawCount++] = room_num;
+    }
+}
+
 void __cdecl Room_GetBounds(void)
 {
     while (g_BoundStart != g_BoundEnd) {
@@ -32,8 +45,7 @@ void __cdecl Room_GetBounds(void)
         }
 
         if (!(r->bound_active & 1)) {
-            // TODO: fix crash when drawing too many rooms
-            g_DrawRoomsArray[g_DrawRoomsCount++] = room_num;
+            Room_MarkToBeDrawn(room_num);
             r->bound_active |= 1;
             if (r->flags & RF_OUTSIDE) {
                 g_Outside = RF_OUTSIDE;
@@ -467,7 +479,7 @@ void __cdecl Room_DrawAllRooms(const int16_t current_room)
     g_BoundStart = 0;
     g_BoundEnd = 1;
 
-    g_DrawRoomsCount = 0;
+    g_RoomsToDrawCount = 0;
     g_Outside = r->flags & RF_OUTSIDE;
 
     if (g_Outside) {
@@ -524,13 +536,13 @@ void __cdecl Room_DrawAllRooms(const int16_t current_room)
         Lara_Draw(g_LaraItem);
     }
 
-    for (int32_t i = 0; i < g_DrawRoomsCount; i++) {
-        const int16_t room_num = g_DrawRoomsArray[i];
+    for (int32_t i = 0; i < g_RoomsToDrawCount; i++) {
+        const int16_t room_num = g_RoomsToDraw[i];
         Room_DrawSingleRoomGeometry(room_num);
     }
 
-    for (int32_t i = 0; i < g_DrawRoomsCount; i++) {
-        const int16_t room_num = g_DrawRoomsArray[i];
+    for (int32_t i = 0; i < g_RoomsToDrawCount; i++) {
+        const int16_t room_num = g_RoomsToDraw[i];
         Room_DrawSingleRoomObjects(room_num);
     }
 }

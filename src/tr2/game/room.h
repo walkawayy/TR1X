@@ -15,6 +15,9 @@ void __cdecl Room_GetNewRoom(int32_t x, int32_t y, int32_t z, int16_t room_num);
 int16_t __cdecl Room_GetTiltType(
     const SECTOR *sector, int32_t x, int32_t y, int32_t z);
 
+// TODO: poor abstraction
+void Room_InitCinematic(void);
+
 SECTOR *Room_GetPitSector(const SECTOR *sector, int32_t x, int32_t z);
 SECTOR *Room_GetSkySector(const SECTOR *sector, int32_t x, int32_t z);
 SECTOR *__cdecl Room_GetSector(

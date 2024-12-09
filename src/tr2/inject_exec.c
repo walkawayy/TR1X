@@ -148,7 +148,7 @@ static void M_DecompGeneral(const bool enable)
 {
     INJECT(enable, 0x00411F50, Game_SetCutsceneTrack);
     INJECT(enable, 0x00411F60, Game_Cutscene_Start);
-    INJECT(enable, 0x00412080, Misc_InitCinematicRooms);
+    INJECT(enable, 0x00412080, Room_InitCinematic);
     INJECT(enable, 0x00412120, Game_Cutscene_Control);
     INJECT(enable, 0x004123D0, Room_FindByPos);
     INJECT(enable, 0x00412450, CutscenePlayer_Control);

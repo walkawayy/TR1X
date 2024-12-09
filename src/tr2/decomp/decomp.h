@@ -57,7 +57,6 @@ bool __cdecl WinVidGoWindowed(
 void __cdecl WinVidSetDisplayAdapter(DISPLAY_ADAPTER *disp_adapter);
 void __cdecl Game_SetCutsceneTrack(int32_t track);
 int32_t __cdecl Game_Cutscene_Start(int32_t level_num);
-void __cdecl Misc_InitCinematicRooms(void);
 int32_t __cdecl Game_Cutscene_Control(int32_t nframes);
 void __cdecl CutscenePlayer_Control(int16_t item_num);
 void __cdecl Lara_Control_Cutscene(int16_t item_num);

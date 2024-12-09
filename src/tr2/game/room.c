@@ -20,6 +20,7 @@
 #include <libtrx/debug.h>
 #include <libtrx/utils.h>
 
+void Room_MarkToBeDrawn(int16_t room_num);
 static int16_t M_GetFloorTiltHeight(const SECTOR *sector, int32_t x, int32_t z);
 static int16_t M_GetCeilingTiltHeight(
     const SECTOR *sector, int32_t x, int32_t z);
@@ -487,8 +488,8 @@ void __cdecl Room_GetNearbyRooms(
     const int32_t x, const int32_t y, const int32_t z, const int32_t r,
     const int32_t h, const int16_t room_num)
 {
-    g_DrawRoomsArray[0] = room_num;
-    g_DrawRoomsCount = 1;
+    g_RoomsToDrawCount = 0;
+    Room_MarkToBeDrawn(room_num);
 
     Room_GetNewRoom(r + x, y, r + z, room_num);
     Room_GetNewRoom(x - r, y, r + z, room_num);
@@ -504,15 +505,7 @@ void __cdecl Room_GetNewRoom(
     const int32_t x, const int32_t y, const int32_t z, int16_t room_num)
 {
     Room_GetSector(x, y, z, &room_num);
-
-    for (int32_t i = 0; i < g_DrawRoomsCount; i++) {
-        if (g_DrawRoomsArray[i] == room_num) {
-            return;
-        }
-    }
-
-    // TODO: fix crash when trying to draw too many rooms
-    g_DrawRoomsArray[g_DrawRoomsCount++] = room_num;
+    Room_MarkToBeDrawn(room_num);
 }
 
 int16_t __cdecl Room_GetTiltType(
@@ -887,4 +880,22 @@ int32_t Room_GetTotalCount(void)
 ROOM *Room_Get(const int32_t room_num)
 {
     return &g_Rooms[room_num];
+}
+
+void Room_InitCinematic(void)
+{
+    for (int32_t i = 0; i < g_RoomCount; i++) {
+        const int16_t flipped_room = g_Rooms[i].flipped_room;
+        if (flipped_room != NO_ROOM_NEG) {
+            g_Rooms[flipped_room].bound_active = 1;
+        }
+        g_Rooms[i].flags |= RF_OUTSIDE;
+    }
+
+    g_RoomsToDrawCount = 0;
+    for (int32_t i = 0; i < g_RoomCount; i++) {
+        if (!g_Rooms[i].bound_active) {
+            Room_MarkToBeDrawn(i);
+        }
+    }
 }

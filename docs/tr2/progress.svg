@@ -213,7 +213,7 @@
 <rect width="12" height="12" x="510" y="30" class="decompiled"><title>void __cdecl Camera_Update(void);</title></rect>
 <rect width="12" height="12" x="525" y="30" class="decompiled"><title>void __cdecl Game_SetCutsceneTrack(int32_t track);</title></rect>
 <rect width="12" height="12" x="540" y="30" class="decompiled"><title>int32_t __cdecl Game_Cutscene_Start(int32_t level_num);</title></rect>
-<rect width="12" height="12" x="555" y="30" class="decompiled"><title>void __cdecl Misc_InitCinematicRooms(void);</title></rect>
+<rect width="12" height="12" x="555" y="30" class="decompiled"><title>void __cdecl Room_InitCinematic(void);</title></rect>
 <rect width="12" height="12" x="570" y="30" class="decompiled"><title>int32_t __cdecl Game_Cutscene_Control(int32_t nframes);</title></rect>
 <rect width="12" height="12" x="585" y="30" class="decompiled"><title>void __cdecl Camera_UpdateCutscene(void);</title></rect>
 <rect width="12" height="12" x="600" y="30" class="decompiled"><title>int32_t __cdecl Room_FindByPos(int32_t x, int32_t y, int32_t z);</title></rect>
@@ -1898,7 +1898,7 @@
 <rect width="7.86" height="8.39" x="556.72" y="276.81" class="decompiled"><title>void __cdecl Lara_Col_TurnRight(ITEM *item, COLL_INFO *coll);</title></rect>
 <rect width="7.86" height="8.39" x="556.72" y="288.20" class="known"><title>bool __cdecl GetRegistryStringValue(LPCTSTR lpValueName, LPTSTR value, DWORD maxSize, LPCTSTR defaultValue);</title></rect>
 <rect width="7.86" height="8.31" x="556.72" y="299.59" class="decompiled"><title>void __cdecl CreatePrimarySurface(void);</title></rect>
-<rect width="7.86" height="8.23" x="556.72" y="310.90" class="decompiled"><title>void __cdecl Misc_InitCinematicRooms(void);</title></rect>
+<rect width="7.86" height="8.23" x="556.72" y="310.90" class="decompiled"><title>void __cdecl Room_InitCinematic(void);</title></rect>
 <rect width="7.86" height="8.23" x="556.72" y="322.13" class="decompiled"><title>void __cdecl Effect_NewRoom(int16_t fx_num, int16_t room_num);</title></rect>
 <rect width="7.86" height="8.23" x="556.72" y="333.37" class="known"><title>void __cdecl SE_AdvancedDlgUpdate(HWND hwndDlg);</title></rect>
 <rect width="7.86" height="8.16" x="556.72" y="344.60" class="decompiled"><title>int32_t __cdecl Item_GetFrames(const ITEM *item, FRAME_INFO *frmptr[], int32_t *rate);</title></rect>
