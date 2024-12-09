@@ -37,6 +37,8 @@ static void M_ClearTextStrings(REQUEST_INFO *const req)
 
 void __cdecl Requester_Init(REQUEST_INFO *const req)
 {
+    M_ClearTextStrings(req);
+
     req->background_flags = 1;
     req->moreup_flags = 1;
     req->moredown_flags = 1;

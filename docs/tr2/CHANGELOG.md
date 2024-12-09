@@ -34,6 +34,7 @@
 - fixed a softlock in Home Sweet Home if the final cutscene is triggered while Lara is on water surface (#1701)
 - fixed Lara's left arm becoming stuck if a flare is drawn just before the final cutscene in Home Sweet Home (#1992)
 - fixed game crash when trying to draw too many rooms at once (#1998)
+- fixed resizing game window on the stats dialog cloning the UI elements, eventually crashing the game (#1999)
 - removed unused detail level option
 
 ## [0.6](https://github.com/LostArtefacts/TRX/compare/tr2-0.5...tr2-0.6) - 2024-11-06
