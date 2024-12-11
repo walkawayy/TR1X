@@ -35,6 +35,12 @@ static void M_RestoreTexture(GFX_3D_RENDERER *const renderer);
 
 static void M_Flush(GFX_3D_RENDERER *const renderer)
 {
+    glLineWidth(renderer->config->line_width);
+    glPolygonMode(
+        GL_FRONT_AND_BACK,
+        renderer->config->enable_wireframe ? GL_LINE : GL_FILL);
+    GFX_GL_CheckError();
+
     GFX_3D_VertexStream_RenderPending(&renderer->vertex_stream);
 }
 
@@ -127,8 +133,6 @@ GFX_3D_RENDERER *GFX_3D_Renderer_Create(void)
         &renderer->program, renderer->loc_alpha_threshold, -1.0);
 
     GFX_3D_VertexStream_Init(&renderer->vertex_stream);
-    GFX_GL_CheckError();
-
     return renderer;
 }
 
@@ -146,12 +150,6 @@ void GFX_3D_Renderer_Destroy(GFX_3D_RENDERER *const renderer)
 void GFX_3D_Renderer_RenderBegin(GFX_3D_RENDERER *const renderer)
 {
     ASSERT(renderer != NULL);
-    glEnable(GL_BLEND);
-    glLineWidth(renderer->config->line_width);
-    glPolygonMode(
-        GL_FRONT_AND_BACK,
-        renderer->config->enable_wireframe ? GL_LINE : GL_FILL);
-    GFX_GL_CheckError();
 
     renderer->vertex_stream.rendered_count = 0;
 
@@ -180,6 +178,7 @@ void GFX_3D_Renderer_RenderBegin(GFX_3D_RENDERER *const renderer)
     glDepthFunc(GL_LEQUAL);
     glDepthMask(GL_TRUE);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
     GFX_GL_CheckError();
 }
 
@@ -191,6 +190,7 @@ void GFX_3D_Renderer_RenderEnd(GFX_3D_RENDERER *const renderer)
 
 void GFX_3D_Renderer_ClearDepth(GFX_3D_RENDERER *const renderer)
 {
+    ASSERT(renderer != NULL);
     M_Flush(renderer);
     glClear(GL_DEPTH_BUFFER_BIT);
     GFX_GL_CheckError();
@@ -205,7 +205,6 @@ int GFX_3D_Renderer_RegisterEnvironmentMap(GFX_3D_RENDERER *const renderer)
     renderer->env_map_texture = texture;
 
     M_RestoreTexture(renderer);
-    GFX_GL_CheckError();
     return GFX_ENV_MAP_TEXTURE;
 }
 
@@ -268,7 +267,6 @@ int GFX_3D_Renderer_RegisterTexturePage(
 
     M_RestoreTexture(renderer);
 
-    GFX_GL_CheckError();
     return texture_num;
 }
 
@@ -413,7 +411,6 @@ void GFX_3D_Renderer_SetBlendingMode(
         GFX_GL_CheckError();
         break;
     }
-    GFX_GL_CheckError();
     renderer->selected_blend_mode = blend_mode;
 }
 
