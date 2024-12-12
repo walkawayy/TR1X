@@ -1,5 +1,5 @@
 ## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.6...develop) - ××××-××-××
-- switched to OpenGL rendering
+- switched to OpenGL rendering (#1844)
     - improved support for non-4:3 aspect ratios (#1647)
     - changed fullscreen behavior to use windowed desktop mode (#1643)
     - added an option for 1-2-3-4× pixel upscaling (available under the F1/Shift-F1 key)
@@ -14,6 +14,7 @@
     - fixed black borders in windowed mode (#1645)
     - fixed "Failed to create device" when toggling fullscreen (#1842)
     - fixed distant rooms sometimes not appearing, causing the skybox to be visible when it shouldn't (#2000)
+    - fixed rendering problems on certain Intel GPUs (#1574)
 - replaced the Windows Registry configuration with .json files
     - removed setup dialog support (using `Tomb2.exe -setup` will have no effect on TR2X)
     - removed unused detail level option

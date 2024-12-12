@@ -92,6 +92,7 @@ decompilation process. We recognize that there is much work to be done.
 - fixed the camera being cut off after using the gong hammer in Ice Palace
 - fixed Lara's underwater hue being retained when re-entering a boat
 - fixed distant rooms sometimes not appearing, causing the skybox to be visible when it shouldn't
+- fixed rendering problems on certain Intel GPUs
 - improved FMV mode behavior - stopped switching screen resolutions
 - improved vertex movement when looking through water portals
 - improved support for non-4:3 aspect ratios
