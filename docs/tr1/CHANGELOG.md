@@ -31,6 +31,7 @@
 - fixed objects close to the camera being clipped (#819, regression from TombATI)
 - fixed the drawbridge in Obelisk of Khamoon not being angled correctly when open, which was resulting in embedded artefacts (#2006)
 - fixed incorrect positions on static meshes in Obelisk of Khamoon, Return to Egypt and Temple of the Cat (#2006)
+- fixed incorrect picture strides on certain hardware (#1979)
 
 ## [4.6.1](https://github.com/LostArtefacts/TRX/compare/tr1-4.6...tr1-4.6.1) - 2024-11-25
 - added ability to disable saves completely by setting the save slot to 0 (#1954)
