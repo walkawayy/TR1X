@@ -1,40 +1,39 @@
 ## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.6...develop) - ××××-××-××
 - switched to OpenGL rendering
-    - changed fullscreen behavior to use windowed desktop mode
+    - improved support for non-4:3 aspect ratios (#1647)
+    - changed fullscreen behavior to use windowed desktop mode (#1643)
     - added an option for 1-2-3-4× pixel upscaling (available under the F1/Shift-F1 key)
     - added the ability to use the window border option at all times (available under the F2/Shift-F2 key)
-    - added the ability to toggle between the SWR/HWR renderer at runtime (available under the F12 key)
-    - added fade effects to the HWR renderer
-    - changed the SWR to use the picture's palette for the background pictures
-- replaced fully the Windows Registry configuration with .json files
+    - added the ability to toggle between the software/hardware renderer at runtime (available under the F12 key)
+    - added fade effects to the hardware renderer (#1623)
+    - added an informative text when toggling various rendering options at runtime (#1873)
+    - added a wireframe mode (available with `/set` console command and with Shift+F7)
+    - changed the software renderer to use the picture's palette for the background pictures
+    - changed the hardware renderer to always use 16-bit textures (#1558)
+    - fixed texture corruption after FMVs play (#1562)
+    - fixed black borders in windowed mode (#1645)
+    - fixed "Failed to create device" when toggling fullscreen (#1842)
+    - fixed distant rooms sometimes not appearing, causing the skybox to be visible when it shouldn't (#2000)
+- replaced the Windows Registry configuration with .json files
     - removed setup dialog support (using `Tomb2.exe -setup` will have no effect on TR2X)
     - removed unused detail level option
     - removed triple buffering option
     - removed dither option
-- added toggle wireframe option (available with `/set` console command and with Shift+F7)
 - added support for custom levels to enforce values for any config setting (#1846)
 - added an option to fix inventory item usage duplication (#1586)
 - added optional automatic key/puzzle inventory item pre-selection (#1884)
 - added a search feature to the config tool (#1889)
 - added an option to fix rotation on some pickup items to better suit 3D pickup mode (#1613)
-- added ability to turn fade effects on/off
-- fixed a crash relating to audio decoding (#1895)
-- fixed depth problems when drawing certain rooms (#1853, regression from 0.6)
+- added the ability to turn fade effects on/off (#1623)
+- fixed a crash when trying to draw too many rooms at once (#1998)
 - fixed Lara getting stuck in her hit animation if she is hit while mounting the boat or skidoo (#1606)
-- fixed being unable to go from surface swimming to underwater swimming without first stopping (#1863, regression from 0.6)
 - fixed pistols appearing in Lara's hands when entering the fly cheat during certain animations (#1874)
-- fixed Lara continuing to walk after being killed if in that animation (#1880, regression from 0.1)
-- fixed some music tracks looping while Lara remained on the same trigger tile (#1899, regression from 0.2)
-- fixed some music tracks not playing if they were the last played track and the level had no ambience (#1899, regression from 0.2)
 - fixed wrongly calculated trapdoor size that could affect custom levels (#1904)
 - fixed one of the collapsible tiles in Opera House room 184 not triggering (#1902)
 - fixed being unable to use the drawbridge key in Tibetan Foothills after the flipmap (#1744)
 - fixed missing triggers and ladder in Catacombs of the Talion after the flipmap (#1960)
 - fixed incorrect music trigger types at the beginning of Catacombs of the Talion (#1962)
 - fixed missing death tiles in Temple of Xian room 91 (#1920)
-- fixed broken final stats screen in software rendering mode (#1915, regression from 0.6)
-- fixed screenshots not capturing level stats (#1925, regression from 0.6)
-- fixed screenshots sometimes crashing in the windowed mode (regression from 0.6)
 - fixed the detonator key and gong hammer not activating their target items when manually selected from the inventory (#1887)
 - fixed wrongly positioned doors in Ice Palace and Floating Islands, which caused invisible walls (#1963)
 - fixed picking up the Gong Hammer in Ice Palace sometimes not opening the nearby door (#1716)
@@ -42,12 +41,19 @@
 - fixed a potential crash if Lara is on the skidoo in a room with many other adjoining rooms (#1987)
 - fixed a softlock in Home Sweet Home if the final cutscene is triggered while Lara is on water surface (#1701)
 - fixed Lara's left arm becoming stuck if a flare is drawn just before the final cutscene in Home Sweet Home (#1992)
-- fixed game crash when trying to draw too many rooms at once (#1998)
 - fixed resizing game window on the stats dialog cloning the UI elements, eventually crashing the game (#1999)
 - fixed exiting the game with Alt+F4 not immediately working in cutscenes
 - fixed game freezing when starting demo/credits/inventory offscreen
 - fixed controllers dialog missing background in the software renderer mode (#1978, regression from 0.6)
-- fixed distant rooms sometimes not appearing, causing the skybox to be visible when it shouldn't (#2000)
+- fixed a crash relating to audio decoding (#1895, regression from 0.2)
+- fixed depth problems when drawing certain rooms (#1853, regression from 0.6)
+- fixed being unable to go from surface swimming to underwater swimming without first stopping (#1863, regression from 0.6)
+- fixed Lara continuing to walk after being killed if in that animation (#1880, regression from 0.1)
+- fixed some music tracks looping while Lara remained on the same trigger tile (#1899, regression from 0.2)
+- fixed some music tracks not playing if they were the last played track and the level had no ambience (#1899, regression from 0.2)
+- fixed broken final stats screen in software rendering mode (#1915, regression from 0.6)
+- fixed screenshots not capturing level stats (#1925, regression from 0.6)
+- fixed screenshots sometimes crashing in the windowed mode (regression from 0.6)
 - removed unused detail level option
 
 ## [0.6](https://github.com/LostArtefacts/TRX/compare/tr2-0.5...tr2-0.6) - 2024-11-06
@@ -154,7 +160,7 @@ Version 0.4 was skipped because of a major repository merge with TR1X into TRX.
     - `/kill`
     - `/flip`
     - `/set`
-- added an ability to remap the console key (LostArtefacts/TR2X#163)
+- added the ability to remap the console key (LostArtefacts/TR2X#163)
 - added `/tp` console command's ability to teleport to specific items
 - added `/fly` console command's ability to open nearest doors
 - added an option to fix M16 accuracy while running (LostArtefacts/TR2X#45)

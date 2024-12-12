@@ -80,15 +80,21 @@ decompilation process. We recognize that there is much work to be done.
 - added an option for 1-2-3-4× pixel upscaling
 - added the ability to use the window border option at all times
 - added the ability to toggle between the software/hardware renderer at runtime
-- added fade effects to the hardware renderer
+- added fade effects to the hardware renderer, and the ability to turn them off
+- added text information when changing rendering options at runtime
+- changed the hardware renderer to always use 16-bit textures
 - changed the software renderer to use the picture's palette for the background pictures
+- changed fullscreen behavior to use windowed desktop mode
 - fixed fullscreen issues
+- fixed black borders in windowed mode
+- fixed "Failed to create device" when toggling fullscreen
 - fixed TGA screenshots crashing the game
 - fixed the camera being cut off after using the gong hammer in Ice Palace
 - fixed Lara's underwater hue being retained when re-entering a boat
 - fixed distant rooms sometimes not appearing, causing the skybox to be visible when it shouldn't
 - improved FMV mode behavior - stopped switching screen resolutions
 - improved vertex movement when looking through water portals
+- improved support for non-4:3 aspect ratios
 
 #### Audio
 - fixed music not playing with certain game versions
