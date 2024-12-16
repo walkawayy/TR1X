@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.6...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.7...develop) - ××××-××-××
+
+## [0.7](https://github.com/LostArtefacts/TRX/compare/tr2-0.6...tr2-0.7) - 2024-12-16
 - switched to OpenGL rendering (#1844)
     - improved support for non-4:3 aspect ratios (#1647)
     - changed fullscreen behavior to use windowed desktop mode (#1643)
