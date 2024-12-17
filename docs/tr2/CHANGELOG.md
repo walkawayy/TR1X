@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.7...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.7.1...develop) - ××××-××-××
+
+## [0.7.1](https://github.com/LostArtefacts/TRX/compare/tr2-0.7...tr2-0.7.1) - 2024-12-17
 - fixed a crash when selecting the sound option (#2057, regression from 0.6)
 
 ## [0.7](https://github.com/LostArtefacts/TRX/compare/tr2-0.6...tr2-0.7) - 2024-12-16
