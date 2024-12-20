@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.6.1...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.7...develop) - ××××-××-××
+
+## [4.7](https://github.com/LostArtefacts/TRX/compare/tr1-4.6.1...tr1-4.7) - 2024-12-20
 - added support for Wayland in binary Linux builds (#1927)
 - added support for Unicode in gameflow JSON (#386, #636, #1919 and #1928)
     Expanding on the 4.6's added support for named sequences, we now support
