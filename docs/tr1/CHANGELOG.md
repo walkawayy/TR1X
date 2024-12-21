@@ -1,5 +1,7 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.7...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.7.1...develop) - ××××-××-××
 - added an option for pickup aids, which will show an intermittent twinkle when Lara is nearby pickup items (#2076)
+
+## [4.7.1](https://github.com/LostArtefacts/TRX/compare/tr1-4.7...tr1-4.7.1) - 2024-12-21
 - changed the inventory examine UI to auto-hide if the item description is empty (#2097)
 - fixed falling pickup items not being drawn when they land in rare cases (#2088)
 - fixed unbinding keys not working for controllers (#2090, regression from 4.6)
