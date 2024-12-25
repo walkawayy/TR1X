@@ -10,7 +10,7 @@
 
 #define PENDULUM_DAMAGE 50
 
-void __cdecl Pendulum_Control(const int16_t item_num)
+void Pendulum_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

@@ -11,7 +11,7 @@
 static bool m_UziRight = false;
 static bool m_UziLeft = false;
 
-void __cdecl Gun_Pistols_SetArmInfo(LARA_ARM *const arm, const int32_t frame)
+void Gun_Pistols_SetArmInfo(LARA_ARM *const arm, const int32_t frame)
 {
     const int16_t anim_idx = g_Objects[O_LARA_PISTOLS].anim_idx;
 
@@ -29,7 +29,7 @@ void __cdecl Gun_Pistols_SetArmInfo(LARA_ARM *const arm, const int32_t frame)
     arm->frame_base = g_Anims[arm->anim_num].frame_ptr;
 }
 
-void __cdecl Gun_Pistols_Draw(const LARA_GUN_TYPE weapon_type)
+void Gun_Pistols_Draw(const LARA_GUN_TYPE weapon_type)
 {
     int16_t frame = g_Lara.left_arm.frame_num + 1;
 
@@ -47,7 +47,7 @@ void __cdecl Gun_Pistols_Draw(const LARA_GUN_TYPE weapon_type)
     Gun_Pistols_SetArmInfo(&g_Lara.left_arm, frame);
 }
 
-void __cdecl Gun_Pistols_Undraw(const LARA_GUN_TYPE weapon_type)
+void Gun_Pistols_Undraw(const LARA_GUN_TYPE weapon_type)
 {
     int16_t frame_l = g_Lara.left_arm.frame_num;
     if (frame_l >= LF_G_RECOIL_START && frame_l <= LF_G_RECOIL_END) {
@@ -110,7 +110,7 @@ void __cdecl Gun_Pistols_Undraw(const LARA_GUN_TYPE weapon_type)
     }
 }
 
-void __cdecl Gun_Pistols_Ready(const LARA_GUN_TYPE weapon_type)
+void Gun_Pistols_Ready(const LARA_GUN_TYPE weapon_type)
 {
     g_Lara.gun_status = LGS_READY;
     g_Lara.target = NULL;
@@ -129,7 +129,7 @@ void __cdecl Gun_Pistols_Ready(const LARA_GUN_TYPE weapon_type)
     g_Lara.right_arm.rot.z = 0;
 }
 
-void __cdecl Gun_Pistols_DrawMeshes(const LARA_GUN_TYPE weapon_type)
+void Gun_Pistols_DrawMeshes(const LARA_GUN_TYPE weapon_type)
 {
     Gun_SetLaraHandLMesh(weapon_type);
     Gun_SetLaraHandRMesh(weapon_type);
@@ -149,7 +149,7 @@ void Gun_Pistols_UndrawMeshRight(const LARA_GUN_TYPE weapon_type)
     Gun_SetLaraHolsterRMesh(weapon_type);
 }
 
-void __cdecl Gun_Pistols_Control(const LARA_GUN_TYPE weapon_type)
+void Gun_Pistols_Control(const LARA_GUN_TYPE weapon_type)
 {
     const WEAPON_INFO *const winfo = &g_Weapons[weapon_type];
 
@@ -197,7 +197,7 @@ void __cdecl Gun_Pistols_Control(const LARA_GUN_TYPE weapon_type)
     }
 }
 
-void __cdecl Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
+void Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
 {
     const WEAPON_INFO *const winfo = &g_Weapons[weapon_type];
 

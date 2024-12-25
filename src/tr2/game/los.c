@@ -9,8 +9,7 @@
 #include <libtrx/debug.h>
 #include <libtrx/utils.h>
 
-int32_t __cdecl LOS_CheckX(
-    const GAME_VECTOR *const start, GAME_VECTOR *const target)
+int32_t LOS_CheckX(const GAME_VECTOR *const start, GAME_VECTOR *const target)
 {
     const int32_t dx = target->x - start->x;
     if (dx == 0) {
@@ -116,8 +115,7 @@ int32_t __cdecl LOS_CheckX(
     return 1;
 }
 
-int32_t __cdecl LOS_CheckZ(
-    const GAME_VECTOR *const start, GAME_VECTOR *const target)
+int32_t LOS_CheckZ(const GAME_VECTOR *const start, GAME_VECTOR *const target)
 {
     const int32_t dz = target->z - start->z;
     if (dz == 0) {
@@ -223,7 +221,7 @@ int32_t __cdecl LOS_CheckZ(
     return 1;
 }
 
-int32_t __cdecl LOS_ClipTarget(
+int32_t LOS_ClipTarget(
     const GAME_VECTOR *const start, GAME_VECTOR *const target,
     const SECTOR *const sector)
 {
@@ -252,8 +250,7 @@ int32_t __cdecl LOS_ClipTarget(
     return 1;
 }
 
-int32_t __cdecl LOS_Check(
-    const GAME_VECTOR *const start, GAME_VECTOR *const target)
+int32_t LOS_Check(const GAME_VECTOR *const start, GAME_VECTOR *const target)
 {
     int32_t los1;
     int32_t los2;
@@ -289,7 +286,7 @@ int32_t __cdecl LOS_Check(
     return 0;
 }
 
-int32_t __cdecl LOS_CheckSmashable(
+int32_t LOS_CheckSmashable(
     const GAME_VECTOR *const start, const GAME_VECTOR *const target)
 {
     const int32_t dx = target->x - start->x;

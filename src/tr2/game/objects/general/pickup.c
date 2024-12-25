@@ -280,7 +280,7 @@ void Pickup_Draw(const ITEM *const item)
     Matrix_Pop();
 }
 
-void __cdecl Pickup_Collision(
+void Pickup_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     if (g_Lara.water_status == LWS_ABOVE_WATER

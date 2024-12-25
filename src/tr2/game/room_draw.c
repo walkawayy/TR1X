@@ -22,7 +22,7 @@ void Room_MarkToBeDrawn(const int16_t room_num)
     }
 }
 
-void __cdecl Room_GetBounds(void)
+void Room_GetBounds(void)
 {
     while (g_BoundStart != g_BoundEnd) {
         const int16_t room_num = g_BoundRooms[g_BoundStart++ % MAX_BOUND_ROOMS];
@@ -93,7 +93,7 @@ void __cdecl Room_GetBounds(void)
     }
 }
 
-void __cdecl Room_SetBounds(
+void Room_SetBounds(
     const int16_t *obj_ptr, int32_t room_num, const ROOM *parent)
 {
     ROOM *const r = &g_Rooms[room_num];
@@ -235,7 +235,7 @@ void __cdecl Room_SetBounds(
     }
 }
 
-void __cdecl Room_Clip(const ROOM *const r)
+void Room_Clip(const ROOM *const r)
 {
     int32_t xv[8];
     int32_t yv[8];
@@ -357,7 +357,7 @@ void __cdecl Room_Clip(const ROOM *const r)
     Output_InsertBackPolygon(min_x, min_y, max_x, max_y);
 }
 
-void __cdecl Room_DrawSingleRoomGeometry(const int16_t room_num)
+void Room_DrawSingleRoomGeometry(const int16_t room_num)
 {
     ROOM *const r = &g_Rooms[room_num];
 
@@ -384,7 +384,7 @@ void __cdecl Room_DrawSingleRoomGeometry(const int16_t room_num)
     }
 }
 
-void __cdecl Room_DrawSingleRoomObjects(const int16_t room_num)
+void Room_DrawSingleRoomObjects(const int16_t room_num)
 {
     ROOM *const r = &g_Rooms[room_num];
 
@@ -455,7 +455,7 @@ void __cdecl Room_DrawSingleRoomObjects(const int16_t room_num)
     r->bound_bottom = 0;
 }
 
-void __cdecl Room_DrawAllRooms(const int16_t current_room)
+void Room_DrawAllRooms(const int16_t current_room)
 {
     ROOM *const r = &g_Rooms[current_room];
     r->test_left = 0;

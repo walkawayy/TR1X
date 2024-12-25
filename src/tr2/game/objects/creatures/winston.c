@@ -43,7 +43,7 @@ void Winston_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Winston_Control(const int16_t item_num)
+void Winston_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

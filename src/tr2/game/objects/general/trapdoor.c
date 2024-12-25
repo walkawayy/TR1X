@@ -16,7 +16,7 @@ void Trapdoor_Setup(OBJECT *const obj)
     obj->save_anim = 1;
 }
 
-int32_t __cdecl Trapdoor_IsItemOnTop(
+int32_t Trapdoor_IsItemOnTop(
     const ITEM *const item, const int32_t x, const int32_t z)
 {
     const BOUNDS_16 *const orig_bounds = &Item_GetBestFrame(item)->bounds;
@@ -56,7 +56,7 @@ int32_t __cdecl Trapdoor_IsItemOnTop(
     return false;
 }
 
-void __cdecl Trapdoor_Floor(
+void Trapdoor_Floor(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -70,7 +70,7 @@ void __cdecl Trapdoor_Floor(
     *out_height = item->pos.y;
 }
 
-void __cdecl Trapdoor_Ceiling(
+void Trapdoor_Ceiling(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -85,7 +85,7 @@ void __cdecl Trapdoor_Ceiling(
     }
 }
 
-void __cdecl Trapdoor_Control(const int16_t item_num)
+void Trapdoor_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (Item_IsTriggerActive(item)) {

@@ -34,7 +34,7 @@
 #define CREATURE_SHOOT_RANGE SQUARE(WALL_L * 8) // = 0x4000000 = 67108864
 #define CREATURE_SHOOT_HIT_CHANCE 0x2000
 
-void __cdecl Creature_Initialise(const int16_t item_num)
+void Creature_Initialise(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
     item->rot.y += (Random_GetControl() - PHD_90) >> 1;
@@ -42,7 +42,7 @@ void __cdecl Creature_Initialise(const int16_t item_num)
     item->data = 0;
 }
 
-int32_t __cdecl Creature_Activate(const int16_t item_num)
+int32_t Creature_Activate(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
     if (item->status != IS_INVISIBLE) {
@@ -57,7 +57,7 @@ int32_t __cdecl Creature_Activate(const int16_t item_num)
     return true;
 }
 
-void __cdecl Creature_AIInfo(ITEM *const item, AI_INFO *const info)
+void Creature_AIInfo(ITEM *const item, AI_INFO *const info)
 {
     CREATURE *const creature = (CREATURE *)item->data;
     if (creature == NULL) {
@@ -136,8 +136,7 @@ void __cdecl Creature_AIInfo(ITEM *const item, AI_INFO *const info)
         && ABS(enemy->pos.y - item->pos.y) <= STEP_L;
 }
 
-void __cdecl Creature_Mood(
-    const ITEM *item, const AI_INFO *info, int32_t violent)
+void Creature_Mood(const ITEM *item, const AI_INFO *info, int32_t violent)
 {
     CREATURE *const creature = item->data;
     if (creature == NULL) {
@@ -300,7 +299,7 @@ void __cdecl Creature_Mood(
     Box_CalculateTarget(&creature->target, item, lot);
 }
 
-int32_t __cdecl Creature_CheckBaddieOverlap(const int16_t item_num)
+int32_t Creature_CheckBaddieOverlap(const int16_t item_num)
 {
     ITEM *item = &g_Items[item_num];
 
@@ -328,7 +327,7 @@ int32_t __cdecl Creature_CheckBaddieOverlap(const int16_t item_num)
     return false;
 }
 
-void __cdecl Creature_Die(const int16_t item_num, const bool explode)
+void Creature_Die(const int16_t item_num, const bool explode)
 {
     ITEM *const item = &g_Items[item_num];
 
@@ -378,7 +377,7 @@ void __cdecl Creature_Die(const int16_t item_num, const bool explode)
     }
 }
 
-int32_t __cdecl Creature_Animate(
+int32_t Creature_Animate(
     const int16_t item_num, const int16_t angle, const int16_t tilt)
 {
     ITEM *const item = &g_Items[item_num];
@@ -631,7 +630,7 @@ int32_t __cdecl Creature_Animate(
     return true;
 }
 
-int16_t __cdecl Creature_Turn(ITEM *const item, int16_t max_turn)
+int16_t Creature_Turn(ITEM *const item, int16_t max_turn)
 {
     const CREATURE *const creature = item->data;
     if (creature == NULL || item->speed == 0 || max_turn == 0) {
@@ -654,14 +653,14 @@ int16_t __cdecl Creature_Turn(ITEM *const item, int16_t max_turn)
     return angle;
 }
 
-void __cdecl Creature_Tilt(ITEM *const item, int16_t angle)
+void Creature_Tilt(ITEM *const item, int16_t angle)
 {
     angle = 4 * angle - item->rot.z;
     CLAMP(angle, -MAX_TILT, MAX_TILT);
     item->rot.z += angle;
 }
 
-void __cdecl Creature_Head(ITEM *item, int16_t required)
+void Creature_Head(ITEM *item, int16_t required)
 {
     CREATURE *const creature = item->data;
     if (creature == NULL) {
@@ -675,7 +674,7 @@ void __cdecl Creature_Head(ITEM *item, int16_t required)
     CLAMP(creature->head_rotation, -HEAD_ARC, HEAD_ARC);
 }
 
-void __cdecl Creature_Neck(ITEM *const item, const int16_t required)
+void Creature_Neck(ITEM *const item, const int16_t required)
 {
     CREATURE *const creature = item->data;
     if (creature == NULL) {
@@ -689,7 +688,7 @@ void __cdecl Creature_Neck(ITEM *const item, const int16_t required)
     CLAMP(creature->neck_rotation, -HEAD_ARC, HEAD_ARC);
 }
 
-void __cdecl Creature_Float(const int16_t item_num)
+void Creature_Float(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
 
@@ -715,7 +714,7 @@ void __cdecl Creature_Float(const int16_t item_num)
     }
 }
 
-void __cdecl Creature_Underwater(ITEM *const item, const int32_t depth)
+void Creature_Underwater(ITEM *const item, const int32_t depth)
 {
     const int32_t wh = Room_GetWaterHeight(
         item->pos.x, item->pos.y, item->pos.z, item->room_num);
@@ -731,9 +730,9 @@ void __cdecl Creature_Underwater(ITEM *const item, const int32_t depth)
     }
 }
 
-int16_t __cdecl Creature_Effect(
+int16_t Creature_Effect(
     const ITEM *const item, const BITE *const bite,
-    int16_t(__cdecl *const spawn)(
+    int16_t (*const spawn)(
         int32_t x, int32_t y, int32_t z, int16_t speed, int16_t y_rot,
         int16_t room_num))
 {
@@ -743,7 +742,7 @@ int16_t __cdecl Creature_Effect(
         pos.x, pos.y, pos.z, item->speed, item->rot.y, item->room_num);
 }
 
-int32_t __cdecl Creature_Vault(
+int32_t Creature_Vault(
     const int16_t item_num, const int16_t angle, int32_t vault,
     const int32_t shift)
 {
@@ -800,7 +799,7 @@ int32_t __cdecl Creature_Vault(
     return vault;
 }
 
-void __cdecl Creature_Kill(
+void Creature_Kill(
     ITEM *const item, const int32_t kill_anim, const int32_t kill_state,
     const int32_t lara_kill_state)
 {
@@ -836,8 +835,7 @@ void __cdecl Creature_Kill(
     g_Camera.pos.room_num = g_LaraItem->room_num;
 }
 
-void __cdecl Creature_GetBaddieTarget(
-    const int16_t item_num, const int32_t goody)
+void Creature_GetBaddieTarget(const int16_t item_num, const int32_t goody)
 {
     ITEM *const item = &g_Items[item_num];
     CREATURE *const creature = item->data;
@@ -902,7 +900,7 @@ void __cdecl Creature_GetBaddieTarget(
     }
 }
 
-void __cdecl Creature_Collision(
+void Creature_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = &g_Items[item_num];
@@ -920,7 +918,7 @@ void __cdecl Creature_Collision(
     }
 }
 
-int32_t __cdecl Creature_CanTargetEnemy(
+int32_t Creature_CanTargetEnemy(
     const ITEM *const item, const AI_INFO *const info)
 {
     const CREATURE *const creature = item->data;
@@ -957,7 +955,7 @@ bool Creature_IsAlly(const ITEM *const item)
     return Object_IsObjectType(item->object_id, g_AllyObjects);
 }
 
-int32_t __cdecl Creature_ShootAtLara(
+int32_t Creature_ShootAtLara(
     ITEM *const item, const AI_INFO *const info, const BITE *const gun,
     const int16_t extra_rotation, const int32_t damage)
 {

@@ -4,7 +4,7 @@
 #include "game/math.h"
 #include "global/vars.h"
 
-void __cdecl WaterSprite_Control(const int16_t effect_num)
+void WaterSprite_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     const OBJECT *const obj = Object_GetObject(effect->object_id);

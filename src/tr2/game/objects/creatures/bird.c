@@ -85,7 +85,7 @@ void Bird_SetupCrow(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Bird_Initialise(const int16_t item_num)
+void Bird_Initialise(const int16_t item_num)
 {
     Creature_Initialise(item_num);
     ITEM *const item = &g_Items[item_num];
@@ -102,7 +102,7 @@ void __cdecl Bird_Initialise(const int16_t item_num)
     }
 }
 
-void __cdecl Bird_Control(const int16_t item_num)
+void Bird_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

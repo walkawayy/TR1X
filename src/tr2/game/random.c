@@ -7,29 +7,29 @@
 static int32_t m_RandControl = 0xD371F947;
 static int32_t m_RandDraw = 0xD371F947;
 
-void __cdecl Random_SeedControl(const int32_t seed)
+void Random_SeedControl(const int32_t seed)
 {
     m_RandControl = seed;
 }
 
-void __cdecl Random_SeedDraw(const int32_t seed)
+void Random_SeedDraw(const int32_t seed)
 {
     m_RandDraw = seed;
 }
 
-int32_t __cdecl Random_GetControl(void)
+int32_t Random_GetControl(void)
 {
     m_RandControl = 0x41C64E6D * m_RandControl + 12345;
     return (m_RandControl >> 10) & 0x7FFF;
 }
 
-int32_t __cdecl Random_GetDraw(void)
+int32_t Random_GetDraw(void)
 {
     m_RandDraw = 0x41C64E6D * m_RandDraw + 12345;
     return (m_RandDraw >> 10) & 0x7FFF;
 }
 
-void __cdecl Random_Seed(void)
+void Random_Seed(void)
 {
     time_t lt = time(0);
     struct tm *tptr = localtime(&lt);

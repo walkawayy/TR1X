@@ -37,7 +37,7 @@ static bool M_CanThrowFlare(void)
         || g_LaraItem->current_anim_state == LS_FAST_DIVE;
 }
 
-int32_t __cdecl Flare_DoLight(const XYZ_32 *const pos, const int32_t flare_age)
+int32_t Flare_DoLight(const XYZ_32 *const pos, const int32_t flare_age)
 {
     if (flare_age >= MAX_FLARE_AGE) {
         return false;
@@ -71,7 +71,7 @@ int32_t __cdecl Flare_DoLight(const XYZ_32 *const pos, const int32_t flare_age)
     return false;
 }
 
-void __cdecl Flare_DoInHand(const int32_t flare_age)
+void Flare_DoInHand(const int32_t flare_age)
 {
     XYZ_32 vec = {
         .x = 11,
@@ -97,7 +97,7 @@ void __cdecl Flare_DoInHand(const int32_t flare_age)
     }
 }
 
-void __cdecl Flare_DrawInAir(const ITEM *const item)
+void Flare_DrawInAir(const ITEM *const item)
 {
     int32_t rate;
     FRAME_INFO *frames[2];
@@ -121,7 +121,7 @@ void __cdecl Flare_DrawInAir(const ITEM *const item)
     Matrix_Pop();
 }
 
-void __cdecl Flare_Create(const bool thrown)
+void Flare_Create(const bool thrown)
 {
     const int16_t item_num = Item_Create();
     if (item_num == NO_ITEM) {
@@ -183,7 +183,7 @@ void __cdecl Flare_Create(const bool thrown)
     item->status = IS_ACTIVE;
 }
 
-void __cdecl Flare_SetArm(const int32_t frame)
+void Flare_SetArm(const int32_t frame)
 {
     int16_t anim_base;
 
@@ -203,7 +203,7 @@ void __cdecl Flare_SetArm(const int32_t frame)
     g_Lara.left_arm.frame_base = g_Anims[g_Lara.left_arm.anim_num].frame_ptr;
 }
 
-void __cdecl Flare_Draw(void)
+void Flare_Draw(void)
 {
     if (g_LaraItem->current_anim_state == LS_FLARE_PICKUP
         || g_LaraItem->current_anim_state == LS_PICKUP) {
@@ -247,7 +247,7 @@ void __cdecl Flare_Draw(void)
     Flare_SetArm(frame_num);
 }
 
-void __cdecl Flare_Undraw(void)
+void Flare_Undraw(void)
 {
     int16_t frame_num_1 = g_Lara.left_arm.frame_num;
     int16_t frame_num_2 = g_Lara.flare_frame;
@@ -328,19 +328,19 @@ void __cdecl Flare_Undraw(void)
     Flare_SetArm(frame_num_1);
 }
 
-void __cdecl Flare_DrawMeshes(void)
+void Flare_DrawMeshes(void)
 {
     g_Lara.mesh_ptrs[LM_HAND_L] =
         g_Meshes[g_Objects[O_LARA_FLARE].mesh_idx + LM_HAND_L];
 }
 
-void __cdecl Flare_UndrawMeshes(void)
+void Flare_UndrawMeshes(void)
 {
     g_Lara.mesh_ptrs[LM_HAND_L] =
         g_Meshes[g_Objects[O_LARA].mesh_idx + LM_HAND_L];
 }
 
-void __cdecl Flare_Ready(void)
+void Flare_Ready(void)
 {
     g_Lara.gun_status = LGS_ARMLESS;
     g_Lara.left_arm.rot.x = 0;
@@ -354,7 +354,7 @@ void __cdecl Flare_Ready(void)
     g_Lara.target = NULL;
 }
 
-void __cdecl Flare_Control(const int16_t item_num)
+void Flare_Control(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
     if (item->fall_speed) {

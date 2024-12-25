@@ -15,7 +15,7 @@ typedef enum {
     // clang-format on
 } SPRINGBOARD_STATE;
 
-void __cdecl Springboard_Control(const int16_t item_num)
+void Springboard_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     ITEM *const lara_item = Lara_GetItem();

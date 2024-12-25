@@ -46,7 +46,7 @@ void Jelly_Setup(void)
     obj->water_creature = 1;
 }
 
-void __cdecl Jelly_Control(const int16_t item_num)
+void Jelly_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

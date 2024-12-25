@@ -8,7 +8,7 @@
 #include <libtrx/debug.h>
 #include <libtrx/utils.h>
 
-void __cdecl LOT_InitialiseArray(void)
+void LOT_InitialiseArray(void)
 {
     g_BaddieSlots =
         GameBuf_Alloc(NUM_SLOTS * sizeof(CREATURE), GBUF_CREATURE_DATA);
@@ -23,7 +23,7 @@ void __cdecl LOT_InitialiseArray(void)
     g_SlotsUsed = 0;
 }
 
-void __cdecl LOT_DisableBaddieAI(const int16_t item_num)
+void LOT_DisableBaddieAI(const int16_t item_num)
 {
     CREATURE *creature;
 
@@ -42,7 +42,7 @@ void __cdecl LOT_DisableBaddieAI(const int16_t item_num)
     }
 }
 
-bool __cdecl LOT_EnableBaddieAI(const int16_t item_num, const bool always)
+bool LOT_EnableBaddieAI(const int16_t item_num, const bool always)
 {
     if (g_Lara.item_num == item_num) {
         if (g_Lara.creature != NULL) {
@@ -96,7 +96,7 @@ bool __cdecl LOT_EnableBaddieAI(const int16_t item_num, const bool always)
     return true;
 }
 
-void __cdecl LOT_InitialiseSlot(const int16_t item_num, const int32_t slot)
+void LOT_InitialiseSlot(const int16_t item_num, const int32_t slot)
 {
 
     CREATURE *const creature = &g_BaddieSlots[slot];
@@ -171,7 +171,7 @@ void __cdecl LOT_InitialiseSlot(const int16_t item_num, const int32_t slot)
     g_SlotsUsed++;
 }
 
-void __cdecl LOT_CreateZone(ITEM *const item)
+void LOT_CreateZone(ITEM *const item)
 {
     CREATURE *const creature = item->data;
 
@@ -204,7 +204,7 @@ void __cdecl LOT_CreateZone(ITEM *const item)
     }
 }
 
-void __cdecl LOT_ClearLOT(LOT_INFO *const lot)
+void LOT_ClearLOT(LOT_INFO *const lot)
 {
     lot->search_num = 0;
     lot->head = NO_BOX;

@@ -57,7 +57,7 @@ static STATS M_GetEndGameStats(void)
     return result;
 }
 
-void __cdecl ShowGymStatsText(const char *const time_str, const int32_t type)
+void ShowGymStatsText(const char *const time_str, const int32_t type)
 {
     char text1[32];
     char text2[32];
@@ -116,7 +116,7 @@ void __cdecl ShowGymStatsText(const char *const time_str, const int32_t type)
     g_StatsRequester.ready = 1;
 }
 
-void __cdecl ShowStatsText(const char *const time_str, const int32_t type)
+void ShowStatsText(const char *const time_str, const int32_t type)
 {
     char buffer[32] = { 0 };
 
@@ -216,7 +216,7 @@ void __cdecl ShowStatsText(const char *const time_str, const int32_t type)
     g_StatsRequester.ready = 1;
 }
 
-void __cdecl ShowEndStatsText(void)
+void ShowEndStatsText(void)
 {
     char buffer[32];
 
@@ -300,7 +300,7 @@ void __cdecl ShowEndStatsText(void)
     g_StatsRequester.ready = 1;
 }
 
-int32_t __cdecl LevelStats(const int32_t level_num)
+int32_t LevelStats(const int32_t level_num)
 {
     START_INFO *const start = &g_SaveGame.start[level_num];
     start->statistics.timer = g_SaveGame.statistics.timer;
@@ -351,7 +351,7 @@ int32_t __cdecl LevelStats(const int32_t level_num)
     return 0;
 }
 
-int32_t __cdecl GameStats(const int32_t level_num)
+int32_t GameStats(const int32_t level_num)
 {
     START_INFO *const start = &g_SaveGame.start[level_num];
     start->statistics.timer = g_SaveGame.statistics.timer;
@@ -427,7 +427,7 @@ int32_t __cdecl GameStats(const int32_t level_num)
     return 0;
 }
 
-int32_t __cdecl AddAssaultTime(uint32_t time)
+int32_t AddAssaultTime(uint32_t time)
 {
     ASSAULT_STATS *const stats = &g_Assault;
 

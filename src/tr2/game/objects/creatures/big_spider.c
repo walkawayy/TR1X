@@ -56,7 +56,7 @@ void BigSpider_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl BigSpider_Control(const int16_t item_num)
+void BigSpider_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

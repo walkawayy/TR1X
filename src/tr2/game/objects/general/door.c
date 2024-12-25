@@ -56,7 +56,7 @@ static void M_Initialise(
     door_pos->old_sector = *door_pos->sector;
 }
 
-void __cdecl Door_Shut(DOORPOS_DATA *const d)
+void Door_Shut(DOORPOS_DATA *const d)
 {
     SECTOR *const sector = d->sector;
     if (d->sector == NULL) {
@@ -79,7 +79,7 @@ void __cdecl Door_Shut(DOORPOS_DATA *const d)
     }
 }
 
-void __cdecl Door_Open(DOORPOS_DATA *const d)
+void Door_Open(DOORPOS_DATA *const d)
 {
     if (d->sector == NULL) {
         return;
@@ -103,7 +103,7 @@ void Door_Setup(OBJECT *const obj)
     obj->save_anim = 1;
 }
 
-void __cdecl Door_Initialise(const int16_t item_num)
+void Door_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     DOOR_DATA *door = GameBuf_Alloc(sizeof(DOOR_DATA), GBUF_EXTRA_DOOR_STUFF);
@@ -161,7 +161,7 @@ void __cdecl Door_Initialise(const int16_t item_num)
     }
 }
 
-void __cdecl Door_Control(const int16_t item_num)
+void Door_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     DOOR_DATA *const data = item->data;
@@ -189,7 +189,7 @@ void __cdecl Door_Control(const int16_t item_num)
     Item_Animate(item);
 }
 
-void __cdecl Door_Collision(
+void Door_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = &g_Items[item_num];

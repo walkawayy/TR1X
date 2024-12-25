@@ -6,7 +6,7 @@
 #include "game/sound.h"
 #include "global/vars.h"
 
-void __cdecl HotLiquid_Control(const int16_t effect_num)
+void HotLiquid_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     OBJECT *const obj = Object_GetObject(O_HOT_LIQUID);

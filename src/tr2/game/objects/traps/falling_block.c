@@ -9,7 +9,7 @@ static int32_t M_GetOrigin(const GAME_OBJECT_ID object_id)
     return object_id == O_FALLING_BLOCK_3 ? WALL_L : STEP_L * 2;
 }
 
-void __cdecl FallingBlock_Control(const int16_t item_num)
+void FallingBlock_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     const int32_t origin = M_GetOrigin(item->object_id);
@@ -62,7 +62,7 @@ void __cdecl FallingBlock_Control(const int16_t item_num)
     }
 }
 
-void __cdecl FallingBlock_Floor(
+void FallingBlock_Floor(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -74,7 +74,7 @@ void __cdecl FallingBlock_Floor(
     }
 }
 
-void __cdecl FallingBlock_Ceiling(
+void FallingBlock_Ceiling(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {

@@ -44,7 +44,7 @@ static void M_HitLara(ITEM *const item)
     Sound_Effect(SFX_LARA_FLESH_WOUND, &item->pos, SPM_NORMAL);
 }
 
-void __cdecl SpikeCeiling_Control(const int16_t item_num)
+void SpikeCeiling_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

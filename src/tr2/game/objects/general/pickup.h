@@ -6,7 +6,6 @@ void Pickup_Setup(OBJECT *obj);
 
 void Pickup_Draw(const ITEM *item);
 
-void __cdecl Pickup_Collision(
-    int16_t item_num, ITEM *lara_item, COLL_INFO *coll);
+void Pickup_Collision(int16_t item_num, ITEM *lara_item, COLL_INFO *coll);
 
 int32_t Pickup_Trigger(int16_t item_num);

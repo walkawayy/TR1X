@@ -4,7 +4,7 @@
 #include "game/objects/common.h"
 #include "game/objects/general/pickup.h"
 
-void __cdecl Secret2_Control(int16_t item_num)
+void Secret2_Control(int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     item->status = IS_INVISIBLE;

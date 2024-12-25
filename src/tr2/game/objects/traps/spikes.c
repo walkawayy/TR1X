@@ -8,7 +8,7 @@
 
 #define SPIKE_DAMAGE 15
 
-void __cdecl Spikes_Collision(
+void Spikes_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = Item_Get(item_num);

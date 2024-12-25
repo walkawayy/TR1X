@@ -30,7 +30,7 @@ typedef enum {
     // clang-format on
 } KILLER_STATUE_ANIM;
 
-void __cdecl KillerStatue_Initialise(const int16_t item_num)
+void KillerStatue_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     const OBJECT *const obj = Object_GetObject(item->object_id);
@@ -39,7 +39,7 @@ void __cdecl KillerStatue_Initialise(const int16_t item_num)
     item->current_anim_state = KILLER_STATUE_STATE_STOP;
 }
 
-void __cdecl KillerStatue_Control(const int16_t item_num)
+void KillerStatue_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

@@ -33,7 +33,7 @@ static void M_CreateHotLiquid(const ITEM *const bowl_item)
     }
 }
 
-void __cdecl BigBowl_Control(const int16_t item_num)
+void BigBowl_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

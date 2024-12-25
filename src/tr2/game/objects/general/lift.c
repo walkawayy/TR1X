@@ -27,7 +27,7 @@ void Lift_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Lift_Initialise(const int16_t item_num)
+void Lift_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 
@@ -39,7 +39,7 @@ void __cdecl Lift_Initialise(const int16_t item_num)
     item->data = lift_data;
 }
 
-void __cdecl Lift_Control(const int16_t item_num)
+void Lift_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     LIFT_INFO *const lift_data = item->data;
@@ -82,7 +82,7 @@ void __cdecl Lift_Control(const int16_t item_num)
     }
 }
 
-void __cdecl Lift_FloorCeiling(
+void Lift_FloorCeiling(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_floor, int32_t *const out_ceiling)
 {
@@ -153,7 +153,7 @@ void __cdecl Lift_FloorCeiling(
     }
 }
 
-void __cdecl Lift_Floor(
+void Lift_Floor(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -165,7 +165,7 @@ void __cdecl Lift_Floor(
     }
 }
 
-void __cdecl Lift_Ceiling(
+void Lift_Ceiling(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {

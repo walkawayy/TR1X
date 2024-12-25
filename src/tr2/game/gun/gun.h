@@ -2,9 +2,9 @@
 
 #include "global/types.h"
 
-void __cdecl Gun_Control(void);
-void __cdecl Gun_InitialiseNewWeapon(void);
-int32_t __cdecl Gun_GetWeaponAnim(LARA_GUN_TYPE gun_type);
+void Gun_Control(void);
+void Gun_InitialiseNewWeapon(void);
+int32_t Gun_GetWeaponAnim(LARA_GUN_TYPE gun_type);
 
 // TODO: make this a struct
 GAME_OBJECT_ID Gun_GetGunObject(LARA_GUN_TYPE gun_type);

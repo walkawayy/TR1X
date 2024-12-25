@@ -12,7 +12,7 @@
 
 #include <libtrx/debug.h>
 
-void __cdecl Gun_Control(void)
+void Gun_Control(void)
 {
     if (g_Lara.left_arm.flash_gun > 0) {
         g_Lara.left_arm.flash_gun--;
@@ -229,7 +229,7 @@ void __cdecl Gun_Control(void)
     }
 }
 
-void __cdecl Gun_InitialiseNewWeapon(void)
+void Gun_InitialiseNewWeapon(void)
 {
     g_Lara.left_arm.flash_gun = 0;
     g_Lara.left_arm.frame_num = 0;
@@ -284,7 +284,7 @@ void __cdecl Gun_InitialiseNewWeapon(void)
     }
 }
 
-int32_t __cdecl Gun_GetWeaponAnim(const LARA_GUN_TYPE gun_type)
+int32_t Gun_GetWeaponAnim(const LARA_GUN_TYPE gun_type)
 {
     switch (gun_type) {
     case LGT_UNARMED:

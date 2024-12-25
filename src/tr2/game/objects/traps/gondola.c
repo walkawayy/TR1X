@@ -6,7 +6,7 @@
 
 #define GONDOLA_SINK_SPEED 50
 
-void __cdecl Gondola_Control(const int16_t item_num)
+void Gondola_Control(const int16_t item_num)
 {
     ITEM *const gondola = Item_Get(item_num);
 

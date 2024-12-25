@@ -104,7 +104,7 @@ void Bandit2B_Setup(void)
     g_AnimBones[obj->bone_idx + 8 * 4] |= BF_ROT_Y;
 }
 
-void __cdecl Bandit2_Control(const int16_t item_num)
+void Bandit2_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

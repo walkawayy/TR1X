@@ -19,14 +19,14 @@ typedef enum {
     LF_FL_DRAW_GOT_IT = (LF_FL_DRAW + 13), // = 46
 } LARA_FLARE_ANIMATION_FRAME;
 
-int32_t __cdecl Flare_DoLight(const XYZ_32 *pos, int32_t flare_age);
-void __cdecl Flare_DoInHand(int32_t flare_age);
-void __cdecl Flare_DrawInAir(const ITEM *item);
-void __cdecl Flare_Create(bool thrown);
-void __cdecl Flare_SetArm(int32_t frame);
-void __cdecl Flare_Draw(void);
-void __cdecl Flare_Undraw(void);
-void __cdecl Flare_DrawMeshes(void);
-void __cdecl Flare_UndrawMeshes(void);
-void __cdecl Flare_Ready(void);
-void __cdecl Flare_Control(int16_t item_num);
+int32_t Flare_DoLight(const XYZ_32 *pos, int32_t flare_age);
+void Flare_DoInHand(int32_t flare_age);
+void Flare_DrawInAir(const ITEM *item);
+void Flare_Create(bool thrown);
+void Flare_SetArm(int32_t frame);
+void Flare_Draw(void);
+void Flare_Undraw(void);
+void Flare_DrawMeshes(void);
+void Flare_UndrawMeshes(void);
+void Flare_Ready(void);
+void Flare_Control(int16_t item_num);

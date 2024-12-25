@@ -22,7 +22,7 @@ void GongBonger_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl GongBonger_Control(const int16_t item_num)
+void GongBonger_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

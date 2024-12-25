@@ -450,8 +450,7 @@ int16_t Room_GetIndexFromPos(const int32_t x, const int32_t y, const int32_t z)
     return room_num;
 }
 
-int32_t __cdecl Room_FindByPos(
-    const int32_t x, const int32_t y, const int32_t z)
+int32_t Room_FindByPos(const int32_t x, const int32_t y, const int32_t z)
 {
     for (int32_t i = 0; i < g_RoomCount; i++) {
         const ROOM *const room = &g_Rooms[i];
@@ -469,7 +468,7 @@ int32_t __cdecl Room_FindByPos(
     return NO_ROOM_NEG;
 }
 
-int32_t __cdecl Room_FindGridShift(int32_t src, const int32_t dst)
+int32_t Room_FindGridShift(int32_t src, const int32_t dst)
 {
     const int32_t src_w = src >> WALL_SHIFT;
     const int32_t dst_w = dst >> WALL_SHIFT;
@@ -485,7 +484,7 @@ int32_t __cdecl Room_FindGridShift(int32_t src, const int32_t dst)
     }
 }
 
-void __cdecl Room_GetNearbyRooms(
+void Room_GetNearbyRooms(
     const int32_t x, const int32_t y, const int32_t z, const int32_t r,
     const int32_t h, const int16_t room_num)
 {
@@ -502,14 +501,14 @@ void __cdecl Room_GetNearbyRooms(
     Room_GetNewRoom(x - r, y - h, z - r, room_num);
 }
 
-void __cdecl Room_GetNewRoom(
+void Room_GetNewRoom(
     const int32_t x, const int32_t y, const int32_t z, int16_t room_num)
 {
     Room_GetSector(x, y, z, &room_num);
     Room_MarkToBeDrawn(room_num);
 }
 
-int16_t __cdecl Room_GetTiltType(
+int16_t Room_GetTiltType(
     const SECTOR *sector, const int32_t x, const int32_t y, const int32_t z)
 {
     sector = Room_GetPitSector(sector, x, z);
@@ -547,7 +546,7 @@ SECTOR *Room_GetSkySector(
     return (SECTOR *)sector;
 }
 
-SECTOR *__cdecl Room_GetSector(
+SECTOR *Room_GetSector(
     const int32_t x, const int32_t y, const int32_t z, int16_t *const room_num)
 {
     SECTOR *sector = NULL;
@@ -613,7 +612,7 @@ SECTOR *__cdecl Room_GetSector(
     return sector;
 }
 
-int32_t __cdecl Room_GetWaterHeight(
+int32_t Room_GetWaterHeight(
     const int32_t x, const int32_t y, const int32_t z, int16_t room_num)
 {
     const SECTOR *sector = NULL;
@@ -673,7 +672,7 @@ int32_t __cdecl Room_GetWaterHeight(
     }
 }
 
-int32_t __cdecl Room_GetHeight(
+int32_t Room_GetHeight(
     const SECTOR *sector, const int32_t x, const int32_t y, const int32_t z)
 {
     g_HeightType = 0;
@@ -707,7 +706,7 @@ int32_t __cdecl Room_GetHeight(
     return height;
 }
 
-void __cdecl Room_Legacy_TestTriggers(const int16_t *fd, bool heavy)
+void Room_Legacy_TestTriggers(const int16_t *fd, bool heavy)
 {
     ASSERT_FAIL();
 }
@@ -721,7 +720,7 @@ void Room_TestTriggers(const ITEM *const item)
     M_TestSectorTrigger(item, sector);
 }
 
-int32_t __cdecl Room_GetCeiling(
+int32_t Room_GetCeiling(
     const SECTOR *const sector, const int32_t x, const int32_t y,
     const int32_t z)
 {
@@ -749,13 +748,13 @@ int32_t __cdecl Room_GetCeiling(
     return height;
 }
 
-int16_t __cdecl Room_Legacy_GetDoor(const SECTOR *const sector)
+int16_t Room_Legacy_GetDoor(const SECTOR *const sector)
 {
     ASSERT_FAIL();
     return NO_ROOM;
 }
 
-void __cdecl Room_AlterFloorHeight(const ITEM *const item, const int32_t height)
+void Room_AlterFloorHeight(const ITEM *const item, const int32_t height)
 {
     int16_t room_num = item->room_num;
 
@@ -788,7 +787,7 @@ bool Room_GetFlipStatus(void)
     return g_FlipStatus;
 }
 
-void __cdecl Room_FlipMap(void)
+void Room_FlipMap(void)
 {
     for (int32_t i = 0; i < g_RoomCount; i++) {
         ROOM *const r = &g_Rooms[i];
@@ -816,7 +815,7 @@ void __cdecl Room_FlipMap(void)
     g_FlipStatus = !g_FlipStatus;
 }
 
-void __cdecl Room_RemoveFlipItems(const ROOM *const r)
+void Room_RemoveFlipItems(const ROOM *const r)
 {
     int16_t item_num = r->item_num;
 
@@ -845,7 +844,7 @@ void __cdecl Room_RemoveFlipItems(const ROOM *const r)
     }
 }
 
-void __cdecl Room_AddFlipItems(const ROOM *const r)
+void Room_AddFlipItems(const ROOM *const r)
 {
     int16_t item_num = r->item_num;
     while (item_num != NO_ITEM) {
@@ -867,7 +866,7 @@ void __cdecl Room_AddFlipItems(const ROOM *const r)
     }
 }
 
-void __cdecl Room_Legacy_TriggerMusicTrack(
+void Room_Legacy_TriggerMusicTrack(
     const int16_t track, const int16_t flags, const int16_t type)
 {
     ASSERT_FAIL();

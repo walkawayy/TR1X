@@ -18,7 +18,7 @@ typedef enum {
     ZIPLINE_STATE_HANG = 2,
 } ZIPLINE_STATE;
 
-void __cdecl Zipline_Collision(
+void Zipline_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     if (!g_Input.action || g_Lara.gun_status != LGS_ARMLESS
@@ -51,7 +51,7 @@ void __cdecl Zipline_Collision(
     item->flags |= IF_ONE_SHOT;
 }
 
-void __cdecl Zipline_Control(const int16_t item_num)
+void Zipline_Control(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
     if (item->status != IS_ACTIVE) {

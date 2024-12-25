@@ -9,7 +9,7 @@ void BridgeTilt1_Setup(void)
     obj->floor = BridgeTilt1_Floor;
 }
 
-void __cdecl BridgeTilt1_Floor(
+void BridgeTilt1_Floor(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -23,7 +23,7 @@ void __cdecl BridgeTilt1_Floor(
     *out_height = offset_height;
 }
 
-void __cdecl BridgeTilt1_Ceiling(
+void BridgeTilt1_Ceiling(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {

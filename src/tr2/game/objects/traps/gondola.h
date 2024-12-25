@@ -10,5 +10,5 @@ typedef enum {
     GONDOLA_STATE_LAND = 4,
 } GONDOLA_STATE;
 
-void __cdecl Gondola_Control(int16_t item_num);
+void Gondola_Control(int16_t item_num);
 void Gondola_Setup(void);

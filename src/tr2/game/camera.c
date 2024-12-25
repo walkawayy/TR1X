@@ -28,14 +28,14 @@
 
 #define MAX_ELEVATION (85 * PHD_DEGREE) // = 15470
 
-void __cdecl Camera_Initialise(void)
+void Camera_Initialise(void)
 {
     Camera_ResetPosition();
     Output_AlterFOV(GAME_FOV * PHD_DEGREE);
     Camera_Update();
 }
 
-void __cdecl Camera_ResetPosition(void)
+void Camera_ResetPosition(void)
 {
     ASSERT(g_LaraItem != NULL);
     g_Camera.shift = g_LaraItem->pos.y - WALL_L;
@@ -65,7 +65,7 @@ void __cdecl Camera_ResetPosition(void)
     g_Camera.fixed_camera = 0;
 }
 
-void __cdecl Camera_Move(const GAME_VECTOR *target, int32_t speed)
+void Camera_Move(const GAME_VECTOR *target, int32_t speed)
 {
     g_Camera.pos.x += (target->x - g_Camera.pos.x) / speed;
     g_Camera.pos.z += (target->z - g_Camera.pos.z) / speed;
@@ -151,7 +151,7 @@ void __cdecl Camera_Move(const GAME_VECTOR *target, int32_t speed)
     }
 }
 
-void __cdecl Camera_Clip(
+void Camera_Clip(
     int32_t *x, int32_t *y, int32_t *h, int32_t target_x, int32_t target_y,
     int32_t target_h, int32_t left, int32_t top, int32_t right, int32_t bottom)
 {
@@ -169,7 +169,7 @@ void __cdecl Camera_Clip(
     }
 }
 
-void __cdecl Camera_Shift(
+void Camera_Shift(
     int32_t *x, int32_t *y, int32_t *h, int32_t target_x, int32_t target_y,
     int32_t target_h, int32_t left, int32_t top, int32_t right, int32_t bottom)
 {
@@ -216,7 +216,7 @@ void __cdecl Camera_Shift(
     }
 }
 
-const SECTOR *__cdecl Camera_GoodPosition(
+const SECTOR *Camera_GoodPosition(
     int32_t x, int32_t y, int32_t z, int16_t room_num)
 {
     const SECTOR *sector = Room_GetSector(x, y, z, &room_num);
@@ -229,9 +229,9 @@ const SECTOR *__cdecl Camera_GoodPosition(
     return sector;
 }
 
-void __cdecl Camera_SmartShift(
+void Camera_SmartShift(
     GAME_VECTOR *target,
-    void(__cdecl *shift)(
+    void (*shift)(
         int32_t *x, int32_t *y, int32_t *h, int32_t target_x, int32_t target_y,
         int32_t target_h, int32_t left, int32_t top, int32_t right,
         int32_t bottom))
@@ -451,7 +451,7 @@ void __cdecl Camera_SmartShift(
     Room_GetSector(target->x, target->y, target->z, &target->room_num);
 }
 
-void __cdecl Camera_Chase(const ITEM *item)
+void Camera_Chase(const ITEM *item)
 {
     g_Camera.target_elevation += item->rot.x;
     g_Camera.target_elevation = MIN(g_Camera.target_elevation, MAX_ELEVATION);
@@ -482,7 +482,7 @@ void __cdecl Camera_Chase(const ITEM *item)
     Camera_Move(&target, g_Camera.speed);
 }
 
-int32_t __cdecl Camera_ShiftClamp(GAME_VECTOR *pos, int32_t clamp)
+int32_t Camera_ShiftClamp(GAME_VECTOR *pos, int32_t clamp)
 {
     int32_t x = pos->x;
     int32_t y = pos->y;
@@ -524,7 +524,7 @@ int32_t __cdecl Camera_ShiftClamp(GAME_VECTOR *pos, int32_t clamp)
     return 0;
 }
 
-void __cdecl Camera_Combat(const ITEM *item)
+void Camera_Combat(const ITEM *item)
 {
     g_Camera.target.z = item->pos.z;
     g_Camera.target.x = item->pos.x;
@@ -578,7 +578,7 @@ void __cdecl Camera_Combat(const ITEM *item)
     Camera_Move(&target, g_Camera.speed);
 }
 
-void __cdecl Camera_Look(const ITEM *item)
+void Camera_Look(const ITEM *item)
 {
     XYZ_32 old = {
         .x = g_Camera.target.x,
@@ -632,7 +632,7 @@ void __cdecl Camera_Look(const ITEM *item)
     Camera_Move(&target, g_Camera.speed);
 }
 
-void __cdecl Camera_Fixed(void)
+void Camera_Fixed(void)
 {
     const OBJECT_VECTOR *fixed = &g_Camera.fixed[g_Camera.num];
     GAME_VECTOR target = {
@@ -656,7 +656,7 @@ void __cdecl Camera_Fixed(void)
     }
 }
 
-void __cdecl Camera_Update(void)
+void Camera_Update(void)
 {
     if (g_Rooms[g_Camera.pos.room_num].flags & RF_UNDERWATER) {
         Sound_Effect(SFX_UNDERWATER, NULL, SPM_ALWAYS);
@@ -800,7 +800,7 @@ void __cdecl Camera_Update(void)
     g_IsChunkyCamera = 0;
 }
 
-void __cdecl Camera_LoadCutsceneFrame(void)
+void Camera_LoadCutsceneFrame(void)
 {
     g_CineFrameIdx++;
     if (g_CineFrameIdx >= g_NumCineFrames) {
@@ -852,7 +852,7 @@ void __cdecl Camera_LoadCutsceneFrame(void)
     }
 }
 
-void __cdecl Camera_UpdateCutscene(void)
+void Camera_UpdateCutscene(void)
 {
     const CINE_FRAME *frame = &g_CineData[g_CineFrameIdx];
     int32_t tx = frame->tx;
@@ -884,7 +884,7 @@ void __cdecl Camera_UpdateCutscene(void)
         campos.x, campos.y, campos.z, camtar.x, camtar.y, camtar.z, roll);
 }
 
-void __cdecl Camera_Legacy_RefreshFromTrigger(int16_t type, const int16_t *fd)
+void Camera_Legacy_RefreshFromTrigger(int16_t type, const int16_t *fd)
 {
     ASSERT_FAIL();
 }

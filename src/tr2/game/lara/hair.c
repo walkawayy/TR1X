@@ -22,7 +22,7 @@ static XYZ_32 m_HairVelocity[HAIR_SEGMENTS + 1];
 static HAIR_SEGMENT m_HairSegments[HAIR_SEGMENTS + 1];
 static int32_t m_HairWind;
 
-void __cdecl Lara_Hair_Initialise(void)
+void Lara_Hair_Initialise(void)
 {
     const int32_t *const bone_base =
         &g_AnimBones[g_Objects[O_LARA_HAIR].bone_idx];
@@ -43,7 +43,7 @@ void __cdecl Lara_Hair_Initialise(void)
     }
 }
 
-void __cdecl Lara_Hair_Control(const bool in_cutscene)
+void Lara_Hair_Control(const bool in_cutscene)
 {
     const FRAME_INFO *frame;
     if (g_Lara.hit_direction < 0) {
@@ -297,7 +297,7 @@ void __cdecl Lara_Hair_Control(const bool in_cutscene)
     }
 }
 
-void __cdecl Lara_Hair_Draw(void)
+void Lara_Hair_Draw(void)
 {
     int16_t **mesh_ptr = &g_Meshes[g_Objects[O_LARA_HAIR].mesh_idx];
     for (int32_t i = 0; i < HAIR_SEGMENTS; i++) {

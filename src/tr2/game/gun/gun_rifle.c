@@ -18,19 +18,19 @@
 static bool m_M16Firing = false;
 static bool m_HarpoonFired = false;
 
-void __cdecl Gun_Rifle_DrawMeshes(const LARA_GUN_TYPE weapon_type)
+void Gun_Rifle_DrawMeshes(const LARA_GUN_TYPE weapon_type)
 {
     Gun_SetLaraHandRMesh(weapon_type);
     g_Lara.back_gun = O_LARA;
 }
 
-void __cdecl Gun_Rifle_UndrawMeshes(const LARA_GUN_TYPE weapon_type)
+void Gun_Rifle_UndrawMeshes(const LARA_GUN_TYPE weapon_type)
 {
     Gun_SetLaraHandRMesh(LGT_UNARMED);
     g_Lara.back_gun = Gun_GetWeaponAnim(weapon_type);
 }
 
-void __cdecl Gun_Rifle_Ready(const LARA_GUN_TYPE weapon_type)
+void Gun_Rifle_Ready(const LARA_GUN_TYPE weapon_type)
 {
     g_Lara.gun_status = LGS_READY;
     g_Lara.target = NULL;
@@ -52,7 +52,7 @@ void __cdecl Gun_Rifle_Ready(const LARA_GUN_TYPE weapon_type)
     g_Lara.right_arm.rot.z = 0;
 }
 
-void __cdecl Gun_Rifle_Control(const LARA_GUN_TYPE weapon_type)
+void Gun_Rifle_Control(const LARA_GUN_TYPE weapon_type)
 {
     const WEAPON_INFO *const winfo = &g_Weapons[weapon_type];
 
@@ -88,7 +88,7 @@ void __cdecl Gun_Rifle_Control(const LARA_GUN_TYPE weapon_type)
     }
 }
 
-void __cdecl Gun_Rifle_FireShotgun(void)
+void Gun_Rifle_FireShotgun(void)
 {
     bool fired = false;
 
@@ -114,7 +114,7 @@ void __cdecl Gun_Rifle_FireShotgun(void)
     }
 }
 
-void __cdecl Gun_Rifle_FireM16(const bool running)
+void Gun_Rifle_FireM16(const bool running)
 {
     int16_t angles[2];
     angles[0] = g_Lara.left_arm.rot.y + g_LaraItem->rot.y;
@@ -135,7 +135,7 @@ void __cdecl Gun_Rifle_FireM16(const bool running)
     }
 }
 
-void __cdecl Gun_Rifle_FireHarpoon(void)
+void Gun_Rifle_FireHarpoon(void)
 {
     if (g_Lara.harpoon_ammo.ammo <= 0) {
         return;
@@ -191,7 +191,7 @@ void __cdecl Gun_Rifle_FireHarpoon(void)
     g_SaveGame.statistics.shots++;
 }
 
-void __cdecl Gun_Rifle_FireGrenade(void)
+void Gun_Rifle_FireGrenade(void)
 {
     if (g_Lara.grenade_ammo.ammo <= 0) {
         return;
@@ -230,7 +230,7 @@ void __cdecl Gun_Rifle_FireGrenade(void)
     g_SaveGame.statistics.shots++;
 }
 
-void __cdecl Gun_Rifle_Draw(const LARA_GUN_TYPE weapon_type)
+void Gun_Rifle_Draw(const LARA_GUN_TYPE weapon_type)
 {
     ITEM *item;
     if (g_Lara.weapon_item != NO_ITEM) {
@@ -273,7 +273,7 @@ void __cdecl Gun_Rifle_Draw(const LARA_GUN_TYPE weapon_type)
         item->frame_num - g_Anims[item->anim_num].frame_base;
 }
 
-void __cdecl Gun_Rifle_Undraw(const LARA_GUN_TYPE weapon_type)
+void Gun_Rifle_Undraw(const LARA_GUN_TYPE weapon_type)
 {
     ITEM *const item = &g_Items[g_Lara.weapon_item];
     if (g_Lara.water_status == LWS_SURFACE) {
@@ -308,7 +308,7 @@ void __cdecl Gun_Rifle_Undraw(const LARA_GUN_TYPE weapon_type)
         item->frame_num - g_Anims[item->anim_num].frame_base;
 }
 
-void __cdecl Gun_Rifle_Animate(const LARA_GUN_TYPE weapon_type)
+void Gun_Rifle_Animate(const LARA_GUN_TYPE weapon_type)
 {
     const bool running = weapon_type == LGT_M16 && g_LaraItem->speed != 0;
     ITEM *const item = &g_Items[g_Lara.weapon_item];

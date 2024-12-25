@@ -59,7 +59,7 @@ static void M_ExplodeLara(void)
     g_LaraItem->flags |= IF_ONE_SHOT;
 }
 
-void __cdecl Lara_Cheat_CheckKeys(void)
+void Lara_Cheat_CheckKeys(void)
 {
     if (g_CurrentLevel == LV_GYM) {
         return;

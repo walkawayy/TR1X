@@ -57,7 +57,7 @@ typedef enum {
     BOAT_STATE_DEATH = 8,
 } BOAT_STATE;
 
-void __cdecl Boat_Initialise(const int16_t item_num)
+void Boat_Initialise(const int16_t item_num)
 {
     BOAT_INFO *boat_data = GameBuf_Alloc(sizeof(BOAT_INFO), GBUF_TEMP_ALLOC);
     boat_data->boat_turn = 0;
@@ -83,8 +83,7 @@ void Boat_Setup(void)
     obj->save_anim = 1;
 }
 
-int32_t __cdecl Boat_CheckGetOn(
-    const int16_t item_num, const COLL_INFO *const coll)
+int32_t Boat_CheckGetOn(const int16_t item_num, const COLL_INFO *const coll)
 {
     if (g_Lara.gun_status != LGS_ARMLESS) {
         return 0;
@@ -145,7 +144,7 @@ int32_t __cdecl Boat_CheckGetOn(
     return get_on;
 }
 
-void __cdecl Boat_Collision(
+void Boat_Collision(
     const int16_t item_num, ITEM *const lara, COLL_INFO *const coll)
 {
     if (lara->hit_points < 0 || g_Lara.skidoo != NO_ITEM) {
@@ -205,7 +204,7 @@ void __cdecl Boat_Collision(
     }
 }
 
-int32_t __cdecl Boat_TestWaterHeight(
+int32_t Boat_TestWaterHeight(
     const ITEM *const item, const int32_t z_off, const int32_t x_off,
     XYZ_32 *const pos)
 {
@@ -235,7 +234,7 @@ int32_t __cdecl Boat_TestWaterHeight(
     return height - 5;
 }
 
-void __cdecl Boat_DoShift(const int32_t boat_num)
+void Boat_DoShift(const int32_t boat_num)
 {
     ITEM *const boat = &g_Items[boat_num];
     int16_t item_num = g_Rooms[boat->room_num].item_num;
@@ -281,7 +280,7 @@ void __cdecl Boat_DoShift(const int32_t boat_num)
     }
 }
 
-void __cdecl Boat_DoWakeEffect(const ITEM *const boat)
+void Boat_DoWakeEffect(const ITEM *const boat)
 {
     g_MatrixPtr->_23 = 0;
     Output_CalculateLight(
@@ -324,7 +323,7 @@ void __cdecl Boat_DoWakeEffect(const ITEM *const boat)
     }
 }
 
-int32_t __cdecl Boat_DoDynamics(
+int32_t Boat_DoDynamics(
     const int32_t height, int32_t fall_speed, int32_t *const y)
 {
     if (height > *y) {
@@ -344,7 +343,7 @@ int32_t __cdecl Boat_DoDynamics(
     return fall_speed;
 }
 
-int32_t __cdecl Boat_Dynamics(const int16_t boat_num)
+int32_t Boat_Dynamics(const int16_t boat_num)
 {
     ITEM *const boat = &g_Items[boat_num];
     BOAT_INFO *const boat_data = (BOAT_INFO *)boat->data;
@@ -484,7 +483,7 @@ int32_t __cdecl Boat_Dynamics(const int16_t boat_num)
     return collide;
 }
 
-int32_t __cdecl Boat_UserControl(ITEM *const boat)
+int32_t Boat_UserControl(ITEM *const boat)
 {
     int32_t no_turn = 1;
 
@@ -555,7 +554,7 @@ int32_t __cdecl Boat_UserControl(ITEM *const boat)
     return no_turn;
 }
 
-void __cdecl Boat_Animation(const ITEM *const boat, const int32_t collide)
+void Boat_Animation(const ITEM *const boat, const int32_t collide)
 {
     ITEM *const lara = g_LaraItem;
     const BOAT_INFO *const boat_data = (const BOAT_INFO *)boat->data;
@@ -626,7 +625,7 @@ void __cdecl Boat_Animation(const ITEM *const boat, const int32_t collide)
     }
 }
 
-void __cdecl Boat_Control(const int16_t item_num)
+void Boat_Control(const int16_t item_num)
 {
     ITEM *const lara = g_LaraItem;
     ITEM *const boat = &g_Items[item_num];

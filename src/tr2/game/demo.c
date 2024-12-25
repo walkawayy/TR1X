@@ -35,7 +35,7 @@ static void M_RestoreConfig(void)
     g_SaveGame.bonus_flag = m_OldConfig.bonus_flag;
 }
 
-int32_t __cdecl Demo_Control(int32_t level_num)
+int32_t Demo_Control(int32_t level_num)
 {
     if (level_num < 0 && !g_GameFlow.num_demos) {
         return GFD_EXIT_TO_TITLE;
@@ -54,7 +54,7 @@ int32_t __cdecl Demo_Control(int32_t level_num)
     return GF_DoLevelSequence(level_num, GFL_DEMO);
 }
 
-int32_t __cdecl Demo_Start(int32_t level_num)
+int32_t Demo_Start(int32_t level_num)
 {
     if (level_num < 0 && !g_GameFlow.num_demos) {
         return GFD_EXIT_TO_TITLE;
@@ -122,7 +122,7 @@ int32_t __cdecl Demo_Start(int32_t level_num)
     return dir;
 }
 
-void __cdecl Demo_LoadLaraPos(void)
+void Demo_LoadLaraPos(void)
 {
     g_LaraItem->pos.x = g_DemoPtr[0];
     g_LaraItem->pos.y = g_DemoPtr[1];
@@ -144,7 +144,7 @@ void __cdecl Demo_LoadLaraPos(void)
     g_DemoCount += 8;
 }
 
-bool __cdecl Demo_GetInput(void)
+bool Demo_GetInput(void)
 {
     if (g_DemoCount >= MAX_DEMO_SIZE) {
         return false;

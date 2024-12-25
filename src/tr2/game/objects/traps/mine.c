@@ -79,7 +79,7 @@ static void M_Explode(ITEM *const mine_item)
     mine_item->collidable = 0;
 }
 
-void __cdecl Mine_Control(const int16_t item_num)
+void Mine_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (item->flags & IF_ONE_SHOT) {

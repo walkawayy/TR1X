@@ -22,7 +22,7 @@ void Drawbridge_Setup(void)
     obj->save_anim = 1;
 }
 
-int32_t __cdecl Drawbridge_IsItemOnTop(
+int32_t Drawbridge_IsItemOnTop(
     const ITEM *const item, const int32_t z, const int32_t x)
 {
     // drawbridge sector
@@ -54,7 +54,7 @@ int32_t __cdecl Drawbridge_IsItemOnTop(
     return false;
 }
 
-void __cdecl Drawbridge_Floor(
+void Drawbridge_Floor(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -68,7 +68,7 @@ void __cdecl Drawbridge_Floor(
     *out_height = item->pos.y;
 }
 
-void __cdecl Drawbridge_Ceiling(
+void Drawbridge_Ceiling(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -82,7 +82,7 @@ void __cdecl Drawbridge_Ceiling(
     *out_height = item->pos.y + STEP_L;
 }
 
-void __cdecl Drawbridge_Collision(
+void Drawbridge_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     const ITEM *const item = Item_Get(item_num);

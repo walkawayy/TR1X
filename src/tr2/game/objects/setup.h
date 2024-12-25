@@ -1,6 +1,6 @@
 #pragma once
 
-void __cdecl Object_SetupAllObjects(void);
-void __cdecl Object_SetupGeneralObjects(void);
-void __cdecl Object_SetupBaddyObjects(void);
-void __cdecl Object_SetupTrapObjects(void);
+void Object_SetupAllObjects(void);
+void Object_SetupGeneralObjects(void);
+void Object_SetupBaddyObjects(void);
+void Object_SetupTrapObjects(void);

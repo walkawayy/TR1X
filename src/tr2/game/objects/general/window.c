@@ -31,7 +31,7 @@ void Window_2_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Window_Initialise(const int16_t item_num)
+void Window_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     item->flags = 0;
@@ -48,7 +48,7 @@ void __cdecl Window_Initialise(const int16_t item_num)
     }
 }
 
-void __cdecl Window_1_Control(const int16_t item_num)
+void Window_1_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (item->flags & IF_ONE_SHOT) {
@@ -70,7 +70,7 @@ void __cdecl Window_1_Control(const int16_t item_num)
     }
 }
 
-void __cdecl Window_2_Control(const int16_t item_num)
+void Window_2_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (item->flags & IF_ONE_SHOT) {
@@ -97,7 +97,7 @@ void __cdecl Window_2_Control(const int16_t item_num)
     Item_RemoveActive(item_num);
 }
 
-void __cdecl Window_Smash(const int16_t item_num)
+void Window_Smash(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     const ROOM *const r = Room_Get(item->room_num);

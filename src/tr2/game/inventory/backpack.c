@@ -4,7 +4,7 @@
 #include "game/items.h"
 #include "global/vars.h"
 
-void __cdecl Inv_InsertItem(INVENTORY_ITEM *const inv_item)
+void Inv_InsertItem(INVENTORY_ITEM *const inv_item)
 {
     int32_t n;
 
@@ -39,7 +39,7 @@ void __cdecl Inv_InsertItem(INVENTORY_ITEM *const inv_item)
     }
 }
 
-int32_t __cdecl Inv_AddItem(const GAME_OBJECT_ID object_id)
+int32_t Inv_AddItem(const GAME_OBJECT_ID object_id)
 {
     const GAME_OBJECT_ID inv_object_id = Inv_GetItemOption(object_id);
 
@@ -300,7 +300,7 @@ void Inv_AddItemNTimes(GAME_OBJECT_ID object_id, int32_t qty)
     }
 }
 
-int32_t __cdecl Inv_RequestItem(const GAME_OBJECT_ID object_id)
+int32_t Inv_RequestItem(const GAME_OBJECT_ID object_id)
 {
     const GAME_OBJECT_ID inv_object_id = Inv_GetItemOption(object_id);
 
@@ -319,7 +319,7 @@ int32_t __cdecl Inv_RequestItem(const GAME_OBJECT_ID object_id)
     return 0;
 }
 
-void __cdecl Inv_RemoveAllItems(void)
+void Inv_RemoveAllItems(void)
 {
     g_Inv_MainObjectsCount = 0;
     g_Inv_KeyObjectsCount = 0;

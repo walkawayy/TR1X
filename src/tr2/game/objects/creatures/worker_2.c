@@ -117,7 +117,7 @@ void Worker5_Setup(void)
     g_AnimBones[obj->bone_idx + 13 * 4] |= BF_ROT_Y;
 }
 
-void __cdecl Worker2_Control(const int16_t item_num)
+void Worker2_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

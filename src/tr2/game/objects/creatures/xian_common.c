@@ -7,7 +7,7 @@
 #include "global/vars.h"
 
 // TODO: this duplicates Object_DrawAnimatingItem almost entirely
-void __cdecl XianWarrior_Draw(const ITEM *item)
+void XianWarrior_Draw(const ITEM *item)
 {
     FRAME_INFO *frames[2];
     int32_t rate;

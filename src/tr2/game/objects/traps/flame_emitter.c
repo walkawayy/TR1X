@@ -5,7 +5,7 @@
 #include "game/objects/common.h"
 #include "global/vars.h"
 
-void __cdecl FlameEmitter_Control(const int16_t item_num)
+void FlameEmitter_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

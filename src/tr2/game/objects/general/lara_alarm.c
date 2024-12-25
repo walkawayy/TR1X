@@ -3,7 +3,7 @@
 #include "game/objects/common.h"
 #include "game/sound.h"
 
-void __cdecl LaraAlarm_Control(const int16_t item_num)
+void LaraAlarm_Control(const int16_t item_num)
 {
     const ITEM *const item = Item_Get(item_num);
     if ((item->flags & IF_CODE_BITS) == IF_CODE_BITS) {

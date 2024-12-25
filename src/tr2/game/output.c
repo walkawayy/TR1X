@@ -100,7 +100,7 @@ static const int16_t *M_CalcRoomVerticesWibble(const int16_t *obj_ptr)
     return obj_ptr;
 }
 
-void __cdecl Output_InsertPolygons(const int16_t *obj_ptr, const int32_t clip)
+void Output_InsertPolygons(const int16_t *obj_ptr, const int32_t clip)
 {
     g_FltWinLeft = 0.0f;
     g_FltWinTop = 0.0f;
@@ -119,8 +119,7 @@ void __cdecl Output_InsertPolygons(const int16_t *obj_ptr, const int32_t clip)
     }
 }
 
-void __cdecl Output_InsertPolygons_I(
-    const int16_t *const ptr, const int32_t clip)
+void Output_InsertPolygons_I(const int16_t *const ptr, const int32_t clip)
 {
     Matrix_Push();
     Matrix_Interpolate();
@@ -128,7 +127,7 @@ void __cdecl Output_InsertPolygons_I(
     Matrix_Pop();
 }
 
-void __cdecl Output_InsertRoom(const int16_t *obj_ptr, int32_t is_outside)
+void Output_InsertRoom(const int16_t *obj_ptr, int32_t is_outside)
 {
     g_FltWinLeft = g_PhdWinLeft;
     g_FltWinTop = g_PhdWinTop;
@@ -156,7 +155,7 @@ void __cdecl Output_InsertRoom(const int16_t *obj_ptr, int32_t is_outside)
     Output_InsertRoomSprite(obj_ptr + 1, *obj_ptr);
 }
 
-void __cdecl Output_InsertSkybox(const int16_t *obj_ptr)
+void Output_InsertSkybox(const int16_t *obj_ptr)
 {
     g_FltWinLeft = g_PhdWinLeft;
     g_FltWinTop = g_PhdWinTop;
@@ -177,7 +176,7 @@ void __cdecl Output_InsertSkybox(const int16_t *obj_ptr)
     }
 }
 
-const int16_t *__cdecl Output_CalcObjectVertices(const int16_t *obj_ptr)
+const int16_t *Output_CalcObjectVertices(const int16_t *obj_ptr)
 {
     const double base_z = g_Config.rendering.enable_zbuffer
         ? 0.0
@@ -253,7 +252,7 @@ const int16_t *__cdecl Output_CalcObjectVertices(const int16_t *obj_ptr)
     return total_clip == 0 ? obj_ptr : 0;
 }
 
-const int16_t *__cdecl Output_CalcSkyboxLight(const int16_t *obj_ptr)
+const int16_t *Output_CalcSkyboxLight(const int16_t *obj_ptr)
 {
     int32_t count = *obj_ptr++;
     if (count > 0) {
@@ -270,7 +269,7 @@ const int16_t *__cdecl Output_CalcSkyboxLight(const int16_t *obj_ptr)
     return obj_ptr;
 }
 
-const int16_t *__cdecl Output_CalcVerticeLight(const int16_t *obj_ptr)
+const int16_t *Output_CalcVerticeLight(const int16_t *obj_ptr)
 {
     int32_t vtx_count = *obj_ptr++;
 
@@ -323,8 +322,7 @@ const int16_t *__cdecl Output_CalcVerticeLight(const int16_t *obj_ptr)
     return obj_ptr;
 }
 
-const int16_t *__cdecl Output_CalcRoomVertices(
-    const int16_t *obj_ptr, int32_t far_clip)
+const int16_t *Output_CalcRoomVertices(const int16_t *obj_ptr, int32_t far_clip)
 {
     const double base_z = g_Config.rendering.enable_zbuffer
         ? 0.0
@@ -418,7 +416,7 @@ const int16_t *__cdecl Output_CalcRoomVertices(
     return obj_ptr;
 }
 
-void __cdecl Output_RotateLight(int16_t pitch, int16_t yaw)
+void Output_RotateLight(int16_t pitch, int16_t yaw)
 {
     g_LsYaw = yaw;
     g_LsPitch = pitch;
@@ -438,12 +436,12 @@ void __cdecl Output_RotateLight(int16_t pitch, int16_t yaw)
     g_LsVectorView.z = (m->_20 * x + m->_21 * y + m->_22 * z) >> W2V_SHIFT;
 }
 
-void __cdecl Output_AlterFOV(int16_t fov)
+void Output_AlterFOV(int16_t fov)
 {
     Viewport_AlterFOV(fov);
 }
 
-const int16_t *__cdecl Output_InsertRoomSprite(
+const int16_t *Output_InsertRoomSprite(
     const int16_t *obj_ptr, const int32_t vtx_count)
 {
     for (int32_t i = 0; i < vtx_count; i++) {
@@ -472,7 +470,7 @@ const int16_t *__cdecl Output_InsertRoomSprite(
     return obj_ptr;
 }
 
-void __cdecl Output_DrawSprite(
+void Output_DrawSprite(
     const uint32_t flags, int32_t x, int32_t y, int32_t z,
     const int16_t sprite_idx, int16_t shade, const int16_t scale)
 {
@@ -568,7 +566,7 @@ void __cdecl Output_DrawSprite(
     Render_InsertSprite(zv, x0, y0, x1, y1, sprite_idx, shade);
 }
 
-void __cdecl Output_DrawPickup(
+void Output_DrawPickup(
     const int32_t sx, const int32_t sy, const int32_t scale,
     const int16_t sprite_idx, const int16_t shade)
 {
@@ -582,7 +580,7 @@ void __cdecl Output_DrawPickup(
     }
 }
 
-void __cdecl Output_DrawScreenSprite2D(
+void Output_DrawScreenSprite2D(
     const int32_t sx, const int32_t sy, const int32_t sz, const int32_t scale_h,
     const int32_t scale_v, const int16_t sprite_idx, const int16_t shade,
     const uint16_t flags)
@@ -598,7 +596,7 @@ void __cdecl Output_DrawScreenSprite2D(
     }
 }
 
-void __cdecl Output_DrawScreenSprite(
+void Output_DrawScreenSprite(
     const int32_t sx, const int32_t sy, const int32_t sz, const int32_t scale_h,
     const int32_t scale_v, const int16_t sprite_idx, const int16_t shade,
     const uint16_t flags)
@@ -614,7 +612,7 @@ void __cdecl Output_DrawScreenSprite(
     }
 }
 
-bool __cdecl Output_MakeScreenshot(const char *const path)
+bool Output_MakeScreenshot(const char *const path)
 {
     LOG_INFO("Taking screenshot");
     GFX_Context_ScheduleScreenshot(path);
@@ -737,13 +735,13 @@ void Output_DrawScreenFBox(
     Render_InsertTransQuad(sx, sy, width + 1, height + 1, g_PhdNearZ + 8 * z);
 }
 
-void __cdecl Output_DrawHealthBar(const int32_t percent)
+void Output_DrawHealthBar(const int32_t percent)
 {
     g_IsShadeEffect = false;
     M_InsertBar(6, 6, 105, 9, percent, INV_COLOR_RED, INV_COLOR_ORANGE);
 }
 
-void __cdecl Output_DrawAirBar(const int32_t percent)
+void Output_DrawAirBar(const int32_t percent)
 {
     g_IsShadeEffect = false;
     M_InsertBar(
@@ -770,7 +768,7 @@ int16_t Output_FindColor(
     return best_idx;
 }
 
-void __cdecl Output_DoAnimateTextures(const int32_t ticks)
+void Output_DoAnimateTextures(const int32_t ticks)
 {
     m_TickComp += ticks;
     while (m_TickComp > TICKS_PER_FRAME * 5) {
@@ -788,7 +786,7 @@ void __cdecl Output_DoAnimateTextures(const int32_t ticks)
     }
 }
 
-void __cdecl Output_InsertShadow(
+void Output_InsertShadow(
     int16_t radius, const BOUNDS_16 *bounds, const ITEM *item)
 {
     const int32_t x1 = bounds->min_x;
@@ -835,7 +833,7 @@ void __cdecl Output_InsertShadow(
     Matrix_Pop();
 }
 
-void __cdecl Output_CalculateWibbleTable(void)
+void Output_CalculateWibbleTable(void)
 {
     for (int32_t i = 0; i < WIBBLE_SIZE; i++) {
         const int32_t sine = Math_Sin(i * PHD_360 / WIBBLE_SIZE);
@@ -849,7 +847,7 @@ void __cdecl Output_CalculateWibbleTable(void)
     }
 }
 
-int32_t __cdecl Output_GetObjectBounds(const BOUNDS_16 *const bounds)
+int32_t Output_GetObjectBounds(const BOUNDS_16 *const bounds)
 {
     const MATRIX *const m = g_MatrixPtr;
     if (m->_23 >= g_PhdFarZ) {
@@ -915,7 +913,7 @@ int32_t __cdecl Output_GetObjectBounds(const BOUNDS_16 *const bounds)
     return 1;
 }
 
-void __cdecl Output_CalculateLight(
+void Output_CalculateLight(
     const int32_t x, const int32_t y, const int32_t z, const int16_t room_num)
 {
     const ROOM *const r = &g_Rooms[room_num];
@@ -1010,7 +1008,7 @@ void __cdecl Output_CalculateLight(
     CLAMPG(g_LsAdder, 0x1FFF);
 }
 
-void __cdecl Output_CalculateStaticLight(const int16_t adder)
+void Output_CalculateStaticLight(const int16_t adder)
 {
     g_LsAdder = adder - 0x1000;
     const int32_t depth = g_MatrixPtr->_23 >> W2V_SHIFT;
@@ -1018,7 +1016,7 @@ void __cdecl Output_CalculateStaticLight(const int16_t adder)
     CLAMPG(g_LsAdder, 0x1FFF);
 }
 
-void __cdecl Output_CalculateStaticMeshLight(
+void Output_CalculateStaticMeshLight(
     const int32_t x, const int32_t y, const int32_t z, const int32_t shade_1,
     const int32_t shade_2, const ROOM *const room)
 {
@@ -1055,7 +1053,7 @@ void __cdecl Output_CalculateStaticMeshLight(
     Output_CalculateStaticLight(adder);
 }
 
-void __cdecl Output_CalculateObjectLighting(
+void Output_CalculateObjectLighting(
     const ITEM *const item, const BOUNDS_16 *const bounds)
 {
     if (item->shade_1 >= 0) {
@@ -1083,7 +1081,7 @@ void __cdecl Output_CalculateObjectLighting(
     Output_CalculateLight(pos.x, pos.y, pos.z, item->room_num);
 }
 
-void __cdecl Output_LightRoom(ROOM *const room)
+void Output_LightRoom(ROOM *const room)
 {
     if (room->light_mode != 0) {
         const ROOM_LIGHT_TABLE *const light_table =
@@ -1151,7 +1149,7 @@ void __cdecl Output_LightRoom(ROOM *const room)
     }
 }
 
-void __cdecl Output_SetupBelowWater(const bool is_underwater)
+void Output_SetupBelowWater(const bool is_underwater)
 {
     g_IsWet = is_underwater;
     Render_SetWet(is_underwater);
@@ -1160,14 +1158,14 @@ void __cdecl Output_SetupBelowWater(const bool is_underwater)
     g_IsShadeEffect = true;
 }
 
-void __cdecl Output_SetupAboveWater(const bool is_underwater)
+void Output_SetupAboveWater(const bool is_underwater)
 {
     g_IsWibbleEffect = is_underwater;
     g_IsWaterEffect = false;
     g_IsShadeEffect = is_underwater;
 }
 
-void __cdecl Output_AnimateTextures(const int32_t ticks)
+void Output_AnimateTextures(const int32_t ticks)
 {
     g_WibbleOffset = (g_WibbleOffset + (ticks / TICKS_PER_FRAME)) % WIBBLE_SIZE;
     g_RoomLightShades[1] = Random_GetDraw() % WIBBLE_SIZE;
@@ -1185,7 +1183,7 @@ void __cdecl Output_AnimateTextures(const int32_t ticks)
     Output_DoAnimateTextures(ticks);
 }
 
-void __cdecl Output_AddDynamicLight(
+void Output_AddDynamicLight(
     const int32_t x, const int32_t y, const int32_t z, const int32_t intensity,
     const int32_t falloff)
 {

@@ -6,7 +6,7 @@
 
 #include <libtrx/utils.h>
 
-void __cdecl Text_DrawBorder(
+void Text_DrawBorder(
     const int32_t x, const int32_t y, const int32_t z, const int32_t width,
     const int32_t height)
 {
@@ -38,7 +38,7 @@ void __cdecl Text_DrawBorder(
     Output_DrawScreenSprite2D(x0, y0, z, scale_h, h, mesh_idx + 7, 0x1000, 0);
 }
 
-void __cdecl Text_DrawText(TEXTSTRING *const text)
+void Text_DrawText(TEXTSTRING *const text)
 {
     if (text->flags.drawn) {
         return;
@@ -155,12 +155,12 @@ void __cdecl Text_DrawText(TEXTSTRING *const text)
     }
 }
 
-int32_t __cdecl Text_GetScaleH(const uint32_t value)
+int32_t Text_GetScaleH(const uint32_t value)
 {
     return value * g_PhdWinWidth / 640;
 }
 
-int32_t __cdecl Text_GetScaleV(const uint32_t value)
+int32_t Text_GetScaleV(const uint32_t value)
 {
     return value * g_PhdWinHeight / 480;
 }

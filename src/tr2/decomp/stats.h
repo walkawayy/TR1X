@@ -2,10 +2,10 @@
 
 #include <stdint.h>
 
-void __cdecl ShowGymStatsText(const char *time_str, int32_t type);
-void __cdecl ShowStatsText(const char *time_str, int32_t type);
-void __cdecl ShowEndStatsText(void);
+void ShowGymStatsText(const char *time_str, int32_t type);
+void ShowStatsText(const char *time_str, int32_t type);
+void ShowEndStatsText(void);
 
-int32_t __cdecl LevelStats(int32_t level_num);
-int32_t __cdecl GameStats(int32_t level_num);
-int32_t __cdecl AddAssaultTime(uint32_t time);
+int32_t LevelStats(int32_t level_num);
+int32_t GameStats(int32_t level_num);
+int32_t AddAssaultTime(uint32_t time);

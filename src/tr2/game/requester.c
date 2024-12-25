@@ -34,7 +34,7 @@ static void M_ClearTextStrings(REQUEST_INFO *const req)
     }
 }
 
-void __cdecl Requester_Init(REQUEST_INFO *const req)
+void Requester_Init(REQUEST_INFO *const req)
 {
     M_ClearTextStrings(req);
 
@@ -65,13 +65,13 @@ void __cdecl Requester_Init(REQUEST_INFO *const req)
     req->render_height = g_PhdWinHeight;
 }
 
-void __cdecl Requester_Shutdown(REQUEST_INFO *const req)
+void Requester_Shutdown(REQUEST_INFO *const req)
 {
     M_ClearTextStrings(req);
     req->ready = 0;
 }
 
-int32_t __cdecl Requester_Display(
+int32_t Requester_Display(
     REQUEST_INFO *const req, const bool destroy, const bool backgrounds)
 {
     int32_t line_qty = req->visible_count;
@@ -335,15 +335,14 @@ int32_t __cdecl Requester_Display(
     return req->selected + 1;
 }
 
-void __cdecl Requester_RemoveAllItems(REQUEST_INFO *const req)
+void Requester_RemoveAllItems(REQUEST_INFO *const req)
 {
     req->items_count = 0;
     req->line_offset = 0;
     req->selected = 0;
 }
 
-void __cdecl Requester_Item_CenterAlign(
-    REQUEST_INFO *const req, TEXTSTRING *const text)
+void Requester_Item_CenterAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 {
     if (text == NULL) {
         return;
@@ -352,8 +351,7 @@ void __cdecl Requester_Item_CenterAlign(
     text->pos.x = req->x_pos;
 }
 
-void __cdecl Requester_Item_LeftAlign(
-    REQUEST_INFO *const req, TEXTSTRING *const text)
+void Requester_Item_LeftAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 {
     if (text == NULL) {
         return;
@@ -367,8 +365,7 @@ void __cdecl Requester_Item_LeftAlign(
     text->background.offset.x = x;
 }
 
-void __cdecl Requester_Item_RightAlign(
-    REQUEST_INFO *const req, TEXTSTRING *const text)
+void Requester_Item_RightAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 {
     if (text == NULL) {
         return;
@@ -382,7 +379,7 @@ void __cdecl Requester_Item_RightAlign(
     text->background.offset.x = -x;
 }
 
-void __cdecl Requester_SetHeading(
+void Requester_SetHeading(
     REQUEST_INFO *const req, const char *const text1, const uint32_t flags1,
     const char *const text2, const uint32_t flags2)
 {
@@ -409,7 +406,7 @@ void __cdecl Requester_SetHeading(
     }
 }
 
-void __cdecl Requester_ChangeItem(
+void Requester_ChangeItem(
     REQUEST_INFO *const req, const int32_t item, const char *const text1,
     const uint32_t flags1, const char *const text2, const uint32_t flags2)
 {
@@ -434,7 +431,7 @@ void __cdecl Requester_ChangeItem(
     }
 }
 
-void __cdecl Requester_AddItem(
+void Requester_AddItem(
     REQUEST_INFO *const req, const char *const text1, const uint32_t flags1,
     const char *const text2, const uint32_t flags2)
 {
@@ -462,7 +459,7 @@ void __cdecl Requester_AddItem(
     req->items_count++;
 }
 
-void __cdecl Requester_SetSize(
+void Requester_SetSize(
     REQUEST_INFO *const req, const int32_t max_lines, const int32_t y_pos)
 {
     int32_t visible_lines = g_PhdWinHeight / 2 / 18;

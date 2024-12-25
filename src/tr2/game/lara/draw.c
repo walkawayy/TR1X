@@ -8,7 +8,7 @@
 #include "game/random.h"
 #include "global/vars.h"
 
-void __cdecl Lara_Draw(const ITEM *const item)
+void Lara_Draw(const ITEM *const item)
 {
     FRAME_INFO *frame;
     MATRIX saved_matrix;
@@ -342,7 +342,7 @@ finish:
     g_PhdWinBottom = bottom;
 }
 
-void __cdecl Lara_Draw_I(
+void Lara_Draw_I(
     const ITEM *const item, const FRAME_INFO *const frame1,
     const FRAME_INFO *const frame2, const int32_t frac, const int32_t rate)
 {

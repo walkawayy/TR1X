@@ -4,4 +4,4 @@
 
 #include <libtrx/virtual_file.h>
 
-bool __cdecl Level_Load(const char *file_name, int32_t level_num);
+bool Level_Load(const char *file_name, int32_t level_num);

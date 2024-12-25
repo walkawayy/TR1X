@@ -35,7 +35,7 @@ static void M_Hit(const int16_t item_num)
     }
 }
 
-void __cdecl Dart_Control(const int16_t item_num)
+void Dart_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (item->touch_bits != 0) {

@@ -24,14 +24,14 @@ static const BITE m_Teeth[6] = {
     // clang-format on
 };
 
-void __cdecl TeethTrap_Bite(ITEM *const item, const BITE *const bite)
+void TeethTrap_Bite(ITEM *const item, const BITE *const bite)
 {
     XYZ_32 pos = bite->pos;
     Collide_GetJointAbsPosition(item, &pos, bite->mesh_num);
     Spawn_Blood(pos.x, pos.y, pos.z, item->speed, item->rot.y, item->room_num);
 }
 
-void __cdecl TeethTrap_Control(const int16_t item_num)
+void TeethTrap_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

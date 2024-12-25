@@ -3,7 +3,7 @@
 #include "game/output.h"
 #include "game/sound.h"
 
-void __cdecl AlarmSound_Control(int16_t item_num)
+void AlarmSound_Control(int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if ((item->flags & IF_CODE_BITS) != IF_CODE_BITS) {

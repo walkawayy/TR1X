@@ -4,7 +4,6 @@
 
 void Keyhole_Setup(OBJECT *obj);
 
-void __cdecl Keyhole_Collision(
-    int16_t item_num, ITEM *lara_item, COLL_INFO *coll);
+void Keyhole_Collision(int16_t item_num, ITEM *lara_item, COLL_INFO *coll);
 
-int32_t __cdecl Keyhole_Trigger(int16_t item_num);
+int32_t Keyhole_Trigger(int16_t item_num);

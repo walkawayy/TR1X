@@ -8,7 +8,7 @@
 #include <libtrx/game/lara/common.h>
 #include <libtrx/utils.h>
 
-void __cdecl MiniCopter_Control(const int16_t item_num)
+void MiniCopter_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     const ITEM *const lara_item = Lara_GetItem();

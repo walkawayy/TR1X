@@ -191,7 +191,7 @@ static void M_ModifyInventory_Item(
 }
 
 // TODO: inline me into GF_LoadScriptFile
-bool __cdecl GF_LoadFromFile(const char *const file_name)
+bool GF_LoadFromFile(const char *const file_name)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
     DWORD bytes_read;
@@ -327,7 +327,7 @@ bool __cdecl GF_LoadFromFile(const char *const file_name)
     return true;
 }
 
-int32_t __cdecl GF_LoadScriptFile(const char *const fname)
+int32_t GF_LoadScriptFile(const char *const fname)
 {
     g_GF_SunsetEnabled = false;
 
@@ -347,7 +347,7 @@ int32_t __cdecl GF_LoadScriptFile(const char *const fname)
     return true;
 }
 
-int32_t __cdecl GF_DoFrontendSequence(void)
+int32_t GF_DoFrontendSequence(void)
 {
     GF_N_LoadStrings(-1);
     const GAME_FLOW_DIR dir =
@@ -355,7 +355,7 @@ int32_t __cdecl GF_DoFrontendSequence(void)
     return dir == GFD_EXIT_GAME;
 }
 
-int32_t __cdecl GF_DoLevelSequence(
+int32_t GF_DoLevelSequence(
     const int32_t start_level, const GAMEFLOW_LEVEL_TYPE type)
 {
     GF_N_LoadStrings(start_level);
@@ -380,7 +380,7 @@ int32_t __cdecl GF_DoLevelSequence(
     }
 }
 
-int32_t __cdecl GF_InterpretSequence(
+int32_t GF_InterpretSequence(
     const int16_t *ptr, GAMEFLOW_LEVEL_TYPE type, const int32_t seq_type)
 {
     g_GF_NoFloor = 0;
@@ -603,7 +603,7 @@ int32_t __cdecl GF_InterpretSequence(
     return dir;
 }
 
-void __cdecl GF_ModifyInventory(const int32_t level, const int32_t type)
+void GF_ModifyInventory(const int32_t level, const int32_t type)
 {
     START_INFO *const start = &g_SaveGame.start[level];
 

@@ -3,7 +3,7 @@
 #include "game/effects.h"
 #include "global/vars.h"
 
-void __cdecl Glow_Control(const int16_t effect_num)
+void Glow_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
 

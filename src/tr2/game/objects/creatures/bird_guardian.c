@@ -74,7 +74,7 @@ void BirdGuardian_Setup(void)
     g_AnimBones[obj->bone_idx + 14 * 4] |= BF_ROT_Y;
 }
 
-void __cdecl BirdGuardian_Control(const int16_t item_num)
+void BirdGuardian_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

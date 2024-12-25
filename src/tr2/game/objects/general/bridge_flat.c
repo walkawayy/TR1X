@@ -7,7 +7,7 @@ void BridgeFlat_Setup(void)
     obj->floor = BridgeFlat_Floor;
 }
 
-void __cdecl BridgeFlat_Floor(
+void BridgeFlat_Floor(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {
@@ -16,7 +16,7 @@ void __cdecl BridgeFlat_Floor(
     }
 }
 
-void __cdecl BridgeFlat_Ceiling(
+void BridgeFlat_Ceiling(
     const ITEM *const item, const int32_t x, const int32_t y, const int32_t z,
     int32_t *const out_height)
 {

@@ -12,7 +12,7 @@
 
 #define BARTOLI_LIGHT_RANGE (5 * WALL_L) // = 5120
 
-int16_t __cdecl Spawn_FireStream(
+int16_t Spawn_FireStream(
     const int32_t x, const int32_t y, const int32_t z, int16_t speed,
     const int16_t y_rot, const int16_t room_num)
 {
@@ -46,7 +46,7 @@ int16_t __cdecl Spawn_FireStream(
     return effect_num;
 }
 
-void __cdecl Spawn_MysticLight(const int16_t item_num)
+void Spawn_MysticLight(const int16_t item_num)
 {
     const ITEM *const item = &g_Items[item_num];
 
@@ -76,7 +76,7 @@ void __cdecl Spawn_MysticLight(const int16_t item_num)
     // clang-format on
 }
 
-void __cdecl Spawn_Bubble(const XYZ_32 *const pos, const int16_t room_num)
+void Spawn_Bubble(const XYZ_32 *const pos, const int16_t room_num)
 {
     const int16_t effect_num = Effect_Create(room_num);
     if (effect_num == NO_EFFECT) {
@@ -90,7 +90,7 @@ void __cdecl Spawn_Bubble(const XYZ_32 *const pos, const int16_t room_num)
     effect->speed = 10 + ((Random_GetDraw() * 6) / 0x8000);
 }
 
-void __cdecl Spawn_Splash(const ITEM *const item)
+void Spawn_Splash(const ITEM *const item)
 {
     const int32_t water_height = Room_GetWaterHeight(
         item->pos.x, item->pos.y, item->pos.z, item->room_num);
@@ -114,7 +114,7 @@ void __cdecl Spawn_Splash(const ITEM *const item)
     }
 }
 
-int16_t __cdecl Spawn_GunShot(
+int16_t Spawn_GunShot(
     const int32_t x, const int32_t y, const int32_t z, const int16_t speed,
     const int16_t y_rot, const int16_t room_num)
 {
@@ -138,7 +138,7 @@ int16_t __cdecl Spawn_GunShot(
     return effect_num;
 }
 
-int16_t __cdecl Spawn_GunHit(
+int16_t Spawn_GunHit(
     const int32_t x, const int32_t y, const int32_t z, const int16_t speed,
     const int16_t y_rot, const int16_t room_num)
 {
@@ -152,7 +152,7 @@ int16_t __cdecl Spawn_GunHit(
     return Spawn_GunShot(x, y, z, speed, y_rot, room_num);
 }
 
-int16_t __cdecl Spawn_GunMiss(
+int16_t Spawn_GunMiss(
     const int32_t x, const int32_t y, const int32_t z, const int16_t speed,
     const int16_t y_rot, const int16_t room_num)
 {
@@ -168,7 +168,7 @@ int16_t __cdecl Spawn_GunMiss(
     return Spawn_GunShot(x, y, z, speed, y_rot, room_num);
 }
 
-int16_t __cdecl Spawn_Knife(
+int16_t Spawn_Knife(
     const int32_t x, const int32_t y, const int32_t z, const int16_t speed,
     const int16_t y_rot, const int16_t room_num)
 {
@@ -193,7 +193,7 @@ int16_t __cdecl Spawn_Knife(
     return effect_num;
 }
 
-int16_t __cdecl Spawn_Blood(
+int16_t Spawn_Blood(
     const int32_t x, const int32_t y, const int32_t z, const int16_t speed,
     const int16_t y_rot, const int16_t room_num)
 {
@@ -212,7 +212,7 @@ int16_t __cdecl Spawn_Blood(
     return effect_num;
 }
 
-void __cdecl Spawn_BloodBath(
+void Spawn_BloodBath(
     const int32_t x, const int32_t y, const int32_t z, const int16_t speed,
     const int16_t y_rot, const int16_t room_num, const int32_t count)
 {
@@ -224,7 +224,7 @@ void __cdecl Spawn_BloodBath(
     }
 }
 
-void __cdecl Spawn_Ricochet(const GAME_VECTOR *const pos)
+void Spawn_Ricochet(const GAME_VECTOR *const pos)
 {
     const int16_t effect_num = Effect_Create(pos->room_num);
     if (effect_num != NO_EFFECT) {

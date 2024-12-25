@@ -130,7 +130,7 @@ void Cultist1B_Setup(void)
     g_AnimBones[obj->bone_idx] |= BF_ROT_Y;
 }
 
-void __cdecl Cultist1_Initialise(const int16_t item_num)
+void Cultist1_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (Random_GetControl() < 0x4000) {
@@ -141,7 +141,7 @@ void __cdecl Cultist1_Initialise(const int16_t item_num)
     }
 }
 
-void __cdecl Cultist1_Control(const int16_t item_num)
+void Cultist1_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

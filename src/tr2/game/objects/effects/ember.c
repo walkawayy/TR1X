@@ -7,7 +7,7 @@
 #include "game/room.h"
 #include "global/vars.h"
 
-void __cdecl Ember_Control(const int16_t effect_num)
+void Ember_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     effect->fall_speed += GRAVITY;

@@ -65,7 +65,7 @@ void Spider_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Spider_Leap(const int16_t item_num, const int16_t angle)
+void Spider_Leap(const int16_t item_num, const int16_t angle)
 {
     ITEM *const item = Item_Get(item_num);
     const XYZ_32 old_pos = item->pos;
@@ -86,7 +86,7 @@ void __cdecl Spider_Leap(const int16_t item_num, const int16_t angle)
     Creature_Animate(item_num, angle, 0);
 }
 
-void __cdecl Spider_Control(const int16_t item_num)
+void Spider_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

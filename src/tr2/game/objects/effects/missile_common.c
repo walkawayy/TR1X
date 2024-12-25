@@ -13,7 +13,7 @@
 
 #include <libtrx/utils.h>
 
-void __cdecl Missile_Control(const int16_t effect_num)
+void Missile_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
 
@@ -94,7 +94,7 @@ void __cdecl Missile_Control(const int16_t effect_num)
     }
 }
 
-void __cdecl Missile_ShootAtLara(EFFECT *const effect)
+void Missile_ShootAtLara(EFFECT *const effect)
 {
     const int32_t dx = g_LaraItem->pos.x - effect->pos.x;
     const int32_t dy = g_LaraItem->pos.y - effect->pos.y;

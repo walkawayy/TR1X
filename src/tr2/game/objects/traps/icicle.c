@@ -16,7 +16,7 @@ typedef enum {
     // clang-format on
 } ICICLE_STATE;
 
-void __cdecl Icicle_Control(const int16_t item_num)
+void Icicle_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

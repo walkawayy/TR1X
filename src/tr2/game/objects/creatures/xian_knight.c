@@ -59,7 +59,7 @@ static void M_Initialise(const int16_t item_num)
     item->mesh_bits = 0;
 }
 
-void __cdecl XianKnight_SparkleTrail(const ITEM *const item)
+void XianKnight_SparkleTrail(const ITEM *const item)
 {
     const int16_t effect_num = Effect_Create(item->room_num);
     if (effect_num != NO_EFFECT) {
@@ -104,7 +104,7 @@ void XianKnight_Setup(void)
     g_AnimBones[obj->bone_idx + 16 * 4] |= BF_ROT_Y;
 }
 
-void __cdecl XianKnight_Control(const int16_t item_num)
+void XianKnight_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

@@ -104,7 +104,7 @@ static void M_End(RING_INFO *const ring)
     Output_UnloadBackground();
 }
 
-void __cdecl Inv_InitColors(void)
+void Inv_InitColors(void)
 {
     struct {
         RGB_888 rgb;
@@ -131,7 +131,7 @@ void __cdecl Inv_InitColors(void)
     }
 }
 
-void __cdecl Inv_Construct(void)
+void Inv_Construct(void)
 {
     Output_SetupAboveWater(0);
 
@@ -472,7 +472,7 @@ static void M_Draw(
     g_Camera.num_frames = frames;
 }
 
-int32_t __cdecl Inv_Display(int32_t inventory_mode)
+int32_t Inv_Display(int32_t inventory_mode)
 {
     FADER fader = { 0 };
 
@@ -1037,7 +1037,7 @@ int32_t Inv_DisplayKeys(const GAME_OBJECT_ID receptacle_type_id)
     return Inv_Display(INV_KEYS_MODE);
 }
 
-void __cdecl Inv_SelectMeshes(INVENTORY_ITEM *const inv_item)
+void Inv_SelectMeshes(INVENTORY_ITEM *const inv_item)
 {
     switch (inv_item->object_id) {
     case O_PASSPORT_OPTION:
@@ -1074,7 +1074,7 @@ void __cdecl Inv_SelectMeshes(INVENTORY_ITEM *const inv_item)
     }
 }
 
-int32_t __cdecl Inv_AnimateInventoryItem(INVENTORY_ITEM *const inv_item)
+int32_t Inv_AnimateInventoryItem(INVENTORY_ITEM *const inv_item)
 {
     if (inv_item->current_frame == inv_item->goal_frame) {
         Inv_SelectMeshes(inv_item);
@@ -1106,7 +1106,7 @@ GAME_OBJECT_ID Inv_GetItemOption(const GAME_OBJECT_ID object_id)
     return Object_GetCognate(object_id, g_ItemToInvObjectMap);
 }
 
-void __cdecl Inv_RingIsOpen(RING_INFO *const ring)
+void Inv_RingIsOpen(RING_INFO *const ring)
 {
     if (g_Inv_Mode == INV_TITLE_MODE) {
         return;
@@ -1164,7 +1164,7 @@ void __cdecl Inv_RingIsOpen(RING_INFO *const ring)
     }
 }
 
-void __cdecl Inv_RingIsNotOpen(RING_INFO *const ring)
+void Inv_RingIsNotOpen(RING_INFO *const ring)
 {
     Text_Remove(g_Inv_TagText);
     g_Inv_TagText = NULL;
@@ -1180,7 +1180,7 @@ void __cdecl Inv_RingIsNotOpen(RING_INFO *const ring)
     g_Inv_DownArrow2 = NULL;
 }
 
-void __cdecl Inv_RingNotActive(const INVENTORY_ITEM *const inv_item)
+void Inv_RingNotActive(const INVENTORY_ITEM *const inv_item)
 {
     if (g_Inv_ItemText[0] == NULL) {
         if (inv_item->object_id != O_PASSPORT_OPTION) {
@@ -1257,7 +1257,7 @@ void __cdecl Inv_RingNotActive(const INVENTORY_ITEM *const inv_item)
     }
 }
 
-void __cdecl Inv_RingActive(void)
+void Inv_RingActive(void)
 {
     M_RemoveItemsText();
 }

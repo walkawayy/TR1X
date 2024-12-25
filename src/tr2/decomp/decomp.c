@@ -58,7 +58,7 @@ typedef enum {
     LA_VEHICLE_HIT_BACK = 14,
 } LARA_ANIM_VEHICLE;
 
-int16_t __cdecl TitleSequence(void)
+int16_t TitleSequence(void)
 {
     GF_N_LoadStrings(-1);
 
@@ -113,12 +113,12 @@ int16_t __cdecl TitleSequence(void)
     return GFD_EXIT_GAME;
 }
 
-void __cdecl Game_SetCutsceneTrack(const int32_t track)
+void Game_SetCutsceneTrack(const int32_t track)
 {
     g_CineTrackID = track;
 }
 
-void __cdecl CutscenePlayer_Control(const int16_t item_num)
+void CutscenePlayer_Control(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
     item->rot.y = g_Camera.target_angle;
@@ -145,7 +145,7 @@ void __cdecl CutscenePlayer_Control(const int16_t item_num)
     Item_Animate(item);
 }
 
-void __cdecl Lara_Control_Cutscene(const int16_t item_num)
+void Lara_Control_Cutscene(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
     item->rot.y = g_Camera.target_angle;
@@ -164,7 +164,7 @@ void __cdecl Lara_Control_Cutscene(const int16_t item_num)
     Lara_Animate(item);
 }
 
-void __cdecl CutscenePlayer1_Initialise(const int16_t item_num)
+void CutscenePlayer1_Initialise(const int16_t item_num)
 {
     OBJECT *const obj = &g_Objects[O_LARA];
     obj->draw_routine = Lara_Draw;
@@ -189,7 +189,7 @@ void __cdecl CutscenePlayer1_Initialise(const int16_t item_num)
     g_Lara.hit_direction = -1;
 }
 
-void __cdecl CutscenePlayerGen_Initialise(const int16_t item_num)
+void CutscenePlayerGen_Initialise(const int16_t item_num)
 {
     Item_AddActive(item_num);
     ITEM *const item = &g_Items[item_num];
@@ -197,7 +197,7 @@ void __cdecl CutscenePlayerGen_Initialise(const int16_t item_num)
     item->dynamic_light = 0;
 }
 
-int32_t __cdecl Level_Initialise(
+int32_t Level_Initialise(
     const int32_t level_num, const GAMEFLOW_LEVEL_TYPE level_type)
 {
     g_GameInfo.current_level.num = level_num;
@@ -261,7 +261,7 @@ int32_t __cdecl Level_Initialise(
     return true;
 }
 
-int32_t __cdecl Misc_Move3DPosTo3DPos(
+int32_t Misc_Move3DPosTo3DPos(
     PHD_3DPOS *const src_pos, const PHD_3DPOS *const dst_pos,
     const int32_t velocity, const int16_t ang_add)
 {
@@ -309,12 +309,12 @@ int32_t __cdecl Misc_Move3DPosTo3DPos(
     // clang-format on
 }
 
-int32_t __cdecl LevelCompleteSequence(void)
+int32_t LevelCompleteSequence(void)
 {
     return GFD_EXIT_TO_TITLE;
 }
 
-void __cdecl S_Wait(int32_t frames, const bool input_check)
+void S_Wait(int32_t frames, const bool input_check)
 {
     if (input_check) {
         while (frames > 0) {
@@ -354,14 +354,14 @@ void __cdecl S_Wait(int32_t frames, const bool input_check)
     }
 }
 
-bool __cdecl S_InitialiseSystem(void)
+bool S_InitialiseSystem(void)
 {
     Random_Seed();
     Output_CalculateWibbleTable();
     return 1;
 }
 
-void __cdecl DisplayCredits(void)
+void DisplayCredits(void)
 {
     S_UnloadLevelFile();
     if (!Level_Initialise(0, 0)) {
@@ -412,7 +412,7 @@ void __cdecl DisplayCredits(void)
     }
 }
 
-void __cdecl IncreaseScreenSize(void)
+void IncreaseScreenSize(void)
 {
     if (g_Config.rendering.sizer < 1.0) {
         g_Config.rendering.sizer += 0.08;
@@ -421,7 +421,7 @@ void __cdecl IncreaseScreenSize(void)
     }
 }
 
-void __cdecl DecreaseScreenSize(void)
+void DecreaseScreenSize(void)
 {
     if (g_Config.rendering.sizer > 0.44) {
         g_Config.rendering.sizer -= 0.08;
@@ -430,7 +430,7 @@ void __cdecl DecreaseScreenSize(void)
     }
 }
 
-bool __cdecl S_LoadLevelFile(
+bool S_LoadLevelFile(
     const char *const file_name, const int32_t level_num,
     const GAMEFLOW_LEVEL_TYPE level_type)
 {
@@ -438,7 +438,7 @@ bool __cdecl S_LoadLevelFile(
     return Level_Load(file_name, level_num);
 }
 
-void __cdecl S_UnloadLevelFile(void)
+void S_UnloadLevelFile(void)
 {
     strcpy(g_LevelFileName, "");
     memset(g_TexturePageBuffer8, 0, sizeof(uint8_t *) * MAX_TEXTURE_PAGES);
@@ -446,7 +446,7 @@ void __cdecl S_UnloadLevelFile(void)
     g_TextureInfoCount = 0;
 }
 
-void __cdecl GetValidLevelsList(REQUEST_INFO *const req)
+void GetValidLevelsList(REQUEST_INFO *const req)
 {
     Requester_RemoveAllItems(req);
     for (int32_t i = 1; i < g_GameFlow.num_levels; i++) {
@@ -454,7 +454,7 @@ void __cdecl GetValidLevelsList(REQUEST_INFO *const req)
     }
 }
 
-void __cdecl InitialiseGameFlags(void)
+void InitialiseGameFlags(void)
 {
     for (int32_t i = 0; i < MAX_CD_TRACKS; i++) {
         g_MusicTrackFlags[i] = 0;
@@ -476,7 +476,7 @@ void __cdecl InitialiseGameFlags(void)
     g_IsMonkAngry = false;
 }
 
-void __cdecl InitialiseLevelFlags(void)
+void InitialiseLevelFlags(void)
 {
     g_SaveGame.statistics.secrets = 0;
     g_SaveGame.statistics.timer = 0;
@@ -487,7 +487,7 @@ void __cdecl InitialiseLevelFlags(void)
     g_SaveGame.statistics.medipacks = 0;
 }
 
-void __cdecl GetCarriedItems(void)
+void GetCarriedItems(void)
 {
     for (int32_t item_num = 0; item_num < g_LevelItemCount; item_num++) {
         ITEM *const item = Item_Get(item_num);
@@ -517,7 +517,7 @@ void __cdecl GetCarriedItems(void)
     }
 }
 
-int32_t __cdecl DoShift(
+int32_t DoShift(
     ITEM *const vehicle, const XYZ_32 *const pos, const XYZ_32 *const old)
 {
     int32_t x = pos->x >> WALL_SHIFT;
@@ -602,7 +602,7 @@ int32_t __cdecl DoShift(
     return 0;
 }
 
-int32_t __cdecl DoDynamics(
+int32_t DoDynamics(
     const int32_t height, const int32_t fall_speed, int32_t *const out_y)
 {
     if (height > *out_y) {
@@ -620,7 +620,7 @@ int32_t __cdecl DoDynamics(
     return fall_speed + ((kick - fall_speed) >> 3);
 }
 
-int32_t __cdecl GetCollisionAnim(const ITEM *const vehicle, XYZ_32 *const moved)
+int32_t GetCollisionAnim(const ITEM *const vehicle, XYZ_32 *const moved)
 {
     moved->x = vehicle->pos.x - moved->x;
     moved->z = vehicle->pos.z - moved->z;
@@ -648,7 +648,7 @@ int32_t __cdecl GetCollisionAnim(const ITEM *const vehicle, XYZ_32 *const moved)
     return 0;
 }
 
-void __cdecl InitialiseFinalLevel(void)
+void InitialiseFinalLevel(void)
 {
     g_FinalBossActive = 0;
     g_FinalBossCount = 0;

@@ -326,7 +326,7 @@ static void M_DisplayLegal(void)
 }
 
 // TODO: refactor the hell out of me
-void __cdecl Shell_Main(void)
+void Shell_Main(void)
 {
     GameString_Init();
     EnumMap_Init();
@@ -459,7 +459,7 @@ void __cdecl Shell_Main(void)
     Config_Write();
 }
 
-void __cdecl Shell_Shutdown(void)
+void Shell_Shutdown(void)
 {
     GameString_Shutdown();
     Console_Shutdown();

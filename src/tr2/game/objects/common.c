@@ -20,7 +20,7 @@ void Object_DrawDummyItem(const ITEM *const item)
 {
 }
 
-void __cdecl Object_DrawAnimatingItem(const ITEM *item)
+void Object_DrawAnimatingItem(const ITEM *item)
 {
     FRAME_INFO *frames[2];
     int32_t rate;
@@ -130,7 +130,7 @@ void __cdecl Object_DrawAnimatingItem(const ITEM *item)
     Matrix_Pop();
 }
 
-void __cdecl Object_DrawUnclippedItem(const ITEM *const item)
+void Object_DrawUnclippedItem(const ITEM *const item)
 {
     const VIEWPORT old_vp = *Viewport_Get();
 
@@ -145,7 +145,7 @@ void __cdecl Object_DrawUnclippedItem(const ITEM *const item)
     Viewport_Restore(&old_vp);
 }
 
-void __cdecl Object_DrawSpriteItem(const ITEM *const item)
+void Object_DrawSpriteItem(const ITEM *const item)
 {
     Output_CalculateStaticMeshLight(
         item->pos.x, item->pos.y, item->pos.z, item->shade_1, item->shade_2,
@@ -160,7 +160,7 @@ void __cdecl Object_DrawSpriteItem(const ITEM *const item)
         g_LsAdder + 4096, 0);
 }
 
-void __cdecl Object_Collision(
+void Object_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = &g_Items[item_num];
@@ -178,7 +178,7 @@ void __cdecl Object_Collision(
     }
 }
 
-void __cdecl Object_Collision_Trap(
+void Object_Collision_Trap(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = &g_Items[item_num];

@@ -192,7 +192,7 @@ static void (*m_CollisionRoutines[])(ITEM *item, COLL_INFO *coll) = {
     // clang-format on
 };
 
-void __cdecl Lara_HandleAboveWater(ITEM *const item, COLL_INFO *const coll)
+void Lara_HandleAboveWater(ITEM *const item, COLL_INFO *const coll)
 {
     coll->old.x = item->pos.x;
     coll->old.y = item->pos.y;
@@ -265,7 +265,7 @@ void __cdecl Lara_HandleAboveWater(ITEM *const item, COLL_INFO *const coll)
     Room_TestTriggers(item);
 }
 
-void __cdecl Lara_HandleSurface(ITEM *const item, COLL_INFO *const coll)
+void Lara_HandleSurface(ITEM *const item, COLL_INFO *const coll)
 {
     g_Camera.target_elevation = -22 * PHD_DEGREE;
 
@@ -323,7 +323,7 @@ void __cdecl Lara_HandleSurface(ITEM *const item, COLL_INFO *const coll)
     Room_TestTriggers(item);
 }
 
-void __cdecl Lara_HandleUnderwater(ITEM *const item, COLL_INFO *const coll)
+void Lara_HandleUnderwater(ITEM *const item, COLL_INFO *const coll)
 {
     coll->old.x = item->pos.x;
     coll->old.y = item->pos.y;
@@ -412,7 +412,7 @@ void __cdecl Lara_HandleUnderwater(ITEM *const item, COLL_INFO *const coll)
     Room_TestTriggers(item);
 }
 
-void __cdecl Lara_Control(const int16_t item_num)
+void Lara_Control(const int16_t item_num)
 {
     ITEM *const item = g_LaraItem;
 
@@ -674,12 +674,12 @@ void __cdecl Lara_Control(const int16_t item_num)
     g_Lara.last_pos = item->pos;
 }
 
-void __cdecl Lara_ControlExtra(const int16_t item_num)
+void Lara_ControlExtra(const int16_t item_num)
 {
     Item_Animate(&g_Items[item_num]);
 }
 
-void __cdecl Lara_Animate(ITEM *const item)
+void Lara_Animate(ITEM *const item)
 {
     item->frame_num++;
 
@@ -818,7 +818,7 @@ void __cdecl Lara_Animate(ITEM *const item)
     item->pos.z += (item->speed * Math_Cos(g_Lara.move_angle)) >> W2V_SHIFT;
 }
 
-void __cdecl Lara_UseItem(const GAME_OBJECT_ID object_id)
+void Lara_UseItem(const GAME_OBJECT_ID object_id)
 {
     ITEM *const item = g_LaraItem;
 
@@ -889,13 +889,13 @@ void __cdecl Lara_UseItem(const GAME_OBJECT_ID object_id)
     }
 }
 
-void __cdecl Lara_InitialiseLoad(const int16_t item_num)
+void Lara_InitialiseLoad(const int16_t item_num)
 {
     g_Lara.item_num = item_num;
     g_LaraItem = &g_Items[item_num];
 }
 
-void __cdecl Lara_Initialise(const GAMEFLOW_LEVEL_TYPE type)
+void Lara_Initialise(const GAMEFLOW_LEVEL_TYPE type)
 {
     ITEM *const item = g_LaraItem;
 
@@ -985,7 +985,7 @@ void __cdecl Lara_Initialise(const GAMEFLOW_LEVEL_TYPE type)
     }
 }
 
-void __cdecl Lara_InitialiseInventory(const int32_t level_num)
+void Lara_InitialiseInventory(const int32_t level_num)
 {
     Inv_RemoveAllItems();
 
@@ -1091,7 +1091,7 @@ void __cdecl Lara_InitialiseInventory(const int32_t level_num)
     Gun_InitialiseNewWeapon();
 }
 
-void __cdecl Lara_InitialiseMeshes(const int32_t level_num)
+void Lara_InitialiseMeshes(const int32_t level_num)
 {
     for (int32_t i = 0; i < LM_NUMBER_OF; i++) {
         g_Lara.mesh_ptrs[i] = g_Meshes[g_Objects[O_LARA].mesh_idx + i];

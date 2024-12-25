@@ -7,7 +7,7 @@
 
 #define FALLING_CEILING_DAMAGE 300
 
-void __cdecl FallingCeiling_Control(const int16_t item_num)
+void FallingCeiling_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

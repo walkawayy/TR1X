@@ -8,7 +8,7 @@
 
 #include <libtrx/utils.h>
 
-void __cdecl Collide_GetCollisionInfo(
+void Collide_GetCollisionInfo(
     COLL_INFO *const coll, const int32_t x_pos, const int32_t y_pos,
     const int32_t z_pos, int16_t room_num, const int32_t obj_height)
 {
@@ -289,7 +289,7 @@ void __cdecl Collide_GetCollisionInfo(
     }
 }
 
-int32_t __cdecl Collide_CollideStaticObjects(
+int32_t Collide_CollideStaticObjects(
     COLL_INFO *const coll, const int32_t x, const int32_t y, const int32_t z,
     const int16_t room_num, const int32_t height)
 {
@@ -448,8 +448,7 @@ int32_t __cdecl Collide_CollideStaticObjects(
     return 0;
 }
 
-int32_t __cdecl Collide_TestCollision(
-    ITEM *const item, const ITEM *const lara_item)
+int32_t Collide_TestCollision(ITEM *const item, const ITEM *const lara_item)
 {
     SPHERE slist_baddie[34];
     SPHERE slist_lara[34];
@@ -486,7 +485,7 @@ int32_t __cdecl Collide_TestCollision(
     return touch_bits;
 }
 
-int32_t __cdecl Collide_GetSpheres(
+int32_t Collide_GetSpheres(
     const ITEM *const item, SPHERE *const spheres, const bool world_space)
 {
     if (item == NULL) {
@@ -567,7 +566,7 @@ int32_t __cdecl Collide_GetSpheres(
     return object->mesh_count;
 }
 
-void __cdecl Collide_GetJointAbsPosition(
+void Collide_GetJointAbsPosition(
     const ITEM *const item, XYZ_32 *const out_vec, const int32_t joint)
 {
     const OBJECT *const object = Object_GetObject(item->object_id);

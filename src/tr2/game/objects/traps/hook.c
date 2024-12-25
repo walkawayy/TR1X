@@ -10,7 +10,7 @@
 
 #define HOOK_DAMAGE 50
 
-void __cdecl Hook_Control(const int16_t item_num)
+void Hook_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

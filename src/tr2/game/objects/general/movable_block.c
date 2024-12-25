@@ -20,7 +20,7 @@ typedef enum {
     MOVABLE_BLOCK_STATE_PULL = 3,
 } MOVABLE_BLOCK_STATE;
 
-int32_t __cdecl MovableBlock_TestDestination(
+int32_t MovableBlock_TestDestination(
     const ITEM *const item, const int32_t block_height)
 {
     int16_t room_num = item->room_num;
@@ -31,7 +31,7 @@ int32_t __cdecl MovableBlock_TestDestination(
     return floor == NO_HEIGHT || (floor == item->pos.y - block_height);
 }
 
-int32_t __cdecl MovableBlock_TestPush(
+int32_t MovableBlock_TestPush(
     const ITEM *const item, const int32_t block_height, const uint16_t quadrant)
 {
     if (!MovableBlock_TestDestination(item, block_height)) {
@@ -88,7 +88,7 @@ int32_t __cdecl MovableBlock_TestPush(
     return true;
 }
 
-int32_t __cdecl MovableBlock_TestPull(
+int32_t MovableBlock_TestPull(
     const ITEM *const item, const int32_t block_height, const uint16_t quadrant)
 {
     if (!MovableBlock_TestDestination(item, block_height)) {
@@ -166,7 +166,7 @@ int32_t __cdecl MovableBlock_TestPull(
     return true;
 }
 
-void __cdecl MovableBlock_Initialise(const int16_t item_num)
+void MovableBlock_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (item->status != IS_INVISIBLE) {
@@ -174,7 +174,7 @@ void __cdecl MovableBlock_Initialise(const int16_t item_num)
     }
 }
 
-void __cdecl MovableBlock_Control(const int16_t item_num)
+void MovableBlock_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 
@@ -214,7 +214,7 @@ void __cdecl MovableBlock_Control(const int16_t item_num)
     }
 }
 
-void __cdecl MovableBlock_Collision(
+void MovableBlock_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = Item_Get(item_num);
@@ -316,7 +316,7 @@ void __cdecl MovableBlock_Collision(
     }
 }
 
-void __cdecl MovableBlock_Draw(const ITEM *const item)
+void MovableBlock_Draw(const ITEM *const item)
 {
     if (item->status == IS_ACTIVE) {
         Object_DrawUnclippedItem(item);

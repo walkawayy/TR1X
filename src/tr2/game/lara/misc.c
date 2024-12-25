@@ -25,11 +25,10 @@
 #define CLIMB_HANG 900
 #define CLIMB_SHIFT 70
 
-static void __cdecl M_TakeHit(
+static void M_TakeHit(
     ITEM *const lara_item, const int32_t dx, const int32_t dz);
 
-static void __cdecl M_TakeHit(
-    ITEM *const lara_item, const int32_t dx, const int32_t dz)
+static void M_TakeHit(ITEM *const lara_item, const int32_t dx, const int32_t dz)
 {
     const int16_t hit_angle = lara_item->rot.y + PHD_180 - Math_Atan(dz, dx);
     g_Lara.hit_direction = Math_GetDirection(hit_angle);
@@ -40,7 +39,7 @@ static void __cdecl M_TakeHit(
     CLAMPG(g_Lara.hit_frame, 34);
 }
 
-void __cdecl Lara_GetCollisionInfo(ITEM *item, COLL_INFO *coll)
+void Lara_GetCollisionInfo(ITEM *item, COLL_INFO *coll)
 {
     coll->facing = g_Lara.move_angle;
     Collide_GetCollisionInfo(
@@ -48,7 +47,7 @@ void __cdecl Lara_GetCollisionInfo(ITEM *item, COLL_INFO *coll)
         LARA_HEIGHT);
 }
 
-void __cdecl Lara_SlideSlope(ITEM *item, COLL_INFO *coll)
+void Lara_SlideSlope(ITEM *item, COLL_INFO *coll)
 {
     coll->bad_pos = NO_BAD_POS;
     coll->bad_neg = -STEP_L * 2;
@@ -85,7 +84,7 @@ void __cdecl Lara_SlideSlope(ITEM *item, COLL_INFO *coll)
     }
 }
 
-int32_t __cdecl Lara_HitCeiling(ITEM *item, COLL_INFO *coll)
+int32_t Lara_HitCeiling(ITEM *item, COLL_INFO *coll)
 {
     if (coll->coll_type != COLL_TOP && coll->coll_type != COLL_CLAMP) {
         return 0;
@@ -104,7 +103,7 @@ int32_t __cdecl Lara_HitCeiling(ITEM *item, COLL_INFO *coll)
     return 1;
 }
 
-int32_t __cdecl Lara_DeflectEdge(ITEM *item, COLL_INFO *coll)
+int32_t Lara_DeflectEdge(ITEM *item, COLL_INFO *coll)
 {
     switch (coll->coll_type) {
     case COLL_FRONT:
@@ -131,7 +130,7 @@ int32_t __cdecl Lara_DeflectEdge(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_DeflectEdgeJump(ITEM *item, COLL_INFO *coll)
+void Lara_DeflectEdgeJump(ITEM *item, COLL_INFO *coll)
 {
     Item_ShiftCol(item, coll);
     switch (coll->coll_type) {
@@ -182,7 +181,7 @@ void __cdecl Lara_DeflectEdgeJump(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_SlideEdgeJump(ITEM *item, COLL_INFO *coll)
+void Lara_SlideEdgeJump(ITEM *item, COLL_INFO *coll)
 {
     Item_ShiftCol(item, coll);
 
@@ -215,8 +214,7 @@ void __cdecl Lara_SlideEdgeJump(ITEM *item, COLL_INFO *coll)
     }
 }
 
-int32_t __cdecl Lara_TestWall(
-    ITEM *item, int32_t front, int32_t right, int32_t down)
+int32_t Lara_TestWall(ITEM *item, int32_t front, int32_t right, int32_t down)
 {
     int32_t x = item->pos.x;
     int32_t y = item->pos.y + down;
@@ -272,7 +270,7 @@ int32_t __cdecl Lara_TestWall(
     return 2;
 }
 
-int32_t __cdecl Lara_TestHangOnClimbWall(ITEM *item, COLL_INFO *coll)
+int32_t Lara_TestHangOnClimbWall(ITEM *item, COLL_INFO *coll)
 {
     if (!g_Lara.climb_status || item->fall_speed < 0) {
         return 0;
@@ -319,7 +317,7 @@ int32_t __cdecl Lara_TestHangOnClimbWall(ITEM *item, COLL_INFO *coll)
     }
 }
 
-int32_t __cdecl Lara_TestClimbStance(ITEM *item, COLL_INFO *coll)
+int32_t Lara_TestClimbStance(ITEM *item, COLL_INFO *coll)
 {
     int32_t shift_r;
     int32_t result_r = Lara_TestClimbPos(
@@ -361,7 +359,7 @@ int32_t __cdecl Lara_TestClimbStance(ITEM *item, COLL_INFO *coll)
     return 1;
 }
 
-void __cdecl Lara_HangTest(ITEM *item, COLL_INFO *coll)
+void Lara_HangTest(ITEM *item, COLL_INFO *coll)
 {
     coll->bad_pos = NO_BAD_POS;
     coll->bad_neg = NO_BAD_NEG;
@@ -495,7 +493,7 @@ void __cdecl Lara_HangTest(ITEM *item, COLL_INFO *coll)
     item->pos.y += hdif;
 }
 
-int32_t __cdecl Lara_TestEdgeCatch(ITEM *item, COLL_INFO *coll, int32_t *edge)
+int32_t Lara_TestEdgeCatch(ITEM *item, COLL_INFO *coll, int32_t *edge)
 {
     const BOUNDS_16 *const bounds = Item_GetBoundsAccurate(item);
     int32_t hdif1 = coll->side_front.floor - bounds->min_y;
@@ -517,7 +515,7 @@ int32_t __cdecl Lara_TestEdgeCatch(ITEM *item, COLL_INFO *coll, int32_t *edge)
     return ABS(coll->side_left.floor - coll->side_right.floor) < SLOPE_DIF;
 }
 
-int32_t __cdecl Lara_TestHangJumpUp(ITEM *item, COLL_INFO *coll)
+int32_t Lara_TestHangJumpUp(ITEM *item, COLL_INFO *coll)
 {
     if (coll->coll_type != COLL_FRONT || !g_Input.action
         || g_Lara.gun_status != LGS_ARMLESS || coll->hit_static
@@ -559,7 +557,7 @@ int32_t __cdecl Lara_TestHangJumpUp(ITEM *item, COLL_INFO *coll)
     return 1;
 }
 
-int32_t __cdecl Lara_TestHangJump(ITEM *item, COLL_INFO *coll)
+int32_t Lara_TestHangJump(ITEM *item, COLL_INFO *coll)
 {
     if (coll->coll_type != COLL_FRONT || !g_Input.action
         || g_Lara.gun_status != LGS_ARMLESS || coll->hit_static
@@ -608,7 +606,7 @@ int32_t __cdecl Lara_TestHangJump(ITEM *item, COLL_INFO *coll)
     return 1;
 }
 
-int32_t __cdecl Lara_TestHangSwingIn(ITEM *item, int16_t angle)
+int32_t Lara_TestHangSwingIn(ITEM *item, int16_t angle)
 {
     int32_t x = item->pos.x;
     int32_t y = item->pos.y;
@@ -635,7 +633,7 @@ int32_t __cdecl Lara_TestHangSwingIn(ITEM *item, int16_t angle)
     return height != NO_HEIGHT && height - y > 0 && ceiling - y < -400;
 }
 
-int32_t __cdecl Lara_TestVault(ITEM *item, COLL_INFO *coll)
+int32_t Lara_TestVault(ITEM *item, COLL_INFO *coll)
 {
     if (coll->coll_type != COLL_FRONT || !g_Input.action
         || g_Lara.gun_status != LGS_ARMLESS) {
@@ -728,7 +726,7 @@ int32_t __cdecl Lara_TestVault(ITEM *item, COLL_INFO *coll)
     return 1;
 }
 
-int32_t __cdecl Lara_TestSlide(ITEM *item, COLL_INFO *coll)
+int32_t Lara_TestSlide(ITEM *item, COLL_INFO *coll)
 {
     if (ABS(coll->x_tilt) <= 2 && ABS(coll->z_tilt) <= 2) {
         return 0;
@@ -777,7 +775,7 @@ int32_t __cdecl Lara_TestSlide(ITEM *item, COLL_INFO *coll)
     return 1;
 }
 
-int16_t __cdecl Lara_FloorFront(ITEM *item, int16_t ang, int32_t dist)
+int16_t Lara_FloorFront(ITEM *item, int16_t ang, int32_t dist)
 {
     const int32_t x = item->pos.x + ((dist * Math_Sin(ang)) >> W2V_SHIFT);
     const int32_t y = item->pos.y - LARA_HEIGHT;
@@ -791,7 +789,7 @@ int16_t __cdecl Lara_FloorFront(ITEM *item, int16_t ang, int32_t dist)
     return height;
 }
 
-int32_t __cdecl Lara_LandedBad(ITEM *item, COLL_INFO *coll)
+int32_t Lara_LandedBad(ITEM *item, COLL_INFO *coll)
 {
     const int32_t x = item->pos.x;
     const int32_t y = item->pos.y;
@@ -818,7 +816,7 @@ int32_t __cdecl Lara_LandedBad(ITEM *item, COLL_INFO *coll)
     return item->hit_points <= 0;
 }
 
-int32_t __cdecl Lara_CheckForLetGo(ITEM *item, COLL_INFO *coll)
+int32_t Lara_CheckForLetGo(ITEM *item, COLL_INFO *coll)
 {
     item->gravity = 0;
     item->fall_speed = 0;
@@ -838,7 +836,7 @@ int32_t __cdecl Lara_CheckForLetGo(ITEM *item, COLL_INFO *coll)
     return 1;
 }
 
-void __cdecl Lara_GetJointAbsPosition(XYZ_32 *vec, int32_t joint)
+void Lara_GetJointAbsPosition(XYZ_32 *vec, int32_t joint)
 {
     FRAME_INFO *frmptr[2] = { NULL, NULL };
     if (g_Lara.hit_direction < 0) {
@@ -943,7 +941,7 @@ void __cdecl Lara_GetJointAbsPosition(XYZ_32 *vec, int32_t joint)
     Matrix_Pop();
 }
 
-void __cdecl Lara_GetJointAbsPosition_I(
+void Lara_GetJointAbsPosition_I(
     ITEM *item, XYZ_32 *vec, FRAME_INFO *frame1, FRAME_INFO *frame2,
     int32_t frac, int32_t rate)
 {
@@ -1020,7 +1018,7 @@ void __cdecl Lara_GetJointAbsPosition_I(
     Matrix_Pop();
 }
 
-void __cdecl Lara_TakeHit(ITEM *const lara_item, const COLL_INFO *const coll)
+void Lara_TakeHit(ITEM *const lara_item, const COLL_INFO *const coll)
 {
     const int32_t dx = g_Lara.spaz_effect->pos.x - lara_item->pos.x;
     const int32_t dz = g_Lara.spaz_effect->pos.z - lara_item->pos.z;
@@ -1028,7 +1026,7 @@ void __cdecl Lara_TakeHit(ITEM *const lara_item, const COLL_INFO *const coll)
     g_Lara.spaz_effect_count--;
 }
 
-void __cdecl Lara_BaddieCollision(ITEM *lara_item, COLL_INFO *coll)
+void Lara_BaddieCollision(ITEM *lara_item, COLL_INFO *coll)
 {
     lara_item->hit_status = 0;
     g_Lara.hit_direction = -1;
@@ -1093,7 +1091,7 @@ void __cdecl Lara_BaddieCollision(ITEM *lara_item, COLL_INFO *coll)
     g_Inv_Chosen = -1;
 }
 
-void __cdecl Lara_Push(
+void Lara_Push(
     const ITEM *const item, ITEM *const lara_item, COLL_INFO *const coll,
     const bool spaz_on, const bool big_push)
 {
@@ -1170,7 +1168,7 @@ void __cdecl Lara_Push(
     }
 }
 
-int32_t __cdecl Lara_MovePosition(XYZ_32 *vec, ITEM *item, ITEM *lara_item)
+int32_t Lara_MovePosition(XYZ_32 *vec, ITEM *item, ITEM *lara_item)
 {
     const XYZ_16 rot = {
         .x = item->rot.x,
@@ -1224,12 +1222,12 @@ int32_t __cdecl Lara_MovePosition(XYZ_32 *vec, ITEM *item, ITEM *lara_item)
     return result;
 }
 
-int32_t __cdecl Lara_IsNearItem(const XYZ_32 *const pos, const int32_t distance)
+int32_t Lara_IsNearItem(const XYZ_32 *const pos, const int32_t distance)
 {
     return Item_IsNearItem(g_LaraItem, pos, distance);
 }
 
-int32_t __cdecl Lara_TestClimb(
+int32_t Lara_TestClimb(
     const int32_t x, const int32_t y, const int32_t z, const int32_t x_front,
     const int32_t z_front, const int32_t item_height, const int16_t item_room,
     int32_t *const shift)
@@ -1348,7 +1346,7 @@ int32_t __cdecl Lara_TestClimb(
     return hang ? -1 : 0;
 }
 
-int32_t __cdecl Lara_TestClimbPos(
+int32_t Lara_TestClimbPos(
     const ITEM *const item, const int32_t front, const int32_t right,
     const int32_t origin, const int32_t height, int32_t *const shift)
 {
@@ -1393,7 +1391,7 @@ int32_t __cdecl Lara_TestClimbPos(
         x, y, z, x_front, z_front, height, item->room_num, shift);
 }
 
-void __cdecl Lara_DoClimbLeftRight(
+void Lara_DoClimbLeftRight(
     ITEM *const item, const COLL_INFO *const coll, const int32_t result,
     const int32_t shift)
 {
@@ -1433,7 +1431,7 @@ void __cdecl Lara_DoClimbLeftRight(
     }
 }
 
-int32_t __cdecl Lara_TestClimbUpPos(
+int32_t Lara_TestClimbUpPos(
     const ITEM *const item, const int32_t front, const int32_t right,
     int32_t *const shift, int32_t *const ledge)
 {
@@ -1534,7 +1532,7 @@ int32_t __cdecl Lara_TestClimbUpPos(
     return 0;
 }
 
-int32_t __cdecl Lara_GetWaterDepth(
+int32_t Lara_GetWaterDepth(
     const int32_t x, const int32_t y, const int32_t z, int16_t room_num)
 {
     const ROOM *r = &g_Rooms[room_num];
@@ -1601,7 +1599,7 @@ int32_t __cdecl Lara_GetWaterDepth(
     return NO_HEIGHT;
 }
 
-void __cdecl Lara_TestWaterDepth(ITEM *const item, const COLL_INFO *const coll)
+void Lara_TestWaterDepth(ITEM *const item, const COLL_INFO *const coll)
 {
     int16_t room_num = item->room_num;
 
@@ -1629,7 +1627,7 @@ void __cdecl Lara_TestWaterDepth(ITEM *const item, const COLL_INFO *const coll)
     }
 }
 
-void __cdecl Lara_SwimCollision(ITEM *const item, COLL_INFO *const coll)
+void Lara_SwimCollision(ITEM *const item, COLL_INFO *const coll)
 {
     if (item->rot.x < -PHD_90 || item->rot.x > PHD_90) {
         g_Lara.move_angle = item->rot.y + PHD_180;
@@ -1696,7 +1694,7 @@ void __cdecl Lara_SwimCollision(ITEM *const item, COLL_INFO *const coll)
     }
 }
 
-void __cdecl Lara_WaterCurrent(COLL_INFO *const coll)
+void Lara_WaterCurrent(COLL_INFO *const coll)
 {
     ITEM *const item = g_LaraItem;
 
@@ -1791,7 +1789,7 @@ void __cdecl Lara_WaterCurrent(COLL_INFO *const coll)
     coll->old = item->pos;
 }
 
-void __cdecl Lara_CatchFire(void)
+void Lara_CatchFire(void)
 {
     if (g_Lara.burn || g_Lara.water_status == LWS_CHEAT) {
         return;
@@ -1809,7 +1807,7 @@ void __cdecl Lara_CatchFire(void)
     g_Lara.burn = 1;
 }
 
-void __cdecl Lara_TouchLava(ITEM *const item)
+void Lara_TouchLava(ITEM *const item)
 {
     if (item->hit_points < 0 || g_Lara.water_status == LWS_CHEAT) {
         return;
@@ -1839,7 +1837,7 @@ void __cdecl Lara_TouchLava(ITEM *const item)
     }
 }
 
-void __cdecl Lara_Extinguish(void)
+void Lara_Extinguish(void)
 {
     if (!g_Lara.burn) {
         return;

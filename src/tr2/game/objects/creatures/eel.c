@@ -59,7 +59,7 @@ void Eel_Setup(void)
     obj->water_creature = 1;
 }
 
-void __cdecl Eel_Control(const int16_t item_num)
+void Eel_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

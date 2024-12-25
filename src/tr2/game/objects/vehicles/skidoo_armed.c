@@ -31,7 +31,7 @@ void SkidooArmed_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl SkidooArmed_Push(
+void SkidooArmed_Push(
     const ITEM *const item, ITEM *const lara_item, const int32_t radius)
 {
     const int32_t dx = lara_item->pos.x - item->pos.x;
@@ -73,7 +73,7 @@ void __cdecl SkidooArmed_Push(
     lara_item->pos.z = item->pos.z + ((rz * cy - rx * sy) >> W2V_SHIFT);
 }
 
-void __cdecl SkidooArmed_Collision(
+void SkidooArmed_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = Item_Get(item_num);

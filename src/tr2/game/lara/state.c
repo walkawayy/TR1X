@@ -14,7 +14,7 @@
 
 #include <libtrx/utils.h>
 
-void __cdecl Lara_SwimTurn(ITEM *const item)
+void Lara_SwimTurn(ITEM *const item)
 {
     if (g_Input.forward) {
         item->rot.x -= LARA_TURN_RATE_UW;
@@ -37,7 +37,7 @@ void Lara_State_Empty(ITEM *item, COLL_INFO *coll)
 {
 }
 
-void __cdecl Lara_State_Walk(ITEM *item, COLL_INFO *coll)
+void Lara_State_Walk(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_STOP;
@@ -65,7 +65,7 @@ void __cdecl Lara_State_Walk(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Run(ITEM *item, COLL_INFO *coll)
+void Lara_State_Run(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_DEATH;
@@ -113,7 +113,7 @@ void __cdecl Lara_State_Run(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Stop(ITEM *item, COLL_INFO *coll)
+void Lara_State_Stop(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_DEATH;
@@ -174,7 +174,7 @@ void __cdecl Lara_State_Stop(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_ForwardJump(ITEM *item, COLL_INFO *coll)
+void Lara_State_ForwardJump(ITEM *item, COLL_INFO *coll)
 {
     if (item->goal_anim_state == LS_SWAN_DIVE
         || item->goal_anim_state == LS_REACH) {
@@ -206,7 +206,7 @@ void __cdecl Lara_State_ForwardJump(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_FastBack(ITEM *item, COLL_INFO *coll)
+void Lara_State_FastBack(ITEM *item, COLL_INFO *coll)
 {
     item->goal_anim_state = LS_STOP;
     if (g_Input.left) {
@@ -218,7 +218,7 @@ void __cdecl Lara_State_FastBack(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_TurnRight(ITEM *item, COLL_INFO *coll)
+void Lara_State_TurnRight(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_STOP;
@@ -250,7 +250,7 @@ void __cdecl Lara_State_TurnRight(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_TurnLeft(ITEM *item, COLL_INFO *coll)
+void Lara_State_TurnLeft(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_STOP;
@@ -282,14 +282,14 @@ void __cdecl Lara_State_TurnLeft(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Death(ITEM *item, COLL_INFO *coll)
+void Lara_State_Death(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
 }
 
-void __cdecl Lara_State_FastFall(ITEM *item, COLL_INFO *coll)
+void Lara_State_FastFall(ITEM *item, COLL_INFO *coll)
 {
     item->speed = item->speed * 95 / 100;
     if (item->fall_speed == DAMAGE_START + DAMAGE_LENGTH) {
@@ -297,7 +297,7 @@ void __cdecl Lara_State_FastFall(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Hang(ITEM *item, COLL_INFO *coll)
+void Lara_State_Hang(ITEM *item, COLL_INFO *coll)
 {
     if (g_Input.look) {
         Lara_LookUpDown();
@@ -314,7 +314,7 @@ void __cdecl Lara_State_Hang(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Reach(ITEM *item, COLL_INFO *coll)
+void Lara_State_Reach(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.target_angle = CAM_REACH_ANGLE;
     if (item->fall_speed > LARA_FAST_FALL_SPEED) {
@@ -322,12 +322,12 @@ void __cdecl Lara_State_Reach(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Splat(ITEM *item, COLL_INFO *coll)
+void Lara_State_Splat(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
 }
 
-void __cdecl Lara_State_Compress(ITEM *item, COLL_INFO *coll)
+void Lara_State_Compress(ITEM *item, COLL_INFO *coll)
 {
     if (g_Lara.water_status != LWS_WADE) {
         if (g_Input.forward
@@ -360,7 +360,7 @@ void __cdecl Lara_State_Compress(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Back(ITEM *item, COLL_INFO *coll)
+void Lara_State_Back(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_STOP;
@@ -382,13 +382,13 @@ void __cdecl Lara_State_Back(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Null(ITEM *item, COLL_INFO *coll)
+void Lara_State_Null(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
 }
 
-void __cdecl Lara_State_FastTurn(ITEM *item, COLL_INFO *coll)
+void Lara_State_FastTurn(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_STOP;
@@ -408,7 +408,7 @@ void __cdecl Lara_State_FastTurn(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_StepRight(ITEM *item, COLL_INFO *coll)
+void Lara_State_StepRight(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     if (item->hit_points <= 0) {
@@ -429,7 +429,7 @@ void __cdecl Lara_State_StepRight(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_StepLeft(ITEM *item, COLL_INFO *coll)
+void Lara_State_StepLeft(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     if (item->hit_points <= 0) {
@@ -450,7 +450,7 @@ void __cdecl Lara_State_StepLeft(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Slide(ITEM *item, COLL_INFO *coll)
+void Lara_State_Slide(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.flags = CF_NO_CHUNKY;
     g_Camera.target_elevation = CAM_SLIDE_ELEVATION;
@@ -459,7 +459,7 @@ void __cdecl Lara_State_Slide(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_BackJump(ITEM *item, COLL_INFO *coll)
+void Lara_State_BackJump(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.target_angle = CAM_BACK_JUMP_ANGLE;
     if (item->fall_speed > LARA_FAST_FALL_SPEED) {
@@ -475,7 +475,7 @@ void __cdecl Lara_State_BackJump(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_RightJump(ITEM *item, COLL_INFO *coll)
+void Lara_State_RightJump(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     if (item->fall_speed > LARA_FAST_FALL_SPEED) {
@@ -488,7 +488,7 @@ void __cdecl Lara_State_RightJump(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_LeftJump(ITEM *item, COLL_INFO *coll)
+void Lara_State_LeftJump(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     if (item->fall_speed > LARA_FAST_FALL_SPEED) {
@@ -501,14 +501,14 @@ void __cdecl Lara_State_LeftJump(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_UpJump(ITEM *item, COLL_INFO *coll)
+void Lara_State_UpJump(ITEM *item, COLL_INFO *coll)
 {
     if (item->fall_speed > LARA_FAST_FALL_SPEED) {
         item->goal_anim_state = LS_FAST_FALL;
     }
 }
 
-void __cdecl Lara_State_Fallback(ITEM *item, COLL_INFO *coll)
+void Lara_State_Fallback(ITEM *item, COLL_INFO *coll)
 {
     if (item->fall_speed > LARA_FAST_FALL_SPEED) {
         item->goal_anim_state = LS_FAST_FALL;
@@ -520,7 +520,7 @@ void __cdecl Lara_State_Fallback(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_HangLeft(ITEM *item, COLL_INFO *coll)
+void Lara_State_HangLeft(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
@@ -531,7 +531,7 @@ void __cdecl Lara_State_HangLeft(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_HangRight(ITEM *item, COLL_INFO *coll)
+void Lara_State_HangRight(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
@@ -542,14 +542,14 @@ void __cdecl Lara_State_HangRight(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_SlideBack(ITEM *item, COLL_INFO *coll)
+void Lara_State_SlideBack(ITEM *item, COLL_INFO *coll)
 {
     if (g_Input.jump && !g_Input.forward) {
         item->goal_anim_state = LS_BACK_JUMP;
     }
 }
 
-void __cdecl Lara_State_PushBlock(ITEM *item, COLL_INFO *coll)
+void Lara_State_PushBlock(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     coll->enable_spaz = 0;
@@ -559,7 +559,7 @@ void __cdecl Lara_State_PushBlock(ITEM *item, COLL_INFO *coll)
     g_Camera.target_elevation = CAM_PUSH_BLOCK_ELEVATION;
 }
 
-void __cdecl Lara_State_PPReady(ITEM *item, COLL_INFO *coll)
+void Lara_State_PPReady(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
@@ -569,7 +569,7 @@ void __cdecl Lara_State_PPReady(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Pickup(ITEM *item, COLL_INFO *coll)
+void Lara_State_Pickup(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     coll->enable_spaz = 0;
@@ -579,7 +579,7 @@ void __cdecl Lara_State_Pickup(ITEM *item, COLL_INFO *coll)
     g_Camera.target_distance = CAM_PICKUP_DISTANCE;
 }
 
-void __cdecl Lara_State_PickupFlare(ITEM *item, COLL_INFO *coll)
+void Lara_State_PickupFlare(ITEM *item, COLL_INFO *coll)
 {
     Lara_State_Pickup(item, coll);
     if (item->frame_num == g_Anims[item->anim_num].frame_end - 1) {
@@ -587,7 +587,7 @@ void __cdecl Lara_State_PickupFlare(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_SwitchOn(ITEM *item, COLL_INFO *coll)
+void Lara_State_SwitchOn(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     coll->enable_spaz = 0;
@@ -598,7 +598,7 @@ void __cdecl Lara_State_SwitchOn(ITEM *item, COLL_INFO *coll)
     g_Camera.speed = CAM_SWITCH_ON_SPEED;
 }
 
-void __cdecl Lara_State_UseKey(ITEM *item, COLL_INFO *coll)
+void Lara_State_UseKey(ITEM *item, COLL_INFO *coll)
 {
     g_Lara.look = 0;
     coll->enable_spaz = 0;
@@ -608,14 +608,14 @@ void __cdecl Lara_State_UseKey(ITEM *item, COLL_INFO *coll)
     g_Camera.target_distance = CAM_USE_KEY_DISTANCE;
 }
 
-void __cdecl Lara_State_Special(ITEM *item, COLL_INFO *coll)
+void Lara_State_Special(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.flags = CF_FOLLOW_CENTRE;
     g_Camera.target_angle = CAM_SPECIAL_ANGLE;
     g_Camera.target_elevation = CAM_SPECIAL_ELEVATION;
 }
 
-void __cdecl Lara_State_SwanDive(ITEM *item, COLL_INFO *coll)
+void Lara_State_SwanDive(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 1;
@@ -625,7 +625,7 @@ void __cdecl Lara_State_SwanDive(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_FastDive(ITEM *item, COLL_INFO *coll)
+void Lara_State_FastDive(ITEM *item, COLL_INFO *coll)
 {
     if (g_Input.roll && item->goal_anim_state == LS_FAST_DIVE) {
         item->goal_anim_state = LS_TWIST;
@@ -635,14 +635,14 @@ void __cdecl Lara_State_FastDive(ITEM *item, COLL_INFO *coll)
     item->speed = item->speed * 95 / 100;
 }
 
-void __cdecl Lara_State_WaterOut(ITEM *item, COLL_INFO *coll)
+void Lara_State_WaterOut(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
     g_Camera.flags = CF_FOLLOW_CENTRE;
 }
 
-void __cdecl Lara_State_Wade(ITEM *item, COLL_INFO *coll)
+void Lara_State_Wade(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_STOP;
@@ -673,7 +673,7 @@ void __cdecl Lara_State_Wade(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Zipline(ITEM *item, COLL_INFO *coll)
+void Lara_State_Zipline(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.target_angle = CAM_ZIPLINE_ANGLE;
 
@@ -687,7 +687,7 @@ void __cdecl Lara_State_Zipline(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Extra_Breath(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_Breath(ITEM *item, COLL_INFO *coll)
 {
     item->anim_num = LA_STAND_IDLE;
     item->frame_num = g_Anims[item->anim_num].frame_base;
@@ -701,7 +701,7 @@ void __cdecl Lara_State_Extra_Breath(ITEM *item, COLL_INFO *coll)
     Output_AlterFOV(GAME_FOV * PHD_DEGREE);
 }
 
-void __cdecl Lara_State_Extra_YetiKill(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_YetiKill(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.target_angle = CAM_YETI_KILL_ANGLE;
     g_Camera.target_distance = CAM_YETI_KILL_DISTANCE;
@@ -711,7 +711,7 @@ void __cdecl Lara_State_Extra_YetiKill(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Extra_SharkKill(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_SharkKill(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.target_angle = CAM_SHARK_KILL_ANGLE;
     g_Camera.target_distance = CAM_SHARK_KILL_DISTANCE;
@@ -730,20 +730,20 @@ void __cdecl Lara_State_Extra_SharkKill(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Extra_Airlock(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_Airlock(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.target_angle = CAM_AIRLOCK_ANGLE;
     g_Camera.target_elevation = CAM_AIRLOCK_ELEVATION;
 }
 
-void __cdecl Lara_State_Extra_GongBong(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_GongBong(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.target_angle = CAM_GONG_BONG_ANGLE;
     g_Camera.target_elevation = CAM_GONG_BONG_ELEVATION;
     g_Camera.target_distance = CAM_GONG_BONG_DISTANCE;
 }
 
-void __cdecl Lara_State_Extra_DinoKill(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_DinoKill(ITEM *item, COLL_INFO *coll)
 {
     g_Camera.flags = CF_FOLLOW_CENTRE;
     g_Camera.target_angle = CAM_TREX_KILL_ANGLE;
@@ -754,7 +754,7 @@ void __cdecl Lara_State_Extra_DinoKill(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Extra_PullDagger(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_PullDagger(ITEM *item, COLL_INFO *coll)
 {
     int32_t frame_num_rel =
         item->frame_num - g_Anims[item->anim_num].frame_base;
@@ -776,12 +776,12 @@ void __cdecl Lara_State_Extra_PullDagger(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Extra_StartAnim(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_StartAnim(ITEM *item, COLL_INFO *coll)
 {
     Room_TestTriggers(item);
 }
 
-void __cdecl Lara_State_Extra_StartHouse(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_StartHouse(ITEM *item, COLL_INFO *coll)
 {
     int32_t frame_num_rel =
         item->frame_num - g_Anims[item->anim_num].frame_base;
@@ -801,7 +801,7 @@ void __cdecl Lara_State_Extra_StartHouse(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Extra_FinalAnim(ITEM *item, COLL_INFO *coll)
+void Lara_State_Extra_FinalAnim(ITEM *item, COLL_INFO *coll)
 {
     item->hit_points = 1000;
 
@@ -824,7 +824,7 @@ void __cdecl Lara_State_Extra_FinalAnim(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_ClimbLeft(ITEM *item, COLL_INFO *coll)
+void Lara_State_ClimbLeft(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
@@ -835,7 +835,7 @@ void __cdecl Lara_State_ClimbLeft(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_ClimbRight(ITEM *item, COLL_INFO *coll)
+void Lara_State_ClimbRight(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
@@ -846,7 +846,7 @@ void __cdecl Lara_State_ClimbRight(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_ClimbStance(ITEM *item, COLL_INFO *coll)
+void Lara_State_ClimbStance(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
@@ -867,14 +867,14 @@ void __cdecl Lara_State_ClimbStance(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Climbing(ITEM *item, COLL_INFO *coll)
+void Lara_State_Climbing(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
     g_Camera.target_elevation = CAM_CLIMBING_ELEVATION;
 }
 
-void __cdecl Lara_State_ClimbEnd(ITEM *item, COLL_INFO *coll)
+void Lara_State_ClimbEnd(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
@@ -882,14 +882,14 @@ void __cdecl Lara_State_ClimbEnd(ITEM *item, COLL_INFO *coll)
     g_Camera.target_angle = CAM_CLIMB_END_ELEVATION;
 }
 
-void __cdecl Lara_State_ClimbDown(ITEM *item, COLL_INFO *coll)
+void Lara_State_ClimbDown(ITEM *item, COLL_INFO *coll)
 {
     coll->enable_spaz = 0;
     coll->enable_baddie_push = 0;
     g_Camera.target_elevation = CAM_CLIMB_DOWN_ELEVATION;
 }
 
-void __cdecl Lara_State_SurfSwim(ITEM *item, COLL_INFO *coll)
+void Lara_State_SurfSwim(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_UW_DEATH;
@@ -909,7 +909,7 @@ void __cdecl Lara_State_SurfSwim(ITEM *item, COLL_INFO *coll)
     CLAMPG(item->fall_speed, LARA_MAX_SURF_SPEED);
 }
 
-void __cdecl Lara_State_SurfBack(ITEM *item, COLL_INFO *coll)
+void Lara_State_SurfBack(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_UW_DEATH;
@@ -929,7 +929,7 @@ void __cdecl Lara_State_SurfBack(ITEM *item, COLL_INFO *coll)
     CLAMPG(item->fall_speed, LARA_MAX_SURF_SPEED);
 }
 
-void __cdecl Lara_State_SurfLeft(ITEM *item, COLL_INFO *coll)
+void Lara_State_SurfLeft(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_UW_DEATH;
@@ -949,7 +949,7 @@ void __cdecl Lara_State_SurfLeft(ITEM *item, COLL_INFO *coll)
     CLAMPG(item->fall_speed, LARA_MAX_SURF_SPEED);
 }
 
-void __cdecl Lara_State_SurfRight(ITEM *item, COLL_INFO *coll)
+void Lara_State_SurfRight(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_UW_DEATH;
@@ -969,7 +969,7 @@ void __cdecl Lara_State_SurfRight(ITEM *item, COLL_INFO *coll)
     CLAMPG(item->fall_speed, LARA_MAX_SURF_SPEED);
 }
 
-void __cdecl Lara_State_SurfTread(ITEM *item, COLL_INFO *coll)
+void Lara_State_SurfTread(ITEM *item, COLL_INFO *coll)
 {
     item->fall_speed -= 4;
     CLAMPL(item->fall_speed, 0);
@@ -1017,7 +1017,7 @@ void __cdecl Lara_State_SurfTread(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Swim(ITEM *item, COLL_INFO *coll)
+void Lara_State_Swim(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_UW_DEATH;
@@ -1044,7 +1044,7 @@ void __cdecl Lara_State_Swim(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Glide(ITEM *item, COLL_INFO *coll)
+void Lara_State_Glide(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_UW_DEATH;
@@ -1069,7 +1069,7 @@ void __cdecl Lara_State_Glide(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Tread(ITEM *item, COLL_INFO *coll)
+void Lara_State_Tread(ITEM *item, COLL_INFO *coll)
 {
     if (item->hit_points <= 0) {
         item->goal_anim_state = LS_UW_DEATH;
@@ -1097,14 +1097,14 @@ void __cdecl Lara_State_Tread(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_Dive(ITEM *item, COLL_INFO *coll)
+void Lara_State_Dive(ITEM *item, COLL_INFO *coll)
 {
     if (g_Input.forward) {
         item->rot.x -= PHD_DEGREE;
     }
 }
 
-void __cdecl Lara_State_UWDeath(ITEM *item, COLL_INFO *coll)
+void Lara_State_UWDeath(ITEM *item, COLL_INFO *coll)
 {
     item->gravity = 0;
     item->fall_speed -= 8;
@@ -1120,7 +1120,7 @@ void __cdecl Lara_State_UWDeath(ITEM *item, COLL_INFO *coll)
     }
 }
 
-void __cdecl Lara_State_UWTwist(ITEM *item, COLL_INFO *coll)
+void Lara_State_UWTwist(ITEM *item, COLL_INFO *coll)
 {
     item->fall_speed = 0;
 }

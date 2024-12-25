@@ -148,7 +148,7 @@ static bool M_CheckBaddieCollision(ITEM *const item, ITEM *const skidoo)
     return true;
 }
 
-void __cdecl Skidoo_Initialise(const int16_t item_num)
+void Skidoo_Initialise(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
 
@@ -165,7 +165,7 @@ void __cdecl Skidoo_Initialise(const int16_t item_num)
     item->data = skidoo_data;
 }
 
-int32_t __cdecl Skidoo_CheckGetOn(const int16_t item_num, COLL_INFO *const coll)
+int32_t Skidoo_CheckGetOn(const int16_t item_num, COLL_INFO *const coll)
 {
     if (!g_Input.action || g_Lara.gun_status != LGS_ARMLESS
         || g_LaraItem->gravity) {
@@ -202,7 +202,7 @@ int32_t __cdecl Skidoo_CheckGetOn(const int16_t item_num, COLL_INFO *const coll)
     return get_on;
 }
 
-void __cdecl Skidoo_Collision(
+void Skidoo_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     if (lara_item->hit_points < 0 || g_Lara.skidoo != NO_ITEM) {
@@ -243,7 +243,7 @@ void __cdecl Skidoo_Collision(
     item->hit_points = 1;
 }
 
-void __cdecl Skidoo_BaddieCollision(ITEM *const skidoo)
+void Skidoo_BaddieCollision(ITEM *const skidoo)
 {
     int16_t roomies[12];
     const int32_t roomies_count =
@@ -260,7 +260,7 @@ void __cdecl Skidoo_BaddieCollision(ITEM *const skidoo)
     }
 }
 
-int32_t __cdecl Skidoo_TestHeight(
+int32_t Skidoo_TestHeight(
     const ITEM *const item, const int32_t z_off, const int32_t x_off,
     XYZ_32 *const out_pos)
 {
@@ -277,7 +277,7 @@ int32_t __cdecl Skidoo_TestHeight(
     return Room_GetHeight(sector, out_pos->x, out_pos->y, out_pos->z);
 }
 
-void __cdecl Skidoo_DoSnowEffect(ITEM *const skidoo)
+void Skidoo_DoSnowEffect(ITEM *const skidoo)
 {
     const int16_t effect_num = Effect_Create(skidoo->room_num);
     if (effect_num == NO_EFFECT) {
@@ -310,7 +310,7 @@ void __cdecl Skidoo_DoSnowEffect(ITEM *const skidoo)
     CLAMPL(effect->shade, 0);
 }
 
-int32_t __cdecl Skidoo_Dynamics(ITEM *const skidoo)
+int32_t Skidoo_Dynamics(ITEM *const skidoo)
 {
     SKIDOO_INFO *const skidoo_data = skidoo->data;
 
@@ -462,7 +462,7 @@ int32_t __cdecl Skidoo_Dynamics(ITEM *const skidoo)
     return collide;
 }
 
-int32_t __cdecl Skidoo_UserControl(
+int32_t Skidoo_UserControl(
     ITEM *const skidoo, const int32_t height, int32_t *const out_pitch)
 {
     SKIDOO_INFO *const skidoo_data = skidoo->data;
@@ -537,7 +537,7 @@ int32_t __cdecl Skidoo_UserControl(
     return drive;
 }
 
-int32_t __cdecl Skidoo_CheckGetOffOK(int32_t direction)
+int32_t Skidoo_CheckGetOffOK(int32_t direction)
 {
     ITEM *const skidoo = Item_Get(g_Lara.skidoo);
 
@@ -577,7 +577,7 @@ int32_t __cdecl Skidoo_CheckGetOffOK(int32_t direction)
     return true;
 }
 
-void __cdecl Skidoo_Animation(
+void Skidoo_Animation(
     ITEM *const skidoo, const int32_t collide, const int32_t dead)
 {
     const SKIDOO_INFO *const skidoo_data = skidoo->data;
@@ -686,7 +686,7 @@ void __cdecl Skidoo_Animation(
     }
 }
 
-void __cdecl Skidoo_Explode(const ITEM *const skidoo)
+void Skidoo_Explode(const ITEM *const skidoo)
 {
     const int16_t effect_num = Effect_Create(skidoo->room_num);
     if (effect_num != NO_EFFECT) {
@@ -705,7 +705,7 @@ void __cdecl Skidoo_Explode(const ITEM *const skidoo)
     g_Lara.skidoo = NO_ITEM;
 }
 
-int32_t __cdecl Skidoo_CheckGetOff(void)
+int32_t Skidoo_CheckGetOff(void)
 {
     ITEM *const skidoo = &g_Items[g_Lara.skidoo];
 
@@ -764,7 +764,7 @@ int32_t __cdecl Skidoo_CheckGetOff(void)
     return true;
 }
 
-void __cdecl Skidoo_Guns(void)
+void Skidoo_Guns(void)
 {
     WEAPON_INFO *const winfo = &g_Weapons[LGT_SKIDOO];
     Gun_GetNewTarget(winfo);
@@ -797,7 +797,7 @@ void __cdecl Skidoo_Guns(void)
     Creature_Effect(skidoo, &g_Skidoo_RightGun, Spawn_GunShot);
 }
 
-int32_t __cdecl Skidoo_Control(void)
+int32_t Skidoo_Control(void)
 {
     ITEM *const skidoo = Item_Get(g_Lara.skidoo);
     SKIDOO_INFO *const skidoo_data = skidoo->data;
@@ -943,7 +943,7 @@ int32_t __cdecl Skidoo_Control(void)
     return Skidoo_CheckGetOff();
 }
 
-void __cdecl Skidoo_Draw(const ITEM *const item)
+void Skidoo_Draw(const ITEM *const item)
 {
     int32_t track_mesh = 0;
     const SKIDOO_INFO *const skidoo_data = item->data;

@@ -30,7 +30,7 @@ typedef enum {
     // clang-format on
 } SPINNING_BLADE_ANIM;
 
-void __cdecl M_Initialise(const int16_t item_num)
+void M_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     const OBJECT *const obj = Object_GetObject(item->object_id);
@@ -39,7 +39,7 @@ void __cdecl M_Initialise(const int16_t item_num)
     item->current_anim_state = SPINNING_BLADE_STATE_STOP;
 }
 
-void __cdecl SpinningBlade_Control(const int16_t item_num)
+void SpinningBlade_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     bool spinning = false;

@@ -28,7 +28,7 @@ typedef enum {
     // clang-format on
 } BLADE_ANIM;
 
-void __cdecl Blade_Initialise(const int16_t item_num)
+void Blade_Initialise(const int16_t item_num)
 {
     const OBJECT *const obj = Object_GetObject(O_BLADE);
     ITEM *const item = Item_Get(item_num);
@@ -37,7 +37,7 @@ void __cdecl Blade_Initialise(const int16_t item_num)
     item->current_anim_state = BLADE_STATE_STOP;
 }
 
-void __cdecl Blade_Control(const int16_t item_num)
+void Blade_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

@@ -34,7 +34,7 @@ static int32_t m_FrameCount = 0;
 static bool m_Exiting = false;
 static FADER m_ExitFader = { 0 };
 
-int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
+int32_t Game_Control(int32_t nframes, const bool demo_mode)
 {
     Fader_Control(&m_ExitFader);
 
@@ -192,7 +192,7 @@ int32_t __cdecl Game_Control(int32_t nframes, const bool demo_mode)
     return 0;
 }
 
-int32_t __cdecl Game_ControlCinematic(void)
+int32_t Game_ControlCinematic(void)
 {
     Fader_Control(&m_ExitFader);
 
@@ -250,7 +250,7 @@ int32_t __cdecl Game_ControlCinematic(void)
     return 0;
 }
 
-int32_t __cdecl Game_Draw(void)
+int32_t Game_Draw(void)
 {
     Output_BeginScene();
     Room_DrawAllRooms(g_Camera.pos.room_num);
@@ -268,7 +268,7 @@ int32_t __cdecl Game_Draw(void)
     return g_Camera.num_frames;
 }
 
-int32_t __cdecl Game_DrawCinematic(void)
+int32_t Game_DrawCinematic(void)
 {
     g_CameraUnderwater = false;
     Output_BeginScene();
@@ -284,7 +284,7 @@ int32_t __cdecl Game_DrawCinematic(void)
     return g_Camera.num_frames;
 }
 
-int16_t __cdecl Game_Start(
+int16_t Game_Start(
     const int32_t level_num, const GAMEFLOW_LEVEL_TYPE level_type)
 {
     if (level_type == GFL_NORMAL || level_type == GFL_SAVED
@@ -352,7 +352,7 @@ int16_t __cdecl Game_Start(
     return GFD_START_GAME | LV_FIRST;
 }
 
-int32_t __cdecl Game_Loop(const bool demo_mode)
+int32_t Game_Loop(const bool demo_mode)
 {
     g_OverlayStatus = 1;
     Camera_Initialise();
@@ -384,7 +384,7 @@ int32_t __cdecl Game_Loop(const bool demo_mode)
     return dir;
 }
 
-int32_t __cdecl Game_LoopCinematic(const int32_t level_num)
+int32_t Game_LoopCinematic(const int32_t level_num)
 {
     if (!Level_Initialise(level_num, GFL_CUTSCENE)) {
         return 2;

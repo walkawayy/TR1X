@@ -104,7 +104,7 @@ static void M_ResetGunStatus(void)
     g_Lara.right_arm.frame_base = g_Anims[g_LaraItem->anim_num].frame_ptr;
 }
 
-void __cdecl Lara_Cheat_EndLevel(void)
+void Lara_Cheat_EndLevel(void)
 {
     g_LevelComplete = true;
     Console_Log(GS(OSD_COMPLETE_LEVEL));
@@ -247,7 +247,7 @@ bool Lara_Cheat_OpenNearestDoor(void)
     return false;
 }
 
-void __cdecl Lara_Cheat_GetStuff(void)
+void Lara_Cheat_GetStuff(void)
 {
     M_GiveAllGunsImpl();
     M_GiveAllMedpacksImpl();

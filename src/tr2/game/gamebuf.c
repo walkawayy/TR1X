@@ -73,14 +73,14 @@ void GameBuf_Init(const int32_t cap)
     g_GameBuf_MemBase = Memory_Alloc(cap);
 }
 
-void __cdecl GameBuf_Reset(void)
+void GameBuf_Reset(void)
 {
     g_GameBuf_MemPtr = g_GameBuf_MemBase;
     g_GameBuf_MemFree = m_Cap;
     g_GameBuf_MemUsed = 0;
 }
 
-void __cdecl GameBuf_Shutdown(void)
+void GameBuf_Shutdown(void)
 {
     Memory_FreePointer(&g_GameBuf_MemBase);
     m_Cap = 0;
@@ -105,7 +105,7 @@ void *GameBuf_Alloc(const size_t alloc_size, const GAME_BUFFER buffer)
     return result;
 }
 
-void __cdecl GameBuf_Free(const size_t free_size)
+void GameBuf_Free(const size_t free_size)
 {
     const size_t aligned_size = (free_size + 3) & ~3;
     if (aligned_size > g_GameBuf_MemUsed) {

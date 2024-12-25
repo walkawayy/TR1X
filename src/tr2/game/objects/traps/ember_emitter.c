@@ -6,7 +6,7 @@
 #include "game/sound.h"
 #include "global/vars.h"
 
-void __cdecl EmberEmitter_Control(const int16_t item_num)
+void EmberEmitter_Control(const int16_t item_num)
 {
     const ITEM *const item = Item_Get(item_num);
     const int16_t effect_num = Effect_Create(item->room_num);

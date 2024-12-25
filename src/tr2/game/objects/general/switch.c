@@ -94,7 +94,7 @@ void Switch_Setup(OBJECT *const obj, const bool underwater)
     obj->save_anim = 1;
 }
 
-void __cdecl Switch_Collision(
+void Switch_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = &g_Items[item_num];
@@ -126,7 +126,7 @@ void __cdecl Switch_Collision(
     Item_Animate(item);
 }
 
-void __cdecl Switch_CollisionUW(
+void Switch_CollisionUW(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = &g_Items[item_num];
@@ -169,7 +169,7 @@ void __cdecl Switch_CollisionUW(
     Item_Animate(item);
 }
 
-void __cdecl Switch_Control(const int16_t item_num)
+void Switch_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     item->flags |= IF_CODE_BITS;
@@ -180,7 +180,7 @@ void __cdecl Switch_Control(const int16_t item_num)
     Item_Animate(item);
 }
 
-int32_t __cdecl Switch_Trigger(const int16_t item_num, const int16_t timer)
+int32_t Switch_Trigger(const int16_t item_num, const int16_t timer)
 {
     ITEM *const item = Item_Get(item_num);
 

@@ -17,7 +17,7 @@ void BodyPart_Setup(void)
     obj->mesh_count = 0;
 }
 
-void __cdecl BodyPart_Control(const int16_t effect_num)
+void BodyPart_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     effect->rot.x += 5 * PHD_DEGREE;

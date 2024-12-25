@@ -60,7 +60,7 @@ void PuzzleHole_Setup(OBJECT *const obj, const bool done)
     obj->save_flags = 1;
 }
 
-void __cdecl PuzzleHole_Collision(
+void PuzzleHole_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = Item_Get(item_num);

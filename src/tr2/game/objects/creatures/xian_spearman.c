@@ -122,7 +122,7 @@ void XianSpearman_Setup(void)
     g_AnimBones[obj->bone_idx + 12 * 4] |= BF_ROT_Y;
 }
 
-void __cdecl XianSpearman_DoDamage(
+void XianSpearman_DoDamage(
     const ITEM *const item, CREATURE *const creature, const int32_t damage)
 {
     if ((creature->flags & 1) == 0
@@ -142,7 +142,7 @@ void __cdecl XianSpearman_DoDamage(
     }
 }
 
-void __cdecl XianSpearman_Control(const int16_t item_num)
+void XianSpearman_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

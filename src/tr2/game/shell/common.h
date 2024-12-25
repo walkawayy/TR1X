@@ -4,7 +4,7 @@
 
 #include <libtrx/game/shell.h>
 
-void __cdecl Shell_Main(void);
+void Shell_Main(void);
 void Shell_Start();
 
 const char *Shell_GetGameflowPath(void);

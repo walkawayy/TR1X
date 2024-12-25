@@ -14,53 +14,53 @@ typedef struct {
     float g;
 } VERTEX_INFO;
 
-void __cdecl Output_InsertPolygons(const int16_t *obj_ptr, int32_t clip);
-void __cdecl Output_InsertPolygons_I(const int16_t *ptr, int32_t clip);
-void __cdecl Output_InsertRoom(const int16_t *obj_ptr, int32_t is_outside);
-void __cdecl Output_InsertSkybox(const int16_t *obj_ptr);
-const int16_t *__cdecl Output_CalcObjectVertices(const int16_t *obj_ptr);
-const int16_t *__cdecl Output_CalcSkyboxLight(const int16_t *obj_ptr);
-const int16_t *__cdecl Output_CalcVerticeLight(const int16_t *obj_ptr);
-const int16_t *__cdecl Output_CalcRoomVertices(
+void Output_InsertPolygons(const int16_t *obj_ptr, int32_t clip);
+void Output_InsertPolygons_I(const int16_t *ptr, int32_t clip);
+void Output_InsertRoom(const int16_t *obj_ptr, int32_t is_outside);
+void Output_InsertSkybox(const int16_t *obj_ptr);
+const int16_t *Output_CalcObjectVertices(const int16_t *obj_ptr);
+const int16_t *Output_CalcSkyboxLight(const int16_t *obj_ptr);
+const int16_t *Output_CalcVerticeLight(const int16_t *obj_ptr);
+const int16_t *Output_CalcRoomVertices(
     const int16_t *obj_ptr, int32_t far_clip);
-void __cdecl Output_RotateLight(int16_t pitch, int16_t yaw);
-void __cdecl Output_AlterFOV(int16_t fov);
+void Output_RotateLight(int16_t pitch, int16_t yaw);
+void Output_AlterFOV(int16_t fov);
 
-const int16_t *__cdecl Output_InsertRoomSprite(
+const int16_t *Output_InsertRoomSprite(
     const int16_t *obj_ptr, int32_t vtx_count);
 
-void __cdecl Output_InsertClippedPoly_Textured(
+void Output_InsertClippedPoly_Textured(
     int32_t vtx_count, float z, int16_t poly_type, int16_t tex_page);
 
-void __cdecl Output_InsertPoly_Gouraud(
+void Output_InsertPoly_Gouraud(
     int32_t vtx_count, float z, int32_t red, int32_t green, int32_t blue,
     int16_t poly_type);
 
-void __cdecl Output_DrawClippedPoly_Textured(int32_t vtx_count);
+void Output_DrawClippedPoly_Textured(int32_t vtx_count);
 
-void __cdecl Output_DrawPoly_Gouraud(
+void Output_DrawPoly_Gouraud(
     int32_t vtx_count, int32_t red, int32_t green, int32_t blue);
 
-void __cdecl Output_DrawSprite(
+void Output_DrawSprite(
     uint32_t flags, int32_t x, int32_t y, int32_t z, int16_t sprite_idx,
     int16_t shade, int16_t scale);
 
-void __cdecl Output_DrawPickup(
+void Output_DrawPickup(
     int32_t sx, int32_t sy, int32_t scale, int16_t sprite_idx, int16_t shade);
 
-void __cdecl Output_DrawScreenSprite2D(
+void Output_DrawScreenSprite2D(
     int32_t sx, int32_t sy, int32_t sz, int32_t scale_h, int32_t scale_v,
     int16_t sprite_idx, int16_t shade, uint16_t flags);
 
-void __cdecl Output_DrawScreenSprite(
+void Output_DrawScreenSprite(
     int32_t sx, int32_t sy, int32_t sz, int32_t scale_h, int32_t scale_v,
     int16_t sprite_idx, int16_t shade, uint16_t flags);
 
-void __cdecl Output_DrawScaledSpriteC(const int16_t *obj_ptr);
+void Output_DrawScaledSpriteC(const int16_t *obj_ptr);
 
 void Output_ClearDepthBuffer(void);
 
-bool __cdecl Output_MakeScreenshot(const char *path);
+bool Output_MakeScreenshot(const char *path);
 
 void Output_InsertBackPolygon(int32_t x0, int32_t y0, int32_t x1, int32_t y1);
 
@@ -80,8 +80,8 @@ void Output_DrawScreenFBox(
     int32_t sx, int32_t sy, int32_t z, int32_t width, int32_t height,
     uint8_t color_idx, const void *gour, uint16_t flags);
 
-void __cdecl Output_DrawHealthBar(int32_t percent);
-void __cdecl Output_DrawAirBar(int32_t percent);
+void Output_DrawHealthBar(int32_t percent);
+void Output_DrawAirBar(int32_t percent);
 
 void Output_LoadBackgroundFromFile(const char *file_name);
 void Output_LoadBackgroundFromObject(void);
@@ -91,24 +91,22 @@ void Output_BeginScene(void);
 int32_t Output_EndScene(void);
 
 int16_t Output_FindColor(int32_t red, int32_t green, int32_t blue);
-void __cdecl Output_DoAnimateTextures(int32_t ticks);
-void __cdecl Output_InsertShadow(
+void Output_DoAnimateTextures(int32_t ticks);
+void Output_InsertShadow(
     int16_t radius, const BOUNDS_16 *bounds, const ITEM *item);
 
-void __cdecl Output_CalculateWibbleTable(void);
-int32_t __cdecl Output_GetObjectBounds(const BOUNDS_16 *bounds);
-void __cdecl Output_CalculateLight(
-    int32_t x, int32_t y, int32_t z, int16_t room_num);
-void __cdecl Output_CalculateStaticLight(int16_t adder);
-void __cdecl Output_CalculateStaticMeshLight(
+void Output_CalculateWibbleTable(void);
+int32_t Output_GetObjectBounds(const BOUNDS_16 *bounds);
+void Output_CalculateLight(int32_t x, int32_t y, int32_t z, int16_t room_num);
+void Output_CalculateStaticLight(int16_t adder);
+void Output_CalculateStaticMeshLight(
     int32_t x, int32_t y, int32_t z, int32_t shade_1, int32_t shade_2,
     const ROOM *room);
-void __cdecl Output_CalculateObjectLighting(
-    const ITEM *item, const BOUNDS_16 *bounds);
-void __cdecl Output_LightRoom(ROOM *room);
-void __cdecl Output_SetupBelowWater(bool is_underwater);
-void __cdecl Output_SetupAboveWater(bool is_underwater);
-void __cdecl Output_AnimateTextures(int32_t ticks);
+void Output_CalculateObjectLighting(const ITEM *item, const BOUNDS_16 *bounds);
+void Output_LightRoom(ROOM *room);
+void Output_SetupBelowWater(bool is_underwater);
+void Output_SetupAboveWater(bool is_underwater);
+void Output_AnimateTextures(int32_t ticks);
 
-void __cdecl Output_AddDynamicLight(
+void Output_AddDynamicLight(
     int32_t x, int32_t y, int32_t z, int32_t intensity, int32_t falloff);

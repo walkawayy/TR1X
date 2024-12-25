@@ -167,7 +167,7 @@ void Dragon_SetupBack(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Dragon_Collision(
+void Dragon_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = Item_Get(item_num);
@@ -214,7 +214,7 @@ void __cdecl Dragon_Collision(
     }
 }
 
-void __cdecl Dragon_Bones(const int16_t item_num)
+void Dragon_Bones(const int16_t item_num)
 {
     const int16_t bone_front_item_num = Item_Create();
     const int16_t bone_back_item_num = Item_Create();
@@ -251,7 +251,7 @@ void __cdecl Dragon_Bones(const int16_t item_num)
     bone_front->mesh_bits = ~0xC00000u;
 }
 
-void __cdecl Dragon_Control(const int16_t item_num)
+void Dragon_Control(const int16_t item_num)
 {
     const int16_t dragon_back_item_num = item_num;
     ITEM *const dragon_back_item = Item_Get(item_num);

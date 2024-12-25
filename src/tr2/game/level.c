@@ -871,7 +871,7 @@ static void M_CompleteSetup(void)
     Benchmark_End(benchmark, NULL);
 }
 
-bool __cdecl Level_Load(const char *const file_name, const int32_t level_num)
+bool Level_Load(const char *const file_name, const int32_t level_num)
 {
     BENCHMARK *const benchmark = Benchmark_Start();
 

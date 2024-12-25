@@ -12,7 +12,7 @@ void Spawn_Splash_Setup(void)
     obj->semi_transparent = 1;
 }
 
-void __cdecl Spawn_Splash_Control(const int16_t effect_num)
+void Spawn_Splash_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     const OBJECT *const object = Object_GetObject(effect->object_id);

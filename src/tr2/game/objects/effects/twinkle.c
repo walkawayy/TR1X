@@ -51,7 +51,7 @@ void Twinkle_Setup(void)
     obj->control = Twinkle_Control;
 }
 
-void __cdecl Twinkle_Control(const int16_t effect_num)
+void Twinkle_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     effect->frame_num--;

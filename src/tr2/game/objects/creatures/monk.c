@@ -100,7 +100,7 @@ void Monk2_Setup(void)
     g_AnimBones[obj->bone_idx + 6 * 4] |= BF_ROT_Y;
 }
 
-void __cdecl Monk_Control(const int16_t item_num)
+void Monk_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

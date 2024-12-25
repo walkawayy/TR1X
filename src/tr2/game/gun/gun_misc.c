@@ -25,7 +25,7 @@ static LARA_STATE m_HoldStates[] = {
     LS_PICKUP, LS_SWITCH_ON, LS_SWITCH_OFF, (LARA_STATE)-1,
 };
 
-int32_t __cdecl Gun_CheckForHoldingState(const LARA_STATE state)
+int32_t Gun_CheckForHoldingState(const LARA_STATE state)
 {
     if (g_Lara.extra_anim) {
         return false;
@@ -41,7 +41,7 @@ int32_t __cdecl Gun_CheckForHoldingState(const LARA_STATE state)
     return false;
 }
 
-void __cdecl Gun_TargetInfo(const WEAPON_INFO *const winfo)
+void Gun_TargetInfo(const WEAPON_INFO *const winfo)
 {
     if (!g_Lara.target) {
         g_Lara.left_arm.lock = 0;
@@ -102,7 +102,7 @@ void __cdecl Gun_TargetInfo(const WEAPON_INFO *const winfo)
     g_Lara.target_angles[1] = angles[1];
 }
 
-void __cdecl Gun_GetNewTarget(const WEAPON_INFO *const winfo)
+void Gun_GetNewTarget(const WEAPON_INFO *const winfo)
 {
     GAME_VECTOR start;
     start.pos.x = g_LaraItem->pos.x;
@@ -168,7 +168,7 @@ void __cdecl Gun_GetNewTarget(const WEAPON_INFO *const winfo)
     Gun_TargetInfo(winfo);
 }
 
-void __cdecl Gun_AimWeapon(const WEAPON_INFO *const winfo, LARA_ARM *const arm)
+void Gun_AimWeapon(const WEAPON_INFO *const winfo, LARA_ARM *const arm)
 {
     const int16_t speed = winfo->aim_speed;
 
@@ -198,7 +198,7 @@ void __cdecl Gun_AimWeapon(const WEAPON_INFO *const winfo, LARA_ARM *const arm)
     arm->rot.z = 0;
 }
 
-int32_t __cdecl Gun_FireWeapon(
+int32_t Gun_FireWeapon(
     const LARA_GUN_TYPE weapon_type, ITEM *const target, const ITEM *const src,
     const int16_t *const angles)
 {
@@ -296,8 +296,7 @@ int32_t __cdecl Gun_FireWeapon(
     }
 }
 
-void __cdecl Gun_FindTargetPoint(
-    const ITEM *const item, GAME_VECTOR *const target)
+void Gun_FindTargetPoint(const ITEM *const item, GAME_VECTOR *const target)
 {
     const BOUNDS_16 *const bounds = &Item_GetBestFrame(item)->bounds;
     const int32_t x = bounds->min_x + (bounds->max_x - bounds->min_x) / 2;
@@ -311,7 +310,7 @@ void __cdecl Gun_FindTargetPoint(
     target->room_num = item->room_num;
 }
 
-void __cdecl Gun_HitTarget(
+void Gun_HitTarget(
     ITEM *const item, const GAME_VECTOR *const hit_pos, const int32_t damage)
 {
     if (item->hit_points > 0 && item->hit_points <= damage
@@ -337,8 +336,7 @@ void __cdecl Gun_HitTarget(
     }
 }
 
-void __cdecl Gun_SmashItem(
-    const int16_t item_num, const LARA_GUN_TYPE weapon_type)
+void Gun_SmashItem(const int16_t item_num, const LARA_GUN_TYPE weapon_type)
 {
     ITEM *const item = &g_Items[item_num];
 
@@ -359,7 +357,7 @@ void __cdecl Gun_SmashItem(
     }
 }
 
-void __cdecl Gun_DrawFlash(const LARA_GUN_TYPE weapon_type, const int32_t clip)
+void Gun_DrawFlash(const LARA_GUN_TYPE weapon_type, const int32_t clip)
 {
     int16_t shade;
     int32_t y;

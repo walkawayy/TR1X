@@ -127,7 +127,7 @@ static void M_UpdateSlot(SOUND_SLOT *const slot)
         slot->handle, M_ConvertVolumeToDecibel(slot->volume));
 }
 
-void __cdecl Sound_Init(void)
+void Sound_Init(void)
 {
     m_DecibelLUT[0] = -10000;
     for (int32_t i = 1; i < DECIBEL_LUT_SIZE; i++) {
@@ -144,7 +144,7 @@ void __cdecl Sound_Init(void)
     g_SoundIsActive = true;
 }
 
-void __cdecl Sound_Shutdown(void)
+void Sound_Shutdown(void)
 {
     if (!g_SoundIsActive) {
         return;
@@ -154,12 +154,12 @@ void __cdecl Sound_Shutdown(void)
     M_ClearAllSlots();
 }
 
-void __cdecl Sound_SetMasterVolume(int32_t volume)
+void Sound_SetMasterVolume(int32_t volume)
 {
     m_MasterVolume = volume * 64.0f / 10.0f;
 }
 
-void __cdecl Sound_UpdateEffects(void)
+void Sound_UpdateEffects(void)
 {
     for (int32_t i = 0; i < g_SoundEffectCount; i++) {
         OBJECT_VECTOR *const sound = &g_SoundEffects[i];
@@ -170,7 +170,7 @@ void __cdecl Sound_UpdateEffects(void)
     }
 }
 
-void __cdecl Sound_Effect(
+void Sound_Effect(
     const SOUND_EFFECT_ID sample_id, const XYZ_32 *const pos,
     const uint32_t flags)
 {
@@ -335,7 +335,7 @@ void __cdecl Sound_Effect(
     }
 }
 
-void __cdecl Sound_StopEffect(const SOUND_EFFECT_ID sample_id)
+void Sound_StopEffect(const SOUND_EFFECT_ID sample_id)
 {
     if (!g_SoundIsActive) {
         return;
@@ -353,13 +353,13 @@ void __cdecl Sound_StopEffect(const SOUND_EFFECT_ID sample_id)
     }
 }
 
-void __cdecl Sound_StopAllSamples(void)
+void Sound_StopAllSamples(void)
 {
     Audio_Sample_CloseAll();
     M_ClearAllSlots();
 }
 
-void __cdecl Sound_EndScene(void)
+void Sound_EndScene(void)
 {
     if (!g_SoundIsActive) {
         return;

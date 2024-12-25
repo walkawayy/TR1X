@@ -11,7 +11,7 @@
 
 #define MAX_ROOMIES 2
 
-void __cdecl DyingMonk_Initialise(const int16_t item_num)
+void DyingMonk_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 
@@ -38,7 +38,7 @@ void __cdecl DyingMonk_Initialise(const int16_t item_num)
     item->data = roomies;
 }
 
-void __cdecl DyingMonk_Control(const int16_t item_num)
+void DyingMonk_Control(const int16_t item_num)
 {
     const ITEM *const item = Item_Get(item_num);
     const int32_t *const roomies = item->data;

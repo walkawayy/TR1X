@@ -11,7 +11,7 @@ void Bubble_Setup(void)
     obj->control = Bubble_Control;
 }
 
-void __cdecl Bubble_Control(const int16_t effect_num)
+void Bubble_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     effect->rot.y += 9 * PHD_DEGREE;

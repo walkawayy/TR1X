@@ -13,7 +13,7 @@ typedef enum {
     // clang-format on
 } GENERAL_STATE;
 
-void __cdecl General_Control(const int16_t item_num)
+void General_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

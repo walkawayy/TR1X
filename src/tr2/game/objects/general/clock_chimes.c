@@ -6,7 +6,7 @@
 
 #include <libtrx/game/lara/common.h>
 
-void __cdecl DoChimeSound(const ITEM *const item)
+void DoChimeSound(const ITEM *const item)
 {
     const ITEM *const lara_item = Lara_GetItem();
     XYZ_32 pos = lara_item->pos;
@@ -16,7 +16,7 @@ void __cdecl DoChimeSound(const ITEM *const item)
     Sound_Effect(SFX_DOOR_CHIME, &pos, SPM_NORMAL);
 }
 
-void __cdecl ClockChimes_Control(const int16_t item_num)
+void ClockChimes_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     if (item->timer == 0) {

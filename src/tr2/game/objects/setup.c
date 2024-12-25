@@ -143,7 +143,7 @@ static void M_SetupLaraExtra(void)
     obj->control = Lara_ControlExtra;
 }
 
-void __cdecl Object_SetupBaddyObjects(void)
+void Object_SetupBaddyObjects(void)
 {
     M_SetupLara();
     M_SetupLaraExtra();
@@ -188,7 +188,7 @@ void __cdecl Object_SetupBaddyObjects(void)
     Winston_Setup();
 }
 
-void __cdecl Object_SetupTrapObjects(void)
+void Object_SetupTrapObjects(void)
 {
     Blade_Setup();
     DartEmitter_Setup();
@@ -223,7 +223,7 @@ void __cdecl Object_SetupTrapObjects(void)
     TeethTrap_Setup();
 }
 
-void __cdecl Object_SetupGeneralObjects(void)
+void Object_SetupGeneralObjects(void)
 {
     Boat_Setup();
     SkidooArmed_Setup();
@@ -374,7 +374,7 @@ void __cdecl Object_SetupGeneralObjects(void)
     Secret2_Setup();
 }
 
-void __cdecl Object_SetupAllObjects(void)
+void Object_SetupAllObjects(void)
 {
     for (int32_t i = 0; i < O_NUMBER_OF; i++) {
         OBJECT *const object = Object_GetObject(i);

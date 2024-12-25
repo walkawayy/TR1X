@@ -542,7 +542,7 @@ static void M_WriteFlares(void)
     }
 }
 
-void __cdecl InitialiseStartInfo(void)
+void InitialiseStartInfo(void)
 {
     if (g_SaveGame.bonus_flag) {
         return;
@@ -565,7 +565,7 @@ void __cdecl InitialiseStartInfo(void)
     g_SaveGame.bonus_flag = 0;
 }
 
-void __cdecl ModifyStartInfo(const int32_t level_num)
+void ModifyStartInfo(const int32_t level_num)
 {
     START_INFO *start = &g_SaveGame.start[level_num];
     start->has_pistols = 1;
@@ -642,7 +642,7 @@ void __cdecl ModifyStartInfo(const int32_t level_num)
     }
 }
 
-void __cdecl CreateStartInfo(const int32_t level_num)
+void CreateStartInfo(const int32_t level_num)
 {
     START_INFO *const start = &g_SaveGame.start[level_num];
 
@@ -720,7 +720,7 @@ void __cdecl CreateStartInfo(const int32_t level_num)
     start->gun_status = LGS_ARMLESS;
 }
 
-void __cdecl CreateSaveGameInfo(void)
+void CreateSaveGameInfo(void)
 {
     g_SaveGame.current_level = g_CurrentLevel;
 
@@ -771,7 +771,7 @@ void __cdecl CreateSaveGameInfo(void)
     M_WriteFlares();
 }
 
-void __cdecl ExtractSaveGameInfo(void)
+void ExtractSaveGameInfo(void)
 {
     Lara_InitialiseInventory(g_CurrentLevel);
     Inv_AddItemNTimes(O_PICKUP_ITEM_1, g_SaveGame.num_pickup[0]);
@@ -831,13 +831,13 @@ void __cdecl ExtractSaveGameInfo(void)
     M_ReadFlares();
 }
 
-void __cdecl ResetSG(void)
+void ResetSG(void)
 {
     g_SavegameBufPos = 0;
     g_SavegameBufPtr = g_SaveGame.buffer;
 }
 
-void __cdecl WriteSG(const void *const pointer, const size_t size)
+void WriteSG(const void *const pointer, const size_t size)
 {
     g_SavegameBufPos += size;
     if (g_SavegameBufPos >= MAX_SG_BUFFER_SIZE) {
@@ -848,14 +848,14 @@ void __cdecl WriteSG(const void *const pointer, const size_t size)
     g_SavegameBufPtr += size;
 }
 
-void __cdecl ReadSG(void *const pointer, const size_t size)
+void ReadSG(void *const pointer, const size_t size)
 {
     g_SavegameBufPos += size;
     memcpy(pointer, g_SavegameBufPtr, size);
     g_SavegameBufPtr += size;
 }
 
-void __cdecl GetSavedGamesList(REQUEST_INFO *const req)
+void GetSavedGamesList(REQUEST_INFO *const req)
 {
     Requester_SetSize(req, 10, -32);
     if (req->selected >= req->visible_count) {
@@ -869,7 +869,7 @@ void __cdecl GetSavedGamesList(REQUEST_INFO *const req)
         sizeof(uint32_t) * MAX_REQUESTER_ITEMS);
 }
 
-bool __cdecl S_FrontEndCheck(void)
+bool S_FrontEndCheck(void)
 {
     Requester_Init(&g_LoadGameRequester);
 
@@ -912,7 +912,7 @@ bool __cdecl S_FrontEndCheck(void)
     return true;
 }
 
-int32_t __cdecl S_SaveGame(
+int32_t S_SaveGame(
     const void *const save_data, const size_t save_size, const int32_t slot_num)
 {
     char file_name[80];
@@ -944,7 +944,7 @@ int32_t __cdecl S_SaveGame(
     return true;
 }
 
-int32_t __cdecl S_LoadGame(
+int32_t S_LoadGame(
     void *const save_data, const size_t save_size, const int32_t slot_num)
 {
     char file_name[80];

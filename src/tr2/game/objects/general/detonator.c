@@ -49,7 +49,7 @@ void Detonator2_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Detonator_Control(const int16_t item_num)
+void Detonator_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     Item_Animate(item);
@@ -71,7 +71,7 @@ void __cdecl Detonator_Control(const int16_t item_num)
 }
 
 // TODO: split gong shenanigans into a separate routine
-void __cdecl Detonator_Collision(
+void Detonator_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     if (g_Lara.extra_anim) {

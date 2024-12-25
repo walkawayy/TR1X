@@ -4,7 +4,7 @@
 #include "game/random.h"
 #include "game/sound.h"
 
-void __cdecl BirdTweeter_Control(const int16_t item_num)
+void BirdTweeter_Control(const int16_t item_num)
 {
     const ITEM *const item = Item_Get(item_num);
 

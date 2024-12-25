@@ -76,7 +76,7 @@ void Bartoli_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Bartoli_Initialise(const int16_t item_num)
+void Bartoli_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     item->pos.x -= 2 * STEP_L;
@@ -117,7 +117,7 @@ void __cdecl Bartoli_Initialise(const int16_t item_num)
     g_LevelItemCount += 2;
 }
 
-void __cdecl Bartoli_Control(const int16_t item_num)
+void Bartoli_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

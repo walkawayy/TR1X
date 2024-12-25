@@ -17,7 +17,7 @@
 #define ROLLING_BALL_DAMAGE_AIR 100
 #define ROLL_SHAKE_RANGE (WALL_L * 10) // = 10240
 
-void __cdecl RollingBall_Initialise(const int16_t item_num)
+void RollingBall_Initialise(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 
@@ -31,7 +31,7 @@ void __cdecl RollingBall_Initialise(const int16_t item_num)
     item->data = data;
 }
 
-void __cdecl RollingBall_Control(const int16_t item_num)
+void RollingBall_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 
@@ -140,7 +140,7 @@ void __cdecl RollingBall_Control(const int16_t item_num)
     }
 }
 
-void __cdecl RollingBall_Collision(
+void RollingBall_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     ITEM *const item = Item_Get(item_num);

@@ -59,7 +59,7 @@ void BigEel_Setup(void)
     obj->water_creature = 1;
 }
 
-void __cdecl BigEel_Control(const int16_t item_num)
+void BigEel_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     const ITEM *const lara_item = Lara_GetItem();

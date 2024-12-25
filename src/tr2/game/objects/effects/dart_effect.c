@@ -4,7 +4,7 @@
 #include "game/objects/common.h"
 #include "global/vars.h"
 
-void __cdecl DartEffect_Control(int16_t effect_num)
+void DartEffect_Control(int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     const OBJECT *const obj = Object_GetObject(effect->object_id);

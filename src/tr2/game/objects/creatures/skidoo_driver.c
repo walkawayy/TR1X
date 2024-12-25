@@ -184,7 +184,7 @@ void SkidooDriver_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl SkidooDriver_Initialise(const int16_t item_num)
+void SkidooDriver_Initialise(const int16_t item_num)
 {
     ITEM *const skidoo_driver = Item_Get(item_num);
 
@@ -206,7 +206,7 @@ void __cdecl SkidooDriver_Initialise(const int16_t item_num)
     g_LevelItemCount++;
 }
 
-void __cdecl SkidooDriver_Control(const int16_t driver_item_num)
+void SkidooDriver_Control(const int16_t driver_item_num)
 {
     ITEM *const driver_item = Item_Get(driver_item_num);
 

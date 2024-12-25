@@ -15,7 +15,7 @@ void HarpoonBolt_Setup(void)
     obj->save_position = 1;
 }
 
-void __cdecl HarpoonBolt_Control(const int16_t item_num)
+void HarpoonBolt_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

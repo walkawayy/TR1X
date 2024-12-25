@@ -13,11 +13,11 @@
 
 #define CUTSCENE_DELAY (5 * FRAMES_PER_SECOND) // = 150
 
-static int16_t __cdecl M_FindBestBoss(void);
-static void __cdecl M_ActivateLastBoss(void);
-static void __cdecl M_PrepareCutscene(int16_t item_num);
+static int16_t M_FindBestBoss(void);
+static void M_ActivateLastBoss(void);
+static void M_PrepareCutscene(int16_t item_num);
 
-static int16_t __cdecl M_FindBestBoss(void)
+static int16_t M_FindBestBoss(void)
 {
     int32_t best_dist = 0;
     int16_t best_item = g_FinalBossItem[0];
@@ -51,7 +51,7 @@ static int16_t __cdecl M_FindBestBoss(void)
     return best_item;
 }
 
-static void __cdecl M_ActivateLastBoss(void)
+static void M_ActivateLastBoss(void)
 {
     const int16_t item_num = M_FindBestBoss();
     ITEM *const item = &g_Items[item_num];
@@ -63,7 +63,7 @@ static void __cdecl M_ActivateLastBoss(void)
     g_FinalBossActive = 1;
 }
 
-static void __cdecl M_PrepareCutscene(const int16_t item_num)
+static void M_PrepareCutscene(const int16_t item_num)
 {
     if (g_Lara.gun_type == LGT_FLARE) {
         Flare_Undraw();
@@ -92,7 +92,7 @@ void FinalLevelCounter_Setup(void)
     obj->save_flags = 1;
 }
 
-void __cdecl FinalLevelCounter_Control(const int16_t item_num)
+void FinalLevelCounter_Control(const int16_t item_num)
 {
     if (g_SaveGame.statistics.kills == g_FinalLevelCount
         && !g_FinalBossActive) {

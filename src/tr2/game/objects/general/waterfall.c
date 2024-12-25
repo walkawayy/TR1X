@@ -12,7 +12,7 @@
 
 #define WATERFALL_RANGE (WALL_L * 10) // = 10240
 
-void __cdecl Waterfall_Control(const int16_t item_num)
+void Waterfall_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     const ITEM *const lara_item = Lara_GetItem();

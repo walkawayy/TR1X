@@ -3,4 +3,4 @@
 #include <stdint.h>
 
 void Eel_Setup(void);
-void __cdecl Eel_Control(int16_t item_num);
+void Eel_Control(int16_t item_num);

@@ -51,7 +51,7 @@ static void M_RemoveDrawn(const int16_t effect_num)
     }
 }
 
-void __cdecl Effect_InitialiseArray(void)
+void Effect_InitialiseArray(void)
 {
     m_Effects = GameBuf_Alloc(MAX_EFFECTS * sizeof(EFFECT), GBUF_EFFECTS_ARRAY);
     m_NextEffectFree = 0;
@@ -79,7 +79,7 @@ int16_t Effect_GetActiveNum(void)
     return m_NextEffectActive;
 }
 
-int16_t __cdecl Effect_Create(const int16_t room_num)
+int16_t Effect_Create(const int16_t room_num)
 {
     int16_t effect_num = m_NextEffectFree;
     if (effect_num == NO_EFFECT) {
@@ -102,7 +102,7 @@ int16_t __cdecl Effect_Create(const int16_t room_num)
     return effect_num;
 }
 
-void __cdecl Effect_Kill(const int16_t effect_num)
+void Effect_Kill(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     M_RemoveActive(effect_num);
@@ -112,7 +112,7 @@ void __cdecl Effect_Kill(const int16_t effect_num)
     m_NextEffectFree = effect_num;
 }
 
-void __cdecl Effect_NewRoom(const int16_t effect_num, const int16_t room_num)
+void Effect_NewRoom(const int16_t effect_num, const int16_t room_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
     ROOM *room = Room_Get(effect->room_num);
@@ -136,7 +136,7 @@ void __cdecl Effect_NewRoom(const int16_t effect_num, const int16_t room_num)
     room->effect_num = effect_num;
 }
 
-void __cdecl Effect_Draw(const int16_t effect_num)
+void Effect_Draw(const int16_t effect_num)
 {
     const EFFECT *const effect = Effect_Get(effect_num);
     const OBJECT *const object = Object_GetObject(effect->object_id);

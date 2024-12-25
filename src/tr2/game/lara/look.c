@@ -4,7 +4,7 @@
 #include "global/const.h"
 #include "global/vars.h"
 
-void __cdecl Lara_LookUpDown(void)
+void Lara_LookUpDown(void)
 {
     g_Camera.type = CAM_LOOK;
 
@@ -25,7 +25,7 @@ void __cdecl Lara_LookUpDown(void)
     }
 }
 
-void __cdecl Lara_LookLeftRight(void)
+void Lara_LookLeftRight(void)
 {
     g_Camera.type = CAM_LOOK;
 
@@ -44,7 +44,7 @@ void __cdecl Lara_LookLeftRight(void)
     }
 }
 
-void __cdecl Lara_ResetLook(void)
+void Lara_ResetLook(void)
 {
     if (g_Camera.type == CAM_LOOK) {
         return;

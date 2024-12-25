@@ -12,7 +12,7 @@
 
 #define SPHERE_OF_DOOM_RADIUS (STEP_L * 5 / 2) // = 640
 
-void __cdecl SphereOfDoom_Collision(
+void SphereOfDoom_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     if (Room_Get(lara_item->room_num)->flags & RF_UNDERWATER) {
@@ -52,7 +52,7 @@ void __cdecl SphereOfDoom_Collision(
     lara_item->goal_anim_state = LS_FORWARD_JUMP;
 }
 
-void __cdecl SphereOfDoom_Control(const int16_t item_num)
+void SphereOfDoom_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
     item->timer += 64;
@@ -73,7 +73,7 @@ void __cdecl SphereOfDoom_Control(const int16_t item_num)
     }
 }
 
-void __cdecl SphereOfDoom_Draw(const ITEM *const item)
+void SphereOfDoom_Draw(const ITEM *const item)
 {
     Matrix_Push();
     Matrix_TranslateAbs(item->pos.x, item->pos.y, item->pos.z);

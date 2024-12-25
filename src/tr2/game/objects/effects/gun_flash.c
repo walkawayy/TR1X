@@ -5,7 +5,7 @@
 #include "game/random.h"
 #include "global/vars.h"
 
-void __cdecl GunFlash_Control(const int16_t effect_num)
+void GunFlash_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
 

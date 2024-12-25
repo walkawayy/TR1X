@@ -19,7 +19,7 @@ void Bell_Setup(void)
     obj->save_anim = 1;
 }
 
-void __cdecl Bell_Control(const int16_t item_num)
+void Bell_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

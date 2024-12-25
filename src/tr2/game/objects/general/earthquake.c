@@ -18,7 +18,7 @@ static void M_Activate(const int16_t earth_item_num)
     earth_item->timer = 0;
 }
 
-void __cdecl Earthquake_Control(const int16_t item_num)
+void Earthquake_Control(const int16_t item_num)
 {
     const ITEM *const item = Item_Get(item_num);
     if (Random_GetDraw() < 512) {

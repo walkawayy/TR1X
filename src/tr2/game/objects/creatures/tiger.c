@@ -71,7 +71,7 @@ void Tiger_Setup(void)
     g_AnimBones[obj->bone_idx + 21 * 4] |= BF_ROT_Y;
 }
 
-void __cdecl Tiger_Control(const int16_t item_num)
+void Tiger_Control(const int16_t item_num)
 {
     if (!Creature_Activate(item_num)) {
         return;

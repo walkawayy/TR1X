@@ -55,7 +55,7 @@ static void M_CreateDart(ITEM *const item)
     Sound_Effect(SFX_CIRCLE_BLADE, &dart_item->pos, SPM_NORMAL);
 }
 
-void __cdecl DartEmitter_Control(const int16_t item_num)
+void DartEmitter_Control(const int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

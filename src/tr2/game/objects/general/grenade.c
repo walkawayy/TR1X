@@ -39,7 +39,7 @@ void Grenade_Setup(void)
     obj->save_position = 1;
 }
 
-void __cdecl Grenade_Control(int16_t item_num)
+void Grenade_Control(int16_t item_num)
 {
     ITEM *const item = Item_Get(item_num);
 

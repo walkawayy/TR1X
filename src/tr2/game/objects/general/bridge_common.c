@@ -1,6 +1,6 @@
 #include "game/objects/general/bridge_common.h"
 
-int32_t __cdecl Bridge_GetOffset(
+int32_t Bridge_GetOffset(
     const ITEM *const item, const int32_t x, const int32_t z)
 {
     switch (item->rot.y) {

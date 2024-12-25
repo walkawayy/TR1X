@@ -73,7 +73,7 @@ static void M_StreamFinished(const int32_t stream_id, void *const user_data)
     }
 }
 
-bool __cdecl Music_Init(void)
+bool Music_Init(void)
 {
     bool result = false;
 
@@ -95,7 +95,7 @@ finish:
     return result;
 }
 
-void __cdecl Music_Shutdown(void)
+void Music_Shutdown(void)
 {
     if (m_AudioStreamID < 0) {
         return;
@@ -109,7 +109,7 @@ void __cdecl Music_Shutdown(void)
     Audio_Stream_Close(m_AudioStreamID);
 }
 
-void __cdecl Music_Legacy_Play(int16_t track_id, bool is_looped)
+void Music_Legacy_Play(int16_t track_id, bool is_looped)
 {
     Music_Play(track_id, is_looped ? MPM_LOOPED : MPM_ALWAYS);
 }
@@ -166,7 +166,7 @@ finish:
     }
 }
 
-void __cdecl Music_Stop(void)
+void Music_Stop(void)
 {
     if (m_AudioStreamID < 0) {
         return;
@@ -178,13 +178,13 @@ void __cdecl Music_Stop(void)
     M_StopActiveStream();
 }
 
-bool __cdecl Music_PlaySynced(int16_t track_id)
+bool Music_PlaySynced(int16_t track_id)
 {
     Music_Play(track_id, false);
     return true;
 }
 
-double __cdecl Music_GetTimestamp(void)
+double Music_GetTimestamp(void)
 {
     if (m_AudioStreamID < 0) {
         return -1.0;
@@ -200,7 +200,7 @@ bool Music_SeekTimestamp(double timestamp)
     return Audio_Stream_SeekTimestamp(m_AudioStreamID, timestamp);
 }
 
-void __cdecl Music_SetVolume(int32_t volume)
+void Music_SetVolume(int32_t volume)
 {
     m_MusicVolume = volume ? volume / 10.0f : 0.0f;
     if (m_AudioStreamID >= 0) {
@@ -239,7 +239,7 @@ void Music_Unpause(void)
     Audio_Stream_Unpause(m_AudioStreamID);
 }
 
-int32_t __cdecl Music_GetRealTrack(const int32_t track_id)
+int32_t Music_GetRealTrack(const int32_t track_id)
 {
     const int8_t skipped_track_ids[] = { 2, 19, 20, 26, -1 };
     int32_t idx = 0;

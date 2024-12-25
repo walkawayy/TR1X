@@ -48,7 +48,7 @@ void Keyhole_Setup(OBJECT *const obj)
     obj->save_flags = 1;
 }
 
-void __cdecl Keyhole_Collision(
+void Keyhole_Collision(
     const int16_t item_num, ITEM *const lara_item, COLL_INFO *const coll)
 {
     if (lara_item->current_anim_state != LS_STOP) {
@@ -92,7 +92,7 @@ void __cdecl Keyhole_Collision(
     }
 }
 
-int32_t __cdecl Keyhole_Trigger(const int16_t item_num)
+int32_t Keyhole_Trigger(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
     if (item->status != IS_ACTIVE || g_Lara.gun_status == LGS_HANDS_BUSY) {

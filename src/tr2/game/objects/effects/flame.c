@@ -11,7 +11,7 @@
 
 #include <libtrx/utils.h>
 
-void __cdecl Flame_Control(const int16_t effect_num)
+void Flame_Control(const int16_t effect_num)
 {
     EFFECT *const effect = Effect_Get(effect_num);
 

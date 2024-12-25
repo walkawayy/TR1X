@@ -70,7 +70,7 @@ static float M_Ease(const int32_t cur_frame, const int32_t max_frames)
     return result;
 }
 
-bool __cdecl Overlay_FlashCounter(const int32_t ticks)
+bool Overlay_FlashCounter(const int32_t ticks)
 {
     if (m_FlashCounter > 0) {
         m_FlashCounter -= ticks;
@@ -82,7 +82,7 @@ bool __cdecl Overlay_FlashCounter(const int32_t ticks)
     return m_FlashState;
 }
 
-void __cdecl Overlay_DrawAssaultTimer(void)
+void Overlay_DrawAssaultTimer(void)
 {
     if (g_CurrentLevel != 0 || !g_IsAssaultTimerDisplay) {
         return;
@@ -131,7 +131,7 @@ void __cdecl Overlay_DrawAssaultTimer(void)
     }
 }
 
-void __cdecl Overlay_DrawGameInfo(const bool pickup_state)
+void Overlay_DrawGameInfo(const bool pickup_state)
 {
     Overlay_DrawAmmoInfo();
     Overlay_DrawModeInfo();
@@ -249,7 +249,7 @@ void Overlay_HideGameInfo(void)
     g_DisplayModeTextInfo = NULL;
 }
 
-void __cdecl Overlay_MakeAmmoString(char *const string)
+void Overlay_MakeAmmoString(char *const string)
 {
     char result[128] = "";
 
@@ -275,7 +275,7 @@ void __cdecl Overlay_MakeAmmoString(char *const string)
     strcpy(string, result);
 }
 
-void __cdecl Overlay_DrawAmmoInfo(void)
+void Overlay_DrawAmmoInfo(void)
 {
     if (g_Lara.gun_status != LGS_READY || g_OverlayStatus <= 0
         || g_SaveGame.bonus_flag) {
@@ -325,7 +325,7 @@ void __cdecl Overlay_DrawAmmoInfo(void)
     }
 }
 
-void __cdecl Overlay_InitialisePickUpDisplay(void)
+void Overlay_InitialisePickUpDisplay(void)
 {
     for (int32_t i = 0; i < MAX_PICKUPS; i++) {
         m_Pickups[i].phase = DPP_DEAD;
@@ -455,7 +455,7 @@ static void M_DrawPickupSprite(const DISPLAY_PICKUP *const pickup)
     Output_DrawPickup(x, y, scale, sprite_num, 4096);
 }
 
-void __cdecl Overlay_DrawPickups(const bool timed)
+void Overlay_DrawPickups(const bool timed)
 {
     for (int i = 0; i < MAX_PICKUPS; i++) {
         const DISPLAY_PICKUP *const pickup = &m_Pickups[i];
@@ -471,7 +471,7 @@ void __cdecl Overlay_DrawPickups(const bool timed)
     }
 }
 
-void __cdecl Overlay_AddDisplayPickup(const int16_t object_id)
+void Overlay_AddDisplayPickup(const int16_t object_id)
 {
     if (object_id == O_SECRET_1 || object_id == O_SECRET_2
         || object_id == O_SECRET_3) {
@@ -520,7 +520,7 @@ void __cdecl Overlay_AddDisplayPickup(const int16_t object_id)
     }
 }
 
-void __cdecl Overlay_DisplayModeInfo(const char *const string)
+void Overlay_DisplayModeInfo(const char *const string)
 {
     if (string == NULL) {
         Text_Remove(g_DisplayModeTextInfo);
@@ -538,7 +538,7 @@ void __cdecl Overlay_DisplayModeInfo(const char *const string)
     g_DisplayModeInfoTimer = 2.5 * FRAMES_PER_SECOND;
 }
 
-void __cdecl Overlay_DrawModeInfo(void)
+void Overlay_DrawModeInfo(void)
 {
     if (g_DisplayModeTextInfo == NULL) {
         return;
