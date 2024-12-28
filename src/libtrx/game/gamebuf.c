@@ -43,7 +43,6 @@ void *GameBuf_Alloc(const size_t alloc_size, const GAME_BUFFER buffer)
             "Ran out of memory while trying to allocate %d bytes for %s",
             aligned_size, buffer_name);
     }
-    LOG_DEBUG("Allocated %d bytes for %s", aligned_size, buffer_name);
 
     void *const result = m_MemPtr;
     m_MemFree -= aligned_size;
