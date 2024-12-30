@@ -79,7 +79,6 @@ GAME_FLOW_DIR PhaseExecutor_Run(PHASE *const phase)
     while (true) {
         const PHASE_CONTROL control = M_Control(phase, nframes);
 
-        M_Draw(phase);
         if (control.action == PHASE_ACTION_END) {
             if (g_IsGameToExit) {
                 result = GFD_EXIT_GAME;
@@ -91,6 +90,7 @@ GAME_FLOW_DIR PhaseExecutor_Run(PHASE *const phase)
             nframes = 0;
             continue;
         } else {
+            M_Draw(phase);
             nframes = M_Wait(phase);
         }
     }
