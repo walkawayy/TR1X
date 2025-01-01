@@ -12,7 +12,6 @@ run_script(
     ],
     release_zip_files=[
         (Path("/app/build/tr2/win/TR2X.exe"), "TR2X.exe"),
-        (Path("/app/build/tr2/win/TR2X.dll"), "TR2X.dll"),
         (
             Path("/app/tools/tr2/config/out/TR2X_ConfigTool.exe"),
             "TR2X_ConfigTool.exe",
@@ -20,6 +19,5 @@ run_script(
     ],
     compressable_exes=[
         Path("/app/build/tr2/win/TR2X.exe"),
-        Path("/app/build/tr2/win/TR2X.dll"),
     ],
 )
