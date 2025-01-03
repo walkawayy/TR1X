@@ -286,7 +286,7 @@ jobs:
       - name: Upload signed+notarized installer image
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-${{ steps.vars.outputs.version }}-mac
+          name: TR1X-${{ steps.vars.outputs.version }}-mac
           path: |
             *.dmg
           compression-level: 0 # .dmg is already compressed.
