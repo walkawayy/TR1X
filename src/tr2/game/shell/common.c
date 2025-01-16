@@ -308,6 +308,7 @@ static void M_HandleConfigChange(const EVENT *const event, void *const data)
         CHANGED(rendering.enable_zbuffer)
         || CHANGED(rendering.enable_perspective_filter)
         || CHANGED(rendering.enable_wireframe)
+        || CHANGED(rendering.wireframe_width)
         || CHANGED(rendering.texture_filter)
         || CHANGED(rendering.lighting_contrast)) {
         Render_Reset(RENDER_RESET_PARAMS);
@@ -362,6 +363,7 @@ void Shell_Main(void)
     Shell_Start();
     Viewport_AlterFOV(-1);
     Viewport_Reset();
+    Render_Reset(RENDER_RESET_PARAMS);
 
     if (!GF_LoadScriptFile("data\\tombPC.dat")) {
         Shell_ExitSystem("Could not load the original script file.");
