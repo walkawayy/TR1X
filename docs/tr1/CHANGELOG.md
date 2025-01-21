@@ -3,12 +3,13 @@
 >There is a backwards incompatible change important for level builders, that changes where to place key item names and level titles.
 >Please refer to the [documentation](../GAME_STRINGS.md) to see how to upgrade your level files.
 
-- added the ability to hold forward/back to move through menus more quickly (#2298)
+- added the ability to hold left/right to move through menus more quickly (#2298)
 - added an option for pickup aids, which will show an intermittent twinkle when Lara is nearby pickup items (#2076)
 - added an optional demo number argument to the `/demo` command
 - added pause screen support to demos
-- added a fade-out effect when exiting the game from the pause screen
+- added a fade-out effect when exiting the pause screen to the inventory
 - ⚠️ changed the game data to use a separate strings file for text information, removing it from the game flow file
+- changed the sprite limit from 512 to 1024
 - changed demo to be interrupted only by esc or action keys
 - changed the turbo cheat to also affect ingame timer (#2167)
 - changed the pause screen to wait before yielding control during fade out effect
