@@ -38,7 +38,7 @@ static void M_Reset(GFX_RENDERER *renderer);
 
 static void M_Render(GFX_RENDERER *renderer);
 static void M_Bind(const GFX_RENDERER *renderer);
-static void M_Unbind(const GFX_RENDERER *renderer);
+static void M_Unbind(void);
 
 static void M_SwapBuffers(GFX_RENDERER *renderer)
 {
@@ -50,7 +50,7 @@ static void M_SwapBuffers(GFX_RENDERER *renderer)
     GFX_Context_SwitchToWindowViewportAR();
     M_Render(renderer);
 
-    M_Unbind(renderer);
+    M_Unbind();
     SDL_GL_SwapWindow(GFX_Context_GetWindowHandle());
 
     GFX_Context_SwitchToWindowViewport();
@@ -75,14 +75,16 @@ static void M_Init(GFX_RENDERER *const renderer, const GFX_CONFIG *const config)
     int32_t fbo_width = GFX_Context_GetDisplayWidth();
     int32_t fbo_height = GFX_Context_GetDisplayHeight();
 
+    GFX_GL_VertexArray_Init(&priv->vertex_array);
     GFX_GL_Buffer_Init(&priv->buffer, GL_ARRAY_BUFFER);
+
+    GFX_GL_VertexArray_Bind(&priv->vertex_array);
     GFX_GL_Buffer_Bind(&priv->buffer);
+
     GLfloat verts[] = { 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
                         0.0, 1.0, 1.0, 0.0, 1.0, 1.0 };
     GFX_GL_Buffer_Data(&priv->buffer, sizeof(verts), verts, GL_STATIC_DRAW);
 
-    GFX_GL_VertexArray_Init(&priv->vertex_array);
-    GFX_GL_VertexArray_Bind(&priv->vertex_array);
     GFX_GL_VertexArray_Attribute(
         &priv->vertex_array, 0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -193,12 +195,12 @@ static void M_Render(GFX_RENDERER *renderer)
         : GL_NEAREST;
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    M_Bind(renderer);
     GFX_GL_CheckError();
 
     GFX_GL_Program_Bind(&priv->program);
-    GFX_GL_Buffer_Bind(&priv->buffer);
     GFX_GL_VertexArray_Bind(&priv->vertex_array);
+    GFX_GL_Buffer_Bind(&priv->buffer);
     glActiveTexture(GL_TEXTURE0);
     GFX_GL_Texture_Bind(&priv->texture);
 
@@ -240,7 +242,7 @@ static void M_Bind(const GFX_RENDERER *renderer)
     glBindFramebuffer(GL_FRAMEBUFFER, priv->fbo);
 }
 
-static void M_Unbind(const GFX_RENDERER *renderer)
+static void M_Unbind(void)
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
