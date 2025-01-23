@@ -239,7 +239,7 @@ Following are each of the properties available within a level.
     ],
     "sequence": [
         {"type": "play_fmv", "fmv_path": "fmv/snow.avi"},
-        {"type": "start_game"},
+        {"type": "load_level"},
         // etc
     ],
 },
@@ -561,7 +561,7 @@ default gameflow for examples.
     <td>Integer</td>
     <td rowspan="2">
       Adds the specified item and quantity to Lara's inventory. If used, this
-      must appear <em>after</em> the <code>start_game</code> sequence.
+      must appear <em>after</em> the <code>load_level</code> sequence.
     </td>
   </tr>
   <tr valign="top">
@@ -582,7 +582,7 @@ default gameflow for examples.
   </tr>
   <tr valign="top">
     <td>
-      <code>loop_game</code>
+      <code>play_level</code>
     </td>
     <td colspan="2" align="center">N/A</td>
     <td>Plays the main game loop.</td>
@@ -640,10 +640,10 @@ default gameflow for examples.
       <ul>
         <li>
           If they are specified, they must appear <em>before</em> the
-          <code>start_game</code> sequence.
+          <code>load_level</code> sequence.
         </li>
         <li>
-          <code>remove_guns</code> does not remove the ammo for those guns, and
+          <code>remove_weapons</code> does not remove the ammo for those guns, and
           equally <code>remove_ammo</code> does not remove the guns. Each works
           independently of the other.
         </li>
@@ -657,7 +657,7 @@ default gameflow for examples.
   </tr>
   <tr valign="top">
     <td>
-      <code>remove_guns</code>
+      <code>remove_weapons</code>
     </td>
     <td colspan="2" align="center">N/A</td>
   </tr>
@@ -675,7 +675,7 @@ default gameflow for examples.
   </tr>
   <tr valign="top">
     <td>
-      <code>set_cam_angle</code>
+      <code>set_cutscene_angle</code>
     </td>
     <td>
       <code>value</code>
@@ -729,10 +729,10 @@ default gameflow for examples.
 
   <tr valign="top">
     <td>
-      <code>start_game</code>
+      <code>load_level</code>
     </td>
     <td colspan="2" align="center">N/A</td>
-    <td>Starts a new level or a cinematic.</td>
+    <td>Loads a specific level or a cinematic, but does not play it yet.</td>
   </tr>
   <tr valign="top">
     <td>
@@ -776,8 +776,8 @@ game will exit to title.
     "type": "normal",
     "music": 57,
     "sequence": [
-         {"type": "start_game"},
-         {"type": "loop_game"},
+         {"type": "load_level"},
+         {"type": "play_level"},
          {"type": "level_stats", "level_id": 1},
          {"type": "exit_to_level", "level_id": 2},
     ],
@@ -788,8 +788,8 @@ game will exit to title.
     "type": "normal",
     "music": 57,
     "sequence": [
-         {"type": "start_game"},
-         {"type": "loop_game"},
+         {"type": "load_level"},
+         {"type": "play_level"},
          {"type": "level_stats", "level_id": 2},
          {"type": "exit_to_level", "level_id": 3},
     ],
@@ -800,8 +800,8 @@ game will exit to title.
     "type": "normal",
     "music": 57,
     "sequence": [
-         {"type": "start_game"},
-         {"type": "loop_game"},
+         {"type": "load_level"},
+         {"type": "play_level"},
          {"type": "level_stats", "level_id": 3},
          {"type": "play_synced_audio", "audio_id": 19},
          {"type": "display_picture", "picture_path": "data/end.pcx", "display_time": 7.5},
@@ -819,8 +819,8 @@ game will exit to title.
     "music": 57,
     "sequence": [
          {"type": "play_fmv", "fmv_path": "fmv/snow.avi"},
-         {"type": "start_game"},
-         {"type": "loop_game"},
+         {"type": "load_level"},
+         {"type": "play_level"},
          {"type": "exit_to_cine", "level_id": 6},
     ],
 },
@@ -830,8 +830,8 @@ game will exit to title.
     "type": "bonus",
     "music": 57,
     "sequence": [
-         {"type": "start_game"},
-         {"type": "loop_game"},
+         {"type": "load_level"},
+         {"type": "play_level"},
          {"type": "level_stats", "level_id": 5},
          {"type": "play_synced_audio", "audio_id": 14},
          {"type": "total_stats", "picture_path": "data/install.pcx"},
@@ -844,12 +844,12 @@ game will exit to title.
     "type": "cutscene",
     "music": 0,
     "sequence": [
-        {"type": "start_game"},
+        {"type": "load_level"},
         {"type": "set_cam_x", "value": 36668},
         {"type": "set_cam_z", "value": 63180},
-        {"type": "set_cam_angle", "value": -23312},
+        {"type": "set_cutscene_angle", "value": -23312},
         {"type": "play_synced_audio", "audio_id": 23},
-        {"type": "loop_game"},
+        {"type": "play_level"},
         {"type": "level_stats", "level_id": 4},
         {"type": "exit_to_level", "level_id": 5},
     ],
@@ -890,8 +890,8 @@ the engine's overall item limit).
         {"enemy_num": 47, "object_ids": [111]},
     ],
     "sequence": [
-         {"type": "start_game"},
-         {"type": "loop_game"},
+         {"type": "load_level"},
+         {"type": "play_level"},
          {"type": "level_stats", "level_id": 1},
          {"type": "exit_to_level", "level_id": 2},
     ],
