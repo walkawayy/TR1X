@@ -117,11 +117,11 @@ jobs:
           /usr/bin/codesign --force --options runtime -s "${IDENTITY}" --keychain $KEYCHAIN_PATH -v TR2X-Installer.dmg
           xcrun notarytool submit --wait --apple-id "$MACOS_APPLEID" --password "$MACOS_APP_PWD" --team-id "$MACOS_TEAMID" TR2X-Installer.dmg
           xcrun stapler staple -v TR2X-Installer.dmg
-          mv TR2X-Installer.dmg "TR2X-$(tools/get_version 1)-Installer.dmg"
+          mv TR2X-Installer.dmg "TR2X-$(tools/get_version 2)-Installer.dmg"
 
       - id: vars
         name: Prepare variables
-        run: echo "version=$(tools/get_version 1)" >> $GITHUB_OUTPUT
+        run: echo "version=$(tools/get_version 2)" >> $GITHUB_OUTPUT
 
       - name: Upload signed+notarized installer image
         uses: actions/upload-artifact@v4
