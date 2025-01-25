@@ -112,8 +112,8 @@ Please refer to the [detailed documentation](docs/tr2/).
 
 4. **Can I play this on Mac, Linux, Android...?**
 
-    Currently supported platforms include Windows, Linux and macOS for TR1X,
-    and Windows for TR2X.
+    Currently supported platforms include Windows, Linux and macOS for both
+    TR1X and TR2X.
 
 5. **What's the relation to TR2Main?**
 

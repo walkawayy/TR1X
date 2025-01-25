@@ -199,7 +199,7 @@ as Notepad.
 
 ### Installing
 
-1. Head over to GitHub releases: https://github.com/LostArtefacts/TR1X/releases
+1. Head over to GitHub releases: https://github.com/LostArtefacts/TRX/releases
 2. Download the `TR1X-Installer.dmg` installer image. Mount the image and drag TR1X to the Applications folder.
 3. Run TR1X from the Applications folder. This will show you an error dialog about missing game data files. This is expected at this point, as you have not copied them in yet. However, it's important to run the app first to allow macOS to verify the app bundle's signature.
 4. Find TR1X in your Applications folder. Right-click it and click "Show Package Contents".
