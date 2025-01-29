@@ -49,7 +49,7 @@ static const int16_t *M_ReadTrigger(
     }
 
     TRIGGER_CMD *cmd;
-    if (sector->trigger == NULL) {
+    if (sector->trigger == nullptr) {
         sector->trigger = trigger;
         sector->trigger->command =
             GameBuf_Alloc(sizeof(TRIGGER_CMD), GBUF_FLOOR_DATA);
@@ -59,7 +59,7 @@ static const int16_t *M_ReadTrigger(
         // trigger entries defined where regular triggers overlap dummies. In
         // this case we link the new commands onto the old.
         cmd = sector->trigger->command;
-        while (cmd->next_cmd != NULL) {
+        while (cmd->next_cmd != nullptr) {
             cmd = cmd->next_cmd;
         }
         cmd->next_cmd = GameBuf_Alloc(sizeof(TRIGGER_CMD), GBUF_FLOOR_DATA);
@@ -85,7 +85,7 @@ static const int16_t *M_ReadTrigger(
         }
 
         if (FD_IS_DONE(command)) {
-            cmd->next_cmd = NULL;
+            cmd->next_cmd = nullptr;
             break;
         }
 
@@ -130,7 +130,7 @@ void Room_PopulateSectorData(
     sector->ceiling.tilt = 0;
     sector->portal_room.wall = NO_ROOM;
     sector->is_death_sector = false;
-    sector->trigger = NULL;
+    sector->trigger = nullptr;
 #if TR_VERSION == 2
     sector->ladder = LADDER_NONE;
 #endif
@@ -187,7 +187,7 @@ int32_t Room_GetAdjoiningRooms(
     }
 
     const PORTALS *const portals = Room_Get(init_room_num)->portals;
-    if (portals != NULL) {
+    if (portals != nullptr) {
         for (int32_t i = 0; i < portals->count; i++) {
             if (count >= max_room_num_count) {
                 break;

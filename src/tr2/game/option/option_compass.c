@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 
-static UI_WIDGET *m_Dialog = NULL;
+static UI_WIDGET *m_Dialog = nullptr;
 
 static void M_Init(void);
 
@@ -25,9 +25,9 @@ static void M_Init(void)
 
 static void M_Shutdown(void)
 {
-    if (m_Dialog != NULL) {
+    if (m_Dialog != nullptr) {
         m_Dialog->free(m_Dialog);
-        m_Dialog = NULL;
+        m_Dialog = nullptr;
     }
 }
 
@@ -37,7 +37,7 @@ void Option_Compass_Control(INVENTORY_ITEM *const item)
     const int32_t sec = g_SaveGame.current_stats.timer / FRAMES_PER_SECOND;
     sprintf(buffer, "%02d:%02d:%02d", sec / 3600, sec / 60 % 60, sec % 60);
 
-    if (m_Dialog == NULL) {
+    if (m_Dialog == nullptr) {
         M_Init();
     }
     m_Dialog->control(m_Dialog);
@@ -52,7 +52,7 @@ void Option_Compass_Control(INVENTORY_ITEM *const item)
 
 void Option_Compass_Draw(INVENTORY_ITEM *const item)
 {
-    if (m_Dialog != NULL) {
+    if (m_Dialog != nullptr) {
         m_Dialog->draw(m_Dialog);
     }
 }

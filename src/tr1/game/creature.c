@@ -18,8 +18,6 @@
 #include <libtrx/game/math.h>
 #include <libtrx/log.h>
 
-#include <stddef.h>
-
 #define MAX_CREATURE_DISTANCE (WALL_L * 30)
 
 static bool M_SwitchToWater(
@@ -34,7 +32,7 @@ void Creature_Initialise(int16_t item_num)
 
     item->rot.y += (PHD_ANGLE)((Random_GetControl() - DEG_90) >> 1);
     item->collidable = 1;
-    item->data = NULL;
+    item->data = nullptr;
 }
 
 void Creature_AIInfo(ITEM *item, AI_INFO *info)

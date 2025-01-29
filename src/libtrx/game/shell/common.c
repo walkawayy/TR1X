@@ -29,7 +29,7 @@ static void M_SetupHiDPI(void)
 
     // Windows 8.1 and later
     void *const shcore_dll = SDL_LoadObject("SHCORE.DLL");
-    if (shcore_dll == NULL) {
+    if (shcore_dll == nullptr) {
         return;
     }
 
@@ -39,7 +39,7 @@ static void M_SetupHiDPI(void)
         (HRESULT(WINAPI *)(PROCESS_DPI_AWARENESS))SDL_LoadFunction(
             shcore_dll, "SetProcessDpiAwareness");
     #pragma GCC diagnostic pop
-    if (SetProcessDpiAwareness == NULL) {
+    if (SetProcessDpiAwareness == nullptr) {
         return;
     }
     SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
@@ -51,7 +51,7 @@ static void M_SetupLibAV(void)
 #ifdef _WIN32
     // necessary for SDL_OpenAudioDevice to work with WASAPI
     // https://www.mail-archive.com/ffmpeg-trac@avcodec.org/msg43300.html
-    CoInitializeEx(NULL, COINIT_MULTITHREADED);
+    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 #endif
 
 #if LIBAVCODEC_VERSION_MAJOR <= 57
@@ -99,7 +99,7 @@ void Shell_Terminate(int32_t exit_code)
     Shell_Shutdown();
 
     SDL_Window *const window = Shell_GetWindow();
-    if (window != NULL) {
+    if (window != nullptr) {
         SDL_DestroyWindow(window);
     }
     SDL_Quit();
@@ -116,7 +116,7 @@ void Shell_ExitSystemFmt(const char *fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
-    int32_t size = vsnprintf(NULL, 0, fmt, va) + 1;
+    int32_t size = vsnprintf(nullptr, 0, fmt, va) + 1;
     char *message = Memory_Alloc(size);
     va_end(va);
 
@@ -145,10 +145,10 @@ int32_t Shell_GetCurrentDisplayHeight(void)
 
 void Shell_GetWindowSize(int32_t *const out_width, int32_t *const out_height)
 {
-    ASSERT(out_width != NULL);
-    ASSERT(out_height != NULL);
+    ASSERT(out_width != nullptr);
+    ASSERT(out_height != nullptr);
     SDL_Window *const window = Shell_GetWindow();
-    if (window == NULL) {
+    if (window == nullptr) {
         *out_width = -1;
         *out_height = -1;
     } else {

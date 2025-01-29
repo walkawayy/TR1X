@@ -734,7 +734,7 @@ void Lara_State_Roll2(ITEM *item, COLL_INFO *coll)
 void Lara_State_Special(ITEM *item, COLL_INFO *coll)
 {
     ITEM *const target_item = Lara_GetDeathCameraTarget();
-    if (target_item != NULL) {
+    if (target_item != nullptr) {
         g_Camera.item = target_item;
         g_Camera.flags = CHASE_OBJECT;
         g_Camera.type = CAM_FIXED;

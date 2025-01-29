@@ -94,7 +94,7 @@ static void M_HandleConfigChange(const EVENT *const event, void *const data)
 static void M_LoadConfig(void)
 {
     Config_Read();
-    Config_SubscribeChanges(M_HandleConfigChange, NULL);
+    Config_SubscribeChanges(M_HandleConfigChange, nullptr);
 
     Sound_SetMasterVolume(g_Config.audio.sound_volume);
     Music_SetVolume(g_Config.audio.music_volume);
@@ -166,7 +166,7 @@ void Shell_Main(void)
 {
     m_ActiveMod = M_MOD_OG;
 
-    char **args = NULL;
+    char **args = nullptr;
     int32_t arg_count = 0;
     S_Shell_GetCommandLine(&arg_count, &args);
     for (int32_t i = 0; i < arg_count; i++) {
@@ -201,15 +201,15 @@ void Shell_Main(void)
         case GF_START_GAME: {
             const int32_t level_num = gf_cmd.param;
             const GF_LEVEL *const level = GF_GetLevel(GFLT_MAIN, level_num);
-            if (level != NULL) {
-                gf_cmd = GF_InterpretSequence(level, GFSC_NORMAL, NULL);
+            if (level != nullptr) {
+                gf_cmd = GF_InterpretSequence(level, GFSC_NORMAL, nullptr);
             }
             break;
         }
 
         case GF_SELECT_GAME: {
             const GF_LEVEL *const level = GF_GetLevel(GFLT_MAIN, gf_cmd.param);
-            gf_cmd = GF_InterpretSequence(level, GFSC_SELECT, NULL);
+            gf_cmd = GF_InterpretSequence(level, GFSC_SELECT, nullptr);
             break;
         }
 
@@ -222,14 +222,14 @@ void Shell_Main(void)
             } else {
                 Savegame_BindSlot(slot_num);
                 const GF_LEVEL *const level = GF_GetLevel(GFLT_MAIN, level_num);
-                gf_cmd = GF_InterpretSequence(level, GFSC_SAVED, NULL);
+                gf_cmd = GF_InterpretSequence(level, GFSC_SAVED, nullptr);
             }
             break;
         }
 
         case GF_RESTART_GAME: {
             const GF_LEVEL *const level = GF_GetLevel(GFLT_MAIN, gf_cmd.param);
-            gf_cmd = GF_InterpretSequence(level, GFSC_RESTART, NULL);
+            gf_cmd = GF_InterpretSequence(level, GFSC_RESTART, nullptr);
             break;
         }
 
@@ -250,7 +250,7 @@ void Shell_Main(void)
             break;
 
         case GF_EXIT_TO_TITLE:
-            if (g_GameFlow.title_level == NULL) {
+            if (g_GameFlow.title_level == nullptr) {
                 Shell_ExitSystem("Title disabled");
             } else {
                 gf_cmd = GF_TitleSequence();

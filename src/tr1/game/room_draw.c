@@ -180,7 +180,7 @@ static void M_GetBounds(int16_t room_num)
     }
     m_RoomNumStack[m_RoomNumStackIdx++] = room_num;
     Matrix_TranslateAbs32(r->pos);
-    if (r->portals != NULL) {
+    if (r->portals != nullptr) {
         for (int i = 0; i < r->portals->count; i++) {
             const PORTAL *portal = &r->portals->portal[i];
             if (M_SetBounds(portal, r)) {
@@ -230,7 +230,7 @@ static void M_PrepareToDraw(int16_t room_num)
 
     Matrix_Push();
     Matrix_TranslateAbs32(r->pos);
-    if (r->portals != NULL) {
+    if (r->portals != nullptr) {
         for (int i = 0; i < r->portals->count; i++) {
             const PORTAL *portal = &r->portals->portal[i];
             if (M_SetBounds(portal, r)) {

@@ -99,7 +99,7 @@ void Option_Sound_Control(INVENTORY_ITEM *inv_item)
             g_Config.audio.music_volume--;
             Config_Write();
             Music_SetVolume(g_Config.audio.music_volume);
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
             sprintf(buf, "\\{icon music} %2d", g_Config.audio.music_volume);
             Text_ChangeText(m_Text[TEXT_MUSIC_VOLUME], buf);
         } else if (
@@ -108,7 +108,7 @@ void Option_Sound_Control(INVENTORY_ITEM *inv_item)
             g_Config.audio.music_volume++;
             Config_Write();
             Music_SetVolume(g_Config.audio.music_volume);
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
             sprintf(buf, "\\{icon music} %2d", g_Config.audio.music_volume);
             Text_ChangeText(m_Text[TEXT_MUSIC_VOLUME], buf);
         }
@@ -128,7 +128,7 @@ void Option_Sound_Control(INVENTORY_ITEM *inv_item)
             g_Config.audio.sound_volume--;
             Config_Write();
             Sound_SetMasterVolume(g_Config.audio.sound_volume);
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
             sprintf(buf, "\\{icon sound} %2d", g_Config.audio.sound_volume);
             Text_ChangeText(m_Text[TEXT_SOUND_VOLUME], buf);
         } else if (
@@ -137,7 +137,7 @@ void Option_Sound_Control(INVENTORY_ITEM *inv_item)
             g_Config.audio.sound_volume++;
             Config_Write();
             Sound_SetMasterVolume(g_Config.audio.sound_volume);
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
             sprintf(buf, "\\{icon sound} %2d", g_Config.audio.sound_volume);
             Text_ChangeText(m_Text[TEXT_SOUND_VOLUME], buf);
         }
@@ -161,6 +161,6 @@ void Option_Sound_Shutdown(void)
 {
     for (int i = 0; i < TEXT_NUMBER_OF; i++) {
         Text_Remove(m_Text[i]);
-        m_Text[i] = NULL;
+        m_Text[i] = nullptr;
     }
 }

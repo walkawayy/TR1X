@@ -16,7 +16,7 @@ static void M_Log(
         (double)(current - b->last) * 1000.0 / (double)freq;
 
     if (b->last != b->start) {
-        if (message == NULL) {
+        if (message == nullptr) {
             Log_Message(
                 file, line, func, "took %.02f ms (%.02f ms)", elapsed_start,
                 elapsed_last);
@@ -26,7 +26,7 @@ static void M_Log(
                 elapsed_start, elapsed_last);
         }
     } else {
-        if (message == NULL) {
+        if (message == nullptr) {
             Log_Message(file, line, func, "took %.02f ms", elapsed_start);
         } else {
             Log_Message(

@@ -9,9 +9,7 @@
 #include <libtrx/game/game_buf.h>
 #include <libtrx/game/matrix.h>
 
-#include <stddef.h>
-
-static EFFECT *m_Effects = NULL;
+static EFFECT *m_Effects = nullptr;
 static int16_t m_NextEffectActive = NO_EFFECT;
 static int16_t m_NextEffectFree = NO_EFFECT;
 

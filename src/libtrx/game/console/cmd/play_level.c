@@ -12,8 +12,8 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
         return CR_BAD_INVOCATION;
     }
 
-    VECTOR *source = NULL;
-    VECTOR *matches = NULL;
+    VECTOR *source = nullptr;
+    VECTOR *matches = nullptr;
     int32_t level_to_load = -1;
     const GF_LEVEL_TABLE *const level_table = GF_GetLevelTable(GFLT_MAIN);
 
@@ -32,7 +32,7 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
     }
 
     const GF_LEVEL *const gym_level = GF_GetGymLevel();
-    if (gym_level != NULL) {
+    if (gym_level != nullptr) {
         STRING_FUZZY_SOURCE source_item = {
             .key = "gym",
             .value = (void *)(intptr_t)gym_level->num,
@@ -69,13 +69,13 @@ matched:
     }
 
 cleanup:
-    if (matches != NULL) {
+    if (matches != nullptr) {
         Vector_Free(matches);
-        matches = NULL;
+        matches = nullptr;
     }
-    if (source != NULL) {
+    if (source != nullptr) {
         Vector_Free(source);
-        source = NULL;
+        source = nullptr;
     }
 
     return result;

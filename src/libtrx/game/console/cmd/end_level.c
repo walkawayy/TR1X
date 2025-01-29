@@ -12,7 +12,7 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
         return CR_BAD_INVOCATION;
     }
 
-    if (GF_GetCurrentLevel() == NULL
+    if (GF_GetCurrentLevel() == nullptr
         || GF_GetCurrentLevel()->type == GFL_TITLE) {
         return CR_UNAVAILABLE;
     }

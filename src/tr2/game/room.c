@@ -163,7 +163,7 @@ void Room_TestSectorTrigger(const ITEM *const item, const SECTOR *const sector)
     }
 
     const TRIGGER *const trigger = sector->trigger;
-    if (trigger == NULL) {
+    if (trigger == nullptr) {
         return;
     }
 
@@ -171,7 +171,7 @@ void Room_TestSectorTrigger(const ITEM *const item, const SECTOR *const sector)
         Camera_RefreshFromTrigger(trigger);
     }
 
-    ITEM *camera_item = NULL;
+    ITEM *camera_item = nullptr;
     bool switch_off = false;
     bool flip_map = false;
     bool flip_available = false;
@@ -229,7 +229,7 @@ void Room_TestSectorTrigger(const ITEM *const item, const SECTOR *const sector)
     }
 
     const TRIGGER_CMD *cmd = trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         switch (cmd->type) {
         case TO_OBJECT: {
             const int16_t item_num = (int16_t)(intptr_t)cmd->parameter;
@@ -422,7 +422,7 @@ void Room_TestSectorTrigger(const ITEM *const item, const SECTOR *const sector)
         }
     }
 
-    if (camera_item != NULL
+    if (camera_item != nullptr
         && (g_Camera.type == CAM_FIXED || g_Camera.type == CAM_HEAVY)) {
         g_Camera.item = camera_item;
     }
@@ -518,7 +518,7 @@ SECTOR *Room_GetSkySector(
 SECTOR *Room_GetSector(
     const int32_t x, const int32_t y, const int32_t z, int16_t *const room_num)
 {
-    SECTOR *sector = NULL;
+    SECTOR *sector = nullptr;
 
     while (true) {
         const ROOM *r = &g_Rooms[*room_num];
@@ -552,7 +552,7 @@ SECTOR *Room_GetSector(
         *room_num = sector->portal_room.wall;
     }
 
-    ASSERT(sector != NULL);
+    ASSERT(sector != nullptr);
 
     if (y >= sector->floor.height) {
         while (sector->portal_room.pit != NO_ROOM) {
@@ -584,8 +584,8 @@ SECTOR *Room_GetSector(
 int32_t Room_GetWaterHeight(
     const int32_t x, const int32_t y, const int32_t z, int16_t room_num)
 {
-    const SECTOR *sector = NULL;
-    const ROOM *r = NULL;
+    const SECTOR *sector = nullptr;
+    const ROOM *r = nullptr;
 
     do {
         r = &g_Rooms[room_num];
@@ -655,12 +655,12 @@ int32_t Room_GetHeight(
         height = M_GetFloorTiltHeight(pit_sector, x, z);
     }
 
-    if (pit_sector->trigger == NULL) {
+    if (pit_sector->trigger == nullptr) {
         return height;
     }
 
     const TRIGGER_CMD *cmd = pit_sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type != TO_OBJECT) {
             continue;
         }
@@ -697,12 +697,12 @@ int32_t Room_GetCeiling(
     int32_t height = M_GetCeilingTiltHeight(sky_sector, x, z);
 
     const SECTOR *const pit_sector = Room_GetPitSector(sector, x, z);
-    if (pit_sector->trigger == NULL) {
+    if (pit_sector->trigger == nullptr) {
         return height;
     }
 
     const TRIGGER_CMD *cmd = pit_sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type != TO_OBJECT) {
             continue;
         }

@@ -18,8 +18,6 @@
 #include <libtrx/utils.h>
 #include <libtrx/virtual_file.h>
 
-#include <stddef.h>
-
 #define INJECTION_MAGIC MKTAG('T', '1', 'M', 'J')
 #define INJECTION_CURRENT_VERSION 11
 #define NULL_FD_INDEX ((uint16_t)(-1))
@@ -114,8 +112,8 @@ typedef enum {
 } ROOM_MESH_EDIT_TYPE;
 
 static int32_t m_NumInjections = 0;
-static INJECTION *m_Injections = NULL;
-static INJECTION_INFO *m_Aggregate = NULL;
+static INJECTION *m_Injections = nullptr;
+static INJECTION_INFO *m_Aggregate = nullptr;
 
 static void M_LoadFromFile(INJECTION *injection, const char *filename);
 
@@ -178,7 +176,7 @@ static void M_CameraEdits(const INJECTION *injection);
 static void M_LoadFromFile(INJECTION *injection, const char *filename)
 {
     injection->relevant = false;
-    injection->info = NULL;
+    injection->info = nullptr;
 
     VFILE *const fp = VFile_CreateFromPath(filename);
     injection->fp = fp;
@@ -302,7 +300,7 @@ static void M_LoadFromFile(INJECTION *injection, const char *filename)
         info->room_mesh_edit_count = VFile_ReadU32(fp);
         info->room_door_edit_count = VFile_ReadU32(fp);
     } else {
-        info->room_mesh_meta = NULL;
+        info->room_mesh_meta = nullptr;
     }
 
     if (injection->version > INJ_VERSION_2) {
@@ -397,7 +395,7 @@ static void M_LoadTexturePages(
     }
     Memory_FreePointer(&indices);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_TextureData(
@@ -437,7 +435,7 @@ static void M_TextureData(
         level_info->textures.sprite_count += ABS(num_meshes);
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_MeshData(const INJECTION *injection, LEVEL_INFO *const level_info)
@@ -466,7 +464,7 @@ static void M_MeshData(const INJECTION *injection, LEVEL_INFO *const level_info)
     VFile_SetPos(fp, end_pos);
     Memory_FreePointer(&mesh_indices);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_AnimData(INJECTION *injection, LEVEL_INFO *level_info)
@@ -514,7 +512,7 @@ static void M_AnimData(INJECTION *injection, LEVEL_INFO *level_info)
         level_info->anims.range_count++;
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_AnimRangeEdits(INJECTION *injection)
@@ -576,7 +574,7 @@ static void M_AnimRangeEdits(INJECTION *injection)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_ObjectData(
@@ -605,7 +603,7 @@ static void M_ObjectData(
         }
 
         object->frame_ofs = VFile_ReadU32(fp);
-        object->frame_base = NULL;
+        object->frame_base = nullptr;
         object->anim_idx = VFile_ReadS16(fp);
         if (object->anim_idx != -1) {
             object->anim_idx += level_info->anims.anim_count;
@@ -618,7 +616,7 @@ static void M_ObjectData(
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_SFXData(INJECTION *injection, LEVEL_INFO *level_info)
@@ -655,7 +653,7 @@ static void M_SFXData(INJECTION *injection, LEVEL_INFO *level_info)
         level_info->samples.info_count++;
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_AlignTextureReferences(
@@ -770,7 +768,7 @@ static void M_MeshEdits(INJECTION *injection, uint16_t *palette_map)
     }
 
     Memory_FreePointer(&mesh_edits);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_ApplyMeshEdit(
@@ -816,7 +814,7 @@ static void M_ApplyMeshEdit(
             texture = palette_map[-face_edit->source_identifier];
         } else {
             const uint16_t *const tex_ptr = M_GetMeshTexture(face_edit);
-            if (tex_ptr == NULL) {
+            if (tex_ptr == nullptr) {
                 continue;
             }
             texture = *tex_ptr;
@@ -861,7 +859,7 @@ static uint16_t *M_GetMeshTexture(const FACE_EDIT *const face_edit)
 {
     const OBJECT *const object = Object_GetObject(face_edit->object_id);
     if (!object->loaded) {
-        return NULL;
+        return nullptr;
     }
 
     const OBJECT_MESH *const mesh =
@@ -887,7 +885,7 @@ static uint16_t *M_GetMeshTexture(const FACE_EDIT *const face_edit)
         return &face->palette_idx;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static void M_TextureOverwrites(
@@ -932,7 +930,7 @@ static void M_TextureOverwrites(
         Memory_FreePointer(&source_img);
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_FloorDataEdits(INJECTION *injection, LEVEL_INFO *level_info)
@@ -950,8 +948,8 @@ static void M_FloorDataEdits(INJECTION *injection, LEVEL_INFO *level_info)
 
         // Verify that the given room and coordinates are accurate.
         // Individual FD functions must check that sector is actually set.
-        ROOM *r = NULL;
-        SECTOR *sector = NULL;
+        ROOM *r = nullptr;
+        SECTOR *sector = nullptr;
         if (room < 0 || room >= g_RoomCount) {
             LOG_WARNING("Room index %d is invalid", room);
         } else {
@@ -989,7 +987,7 @@ static void M_FloorDataEdits(INJECTION *injection, LEVEL_INFO *level_info)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_TriggerParameterChange(INJECTION *injection, SECTOR *sector)
@@ -1000,7 +998,7 @@ static void M_TriggerParameterChange(INJECTION *injection, SECTOR *sector)
     const int16_t old_param = VFile_ReadS16(fp);
     const int16_t new_param = VFile_ReadS16(fp);
 
-    if (sector == NULL || sector->trigger == NULL) {
+    if (sector == nullptr || sector->trigger == nullptr) {
         return;
     }
 
@@ -1008,7 +1006,7 @@ static void M_TriggerParameterChange(INJECTION *injection, SECTOR *sector)
     // the command type and old (current) parameter, change it to the
     // new parameter.
     TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type != cmd_type) {
             continue;
         }
@@ -1031,12 +1029,12 @@ static void M_TriggerParameterChange(INJECTION *injection, SECTOR *sector)
 
 static void M_SetMusicOneShot(SECTOR *sector)
 {
-    if (sector == NULL || sector->trigger == NULL) {
+    if (sector == nullptr || sector->trigger == nullptr) {
         return;
     }
 
     TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type == TO_CD) {
             sector->trigger->one_shot = true;
         }
@@ -1053,7 +1051,7 @@ static void M_InsertFloorData(
     int16_t data[data_length];
     VFile_Read(fp, data, sizeof(int16_t) * data_length);
 
-    if (sector == NULL) {
+    if (sector == nullptr) {
         return;
     }
 
@@ -1182,7 +1180,7 @@ static void M_RoomMeshEdits(const INJECTION *const injection)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_TextureRoomFace(const INJECTION *const injection)
@@ -1200,7 +1198,7 @@ static void M_TextureRoomFace(const INJECTION *const injection)
         M_GetRoomTexture(source_room, source_face_type, source_face);
     uint16_t *const target_texture =
         M_GetRoomTexture(target_room, target_face_type, target_face);
-    if (source_texture != NULL && target_texture != NULL) {
+    if (source_texture != nullptr && target_texture != nullptr) {
         *target_texture = *source_texture;
     }
 }
@@ -1220,7 +1218,7 @@ static void M_MoveRoomFace(const INJECTION *const injection)
 
         uint16_t *const vertices =
             M_GetRoomFaceVertices(target_room, face_type, target_face);
-        if (vertices != NULL) {
+        if (vertices != nullptr) {
             vertices[vertex_index] = new_vertex;
         }
     }
@@ -1273,7 +1271,7 @@ static void M_RotateRoomFace(const INJECTION *const injection)
 
     uint16_t *const face_vertices =
         M_GetRoomFaceVertices(target_room, face_type, target_face);
-    if (face_vertices == NULL) {
+    if (face_vertices == nullptr) {
         return;
     }
 
@@ -1319,7 +1317,7 @@ static void M_AddRoomFace(const INJECTION *const injection)
 
     const uint16_t *const source_texture =
         M_GetRoomTexture(source_room, face_type, source_face);
-    if (source_texture == NULL) {
+    if (source_texture == nullptr) {
         return;
     }
 
@@ -1401,7 +1399,7 @@ static uint16_t *M_GetRoomTexture(
     LOG_WARNING(
         "Invalid room face lookup: %d, %d, %d", room_num, face_type,
         face_index);
-    return NULL;
+    return nullptr;
 }
 
 static uint16_t *M_GetRoomFaceVertices(
@@ -1409,7 +1407,7 @@ static uint16_t *M_GetRoomFaceVertices(
 {
     if (room_num < 0 || room_num >= Room_GetTotalCount()) {
         LOG_WARNING("Room index %d is invalid", room_num);
-        return NULL;
+        return nullptr;
     }
 
     const ROOM *const room = Room_Get(room_num);
@@ -1417,7 +1415,7 @@ static uint16_t *M_GetRoomFaceVertices(
         if (face_index < 0 || face_index >= room->mesh.num_face4s) {
             LOG_WARNING(
                 "Face4 index %d, room %d is invalid", face_index, room_num);
-            return NULL;
+            return nullptr;
         }
 
         FACE4 *const face = &room->mesh.face4s[face_index];
@@ -1428,14 +1426,14 @@ static uint16_t *M_GetRoomFaceVertices(
         if (face_index < 0 || face_index >= room->mesh.num_face3s) {
             LOG_WARNING(
                 "Face3 index %d, room %d is invalid", face_index, room_num);
-            return NULL;
+            return nullptr;
         }
 
         FACE3 *const face = &room->mesh.face3s[face_index];
         return (uint16_t *)(void *)&face->vertices;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static void M_RoomDoorEdits(INJECTION *injection)
@@ -1464,7 +1462,7 @@ static void M_RoomDoorEdits(INJECTION *injection)
         }
 
         ROOM *r = &g_RoomInfo[base_room];
-        PORTAL *portal = NULL;
+        PORTAL *portal = nullptr;
         for (int32_t j = 0; j < r->portals->count; j++) {
             PORTAL d = r->portals->portal[j];
             if (d.room_num == link_room
@@ -1474,7 +1472,7 @@ static void M_RoomDoorEdits(INJECTION *injection)
             }
         }
 
-        if (portal == NULL) {
+        if (portal == nullptr) {
             VFile_Skip(fp, sizeof(int16_t) * 12);
             LOG_WARNING(
                 "Room index %d has no matching portal to %d", base_room,
@@ -1493,7 +1491,7 @@ static void M_RoomDoorEdits(INJECTION *injection)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_ItemPositions(INJECTION *injection)
@@ -1534,7 +1532,7 @@ static void M_ItemPositions(INJECTION *injection)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_FrameEdits(
@@ -1564,7 +1562,7 @@ static void M_FrameEdits(
         memcpy(data_ptr, &packed_rot, sizeof(int32_t));
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_CameraEdits(const INJECTION *const injection)
@@ -1594,7 +1592,7 @@ static void M_CameraEdits(const INJECTION *const injection)
         camera->flags = flags;
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 void Inject_Init(
@@ -1614,7 +1612,7 @@ void Inject_Init(
         M_LoadFromFile(&m_Injections[i], filenames[i]);
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 void Inject_AllInjections(LEVEL_INFO *level_info)
@@ -1663,7 +1661,7 @@ void Inject_AllInjections(LEVEL_INFO *level_info)
         level_info->textures.page_count += inj_info->texture_page_count;
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 void Inject_Cleanup(void)
@@ -1686,13 +1684,13 @@ void Inject_Cleanup(void)
     }
 
     Memory_FreePointer(&m_Injections);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 INJECTION_MESH_META Inject_GetRoomMeshMeta(const int32_t room_index)
 {
     INJECTION_MESH_META summed_meta = {};
-    if (m_Injections == NULL) {
+    if (m_Injections == nullptr) {
         return summed_meta;
     }
 

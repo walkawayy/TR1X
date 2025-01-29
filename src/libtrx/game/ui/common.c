@@ -25,8 +25,8 @@ void UI_HandleLayoutChange(void)
 {
     const EVENT event = {
         .name = "layout_change",
-        .sender = NULL,
-        .data = NULL,
+        .sender = nullptr,
+        .data = nullptr,
     };
     UI_Events_Fire(&event);
 }
@@ -35,7 +35,7 @@ void UI_HandleKeyDown(const uint32_t key)
 {
     const EVENT event = {
         .name = "key_down",
-        .sender = NULL,
+        .sender = nullptr,
         .data = (void *)UI_TranslateInput(key),
     };
     UI_Events_Fire(&event);
@@ -45,7 +45,7 @@ void UI_HandleKeyUp(const uint32_t key)
 {
     const EVENT event = {
         .name = "key_up",
-        .sender = NULL,
+        .sender = nullptr,
         .data = (void *)UI_TranslateInput(key),
     };
     UI_Events_Fire(&event);
@@ -55,7 +55,7 @@ void UI_HandleTextEdit(const char *const text)
 {
     const EVENT event = {
         .name = "text_edit",
-        .sender = NULL,
+        .sender = nullptr,
         .data = (void *)text,
     };
     UI_Events_Fire(&event);

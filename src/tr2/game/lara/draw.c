@@ -18,7 +18,7 @@ static void M_DrawBodyPart(
     const LARA_MESH mesh, const ANIM_BONE *const bone,
     const XYZ_16 *mesh_rots_1, const XYZ_16 *mesh_rots_2, const int32_t clip)
 {
-    if (mesh_rots_2 != NULL) {
+    if (mesh_rots_2 != nullptr) {
         Matrix_TranslateRel32_I(bone[mesh - 1].pos);
         Matrix_Rot16_ID(mesh_rots_1[mesh], mesh_rots_2[mesh]);
         Output_DrawObjectMesh_I(g_Lara.mesh_ptrs[mesh], clip);
@@ -54,7 +54,8 @@ void Lara_Draw(const ITEM *const item)
     }
 
     const ANIM_FRAME *const hit_frame = Lara_GetHitFrame(item);
-    const ANIM_FRAME *const frame = hit_frame == NULL ? frames[0] : hit_frame;
+    const ANIM_FRAME *const frame =
+        hit_frame == nullptr ? frames[0] : hit_frame;
 
     const OBJECT *const object = Object_GetObject(item->object_id);
     if (g_Lara.skidoo == NO_ITEM) {
@@ -85,15 +86,15 @@ void Lara_Draw(const ITEM *const item)
     Output_DrawObjectMesh(g_Lara.mesh_ptrs[LM_HIPS], clip);
 
     Matrix_Push();
-    M_DrawBodyPart(LM_THIGH_L, bone, mesh_rots, NULL, clip);
-    M_DrawBodyPart(LM_CALF_L, bone, mesh_rots, NULL, clip);
-    M_DrawBodyPart(LM_FOOT_L, bone, mesh_rots, NULL, clip);
+    M_DrawBodyPart(LM_THIGH_L, bone, mesh_rots, nullptr, clip);
+    M_DrawBodyPart(LM_CALF_L, bone, mesh_rots, nullptr, clip);
+    M_DrawBodyPart(LM_FOOT_L, bone, mesh_rots, nullptr, clip);
     Matrix_Pop();
 
     Matrix_Push();
-    M_DrawBodyPart(LM_THIGH_R, bone, mesh_rots, NULL, clip);
-    M_DrawBodyPart(LM_CALF_R, bone, mesh_rots, NULL, clip);
-    M_DrawBodyPart(LM_FOOT_R, bone, mesh_rots, NULL, clip);
+    M_DrawBodyPart(LM_THIGH_R, bone, mesh_rots, nullptr, clip);
+    M_DrawBodyPart(LM_CALF_R, bone, mesh_rots, nullptr, clip);
+    M_DrawBodyPart(LM_FOOT_R, bone, mesh_rots, nullptr, clip);
     Matrix_Pop();
 
     Matrix_TranslateRel32(bone[6].pos);
@@ -144,9 +145,9 @@ void Lara_Draw(const ITEM *const item)
     case LGT_UNARMED:
     case LGT_FLARE:
         Matrix_Push();
-        M_DrawBodyPart(LM_UARM_R, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots, NULL, clip);
+        M_DrawBodyPart(LM_UARM_R, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots, nullptr, clip);
         Matrix_Pop();
 
         Matrix_Push();
@@ -162,8 +163,8 @@ void Lara_Draw(const ITEM *const item)
         Matrix_Rot16(mesh_rots[LM_UARM_L]);
         Output_DrawObjectMesh(g_Lara.mesh_ptrs[LM_UARM_L], clip);
 
-        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots, NULL, clip);
+        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots, nullptr, clip);
 
         if (g_Lara.gun_type == LGT_FLARE && g_Lara.left_arm.flash_gun) {
             Gun_DrawFlash(LGT_FLARE, clip);
@@ -195,8 +196,8 @@ void Lara_Draw(const ITEM *const item)
         Matrix_Rot16(mesh_rots[LM_UARM_R]);
         Output_DrawObjectMesh(g_Lara.mesh_ptrs[LM_UARM_R], clip);
 
-        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots, NULL, clip);
+        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots, nullptr, clip);
 
         if (g_Lara.right_arm.flash_gun) {
             saved_matrix = *g_MatrixPtr;
@@ -223,8 +224,8 @@ void Lara_Draw(const ITEM *const item)
         Matrix_Rot16(mesh_rots[LM_UARM_L]);
         Output_DrawObjectMesh(g_Lara.mesh_ptrs[LM_UARM_L], clip);
 
-        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots, NULL, clip);
+        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots, nullptr, clip);
 
         if (g_Lara.left_arm.flash_gun) {
             Gun_DrawFlash(gun_type, clip);
@@ -249,8 +250,8 @@ void Lara_Draw(const ITEM *const item)
         Matrix_Rot16(mesh_rots[LM_UARM_R]);
         Output_DrawObjectMesh(g_Lara.mesh_ptrs[LM_UARM_R], clip);
 
-        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots, NULL, clip);
+        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots, nullptr, clip);
 
         if (g_Lara.right_arm.flash_gun) {
             saved_matrix = *g_MatrixPtr;
@@ -258,9 +259,9 @@ void Lara_Draw(const ITEM *const item)
         Matrix_Pop();
 
         Matrix_Push();
-        M_DrawBodyPart(LM_UARM_L, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots, NULL, clip);
-        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots, NULL, clip);
+        M_DrawBodyPart(LM_UARM_L, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots, nullptr, clip);
 
         if (g_Lara.right_arm.flash_gun) {
             *g_MatrixPtr = saved_matrix;
@@ -433,8 +434,8 @@ void Lara_Draw_I(
         Matrix_Rot16(mesh_rots_1[LM_UARM_R]);
         Output_DrawObjectMesh(g_Lara.mesh_ptrs[LM_UARM_R], clip);
 
-        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots_1, NULL, clip);
-        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots_1, NULL, clip);
+        M_DrawBodyPart(LM_LARM_R, bone, mesh_rots_1, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_R, bone, mesh_rots_1, nullptr, clip);
 
         if (g_Lara.right_arm.flash_gun) {
             saved_matrix = *g_MatrixPtr;
@@ -453,8 +454,8 @@ void Lara_Draw_I(
         Matrix_Rot16(mesh_rots_1[LM_UARM_L]);
         Output_DrawObjectMesh(g_Lara.mesh_ptrs[LM_UARM_L], clip);
 
-        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots_1, NULL, clip);
-        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots_1, NULL, clip);
+        M_DrawBodyPart(LM_LARM_L, bone, mesh_rots_1, nullptr, clip);
+        M_DrawBodyPart(LM_HAND_L, bone, mesh_rots_1, nullptr, clip);
 
         if (g_Lara.left_arm.flash_gun) {
             Gun_DrawFlash((int32_t)gun_type, clip);

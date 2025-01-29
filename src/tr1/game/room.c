@@ -19,8 +19,6 @@
 #include <libtrx/game/game_buf.h>
 #include <libtrx/utils.h>
 
-#include <stddef.h>
-
 int32_t g_FlipTimer = 0;
 int32_t g_FlipEffect = -1;
 int32_t g_FlipStatus = 0;
@@ -331,12 +329,12 @@ int16_t Room_GetCeiling(const SECTOR *sector, int32_t x, int32_t y, int32_t z)
     int16_t height = M_GetCeilingTiltHeight(sky_sector, x, z);
 
     sector = Room_GetPitSector(sector, x, z);
-    if (sector->trigger == NULL) {
+    if (sector->trigger == nullptr) {
         return height;
     }
 
     const TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type != TO_OBJECT) {
             continue;
         }
@@ -358,12 +356,12 @@ int16_t Room_GetHeight(const SECTOR *sector, int32_t x, int32_t y, int32_t z)
 
     int16_t height = M_GetFloorTiltHeight(sector, x, z);
 
-    if (sector->trigger == NULL) {
+    if (sector->trigger == nullptr) {
         return height;
     }
 
     const TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type != TO_OBJECT) {
             continue;
         }
@@ -646,7 +644,7 @@ void Room_TestSectorTrigger(const ITEM *const item, const SECTOR *const sector)
     }
 
     const TRIGGER *const trigger = sector->trigger;
-    if (trigger == NULL) {
+    if (trigger == nullptr) {
         return;
     }
 
@@ -657,7 +655,7 @@ void Room_TestSectorTrigger(const ITEM *const item, const SECTOR *const sector)
     bool switch_off = false;
     bool flip_map = false;
     int32_t new_effect = -1;
-    ITEM *camera_item = NULL;
+    ITEM *camera_item = nullptr;
 
     if (is_heavy) {
         if (trigger->type != TT_HEAVY) {
@@ -711,7 +709,7 @@ void Room_TestSectorTrigger(const ITEM *const item, const SECTOR *const sector)
     }
 
     const TRIGGER_CMD *cmd = trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         switch (cmd->type) {
         case TO_OBJECT: {
             const int16_t item_num = (int16_t)(intptr_t)cmd->parameter;
@@ -913,14 +911,14 @@ bool Room_IsOnWalkable(
     const int32_t room_height)
 {
     sector = Room_GetPitSector(sector, x, z);
-    if (sector->trigger == NULL) {
+    if (sector->trigger == nullptr) {
         return false;
     }
 
     int16_t height = sector->floor.height;
     bool object_found = false;
     const TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type != TO_OBJECT) {
             continue;
         }

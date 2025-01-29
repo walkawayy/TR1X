@@ -85,8 +85,8 @@ static BAR_INFO m_ProgressBars[M_PROGRESS_BAR_NUMBER_OF];
 static MENU m_ControlMenu = {
     .num_options = 0,
     .vis_options = 0,
-    .top_row = NULL,
-    .bot_row = NULL,
+    .top_row = nullptr,
+    .bot_row = nullptr,
     .cur_role = KC_TITLE,
     .first_role = INPUT_ROLE_UP,
     .last_role = 0,
@@ -130,7 +130,7 @@ static const TEXT_COLUMN_PLACEMENT CtrlTextPlacementNormal[] = {
     { INPUT_ROLE_ENTER_CONSOLE, GS_ID(KEYMAP_ENTER_CONSOLE), true },
     { INPUT_ROLE_TOGGLE_UI, GS_ID(KEYMAP_TOGGLE_UI), true },
     // end
-    { COL_END, NULL, false },
+    { COL_END, nullptr, false },
 };
 
 static const TEXT_COLUMN_PLACEMENT CtrlTextPlacementCheats[] = {
@@ -173,7 +173,7 @@ static const TEXT_COLUMN_PLACEMENT CtrlTextPlacementCheats[] = {
     { INPUT_ROLE_ENTER_CONSOLE, GS_ID(KEYMAP_ENTER_CONSOLE), true },
     { INPUT_ROLE_TOGGLE_UI, GS_ID(KEYMAP_TOGGLE_UI), true },
     // end
-    { COL_END, NULL, false },
+    { COL_END, nullptr, false },
 };
 
 static void M_InitMenu(void);
@@ -435,18 +435,18 @@ static void M_ShutdownText(void)
 {
     for (int i = 0; i < TEXT_NUMBER_OF; i++) {
         Text_Remove(m_Text[i]);
-        m_Text[TEXT_TITLE] = NULL;
+        m_Text[TEXT_TITLE] = nullptr;
     }
     for (int i = 0; i < m_ControlMenu.vis_options; i++) {
         Text_Remove(m_ControlMenu.role_texts[i]);
-        m_ControlMenu.role_texts[i] = NULL;
+        m_ControlMenu.role_texts[i] = nullptr;
         Text_Remove(m_ControlMenu.key_texts[i]);
-        m_ControlMenu.key_texts[i] = NULL;
+        m_ControlMenu.key_texts[i] = nullptr;
     }
     m_ControlMenu.num_options = 0;
     m_ControlMenu.vis_options = 0;
-    m_ControlMenu.top_row = NULL;
-    m_ControlMenu.bot_row = NULL;
+    m_ControlMenu.top_row = nullptr;
+    m_ControlMenu.bot_row = nullptr;
     m_ControlMenu.cur_role = KC_TITLE;
     m_ControlMenu.first_role = INPUT_ROLE_UP;
     m_ControlMenu.last_role = 0;
@@ -556,7 +556,7 @@ static void M_CheckResetKeys(INPUT_BACKEND backend, INPUT_LAYOUT layout)
             if (m_ResetTimer == 0) {
                 m_ResetTimer = time;
             } else if (time - m_ResetTimer >= LOGIC_FPS * BUTTON_HOLD_TIME) {
-                Sound_Effect(SFX_MENU_GAMEBOY, NULL, SPM_NORMAL);
+                Sound_Effect(SFX_MENU_GAMEBOY, nullptr, SPM_NORMAL);
                 Input_ResetLayout(backend, layout);
                 M_UpdateText(backend, layout);
                 M_FlashConflicts(backend, layout);
@@ -595,7 +595,7 @@ static void M_CheckUnbindKey(INPUT_BACKEND backend, INPUT_LAYOUT layout)
             if (m_UnbindTimer == 0) {
                 m_UnbindTimer = time;
             } else if (time - m_UnbindTimer >= LOGIC_FPS * BUTTON_HOLD_TIME) {
-                Sound_Effect(SFX_MENU_GAMEBOY, NULL, SPM_NORMAL);
+                Sound_Effect(SFX_MENU_GAMEBOY, nullptr, SPM_NORMAL);
                 Input_UnassignRole(backend, layout, m_ControlMenu.cur_role);
                 M_UpdateText(backend, layout);
                 M_FlashConflicts(backend, layout);

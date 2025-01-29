@@ -54,9 +54,9 @@ static int32_t m_OldHitPoints = -1;
 static bool m_FlashState = false;
 static int32_t m_FlashCounter = 0;
 static int32_t m_DisplayModeInfoTimer = 0;
-static TEXTSTRING *m_DisplayModeTextInfo = NULL;
+static TEXTSTRING *m_DisplayModeTextInfo = nullptr;
 static int32_t m_AmmoTextY = 0;
-static TEXTSTRING *m_AmmoTextInfo = NULL;
+static TEXTSTRING *m_AmmoTextInfo = nullptr;
 
 static float M_Ease(int32_t cur_frame, int32_t max_frames);
 static bool M_AnimateFlash(int32_t frames);
@@ -256,9 +256,9 @@ static void M_DrawAmmoInfo(void)
 {
     if (g_Lara.gun_status != LGS_READY || g_OverlayStatus <= 0
         || g_SaveGame.bonus_flag) {
-        if (m_AmmoTextInfo != NULL) {
+        if (m_AmmoTextInfo != nullptr) {
             Text_Remove(m_AmmoTextInfo);
-            m_AmmoTextInfo = NULL;
+            m_AmmoTextInfo = nullptr;
         }
         return;
     }
@@ -294,7 +294,7 @@ static void M_DrawAmmoInfo(void)
     }
 
     Overlay_MakeAmmoString(buffer);
-    if (m_AmmoTextInfo != NULL) {
+    if (m_AmmoTextInfo != nullptr) {
         Text_SetPos(m_AmmoTextInfo, AMMO_X, m_AmmoTextY);
         Text_ChangeText(m_AmmoTextInfo, buffer);
     } else {
@@ -305,14 +305,14 @@ static void M_DrawAmmoInfo(void)
 
 void M_DrawModeInfo(void)
 {
-    if (m_DisplayModeTextInfo == NULL) {
+    if (m_DisplayModeTextInfo == nullptr) {
         return;
     }
 
     m_DisplayModeInfoTimer--;
     if (m_DisplayModeInfoTimer <= 0) {
         Text_Remove(m_DisplayModeTextInfo);
-        m_DisplayModeTextInfo = NULL;
+        m_DisplayModeTextInfo = nullptr;
     }
 }
 
@@ -342,10 +342,10 @@ void Overlay_Animate(int32_t frames)
 void Overlay_HideGameInfo(void)
 {
     Text_Remove(m_AmmoTextInfo);
-    m_AmmoTextInfo = NULL;
+    m_AmmoTextInfo = nullptr;
 
     Text_Remove(m_DisplayModeTextInfo);
-    m_DisplayModeTextInfo = NULL;
+    m_DisplayModeTextInfo = nullptr;
 }
 
 void Overlay_MakeAmmoString(char *const string)
@@ -511,7 +511,8 @@ static void M_DrawPickups(void)
             continue;
         }
 
-        if (g_Config.visuals.enable_3d_pickups && pickup->inv_object != NULL) {
+        if (g_Config.visuals.enable_3d_pickups
+            && pickup->inv_object != nullptr) {
             M_DrawPickup3D(pickup);
         } else {
             M_DrawPickupSprite(pickup);
@@ -556,7 +557,7 @@ void Overlay_AddDisplayPickup(const GAME_OBJECT_ID object_id)
             pickup->object = Object_GetObject(object_id);
             pickup->inv_object = inv_object_id != NO_OBJECT
                 ? Object_GetObject(inv_object_id)
-                : NULL;
+                : nullptr;
             pickup->duration = 0;
             pickup->grid_x = grid_x;
             pickup->grid_y = grid_y;
@@ -570,13 +571,13 @@ void Overlay_AddDisplayPickup(const GAME_OBJECT_ID object_id)
 
 void Overlay_DisplayModeInfo(const char *const string)
 {
-    if (string == NULL) {
+    if (string == nullptr) {
         Text_Remove(m_DisplayModeTextInfo);
-        m_DisplayModeTextInfo = NULL;
+        m_DisplayModeTextInfo = nullptr;
         return;
     }
 
-    if (m_DisplayModeTextInfo != NULL) {
+    if (m_DisplayModeTextInfo != nullptr) {
         Text_ChangeText(m_DisplayModeTextInfo, string);
     } else {
         m_DisplayModeTextInfo = Text_Create(MODE_INFO_X, MODE_INFO_Y, string);

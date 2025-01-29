@@ -31,14 +31,14 @@ void LOT_DisableBaddieAI(const int16_t item_num)
 
     if (item_num == g_Lara.item_num) {
         creature = g_Lara.creature;
-        g_Lara.creature = NULL;
+        g_Lara.creature = nullptr;
     } else {
         ITEM *const item = &g_Items[item_num];
         creature = (CREATURE *)item->data;
-        item->data = NULL;
+        item->data = nullptr;
     }
 
-    if (creature != NULL) {
+    if (creature != nullptr) {
         creature->item_num = NO_ITEM;
         m_SlotsUsed--;
     }
@@ -47,10 +47,10 @@ void LOT_DisableBaddieAI(const int16_t item_num)
 bool LOT_EnableBaddieAI(const int16_t item_num, const bool always)
 {
     if (g_Lara.item_num == item_num) {
-        if (g_Lara.creature != NULL) {
+        if (g_Lara.creature != nullptr) {
             return true;
         }
-    } else if (g_Items[item_num].data != NULL) {
+    } else if (g_Items[item_num].data != nullptr) {
         return true;
     }
 

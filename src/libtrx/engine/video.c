@@ -286,7 +286,7 @@ static int M_PacketQueuePutPrivate(M_PACKET_QUEUE *q, AVPacket *pkt)
     pkt1.pkt = pkt;
     pkt1.serial = q->serial;
 
-    av_fifo_generic_write(q->pkt_list, &pkt1, sizeof(pkt1), NULL);
+    av_fifo_generic_write(q->pkt_list, &pkt1, sizeof(pkt1), nullptr);
     q->nb_packets++;
     q->size += pkt1.pkt->size + sizeof(pkt1);
     q->duration += pkt1.pkt->duration;
@@ -354,7 +354,7 @@ static void M_PacketQueueFlush(M_PACKET_QUEUE *q)
 
     SDL_LockMutex(q->mutex);
     while (av_fifo_size(q->pkt_list) >= (signed)sizeof(pkt1)) {
-        av_fifo_generic_read(q->pkt_list, &pkt1, sizeof(pkt1), NULL);
+        av_fifo_generic_read(q->pkt_list, &pkt1, sizeof(pkt1), nullptr);
         av_packet_free(&pkt1.pkt);
     }
     q->nb_packets = 0;
@@ -403,7 +403,7 @@ static int M_PacketQueueGet(
         }
 
         if (av_fifo_size(q->pkt_list) >= (signed)sizeof(pkt1)) {
-            av_fifo_generic_read(q->pkt_list, &pkt1, sizeof(pkt1), NULL);
+            av_fifo_generic_read(q->pkt_list, &pkt1, sizeof(pkt1), nullptr);
             q->nb_packets--;
             q->size -= pkt1.pkt->size + sizeof(pkt1);
             q->duration -= pkt1.pkt->duration;
@@ -605,7 +605,7 @@ static M_FRAME *M_FrameQueuePeekWritable(M_FRAME_QUEUE *f)
     SDL_UnlockMutex(f->mutex);
 
     if (f->pktq->abort_request) {
-        return NULL;
+        return nullptr;
     }
 
     return &f->queue[f->windex];
@@ -620,7 +620,7 @@ static M_FRAME *M_FrameQueuePeekReadable(M_FRAME_QUEUE *f)
     SDL_UnlockMutex(f->mutex);
 
     if (f->pktq->abort_request) {
-        return NULL;
+        return nullptr;
     }
 
     return &f->queue[(f->rindex + f->rindex_shown) % f->max_size];
@@ -662,8 +662,8 @@ static void M_DecoderAbort(M_DECODER *d, M_FRAME_QUEUE *fq)
 {
     M_PacketQueueAbort(d->queue);
     M_FrameQueueSignal(fq);
-    SDL_WaitThread(d->decoder_tid, NULL);
-    d->decoder_tid = NULL;
+    SDL_WaitThread(d->decoder_tid, nullptr);
+    d->decoder_tid = nullptr;
     M_PacketQueueFlush(d->queue);
 }
 
@@ -673,10 +673,10 @@ static void M_ReallocPrimarySurface(
     is->surface_width = surface_width;
     is->surface_height = surface_height;
 
-    if (is->primary_surface != NULL) {
+    if (is->primary_surface != nullptr) {
         is->surface_deallocator_func(
             is->primary_surface, is->surface_deallocator_func_user_data);
-        is->primary_surface = NULL;
+        is->primary_surface = nullptr;
     }
 
     {
@@ -714,7 +714,8 @@ static int M_UploadTexture(M_STATE *is, AVFrame *frame)
     is->img_convert_ctx = sws_getCachedContext(
         is->img_convert_ctx, frame->width, frame->height, frame->format,
         is->target_surface_width, is->target_surface_height,
-        is->primary_surface_pixel_format, SWS_BILINEAR, NULL, NULL, NULL);
+        is->primary_surface_pixel_format, SWS_BILINEAR, nullptr, nullptr,
+        nullptr);
 
     if (is->img_convert_ctx) {
         is->render_begin_func(
@@ -723,8 +724,8 @@ static int M_UploadTexture(M_STATE *is, AVFrame *frame)
         void *pixels = is->surface_lock_func(
             is->primary_surface, is->surface_lock_func_user_data);
 
-        if (pixels != NULL) {
-            uint8_t *surf_planes[4] = { pixels, NULL, NULL, NULL };
+        if (pixels != nullptr) {
+            uint8_t *surf_planes[4] = { pixels, nullptr, nullptr, nullptr };
             int surf_linesize[4] = {};
             if (is->primary_surface_stride > 0) {
                 surf_linesize[0] = is->primary_surface_stride;
@@ -782,7 +783,7 @@ static void M_StreamComponentClose(M_STATE *is, int stream_index)
         swr_free(&is->swr_ctx);
         av_freep(&is->audio_buf1);
         is->audio_buf1_size = 0;
-        is->audio_buf = NULL;
+        is->audio_buf = nullptr;
 
         break;
     case AVMEDIA_TYPE_VIDEO:
@@ -796,11 +797,11 @@ static void M_StreamComponentClose(M_STATE *is, int stream_index)
     ic->streams[stream_index]->discard = AVDISCARD_ALL;
     switch (codecpar->codec_type) {
     case AVMEDIA_TYPE_AUDIO:
-        is->audio_st = NULL;
+        is->audio_st = nullptr;
         is->audio_stream = -1;
         break;
     case AVMEDIA_TYPE_VIDEO:
-        is->video_st = NULL;
+        is->video_st = nullptr;
         is->video_stream = -1;
         break;
     default:
@@ -810,7 +811,7 @@ static void M_StreamComponentClose(M_STATE *is, int stream_index)
 
 static void M_StreamClose(M_STATE *is)
 {
-    SDL_WaitThread(is->read_tid, NULL);
+    SDL_WaitThread(is->read_tid, nullptr);
 
     if (is->audio_stream >= 0) {
         M_StreamComponentClose(is, is->audio_stream);
@@ -1161,7 +1162,7 @@ static int M_VideoThread(void *arg)
     double duration;
     int ret;
     AVRational tb = is->video_st->time_base;
-    AVRational frame_rate = av_guess_frame_rate(is->ic, is->video_st, NULL);
+    AVRational frame_rate = av_guess_frame_rate(is->ic, is->video_st, nullptr);
 
     if (!frame) {
         return AVERROR(ENOMEM);
@@ -1253,7 +1254,8 @@ static int M_AudioDecodeFrame(M_STATE *is)
     } while (af->serial != is->audioq.serial);
 
     data_size = av_samples_get_buffer_size(
-        NULL, af->frame->channels, af->frame->nb_samples, af->frame->format, 1);
+        nullptr, af->frame->channels, af->frame->nb_samples, af->frame->format,
+        1);
 
     int64_t dec_channel_layout =
         (af->frame->channel_layout
@@ -1269,9 +1271,9 @@ static int M_AudioDecodeFrame(M_STATE *is)
         || (wanted_nb_samples != af->frame->nb_samples && !is->swr_ctx)) {
         swr_free(&is->swr_ctx);
         is->swr_ctx = swr_alloc_set_opts(
-            NULL, is->audio_tgt.channel_layout, is->audio_tgt.fmt,
+            nullptr, is->audio_tgt.channel_layout, is->audio_tgt.fmt,
             is->audio_tgt.freq, dec_channel_layout, af->frame->format,
-            af->frame->sample_rate, 0, NULL);
+            af->frame->sample_rate, 0, nullptr);
         if (!is->swr_ctx || swr_init(is->swr_ctx) < 0) {
             LOG_ERROR(
                 "Cannot create sample rate converter for conversion of %d Hz "
@@ -1296,7 +1298,7 @@ static int M_AudioDecodeFrame(M_STATE *is)
                 / af->frame->sample_rate
             + 256;
         int out_size = av_samples_get_buffer_size(
-            NULL, is->audio_tgt.channels, out_count, is->audio_tgt.fmt, 0);
+            nullptr, is->audio_tgt.channels, out_count, is->audio_tgt.fmt, 0);
         int len2;
         if (out_size < 0) {
             LOG_ERROR("av_samples_get_buffer_size() failed");
@@ -1359,7 +1361,7 @@ static void M_SDLAudioCallback(void *opaque, Uint8 *stream, int len)
         if (is->audio_buf_index >= (signed)is->audio_buf_size) {
             audio_size = M_AudioDecodeFrame(is);
             if (audio_size < 0) {
-                is->audio_buf = NULL;
+                is->audio_buf = nullptr;
                 is->audio_buf_size = SDL_AUDIO_MIN_BUFFER_SIZE
                     / is->audio_tgt.frame_size * is->audio_tgt.frame_size;
             } else {
@@ -1440,7 +1442,7 @@ static int M_AudioOpen(
     wanted_spec.userdata = is;
     while (
         !(m_AudioDevice = SDL_OpenAudioDevice(
-              NULL, 0, &wanted_spec, &spec,
+              nullptr, 0, &wanted_spec, &spec,
               SDL_AUDIO_ALLOW_FREQUENCY_CHANGE
                   | SDL_AUDIO_ALLOW_CHANNELS_CHANGE))) {
         wanted_spec.channels = next_nb_channels[FFMIN(7, wanted_spec.channels)];
@@ -1474,9 +1476,9 @@ static int M_AudioOpen(
     audio_hw_params->channel_layout = wanted_channel_layout;
     audio_hw_params->channels = spec.channels;
     audio_hw_params->frame_size = av_samples_get_buffer_size(
-        NULL, audio_hw_params->channels, 1, audio_hw_params->fmt, 1);
+        nullptr, audio_hw_params->channels, 1, audio_hw_params->fmt, 1);
     audio_hw_params->bytes_per_sec = av_samples_get_buffer_size(
-        NULL, audio_hw_params->channels, audio_hw_params->freq,
+        nullptr, audio_hw_params->channels, audio_hw_params->freq,
         audio_hw_params->fmt, 1);
     if (audio_hw_params->bytes_per_sec <= 0
         || audio_hw_params->frame_size <= 0) {
@@ -1489,11 +1491,11 @@ static int M_AudioOpen(
 static int M_StreamComponentOpen(M_STATE *is, int stream_index)
 {
     AVFormatContext *ic = is->ic;
-    AVCodecContext *avctx = NULL;
-    const AVCodec *codec = NULL;
-    const char *forced_codec_name = NULL;
-    AVDictionary *opts = NULL;
-    const AVDictionaryEntry *t = NULL;
+    AVCodecContext *avctx = nullptr;
+    const AVCodec *codec = nullptr;
+    const char *forced_codec_name = nullptr;
+    AVDictionary *opts = nullptr;
+    const AVDictionaryEntry *t = nullptr;
     int sample_rate;
     int nb_channels;
     int64_t channel_layout;
@@ -1503,7 +1505,7 @@ static int M_StreamComponentOpen(M_STATE *is, int stream_index)
         return -1;
     }
 
-    avctx = avcodec_alloc_context3(NULL);
+    avctx = avcodec_alloc_context3(nullptr);
     if (!avctx) {
         return AVERROR(ENOMEM);
     }
@@ -1528,7 +1530,7 @@ static int M_StreamComponentOpen(M_STATE *is, int stream_index)
     avctx->codec_id = codec->id;
     avctx->lowres = 0;
 
-    if ((ret = avcodec_open2(avctx, codec, NULL)) < 0) {
+    if ((ret = avcodec_open2(avctx, codec, nullptr)) < 0) {
         goto fail;
     }
 
@@ -1625,11 +1627,11 @@ static int M_StreamHasEnoughPackets(
 static int M_ReadThread(void *arg)
 {
     M_STATE *is = arg;
-    AVFormatContext *ic = NULL;
+    AVFormatContext *ic = nullptr;
     int err;
     int ret;
     int st_index[AVMEDIA_TYPE_NB];
-    AVPacket *pkt = NULL;
+    AVPacket *pkt = nullptr;
     SDL_mutex *wait_mutex = SDL_CreateMutex();
     int64_t pkt_ts;
 
@@ -1656,7 +1658,7 @@ static int M_ReadThread(void *arg)
     }
     ic->interrupt_callback.callback = M_DecodeInterruptCB;
     ic->interrupt_callback.opaque = is;
-    err = avformat_open_input(&ic, is->filename, NULL, NULL);
+    err = avformat_open_input(&ic, is->filename, nullptr, nullptr);
     if (err < 0) {
         LOG_ERROR(
             "Error while opening file %s: %s", is->filename, av_err2str(err));
@@ -1666,7 +1668,7 @@ static int M_ReadThread(void *arg)
 
     is->ic = ic;
 
-    avformat_find_stream_info(ic, NULL);
+    avformat_find_stream_info(ic, nullptr);
     av_format_inject_global_side_data(ic);
 
     if (ic->pb) {
@@ -1683,16 +1685,16 @@ static int M_ReadThread(void *arg)
     }
 
     st_index[AVMEDIA_TYPE_VIDEO] = av_find_best_stream(
-        ic, AVMEDIA_TYPE_VIDEO, st_index[AVMEDIA_TYPE_VIDEO], -1, NULL, 0);
+        ic, AVMEDIA_TYPE_VIDEO, st_index[AVMEDIA_TYPE_VIDEO], -1, nullptr, 0);
 
     st_index[AVMEDIA_TYPE_AUDIO] = av_find_best_stream(
         ic, AVMEDIA_TYPE_AUDIO, st_index[AVMEDIA_TYPE_AUDIO],
-        st_index[AVMEDIA_TYPE_VIDEO], NULL, 0);
+        st_index[AVMEDIA_TYPE_VIDEO], nullptr, 0);
 
     if (st_index[AVMEDIA_TYPE_VIDEO] >= 0) {
         AVStream *st = ic->streams[st_index[AVMEDIA_TYPE_VIDEO]];
         AVCodecParameters *codecpar = st->codecpar;
-        AVRational sar = av_guess_sample_aspect_ratio(ic, st, NULL);
+        AVRational sar = av_guess_sample_aspect_ratio(ic, st, nullptr);
     }
 
     if (st_index[AVMEDIA_TYPE_AUDIO] >= 0) {
@@ -1805,8 +1807,8 @@ fail:
 static M_STATE *M_StreamOpen(const char *filename)
 {
     M_STATE *const is = av_mallocz(sizeof(M_STATE));
-    if (is == NULL) {
-        return NULL;
+    if (is == nullptr) {
+        return nullptr;
     }
     is->video_stream = -1;
     is->audio_stream = -1;
@@ -1818,7 +1820,7 @@ static M_STATE *M_StreamOpen(const char *filename)
         goto fail;
     }
 
-    is->iformat = NULL;
+    is->iformat = nullptr;
 
     if (M_FrameQueueInit(&is->pictq, &is->videoq, VIDEO_PICTURE_QUEUE_SIZE, 1)
         < 0) {
@@ -1850,7 +1852,7 @@ static M_STATE *M_StreamOpen(const char *filename)
 
 fail:
     M_StreamClose(is);
-    return NULL;
+    return nullptr;
 }
 
 VIDEO *Video_Open(const char *const file_path)
@@ -1858,13 +1860,13 @@ VIDEO *Video_Open(const char *const file_path)
     LOG_DEBUG("Playing video: %s", file_path);
     if (!File_Exists(file_path)) {
         LOG_ERROR("Video does not exist: %s", file_path);
-        return NULL;
+        return nullptr;
     }
 
     int flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
     if (SDL_Init(flags)) {
         LOG_ERROR("Could not initialize SDL - %s", SDL_GetError());
-        return NULL;
+        return nullptr;
     }
 
     SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
@@ -1873,10 +1875,10 @@ VIDEO *Video_Open(const char *const file_path)
     VIDEO *const result = Memory_Alloc(sizeof(VIDEO));
 
     result->priv = M_StreamOpen(file_path);
-    if (result->priv == NULL) {
+    if (result->priv == nullptr) {
         Memory_Free(result);
         LOG_ERROR("Failed to initialize video!");
-        return NULL;
+        return nullptr;
     }
 
     result->path = Memory_DupStr(file_path);
@@ -1910,7 +1912,7 @@ void Video_Start(VIDEO *const video)
 {
     M_STATE *const is = video->priv;
     is->read_tid = SDL_CreateThread(M_ReadThread, "read_thread", is);
-    if (is->read_tid == NULL) {
+    if (is->read_tid == nullptr) {
         LOG_ERROR("Error starting read thread: %s", SDL_GetError());
     }
 }

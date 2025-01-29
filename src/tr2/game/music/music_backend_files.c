@@ -13,7 +13,7 @@ typedef struct {
 } BACKEND_DATA;
 
 static const char *m_ExtensionsToTry[] = { ".flac", ".ogg", ".mp3", ".wav",
-                                           NULL };
+                                           nullptr };
 
 static char *M_GetTrackFileName(const char *base_dir, int32_t track);
 static const char *M_Describe(const MUSIC_BACKEND *backend);
@@ -36,29 +36,29 @@ static char *M_GetTrackFileName(const char *base_dir, int32_t track)
 
 static bool M_Init(MUSIC_BACKEND *const backend)
 {
-    ASSERT(backend != NULL);
+    ASSERT(backend != nullptr);
     const BACKEND_DATA *data = backend->data;
-    ASSERT(data->dir != NULL);
+    ASSERT(data->dir != nullptr);
     return File_DirExists(data->dir);
 }
 
 static const char *M_Describe(const MUSIC_BACKEND *const backend)
 {
-    ASSERT(backend != NULL);
+    ASSERT(backend != nullptr);
     const BACKEND_DATA *const data = backend->data;
-    ASSERT(data != NULL);
+    ASSERT(data != nullptr);
     return data->description;
 }
 
 static int32_t M_Play(
     const MUSIC_BACKEND *const backend, const int32_t track_id)
 {
-    ASSERT(backend != NULL);
+    ASSERT(backend != nullptr);
     const BACKEND_DATA *const data = backend->data;
-    ASSERT(data != NULL);
+    ASSERT(data != nullptr);
 
     char *file_path = M_GetTrackFileName(data->dir, track_id);
-    if (file_path == NULL) {
+    if (file_path == nullptr) {
         LOG_ERROR("Invalid track: %d", track_id);
         return -1;
     }
@@ -70,11 +70,11 @@ static int32_t M_Play(
 
 static void M_Shutdown(MUSIC_BACKEND *backend)
 {
-    if (backend == NULL) {
+    if (backend == nullptr) {
         return;
     }
 
-    if (backend->data != NULL) {
+    if (backend->data != nullptr) {
         BACKEND_DATA *const data = backend->data;
         Memory_FreePointer(&data->dir);
         Memory_FreePointer(&data->description);
@@ -85,10 +85,10 @@ static void M_Shutdown(MUSIC_BACKEND *backend)
 
 MUSIC_BACKEND *Music_Backend_Files_Factory(const char *path)
 {
-    ASSERT(path != NULL);
+    ASSERT(path != nullptr);
 
     const char *description_fmt = "Directory (directory: %s)";
-    const size_t description_size = snprintf(NULL, 0, description_fmt, path);
+    const size_t description_size = snprintf(nullptr, 0, description_fmt, path);
     char *description = Memory_Alloc(description_size + 1);
     sprintf(description, description_fmt, path);
 

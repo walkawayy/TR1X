@@ -14,7 +14,7 @@ GFX_GL_TEXTURE *GFX_GL_Texture_Create(GLenum target)
 
 void GFX_GL_Texture_Free(GFX_GL_TEXTURE *texture)
 {
-    if (texture != NULL) {
+    if (texture != nullptr) {
         GFX_GL_Texture_Close(texture);
         Memory_FreePointer(&texture);
     }
@@ -22,7 +22,7 @@ void GFX_GL_Texture_Free(GFX_GL_TEXTURE *texture)
 
 void GFX_GL_Texture_Init(GFX_GL_TEXTURE *texture, GLenum target)
 {
-    ASSERT(texture != NULL);
+    ASSERT(texture != nullptr);
     texture->target = target;
     glGenTextures(1, &texture->id);
     GFX_GL_CheckError();
@@ -31,7 +31,7 @@ void GFX_GL_Texture_Init(GFX_GL_TEXTURE *texture, GLenum target)
 
 void GFX_GL_Texture_Close(GFX_GL_TEXTURE *texture)
 {
-    ASSERT(texture != NULL);
+    ASSERT(texture != nullptr);
     if (texture->initialized) {
         glDeleteTextures(1, &texture->id);
         GFX_GL_CheckError();
@@ -41,7 +41,7 @@ void GFX_GL_Texture_Close(GFX_GL_TEXTURE *texture)
 
 void GFX_GL_Texture_Bind(GFX_GL_TEXTURE *texture)
 {
-    ASSERT(texture != NULL);
+    ASSERT(texture != nullptr);
     ASSERT(texture->initialized);
     glBindTexture(texture->target, texture->id);
     GFX_GL_CheckError();
@@ -51,7 +51,7 @@ void GFX_GL_Texture_Load(
     GFX_GL_TEXTURE *texture, const void *data, int width, int height,
     GLint internal_format, GLint format)
 {
-    ASSERT(texture != NULL);
+    ASSERT(texture != nullptr);
     ASSERT(texture->initialized);
 
     GFX_GL_Texture_Bind(texture);
@@ -69,7 +69,7 @@ void GFX_GL_Texture_Load(
 
 void GFX_GL_Texture_LoadFromBackBuffer(GFX_GL_TEXTURE *const texture)
 {
-    ASSERT(texture != NULL);
+    ASSERT(texture != nullptr);
     ASSERT(texture->initialized);
 
     GFX_GL_Texture_Bind(texture);

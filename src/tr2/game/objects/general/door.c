@@ -60,7 +60,7 @@ static void M_Initialise(
 void Door_Shut(DOORPOS_DATA *const d)
 {
     SECTOR *const sector = d->sector;
-    if (d->sector == NULL) {
+    if (d->sector == nullptr) {
         return;
     }
 
@@ -82,7 +82,7 @@ void Door_Shut(DOORPOS_DATA *const d)
 
 void Door_Open(DOORPOS_DATA *const d)
 {
-    if (d->sector == NULL) {
+    if (d->sector == nullptr) {
         return;
     }
 
@@ -130,7 +130,7 @@ void Door_Initialise(const int16_t item_num)
     M_Initialise(r, item, dx, dz, &door->d1);
 
     if (r->flipped_room == NO_ROOM_NEG) {
-        door->d1flip.sector = NULL;
+        door->d1flip.sector = nullptr;
     } else {
         r = Room_Get(r->flipped_room);
         M_Initialise(r, item, dx, dz, &door->d1flip);
@@ -141,13 +141,13 @@ void Door_Initialise(const int16_t item_num)
     Door_Shut(&door->d1flip);
 
     if (room_num == NO_ROOM) {
-        door->d2.sector = NULL;
-        door->d2flip.sector = NULL;
+        door->d2.sector = nullptr;
+        door->d2flip.sector = nullptr;
     } else {
         r = Room_Get(room_num);
         M_Initialise(r, item, 0, 0, &door->d2);
         if (r->flipped_room == NO_ROOM_NEG) {
-            door->d2flip.sector = NULL;
+            door->d2flip.sector = nullptr;
         } else {
             r = Room_Get(r->flipped_room);
             M_Initialise(r, item, 0, 0, &door->d2flip);

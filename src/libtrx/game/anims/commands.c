@@ -41,7 +41,7 @@ static void M_ParseCommand(ANIM_COMMAND *const command, const int16_t **data)
     }
 
     default:
-        command->data = NULL;
+        command->data = nullptr;
         break;
     }
 
@@ -68,5 +68,5 @@ void Anim_LoadCommands(const int16_t *data)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }

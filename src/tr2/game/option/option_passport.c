@@ -17,7 +17,7 @@ typedef enum {
     PASSPORT_MODE_SELECT_LEVEL = 2,
 } PASSPORT_MODE;
 
-static TEXTSTRING *m_LevelText = NULL;
+static TEXTSTRING *m_LevelText = nullptr;
 static PASSPORT_MODE m_PassportMode;
 
 void Option_Passport_Control(INVENTORY_ITEM *const item)
@@ -59,7 +59,7 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
             }
         } else if (m_PassportMode == PASSPORT_MODE_BROWSE) {
             if (g_SavedGames != 0 && g_Inv_Mode != INV_SAVE_MODE) {
-                if (g_PasswordText1 == NULL) {
+                if (g_PasswordText1 == nullptr) {
                     g_PasswordText1 =
                         Text_Create(0, -16, GS(PASSPORT_LOAD_GAME));
                     Text_AlignBottom(g_PasswordText1, true);
@@ -67,11 +67,12 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
                 }
 
                 Text_Remove(m_LevelText);
-                m_LevelText = NULL;
+                m_LevelText = nullptr;
 
                 GetSavedGamesList(&g_LoadGameRequester);
                 Requester_SetHeading(
-                    &g_LoadGameRequester, GS(PASSPORT_LOAD_GAME), 0, NULL, 0);
+                    &g_LoadGameRequester, GS(PASSPORT_LOAD_GAME), 0, nullptr,
+                    0);
 
                 m_PassportMode = PASSPORT_MODE_LOAD_GAME;
                 g_Input = (INPUT_STATE) {};
@@ -125,7 +126,7 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
                 break;
             }
 
-            if (g_PasswordText1 == NULL) {
+            if (g_PasswordText1 == nullptr) {
                 if (g_Inv_Mode == INV_TITLE_MODE || Game_IsInGym()) {
                     g_PasswordText1 =
                         Text_Create(0, -16, GS(PASSPORT_NEW_GAME));
@@ -139,23 +140,24 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
 
             if (g_Inv_Mode != INV_TITLE_MODE && !Game_IsInGym()) {
                 Text_Remove(m_LevelText);
-                m_LevelText = NULL;
+                m_LevelText = nullptr;
 
                 GetSavedGamesList(&g_LoadGameRequester);
                 Requester_SetHeading(
-                    &g_LoadGameRequester, GS(PASSPORT_SAVE_GAME), 0, NULL, 0);
+                    &g_LoadGameRequester, GS(PASSPORT_SAVE_GAME), 0, nullptr,
+                    0);
 
                 m_PassportMode = PASSPORT_MODE_LOAD_GAME;
                 g_Input = (INPUT_STATE) {};
                 g_InputDB = (INPUT_STATE) {};
             } else if (g_GameFlow.play_any_level) {
                 Text_Remove(m_LevelText);
-                m_LevelText = NULL;
+                m_LevelText = nullptr;
 
                 Requester_Init(&g_SaveGameRequester);
                 GetValidLevelsList(&g_SaveGameRequester);
                 Requester_SetHeading(
-                    &g_SaveGameRequester, GS(PASSPORT_SELECT_LEVEL), 0, NULL,
+                    &g_SaveGameRequester, GS(PASSPORT_SELECT_LEVEL), 0, nullptr,
                     0);
 
                 m_PassportMode = PASSPORT_MODE_SELECT_LEVEL;
@@ -168,7 +170,7 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
         break;
 
     case 2:
-        if (g_PasswordText1 == NULL) {
+        if (g_PasswordText1 == nullptr) {
             if (g_Inv_Mode == INV_TITLE_MODE) {
                 g_PasswordText1 = Text_Create(0, -16, GS(PASSPORT_EXIT_GAME));
             } else if (g_GameFlow.is_demo_version) {
@@ -193,15 +195,15 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
                 item->goal_frame = item->open_frame + 5;
             } else {
                 Text_Remove(g_PasswordText1);
-                g_PasswordText1 = NULL;
+                g_PasswordText1 = nullptr;
             }
         } else {
             if (item->goal_frame < item->open_frame) {
                 item->goal_frame = item->open_frame;
             } else {
-                Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+                Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
                 Text_Remove(g_PasswordText1);
-                g_PasswordText1 = NULL;
+                g_PasswordText1 = nullptr;
             }
         }
         g_Input = (INPUT_STATE) {};
@@ -215,9 +217,9 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
         if (item->goal_frame > item->frames_total - 6) {
             item->goal_frame = item->frames_total - 6;
         } else {
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
             Text_Remove(g_PasswordText1);
-            g_PasswordText1 = NULL;
+            g_PasswordText1 = nullptr;
         }
         g_Input = (INPUT_STATE) {};
         g_InputDB = (INPUT_STATE) {};
@@ -236,7 +238,7 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
                 item->goal_frame = 0;
             }
             Text_Remove(g_PasswordText1);
-            g_PasswordText1 = NULL;
+            g_PasswordText1 = nullptr;
         }
     }
 
@@ -250,7 +252,7 @@ void Option_Passport_Control(INVENTORY_ITEM *const item)
             item->goal_frame = 0;
         }
         Text_Remove(g_PasswordText1);
-        g_PasswordText1 = NULL;
+        g_PasswordText1 = nullptr;
     }
 }
 
@@ -261,9 +263,9 @@ void Option_Passport_Draw(INVENTORY_ITEM *const item)
 void Option_Passport_Shutdown(void)
 {
     Text_Remove(m_LevelText);
-    m_LevelText = NULL;
+    m_LevelText = nullptr;
     Text_Remove(g_PasswordText1);
-    g_PasswordText1 = NULL;
+    g_PasswordText1 = nullptr;
 
     Requester_Shutdown(&g_LoadGameRequester);
     Requester_Shutdown(&g_SaveGameRequester);

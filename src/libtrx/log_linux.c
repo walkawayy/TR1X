@@ -37,8 +37,8 @@ static void M_SignalHandler(int sig)
     LOG_INFO("SIGNAL: %d", sig);
     LOG_INFO("STACK TRACE:");
     struct backtrace_state *state = backtrace_create_state(
-        NULL, BACKTRACE_SUPPORTS_THREADS, M_ErrorCallback, NULL);
-    backtrace_full(state, 0, M_StackTrace, M_ErrorCallback, NULL);
+        nullptr, BACKTRACE_SUPPORTS_THREADS, M_ErrorCallback, nullptr);
+    backtrace_full(state, 0, M_StackTrace, M_ErrorCallback, nullptr);
     exit(EXIT_FAILURE);
 }
 

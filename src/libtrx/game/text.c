@@ -23,12 +23,12 @@ static GLYPH_INFO m_Glyphs[] = {
       .mesh_idx = mesh_idx_,                                                   \
       __VA_ARGS__ },
 #include "text.def"
-    { .text = NULL }, // guard
+    { .text = nullptr }, // guard
 };
 
 static size_t m_GlyphLookupKeyCap = 0;
-static char *m_GlyphLookupKey = NULL;
-static M_HASH_ENTRY *m_GlyphMap = NULL;
+static char *m_GlyphLookupKey = nullptr;
+static M_HASH_ENTRY *m_GlyphMap = nullptr;
 
 static size_t M_GetGlyphSize(const char *ptr);
 
@@ -37,7 +37,7 @@ static size_t M_GetGlyphSize(const char *const ptr)
     // Check for named escape sequence.
     if (*ptr == '\\' && *(ptr + 1) == '{') {
         const char *end = strchr(ptr + 2, '}');
-        if (end != NULL) {
+        if (end != nullptr) {
             return end + 1 - ptr;
         }
         return 1;
@@ -64,7 +64,7 @@ void Text_Init(void)
 
     // Convert the linear array coming from the .def macros to a hash lookup
     // table for faster text-to-glyph resolution.
-    for (GLYPH_INFO *glyph_ptr = m_Glyphs; glyph_ptr->text != NULL;
+    for (GLYPH_INFO *glyph_ptr = m_Glyphs; glyph_ptr->text != nullptr;
          glyph_ptr++) {
         M_HASH_ENTRY *const hash_entry = Memory_Alloc(sizeof(M_HASH_ENTRY));
         hash_entry->glyph = glyph_ptr;
@@ -116,8 +116,8 @@ void Text_Draw(void)
 
 TEXTSTRING *Text_Create(int16_t x, int16_t y, const char *const content)
 {
-    if (content == NULL) {
-        return NULL;
+    if (content == nullptr) {
+        return nullptr;
     }
 
     int32_t free_idx = -1;
@@ -130,12 +130,12 @@ TEXTSTRING *Text_Create(int16_t x, int16_t y, const char *const content)
     }
 
     if (free_idx == -1) {
-        return NULL;
+        return nullptr;
     }
 
     TEXTSTRING *text = &m_TextStrings[free_idx];
-    text->content = NULL;
-    text->glyphs = NULL;
+    text->content = nullptr;
+    text->glyphs = nullptr;
     text->scale.h = TEXT_BASE_SCALE;
     text->scale.v = TEXT_BASE_SCALE;
     text->pos.x = x;
@@ -159,7 +159,7 @@ TEXTSTRING *Text_Create(int16_t x, int16_t y, const char *const content)
 
 void Text_Remove(TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     if (text->flags.active) {
@@ -171,11 +171,11 @@ void Text_Remove(TEXTSTRING *const text)
 
 void Text_ChangeText(TEXTSTRING *const text, const char *const content)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
 
-    ASSERT(content != NULL);
+    ASSERT(content != nullptr);
     Memory_FreePointer(&text->content);
     Memory_FreePointer(&text->glyphs);
     if (!text->flags.active) {
@@ -210,7 +210,7 @@ void Text_ChangeText(TEXTSTRING *const text, const char *const content)
         M_HASH_ENTRY *entry;
         HASH_FIND_STR(m_GlyphMap, m_GlyphLookupKey, entry);
 
-        if (entry != NULL) {
+        if (entry != nullptr) {
             *glyph_ptr++ = entry->glyph;
         } else {
             LOG_WARNING("Unknown glyph: %s", m_GlyphLookupKey);
@@ -220,12 +220,12 @@ void Text_ChangeText(TEXTSTRING *const text, const char *const content)
     }
 
     // guard
-    *glyph_ptr++ = NULL;
+    *glyph_ptr++ = nullptr;
 }
 
 void Text_SetPos(TEXTSTRING *const text, int16_t x, int16_t y)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->pos.x = x;
@@ -235,7 +235,7 @@ void Text_SetPos(TEXTSTRING *const text, int16_t x, int16_t y)
 void Text_SetScale(
     TEXTSTRING *const text, const int32_t scale_h, const int32_t scale_v)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->scale.h = scale_h;
@@ -244,7 +244,7 @@ void Text_SetScale(
 
 void Text_Flash(TEXTSTRING *const text, const bool enable, const int16_t rate)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     if (enable) {
@@ -258,7 +258,7 @@ void Text_Flash(TEXTSTRING *const text, const bool enable, const int16_t rate)
 
 void Text_Hide(TEXTSTRING *const text, const bool enable)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.hide = enable;
@@ -268,7 +268,7 @@ void Text_AddBackground(
     TEXTSTRING *const text, const int16_t w, const int16_t h, const int16_t x,
     const int16_t y, const TEXT_STYLE style)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.background = 1;
@@ -290,7 +290,7 @@ void Text_AddBackground(
 
 void Text_RemoveBackground(TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.background = 0;
@@ -298,7 +298,7 @@ void Text_RemoveBackground(TEXTSTRING *const text)
 
 void Text_AddOutline(TEXTSTRING *const text, const TEXT_STYLE style)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.outline = 1;
@@ -307,7 +307,7 @@ void Text_AddOutline(TEXTSTRING *const text, const TEXT_STYLE style)
 
 void Text_RemoveOutline(TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.outline = 0;
@@ -315,7 +315,7 @@ void Text_RemoveOutline(TEXTSTRING *const text)
 
 void Text_CentreH(TEXTSTRING *const text, const bool enable)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.centre_h = enable;
@@ -323,7 +323,7 @@ void Text_CentreH(TEXTSTRING *const text, const bool enable)
 
 void Text_CentreV(TEXTSTRING *const text, const bool enable)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.centre_v = enable;
@@ -331,7 +331,7 @@ void Text_CentreV(TEXTSTRING *const text, const bool enable)
 
 void Text_AlignRight(TEXTSTRING *const text, const bool enable)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.right = enable;
@@ -339,7 +339,7 @@ void Text_AlignRight(TEXTSTRING *const text, const bool enable)
 
 void Text_AlignBottom(TEXTSTRING *const text, const bool enable)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.bottom = enable;
@@ -347,7 +347,7 @@ void Text_AlignBottom(TEXTSTRING *const text, const bool enable)
 
 void Text_SetMultiline(TEXTSTRING *const text, const bool enable)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->flags.multiline = enable;
@@ -355,18 +355,18 @@ void Text_SetMultiline(TEXTSTRING *const text, const bool enable)
 
 int32_t Text_GetWidth(const TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return 0;
     }
 
-    if (text->glyphs == NULL) {
+    if (text->glyphs == nullptr) {
         return 0;
     }
 
     int32_t width = 0;
     int32_t max_width = 0;
     const GLYPH_INFO **glyph_ptr = text->glyphs;
-    while (*glyph_ptr != NULL) {
+    while (*glyph_ptr != nullptr) {
         if ((*glyph_ptr)->role == GLYPH_SPACE) {
             width += text->word_spacing;
         } else if ((*glyph_ptr)->role == GLYPH_NEWLINE) {
@@ -385,7 +385,7 @@ int32_t Text_GetWidth(const TEXTSTRING *const text)
 
 int32_t Text_GetHeight(const TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return 0;
     }
     int32_t height = TEXT_HEIGHT_FIXED;

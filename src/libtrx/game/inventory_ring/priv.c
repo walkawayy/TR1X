@@ -12,7 +12,6 @@
 #include "game/text.h"
 #include "version.h"
 
-#include <stddef.h>
 #include <stdio.h>
 
 #define RING_CAMERA_Y_OFFSET (-96)
@@ -36,8 +35,8 @@ typedef enum {
     IT_NUMBER_OF,
 } INV_TEXT;
 
-static TEXTSTRING *m_HeadingText = NULL;
-static TEXTSTRING *m_VersionText = NULL;
+static TEXTSTRING *m_HeadingText = nullptr;
+static TEXTSTRING *m_VersionText = nullptr;
 static TEXTSTRING *m_Arrows[4] = {};
 static TEXTSTRING *m_ItemText[IT_NUMBER_OF] = {};
 static GAME_OBJECT_ID m_RequestedObjectID = NO_OBJECT;
@@ -418,7 +417,7 @@ void InvRing_SelectMeshes(INVENTORY_ITEM *const inv_item)
 
 void InvRing_ShowItemName(const INVENTORY_ITEM *const inv_item)
 {
-    if (m_ItemText[IT_NAME] != NULL) {
+    if (m_ItemText[IT_NAME] != nullptr) {
         return;
     }
     if (inv_item->object_id == O_PASSPORT_OPTION) {
@@ -432,7 +431,7 @@ void InvRing_ShowItemName(const INVENTORY_ITEM *const inv_item)
 
 void InvRing_ShowItemQuantity(const char *const fmt, const int32_t qty)
 {
-    if (m_ItemText[IT_QTY] != NULL) {
+    if (m_ItemText[IT_QTY] != nullptr) {
         return;
     }
     char string[128];
@@ -447,7 +446,7 @@ void InvRing_RemoveItemTexts(void)
 {
     for (int32_t i = 0; i < IT_NUMBER_OF; i++) {
         Text_Remove(m_ItemText[i]);
-        m_ItemText[i] = NULL;
+        m_ItemText[i] = nullptr;
     }
 }
 
@@ -457,7 +456,7 @@ void InvRing_ShowHeader(INV_RING *const ring)
         return;
     }
 
-    if (m_HeadingText == NULL) {
+    if (m_HeadingText == nullptr) {
         switch (ring->type) {
         case RT_MAIN:
             m_HeadingText = Text_Create(0, 26, GS(HEADING_INVENTORY));
@@ -486,7 +485,7 @@ void InvRing_ShowHeader(INV_RING *const ring)
         return;
     }
 
-    if (m_Arrows[INV_RING_ARROW_TL] == NULL
+    if (m_Arrows[INV_RING_ARROW_TL] == nullptr
         && (ring->type == RT_OPTION
             || (ring->type == RT_MAIN
                 && g_InvRing_Source[RT_KEYS].count > 0))) {
@@ -495,7 +494,7 @@ void InvRing_ShowHeader(INV_RING *const ring)
         Text_AlignRight(m_Arrows[INV_RING_ARROW_TR], true);
     }
 
-    if (m_Arrows[INV_RING_ARROW_BL] == NULL
+    if (m_Arrows[INV_RING_ARROW_BL] == nullptr
         && ((ring->type == RT_MAIN && !InvRing_IsOptionLockedOut())
             || ring->type == RT_KEYS)) {
         m_Arrows[INV_RING_ARROW_BL] = Text_Create(20, -15, "\\{arrow down}");
@@ -509,16 +508,16 @@ void InvRing_ShowHeader(INV_RING *const ring)
 void InvRing_RemoveHeader(void)
 {
     Text_Remove(m_HeadingText);
-    m_HeadingText = NULL;
+    m_HeadingText = nullptr;
     for (int32_t i = 0; i < 4; i++) {
         Text_Remove(m_Arrows[i]);
-        m_Arrows[i] = NULL;
+        m_Arrows[i] = nullptr;
     }
 }
 
 void InvRing_HideArrow(const INV_RING_ARROW arrow, const bool hide)
 {
-    if (m_Arrows[arrow] != NULL) {
+    if (m_Arrows[arrow] != nullptr) {
         Text_Hide(m_Arrows[arrow], hide);
     }
 }
@@ -534,7 +533,7 @@ void InvRing_ShowVersionText(void)
 void InvRing_RemoveVersionText(void)
 {
     Text_Remove(m_VersionText);
-    m_VersionText = NULL;
+    m_VersionText = nullptr;
 }
 
 void InvRing_UpdateInventoryItem(

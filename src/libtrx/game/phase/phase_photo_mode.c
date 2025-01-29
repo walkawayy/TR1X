@@ -58,7 +58,7 @@ static void M_End(PHASE *const phase)
     Camera_ExitPhotoMode();
 
     p->ui->free(p->ui);
-    p->ui = NULL;
+    p->ui = nullptr;
 
 #if TR_VERSION == 1
     g_Config.rendering.enable_fps_counter = p->show_fps_counter;
@@ -91,7 +91,7 @@ static PHASE_CONTROL M_Control(PHASE *const phase, int32_t num_frames)
         p->taking_screenshot = false;
         Screenshot_Make(g_Config.rendering.screenshot_format);
         Output_EndScene();
-        Sound_Effect(SFX_MENU_LARA_HOME, NULL, SPM_ALWAYS);
+        Sound_Effect(SFX_MENU_LARA_HOME, nullptr, SPM_ALWAYS);
     } else {
         p->ui->control(p->ui);
         Camera_Update();

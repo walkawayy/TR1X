@@ -15,7 +15,6 @@
 #include "memory.h"
 
 #include <SDL2/SDL_video.h>
-#include <stddef.h>
 #include <stdint.h>
 
 typedef struct {
@@ -65,10 +64,10 @@ static void M_Init(GFX_RENDERER *const renderer, const GFX_CONFIG *const config)
 {
     LOG_INFO("");
 
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     renderer->priv = (M_CONTEXT *)Memory_Alloc(sizeof(M_CONTEXT));
     M_CONTEXT *priv = renderer->priv;
-    ASSERT(priv != NULL);
+    ASSERT(priv != nullptr);
 
     priv->config = config;
 
@@ -120,7 +119,7 @@ static void M_Init(GFX_RENDERER *const renderer, const GFX_CONFIG *const config)
 
     glActiveTexture(GL_TEXTURE0);
     GFX_GL_Texture_Load(
-        &priv->texture, NULL, fbo_width, fbo_height, GL_RGB8, GL_RGB);
+        &priv->texture, nullptr, fbo_width, fbo_height, GL_RGB8, GL_RGB);
 
     glFramebufferTexture2D(
         GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, priv->texture.id,
@@ -154,9 +153,9 @@ static void M_Shutdown(GFX_RENDERER *renderer)
 {
     LOG_INFO("");
 
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_CONTEXT *priv = renderer->priv;
-    ASSERT(priv != NULL);
+    ASSERT(priv != nullptr);
 
     if (!priv->fbo) {
         return;
@@ -184,9 +183,9 @@ static void M_Reset(GFX_RENDERER *renderer)
 
 static void M_Render(GFX_RENDERER *renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_CONTEXT *priv = renderer->priv;
-    ASSERT(priv != NULL);
+    ASSERT(priv != nullptr);
 
     const GLuint filter = priv->config->display_filter == GFX_TF_BILINEAR
         ? GL_LINEAR
@@ -234,9 +233,9 @@ static void M_Render(GFX_RENDERER *renderer)
 
 static void M_Bind(const GFX_RENDERER *renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_CONTEXT *priv = renderer->priv;
-    ASSERT(priv != NULL);
+    ASSERT(priv != nullptr);
     glBindFramebuffer(GL_FRAMEBUFFER, priv->fbo);
 }
 

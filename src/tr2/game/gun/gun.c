@@ -192,7 +192,7 @@ void Gun_Control(void)
 
         if (g_Input.action) {
             AMMO_INFO *const ammo = Gun_GetAmmoInfo(g_Lara.gun_type);
-            ASSERT(ammo != NULL);
+            ASSERT(ammo != nullptr);
 
             if (ammo->ammo <= 0) {
                 ammo->ammo = 0;
@@ -245,7 +245,7 @@ void Gun_InitialiseNewWeapon(void)
     g_Lara.right_arm.rot.x = 0;
     g_Lara.right_arm.rot.y = 0;
     g_Lara.right_arm.rot.z = 0;
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
 
     switch (g_Lara.gun_type) {
     case LGT_PISTOLS:
@@ -371,7 +371,7 @@ AMMO_INFO *Gun_GetAmmoInfo(const LARA_GUN_TYPE gun_type)
     case LGT_M16:     return &g_Lara.m16_ammo;
     case LGT_GRENADE: return &g_Lara.grenade_ammo;
     case LGT_SKIDOO:  return &g_Lara.pistol_ammo;
-    default:          return NULL;
+    default:          return nullptr;
     }
     // clang-format on
 }

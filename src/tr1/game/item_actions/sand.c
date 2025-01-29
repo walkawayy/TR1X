@@ -5,15 +5,13 @@
 #include "game/sound.h"
 #include "global/const.h"
 
-#include <stddef.h>
-
 void ItemAction_DropSand(ITEM *item)
 {
     if (g_FlipTimer > LOGIC_FPS * 4) {
         g_FlipEffect = -1;
     } else {
         if (!g_FlipTimer) {
-            Sound_Effect(SFX_TRAPDOOR_OPEN, NULL, SPM_NORMAL);
+            Sound_Effect(SFX_TRAPDOOR_OPEN, nullptr, SPM_NORMAL);
         }
         const XYZ_32 pos = {
             .x = g_Camera.target.x,

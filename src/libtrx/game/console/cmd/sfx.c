@@ -6,7 +6,6 @@
 #include "memory.h"
 #include "strings.h"
 
-#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -75,7 +74,7 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
     }
 
     Console_Log(GS(OSD_SOUND_PLAYING_SAMPLE), sfx_id);
-    Sound_Effect(sfx_id, NULL, SPM_ALWAYS);
+    Sound_Effect(sfx_id, nullptr, SPM_ALWAYS);
     return CR_SUCCESS;
 }
 

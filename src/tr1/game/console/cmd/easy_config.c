@@ -15,7 +15,7 @@ static COMMAND_TO_OPTION_MAP m_CommandToOptionMap[] = {
     { "vsync", &g_Config.rendering.enable_vsync },
     { "wireframe", &g_Config.rendering.enable_wireframe },
     { "fps", &g_Config.rendering.fps },
-    { NULL, NULL },
+    { nullptr, nullptr },
 };
 
 static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *ctx);
@@ -23,7 +23,7 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *ctx);
 static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
 {
     COMMAND_TO_OPTION_MAP *match = m_CommandToOptionMap;
-    while (match->target != NULL) {
+    while (match->target != nullptr) {
         if (String_Equivalent(match->prefix, ctx->prefix)) {
             return Console_Cmd_Config_Helper(
                 Console_Cmd_Config_GetOptionFromTarget(match->target),

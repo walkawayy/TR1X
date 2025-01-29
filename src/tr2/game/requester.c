@@ -13,25 +13,25 @@ static void M_ClearTextStrings(REQUEST_INFO *req);
 static void M_ClearTextStrings(REQUEST_INFO *const req)
 {
     Text_Remove(req->heading_text1);
-    req->heading_text1 = NULL;
+    req->heading_text1 = nullptr;
 
     Text_Remove(req->heading_text2);
-    req->heading_text2 = NULL;
+    req->heading_text2 = nullptr;
 
     Text_Remove(req->background_text);
-    req->background_text = NULL;
+    req->background_text = nullptr;
 
     Text_Remove(req->moreup_text);
-    req->moreup_text = NULL;
+    req->moreup_text = nullptr;
 
     Text_Remove(req->moredown_text);
-    req->moredown_text = NULL;
+    req->moredown_text = nullptr;
 
     for (int32_t i = 0; i < MAX_REQUESTER_ITEMS; i++) {
         Text_Remove(req->item_texts1[i]);
-        req->item_texts1[i] = NULL;
+        req->item_texts1[i] = nullptr;
         Text_Remove(req->item_texts2[i]);
-        req->item_texts2[i] = NULL;
+        req->item_texts2[i] = nullptr;
     }
 }
 
@@ -44,17 +44,17 @@ void Requester_Init(REQUEST_INFO *const req)
     req->moredown_flags = 1;
     req->items_count = 0;
 
-    req->heading_text1 = NULL;
-    req->heading_text2 = NULL;
+    req->heading_text1 = nullptr;
+    req->heading_text2 = nullptr;
     req->heading_flags1 = 0;
     req->heading_flags2 = 0;
-    req->background_text = NULL;
-    req->moreup_text = NULL;
-    req->moredown_text = NULL;
+    req->background_text = nullptr;
+    req->moreup_text = nullptr;
+    req->moredown_text = nullptr;
 
     for (int32_t i = 0; i < MAX_REQUESTER_ITEMS; i++) {
-        req->item_texts1[i] = NULL;
-        req->item_texts2[i] = NULL;
+        req->item_texts1[i] = nullptr;
+        req->item_texts2[i] = nullptr;
         req->item_flags1[i] = 0;
         req->item_flags2[i] = 0;
     }
@@ -96,7 +96,7 @@ int32_t Requester_Display(
 
     /* heading */
     if (req->heading_flags1 & REQ_USE) {
-        if (req->heading_text1 == NULL) {
+        if (req->heading_text1 == nullptr) {
             req->heading_text1 = Text_Create(
                 req->x_pos, line_one_off - req->line_height - 10,
                 req->heading_string1);
@@ -168,12 +168,12 @@ int32_t Requester_Display(
         }
     } else {
         Text_Remove(req->moreup_text);
-        req->moreup_text = NULL;
+        req->moreup_text = nullptr;
     }
 
     if (req->items_count <= req->visible_count + req->line_offset) {
         Text_Remove(req->moredown_text);
-        req->moredown_text = NULL;
+        req->moredown_text = nullptr;
     } else if (!req->moredown_text && (req->moredown_flags & 1) != 0) {
         Text_CentreH(req->moredown_text, true);
         Text_AlignBottom(req->moredown_text, true);
@@ -185,7 +185,7 @@ int32_t Requester_Display(
 
         TEXTSTRING **const text1 = &req->item_texts1[i];
         if (req->pitem_flags1[n] & REQ_USE) {
-            if (*text1 == NULL) {
+            if (*text1 == nullptr) {
                 *text1 = Text_Create(
                     0, line_one_off + req->line_height * i,
                     &req->pitem_strings1[n * req->item_string_len]);
@@ -213,12 +213,12 @@ int32_t Requester_Display(
             Text_Remove(*text1);
             Text_RemoveBackground(*text1);
             Text_RemoveOutline(*text1);
-            *text1 = NULL;
+            *text1 = nullptr;
         }
 
         TEXTSTRING **const text2 = &req->item_texts2[i];
         if (req->pitem_flags2[n] & REQ_USE) {
-            if (*text2 == NULL) {
+            if (*text2 == nullptr) {
                 *text2 = Text_Create(
                     0, line_one_off + req->line_height * i,
                     &req->pitem_strings2[n * req->item_string_len]);
@@ -237,7 +237,7 @@ int32_t Requester_Display(
             Text_Remove(*text2);
             Text_RemoveBackground(*text2);
             Text_RemoveOutline(*text2);
-            *text2 = NULL;
+            *text2 = nullptr;
         }
     }
 
@@ -246,7 +246,7 @@ int32_t Requester_Display(
             const int32_t n = req->line_offset + i;
 
             TEXTSTRING **text1 = &req->item_texts1[i];
-            if (*text1 != NULL && (req->pitem_flags1[n] & REQ_USE)) {
+            if (*text1 != nullptr && (req->pitem_flags1[n] & REQ_USE)) {
                 Text_ChangeText(
                     *text1, &req->pitem_strings1[n * req->item_string_len]);
             }
@@ -259,7 +259,7 @@ int32_t Requester_Display(
             }
 
             TEXTSTRING **text2 = &req->item_texts2[i];
-            if (*text2 != NULL && (req->pitem_flags2[n] & REQ_USE)) {
+            if (*text2 != nullptr && (req->pitem_flags2[n] & REQ_USE)) {
                 Text_ChangeText(
                     *text2, &req->pitem_strings2[n * req->item_string_len]);
             }
@@ -343,7 +343,7 @@ void Requester_RemoveAllItems(REQUEST_INFO *const req)
 
 void Requester_Item_CenterAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     text->background.offset.x = 0;
@@ -352,7 +352,7 @@ void Requester_Item_CenterAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 
 void Requester_Item_LeftAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     const int32_t x =
@@ -366,7 +366,7 @@ void Requester_Item_LeftAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 
 void Requester_Item_RightAlign(REQUEST_INFO *const req, TEXTSTRING *const text)
 {
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     const int32_t x =
@@ -383,12 +383,12 @@ void Requester_SetHeading(
     const char *const text2, const uint32_t flags2)
 {
     Text_Remove(req->heading_text1);
-    req->heading_text1 = NULL;
+    req->heading_text1 = nullptr;
 
     Text_Remove(req->heading_text2);
-    req->heading_text2 = NULL;
+    req->heading_text2 = nullptr;
 
-    if (text1 != NULL) {
+    if (text1 != nullptr) {
         strcpy(req->heading_string1, text1);
         req->heading_flags1 = flags1 | REQ_USE;
     } else {
@@ -396,7 +396,7 @@ void Requester_SetHeading(
         req->heading_flags1 = 0;
     }
 
-    if (text2 != NULL) {
+    if (text2 != nullptr) {
         strcpy(req->heading_string2, text2);
         req->heading_flags2 = flags2 | REQ_USE;
     } else {
@@ -410,19 +410,19 @@ void Requester_ChangeItem(
     const uint32_t flags1, const char *const text2, const uint32_t flags2)
 {
     Text_Remove(req->item_texts1[item]);
-    req->item_texts1[item] = NULL;
+    req->item_texts1[item] = nullptr;
 
     Text_Remove(req->item_texts2[item]);
-    req->item_texts2[item] = NULL;
+    req->item_texts2[item] = nullptr;
 
-    if (text1 != NULL) {
+    if (text1 != nullptr) {
         strcpy(&req->pitem_strings1[item * req->item_string_len], text1);
         req->pitem_flags1[item] = flags1 | REQ_USE;
     } else {
         req->pitem_flags1[item] = 0;
     }
 
-    if (text2 != NULL) {
+    if (text2 != nullptr) {
         strcpy(&req->pitem_strings2[item * req->item_string_len], text2);
         req->pitem_flags2[item] = flags2 | REQ_USE;
     } else {
@@ -437,7 +437,7 @@ void Requester_AddItem(
     req->pitem_flags1 = g_RequesterFlags1;
     req->pitem_flags2 = g_RequesterFlags2;
 
-    if (text1 != NULL) {
+    if (text1 != nullptr) {
         strcpy(
             &req->pitem_strings1[req->items_count * req->item_string_len],
             text1);
@@ -446,7 +446,7 @@ void Requester_AddItem(
         g_RequesterFlags1[req->items_count] = 0;
     }
 
-    if (text2 != NULL) {
+    if (text2 != nullptr) {
         strcpy(
             &req->pitem_strings2[req->items_count * req->item_string_len],
             text2);

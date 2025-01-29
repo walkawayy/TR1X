@@ -265,13 +265,13 @@ void Object_SetupAllObjects(void)
         obj->save_hitpoints = 0;
         obj->save_flags = 0;
         obj->save_anim = 0;
-        obj->initialise = NULL;
-        obj->collision = NULL;
-        obj->control = NULL;
+        obj->initialise = nullptr;
+        obj->collision = nullptr;
+        obj->control = nullptr;
         obj->draw_routine = Object_DrawAnimatingItem;
-        obj->ceiling_height_func = NULL;
-        obj->floor_height_func = NULL;
-        obj->is_usable = NULL;
+        obj->ceiling_height_func = nullptr;
+        obj->floor_height_func = nullptr;
+        obj->is_usable = nullptr;
         obj->pivot_length = 0;
         obj->radius = DEFAULT_RADIUS;
         obj->shadow_size = 0;
@@ -285,66 +285,66 @@ void Object_SetupAllObjects(void)
     Lara_Hair_Initialise();
 
     if (g_Config.gameplay.disable_medpacks) {
-        g_Objects[O_MEDI_ITEM].initialise = NULL;
-        g_Objects[O_MEDI_ITEM].collision = NULL;
-        g_Objects[O_MEDI_ITEM].control = NULL;
+        g_Objects[O_MEDI_ITEM].initialise = nullptr;
+        g_Objects[O_MEDI_ITEM].collision = nullptr;
+        g_Objects[O_MEDI_ITEM].control = nullptr;
         g_Objects[O_MEDI_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_MEDI_ITEM].floor_height_func = NULL;
-        g_Objects[O_MEDI_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_MEDI_ITEM].floor_height_func = nullptr;
+        g_Objects[O_MEDI_ITEM].ceiling_height_func = nullptr;
 
-        g_Objects[O_BIGMEDI_ITEM].initialise = NULL;
-        g_Objects[O_BIGMEDI_ITEM].collision = NULL;
-        g_Objects[O_BIGMEDI_ITEM].control = NULL;
+        g_Objects[O_BIGMEDI_ITEM].initialise = nullptr;
+        g_Objects[O_BIGMEDI_ITEM].collision = nullptr;
+        g_Objects[O_BIGMEDI_ITEM].control = nullptr;
         g_Objects[O_BIGMEDI_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_BIGMEDI_ITEM].floor_height_func = NULL;
-        g_Objects[O_BIGMEDI_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_BIGMEDI_ITEM].floor_height_func = nullptr;
+        g_Objects[O_BIGMEDI_ITEM].ceiling_height_func = nullptr;
     }
 
     if (g_Config.gameplay.disable_magnums) {
-        g_Objects[O_MAGNUM_ITEM].initialise = NULL;
-        g_Objects[O_MAGNUM_ITEM].collision = NULL;
-        g_Objects[O_MAGNUM_ITEM].control = NULL;
+        g_Objects[O_MAGNUM_ITEM].initialise = nullptr;
+        g_Objects[O_MAGNUM_ITEM].collision = nullptr;
+        g_Objects[O_MAGNUM_ITEM].control = nullptr;
         g_Objects[O_MAGNUM_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_MAGNUM_ITEM].floor_height_func = NULL;
-        g_Objects[O_MAGNUM_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_MAGNUM_ITEM].floor_height_func = nullptr;
+        g_Objects[O_MAGNUM_ITEM].ceiling_height_func = nullptr;
 
-        g_Objects[O_MAG_AMMO_ITEM].initialise = NULL;
-        g_Objects[O_MAG_AMMO_ITEM].collision = NULL;
-        g_Objects[O_MAG_AMMO_ITEM].control = NULL;
+        g_Objects[O_MAG_AMMO_ITEM].initialise = nullptr;
+        g_Objects[O_MAG_AMMO_ITEM].collision = nullptr;
+        g_Objects[O_MAG_AMMO_ITEM].control = nullptr;
         g_Objects[O_MAG_AMMO_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_MAG_AMMO_ITEM].floor_height_func = NULL;
-        g_Objects[O_MAG_AMMO_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_MAG_AMMO_ITEM].floor_height_func = nullptr;
+        g_Objects[O_MAG_AMMO_ITEM].ceiling_height_func = nullptr;
     }
 
     if (g_Config.gameplay.disable_uzis) {
-        g_Objects[O_UZI_ITEM].initialise = NULL;
-        g_Objects[O_UZI_ITEM].collision = NULL;
-        g_Objects[O_UZI_ITEM].control = NULL;
+        g_Objects[O_UZI_ITEM].initialise = nullptr;
+        g_Objects[O_UZI_ITEM].collision = nullptr;
+        g_Objects[O_UZI_ITEM].control = nullptr;
         g_Objects[O_UZI_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_UZI_ITEM].floor_height_func = NULL;
-        g_Objects[O_UZI_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_UZI_ITEM].floor_height_func = nullptr;
+        g_Objects[O_UZI_ITEM].ceiling_height_func = nullptr;
 
-        g_Objects[O_UZI_AMMO_ITEM].initialise = NULL;
-        g_Objects[O_UZI_AMMO_ITEM].collision = NULL;
-        g_Objects[O_UZI_AMMO_ITEM].control = NULL;
+        g_Objects[O_UZI_AMMO_ITEM].initialise = nullptr;
+        g_Objects[O_UZI_AMMO_ITEM].collision = nullptr;
+        g_Objects[O_UZI_AMMO_ITEM].control = nullptr;
         g_Objects[O_UZI_AMMO_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_UZI_AMMO_ITEM].floor_height_func = NULL;
-        g_Objects[O_UZI_AMMO_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_UZI_AMMO_ITEM].floor_height_func = nullptr;
+        g_Objects[O_UZI_AMMO_ITEM].ceiling_height_func = nullptr;
     }
 
     if (g_Config.gameplay.disable_shotgun) {
-        g_Objects[O_SHOTGUN_ITEM].initialise = NULL;
-        g_Objects[O_SHOTGUN_ITEM].collision = NULL;
-        g_Objects[O_SHOTGUN_ITEM].control = NULL;
+        g_Objects[O_SHOTGUN_ITEM].initialise = nullptr;
+        g_Objects[O_SHOTGUN_ITEM].collision = nullptr;
+        g_Objects[O_SHOTGUN_ITEM].control = nullptr;
         g_Objects[O_SHOTGUN_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_SHOTGUN_ITEM].floor_height_func = NULL;
-        g_Objects[O_SHOTGUN_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_SHOTGUN_ITEM].floor_height_func = nullptr;
+        g_Objects[O_SHOTGUN_ITEM].ceiling_height_func = nullptr;
 
-        g_Objects[O_SG_AMMO_ITEM].initialise = NULL;
-        g_Objects[O_SG_AMMO_ITEM].collision = NULL;
-        g_Objects[O_SG_AMMO_ITEM].control = NULL;
+        g_Objects[O_SG_AMMO_ITEM].initialise = nullptr;
+        g_Objects[O_SG_AMMO_ITEM].collision = nullptr;
+        g_Objects[O_SG_AMMO_ITEM].control = nullptr;
         g_Objects[O_SG_AMMO_ITEM].draw_routine = Object_DrawDummyItem;
-        g_Objects[O_SG_AMMO_ITEM].floor_height_func = NULL;
-        g_Objects[O_SG_AMMO_ITEM].ceiling_height_func = NULL;
+        g_Objects[O_SG_AMMO_ITEM].floor_height_func = nullptr;
+        g_Objects[O_SG_AMMO_ITEM].ceiling_height_func = nullptr;
     }
 }

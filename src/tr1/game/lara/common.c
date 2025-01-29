@@ -28,8 +28,6 @@
 #include <libtrx/log.h>
 #include <libtrx/utils.h>
 
-#include <stddef.h>
-
 #define LARA_MOVE_TIMEOUT 90
 #define LARA_PUSH_TIMEOUT 15
 #define LARA_MOVE_ANIM_VELOCITY 12
@@ -50,7 +48,7 @@ ITEM *Lara_GetItem(void)
 
 ITEM *Lara_GetDeathCameraTarget(void)
 {
-    return m_DeathCameraTarget == -1 ? NULL : Item_Get(m_DeathCameraTarget);
+    return m_DeathCameraTarget == -1 ? nullptr : Item_Get(m_DeathCameraTarget);
 }
 
 void Lara_SetDeathCameraTarget(const int16_t item_num)
@@ -113,7 +111,7 @@ void Lara_Control(void)
             item->pos.y += 100;
             item->gravity = 0;
             Item_UpdateRoom(item, 0);
-            Sound_StopEffect(SFX_LARA_FALL, NULL);
+            Sound_StopEffect(SFX_LARA_FALL, nullptr);
             if (item->current_anim_state == LS_SWAN_DIVE) {
                 item->goal_anim_state = LS_DIVE;
                 item->rot.x = -45 * DEG_1;
@@ -282,7 +280,7 @@ void Lara_Control(void)
         g_Lara.death_timer++;
         // make sure the enemy healthbar is no longer rendered. If g_Lara later
         // is resurrected with DOZY, she should no longer aim at the target.
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
 
         if (g_LaraItem->flags & IF_INVISIBLE) {
             return;
@@ -399,7 +397,7 @@ void Lara_UseItem(GAME_OBJECT_ID object_id)
         g_LaraItem->hit_points += LARA_MAX_HITPOINTS / 2;
         CLAMPG(g_LaraItem->hit_points, LARA_MAX_HITPOINTS);
         Inv_RemoveItem(O_MEDI_ITEM);
-        Sound_Effect(SFX_MENU_MEDI, NULL, SPM_ALWAYS);
+        Sound_Effect(SFX_MENU_MEDI, nullptr, SPM_ALWAYS);
         break;
 
     case O_BIGMEDI_ITEM:
@@ -411,7 +409,7 @@ void Lara_UseItem(GAME_OBJECT_ID object_id)
         g_LaraItem->hit_points = g_LaraItem->hit_points + LARA_MAX_HITPOINTS;
         CLAMPG(g_LaraItem->hit_points, LARA_MAX_HITPOINTS);
         Inv_RemoveItem(O_BIGMEDI_ITEM);
-        Sound_Effect(SFX_MENU_MEDI, NULL, SPM_ALWAYS);
+        Sound_Effect(SFX_MENU_MEDI, nullptr, SPM_ALWAYS);
         break;
 
     case O_KEY_ITEM_1:
@@ -439,7 +437,7 @@ void Lara_UseItem(GAME_OBJECT_ID object_id)
     case O_SCION_OPTION: {
         int16_t receptacle_item_num = Object_FindReceptacle(object_id);
         if (receptacle_item_num == NO_OBJECT) {
-            Sound_Effect(SFX_LARA_NO, NULL, SPM_NORMAL);
+            Sound_Effect(SFX_LARA_NO, nullptr, SPM_NORMAL);
             return;
         }
         g_Lara.interact_target.item_num = receptacle_item_num;
@@ -463,7 +461,7 @@ void Lara_InitialiseLoad(int16_t item_num)
 {
     g_Lara.item_num = item_num;
     if (item_num == NO_ITEM) {
-        g_LaraItem = NULL;
+        g_LaraItem = nullptr;
     } else {
         g_LaraItem = &g_Items[item_num];
     }
@@ -475,7 +473,7 @@ void Lara_Initialise(const GF_LEVEL *const level)
 
     g_LaraItem->collidable = 0;
     g_LaraItem->data = &g_Lara;
-    if (resume != NULL && g_Config.gameplay.disable_healing_between_levels) {
+    if (resume != nullptr && g_Config.gameplay.disable_healing_between_levels) {
         g_LaraItem->hit_points = resume->lara_hitpoints;
     } else {
         g_LaraItem->hit_points = g_Config.gameplay.start_lara_hitpoints;
@@ -494,8 +492,8 @@ void Lara_Initialise(const GF_LEVEL *const level)
     g_Lara.hit_frame = 0;
     g_Lara.hit_direction = 0;
     g_Lara.death_timer = 0;
-    g_Lara.target = NULL;
-    g_Lara.hit_effect = NULL;
+    g_Lara.target = nullptr;
+    g_Lara.hit_effect = nullptr;
     g_Lara.hit_effect_count = 0;
     g_Lara.turn_rate = 0;
     g_Lara.move_angle = 0;
@@ -538,7 +536,7 @@ void Lara_InitialiseInventory(const GF_LEVEL *const level)
 
     g_Lara.pistols.ammo = 1000;
 
-    if (resume != NULL) {
+    if (resume != nullptr) {
         if (g_GameInfo.remove_guns) {
             resume->flags.got_pistols = 0;
             resume->flags.got_shotgun = 0;
@@ -655,7 +653,7 @@ void Lara_InitialiseMeshes(const GF_LEVEL *const level)
 {
     const RESUME_INFO *const resume = GF_GetResumeInfo(level);
 
-    if (resume != NULL && resume->flags.costume) {
+    if (resume != nullptr && resume->flags.costume) {
         for (LARA_MESH mesh = LM_FIRST; mesh < LM_NUMBER_OF; mesh++) {
             Lara_SwapSingleMesh(mesh, mesh == LM_HEAD ? O_LARA : O_LARA_EXTRA);
         }
@@ -667,9 +665,9 @@ void Lara_InitialiseMeshes(const GF_LEVEL *const level)
     }
 
     LARA_GUN_TYPE holsters_gun_type =
-        resume != NULL ? resume->holsters_gun_type : LGT_UNKNOWN;
+        resume != nullptr ? resume->holsters_gun_type : LGT_UNKNOWN;
     LARA_GUN_TYPE back_gun_type =
-        resume != NULL ? resume->back_gun_type : LGT_UNKNOWN;
+        resume != nullptr ? resume->back_gun_type : LGT_UNKNOWN;
 
     if (holsters_gun_type != LGT_UNKNOWN) {
         Gun_SetLaraHolsterLMesh(holsters_gun_type);

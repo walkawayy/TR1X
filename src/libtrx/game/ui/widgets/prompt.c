@@ -95,10 +95,10 @@ static void M_SetPosition(
 
 static void M_Control(UI_PROMPT *const self)
 {
-    if (self->label->control != NULL) {
+    if (self->label->control != nullptr) {
         self->label->control(self->label);
     }
-    if (self->caret->control != NULL) {
+    if (self->caret->control != nullptr) {
         self->caret->control(self->caret);
     }
 }
@@ -108,10 +108,10 @@ static void M_Draw(UI_PROMPT *const self)
     if (self->vtable.is_hidden) {
         return;
     }
-    if (self->label->draw != NULL) {
+    if (self->label->draw != nullptr) {
         self->label->draw(self->label);
     }
-    if (self->caret->draw != NULL) {
+    if (self->caret->draw != nullptr) {
         self->caret->draw(self->caret);
     }
 }
@@ -283,9 +283,9 @@ UI_WIDGET *UI_Prompt_Create(const int32_t width, const int32_t height)
     self->is_focused = false;
 
     self->listener1 =
-        UI_Events_Subscribe("key_down", NULL, M_HandleKeyDown, self);
+        UI_Events_Subscribe("key_down", nullptr, M_HandleKeyDown, self);
     self->listener2 =
-        UI_Events_Subscribe("text_edit", NULL, M_HandleTextEdit, self);
+        UI_Events_Subscribe("text_edit", nullptr, M_HandleTextEdit, self);
 
     return (UI_WIDGET *)self;
 }

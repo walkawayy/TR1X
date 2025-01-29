@@ -14,10 +14,10 @@ bool GFX_Screenshot_CaptureToFile(const char *path)
     GLint width;
     GLint height;
     GFX_Screenshot_CaptureToBuffer(
-        NULL, &width, &height, 3, GL_RGB, GL_UNSIGNED_BYTE, true);
+        nullptr, &width, &height, 3, GL_RGB, GL_UNSIGNED_BYTE, true);
 
     IMAGE *image = Image_Create(width, height);
-    ASSERT(image != NULL);
+    ASSERT(image != nullptr);
 
     GFX_Screenshot_CaptureToBuffer(
         (uint8_t *)image->data, &width, &height, 3, GL_RGB, GL_UNSIGNED_BYTE,
@@ -35,8 +35,8 @@ void GFX_Screenshot_CaptureToBuffer(
     uint8_t *out_buffer, GLint *out_width, GLint *out_height, GLint depth,
     GLenum format, GLenum type, bool vflip)
 {
-    ASSERT(out_width != NULL);
-    ASSERT(out_height != NULL);
+    ASSERT(out_width != nullptr);
+    ASSERT(out_height != nullptr);
 
     GLint viewport[4];
     glGetIntegerv(GL_VIEWPORT, viewport);

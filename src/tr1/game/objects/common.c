@@ -16,8 +16,6 @@
 #include <libtrx/game/matrix.h>
 #include <libtrx/utils.h>
 
-#include <stddef.h>
-
 OBJECT *Object_GetObject(const GAME_OBJECT_ID object_id)
 {
     return &g_Objects[object_id];
@@ -41,7 +39,7 @@ int16_t Object_FindReceptacle(GAME_OBJECT_ID object_id)
         ITEM *item = &g_Items[item_num];
         if (item->object_id == receptacle_to_check) {
             const OBJECT *const obj = &g_Objects[item->object_id];
-            if (obj->is_usable != NULL && !obj->is_usable(item_num)) {
+            if (obj->is_usable != nullptr && !obj->is_usable(item_num)) {
                 continue;
             }
             if (Lara_TestPosition(item, obj->bounds())) {
@@ -245,7 +243,7 @@ void Object_DrawInterpolatedObject(
     const ANIM_FRAME *const frame1, const ANIM_FRAME *const frame2,
     const int32_t frac, const int32_t rate)
 {
-    ASSERT(frame1 != NULL);
+    ASSERT(frame1 != nullptr);
     int32_t clip = Output_GetObjectBounds(&frame1->bounds);
     if (!clip) {
         return;
@@ -276,7 +274,7 @@ void Object_DrawInterpolatedObject(
             Matrix_TranslateRel32(bone->pos);
             Matrix_Rot16(frame1->mesh_rots[i]);
 
-            if (extra_rotation != NULL) {
+            if (extra_rotation != nullptr) {
                 if (bone->rot_y) {
                     Matrix_RotY(*extra_rotation++);
                 }
@@ -294,7 +292,7 @@ void Object_DrawInterpolatedObject(
             }
         }
     } else {
-        ASSERT(frame2 != NULL);
+        ASSERT(frame2 != nullptr);
         Matrix_InitInterpolate(frac, rate);
         Matrix_TranslateRel16_ID(frame1->offset, frame2->offset);
         Matrix_Rot16_ID(frame1->mesh_rots[0], frame2->mesh_rots[0]);
@@ -316,7 +314,7 @@ void Object_DrawInterpolatedObject(
             Matrix_TranslateRel32_I(bone->pos);
             Matrix_Rot16_ID(frame1->mesh_rots[i], frame2->mesh_rots[i]);
 
-            if (extra_rotation != NULL) {
+            if (extra_rotation != nullptr) {
                 if (bone->rot_y) {
                     Matrix_RotY_I(*extra_rotation++);
                 }
@@ -354,7 +352,7 @@ void Object_DrawAnimatingItem(ITEM *item)
     Matrix_Rot16(item->interp.result.rot);
 
     Output_CalculateObjectLighting(item, &frmptr[0]->bounds);
-    const int16_t *extra_rotation = item->data ? item->data : NULL;
+    const int16_t *extra_rotation = item->data ? item->data : nullptr;
 
     Object_DrawInterpolatedObject(
         &g_Objects[item->object_id], item->mesh_bits, extra_rotation, frmptr[0],

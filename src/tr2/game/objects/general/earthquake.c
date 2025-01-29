@@ -23,7 +23,7 @@ void Earthquake_Control(const int16_t item_num)
 {
     const ITEM *const item = Item_Get(item_num);
     if (Random_GetDraw() < 512) {
-        Sound_Effect(SFX_DRAGON_FEET, NULL, SPM_NORMAL);
+        Sound_Effect(SFX_DRAGON_FEET, nullptr, SPM_NORMAL);
         g_Camera.bounce = -200;
     }
 

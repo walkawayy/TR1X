@@ -151,7 +151,7 @@ static void M_AddLevelStatsRows(UI_STATS_DIALOG *const self)
 {
     const GF_LEVEL *const current_level = Game_GetCurrentLevel();
     const STATS_COMMON *stats =
-        current_level != NULL && self->args.level_num == current_level->num
+        current_level != nullptr && self->args.level_num == current_level->num
         ? (STATS_COMMON *)&g_SaveGame.current_stats
         : (STATS_COMMON *)&g_SaveGame.start[self->args.level_num].stats;
     M_AddRowFromRole(self, M_ROW_TIMER, stats);
@@ -181,7 +181,7 @@ static void M_AddFinalStatsRows(UI_STATS_DIALOG *const self)
 static void M_AddAssaultCourseStatsRows(UI_STATS_DIALOG *const self)
 {
     if (!g_Assault.best_time[0]) {
-        M_AddRow(self, M_ROW_GENERIC, GS(STATS_ASSAULT_NO_TIMES_SET), NULL);
+        M_AddRow(self, M_ROW_GENERIC, GS(STATS_ASSAULT_NO_TIMES_SET), nullptr);
         return;
     }
 
@@ -220,7 +220,7 @@ static void M_UpdateTimerRow(UI_STATS_DIALOG *const self)
         sprintf(
             buf, "%02d:%02d:%02d", (sec / 60) / 60, (sec / 60) % 60, sec % 60);
         UI_Requester_ChangeRowLR(
-            self->requester, i, NULL, buf, (void *)(intptr_t)M_ROW_TIMER);
+            self->requester, i, nullptr, buf, (void *)(intptr_t)M_ROW_TIMER);
         return;
     }
 }
@@ -256,7 +256,7 @@ static void M_SetPosition(
 
 static void M_Control(UI_STATS_DIALOG *const self)
 {
-    if (self->requester->control != NULL) {
+    if (self->requester->control != nullptr) {
         self->requester->control(self->requester);
     }
 
@@ -265,7 +265,7 @@ static void M_Control(UI_STATS_DIALOG *const self)
 
 static void M_Draw(UI_STATS_DIALOG *const self)
 {
-    if (self->requester->draw != NULL) {
+    if (self->requester->draw != nullptr) {
         self->requester->draw(self->requester);
     }
 }
@@ -301,8 +301,8 @@ UI_WIDGET *UI_StatsDialog_Create(UI_STATS_DIALOG_ARGS args)
         .row_height = ROW_HEIGHT,
     });
 
-    self->listener =
-        UI_Events_Subscribe("layout_update", NULL, M_HandleLayoutUpdate, self);
+    self->listener = UI_Events_Subscribe(
+        "layout_update", nullptr, M_HandleLayoutUpdate, self);
 
     switch (args.mode) {
     case UI_STATS_DIALOG_MODE_LEVEL:

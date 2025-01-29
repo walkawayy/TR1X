@@ -7,20 +7,20 @@
 
 #define MAX_HISTORY_ENTRIES 30
 
-VECTOR *m_History = NULL;
+VECTOR *m_History = nullptr;
 static const char *m_Path = "cfg/" PROJECT_NAME "_console_history.json5";
 
 void M_LoadFromJSON(JSON_OBJECT *const root_obj)
 {
     JSON_ARRAY *const arr = JSON_ObjectGetArray(root_obj, "entries");
-    if (arr == NULL) {
+    if (arr == nullptr) {
         return;
     }
 
     Console_History_Clear();
     for (size_t i = 0; i < arr->length; i++) {
-        const char *const line = JSON_ArrayGetString(arr, i, NULL);
-        if (line != NULL) {
+        const char *const line = JSON_ArrayGetString(arr, i, nullptr);
+        if (line != nullptr) {
             Console_History_Append(line);
         }
     }
@@ -48,17 +48,17 @@ void Console_History_Init(void)
     m_History = Vector_Create(sizeof(char *));
     ConfigFile_Read(&(CONFIG_IO_ARGS) {
         .default_path = m_Path,
-        .enforced_path = NULL,
+        .enforced_path = nullptr,
         .action = &M_LoadFromJSON,
     });
 }
 
 void Console_History_Shutdown(void)
 {
-    if (m_History != NULL) {
+    if (m_History != nullptr) {
         ConfigFile_Write(&(CONFIG_IO_ARGS) {
             .default_path = m_Path,
-            .enforced_path = NULL,
+            .enforced_path = nullptr,
             .action = &M_DumpToJSON,
         });
         for (int32_t i = m_History->count - 1; i >= 0; i--) {
@@ -66,7 +66,7 @@ void Console_History_Shutdown(void)
             Memory_Free(prompt);
         }
         Vector_Free(m_History);
-        m_History = NULL;
+        m_History = nullptr;
     }
 }
 
@@ -98,7 +98,7 @@ void Console_History_Append(const char *const prompt)
 const char *Console_History_Get(const int32_t idx)
 {
     if (idx < 0 || idx >= m_History->count) {
-        return NULL;
+        return nullptr;
     }
     const char *const prompt = *(char **)Vector_Get(m_History, idx);
     return prompt;

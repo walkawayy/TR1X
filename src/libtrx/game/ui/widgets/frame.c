@@ -58,7 +58,7 @@ static void M_Draw(UI_FRAME *const self)
         return;
     }
     self->root->draw(self->root);
-    if (self->frame != NULL && self->is_frame_visible) {
+    if (self->frame != nullptr && self->is_frame_visible) {
         Text_DrawText(self->frame);
     }
 }
@@ -74,7 +74,7 @@ UI_WIDGET *UI_Frame_Create(
 {
     UI_FRAME *const self = Memory_Alloc(sizeof(UI_FRAME));
     self->vtable = (UI_WIDGET_VTABLE) {
-        .control = NULL,
+        .control = nullptr,
         .draw = (UI_WIDGET_DRAW)M_Draw,
         .get_width = (UI_WIDGET_GET_WIDTH)M_GetWidth,
         .get_height = (UI_WIDGET_GET_HEIGHT)M_GetHeight,

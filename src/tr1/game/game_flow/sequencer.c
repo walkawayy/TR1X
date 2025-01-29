@@ -92,14 +92,14 @@ static DECLARE_EVENT_HANDLER(M_HandleLoadLevel)
         const int16_t slot_num = Savegame_GetBoundSlot();
 
         if (!Level_Initialise(level)) {
-            Game_SetCurrentLevel(NULL);
-            GF_SetCurrentLevel(NULL);
+            Game_SetCurrentLevel(nullptr);
+            GF_SetCurrentLevel(nullptr);
             return (GF_COMMAND) { .action = GF_EXIT_TO_TITLE };
         }
         if (!Savegame_Load(slot_num)) {
             LOG_ERROR("Failed to load save file!");
-            Game_SetCurrentLevel(NULL);
-            GF_SetCurrentLevel(NULL);
+            Game_SetCurrentLevel(nullptr);
+            GF_SetCurrentLevel(nullptr);
             return (GF_COMMAND) { .action = GF_EXIT_TO_TITLE };
         }
         break;
@@ -113,8 +113,8 @@ static DECLARE_EVENT_HANDLER(M_HandleLoadLevel)
             Savegame_ApplyLogicToCurrentInfo(level);
         }
         if (!Level_Initialise(level)) {
-            Game_SetCurrentLevel(NULL);
-            GF_SetCurrentLevel(NULL);
+            Game_SetCurrentLevel(nullptr);
+            GF_SetCurrentLevel(nullptr);
             return (GF_COMMAND) { .action = GF_EXIT_TO_TITLE };
         }
         break;
@@ -127,7 +127,7 @@ static DECLARE_EVENT_HANDLER(M_HandleLoadLevel)
                 Savegame_LoadOnlyResumeInfo(
                     Savegame_GetBoundSlot(), &g_GameInfo);
                 const GF_LEVEL *tmp_level = level;
-                while (tmp_level != NULL) {
+                while (tmp_level != nullptr) {
                     Savegame_ResetCurrentInfo(tmp_level);
                     tmp_level = GF_GetLevelAfter(tmp_level);
                 }
@@ -138,7 +138,7 @@ static DECLARE_EVENT_HANDLER(M_HandleLoadLevel)
             // console /play level feature
             Savegame_InitCurrentInfo();
             const GF_LEVEL *tmp_level = GF_GetLevelAfter(GF_GetFirstLevel());
-            while (tmp_level != NULL) {
+            while (tmp_level != nullptr) {
                 Savegame_CarryCurrentInfoToNextLevel(
                     GF_GetLevelBefore(tmp_level), tmp_level);
                 Savegame_ApplyLogicToCurrentInfo(tmp_level);
@@ -149,8 +149,8 @@ static DECLARE_EVENT_HANDLER(M_HandleLoadLevel)
             }
         }
         if (!Level_Initialise(level)) {
-            Game_SetCurrentLevel(NULL);
-            GF_SetCurrentLevel(NULL);
+            Game_SetCurrentLevel(nullptr);
+            GF_SetCurrentLevel(nullptr);
             return (GF_COMMAND) { .action = GF_EXIT_TO_TITLE };
         }
         break;
@@ -165,8 +165,8 @@ static DECLARE_EVENT_HANDLER(M_HandleLoadLevel)
         }
 
         if (!Level_Initialise(level)) {
-            Game_SetCurrentLevel(NULL);
-            GF_SetCurrentLevel(NULL);
+            Game_SetCurrentLevel(nullptr);
+            GF_SetCurrentLevel(nullptr);
             if (level->type == GFL_TITLE) {
                 gf_cmd = (GF_COMMAND) { .action = GF_EXIT_GAME };
             } else {
@@ -178,7 +178,7 @@ static DECLARE_EVENT_HANDLER(M_HandleLoadLevel)
 
     Stats_CalculateStats();
     RESUME_INFO *const resume = GF_GetResumeInfo(level);
-    if (resume != NULL) {
+    if (resume != nullptr) {
         resume->stats.max_pickup_count = Stats_GetPickups();
         resume->stats.max_kill_count = Stats_GetKillables();
         resume->stats.max_secret_count = Stats_GetSecrets();
@@ -264,7 +264,7 @@ static DECLARE_EVENT_HANDLER(M_HandlePicture)
     if (seq_ctx == GFSC_SAVED) {
         return gf_cmd;
     }
-    if (Game_GetCurrentLevel() == NULL
+    if (Game_GetCurrentLevel() == nullptr
         && !g_Config.gameplay.enable_eidos_logo) {
         return gf_cmd;
     }
@@ -289,7 +289,7 @@ static DECLARE_EVENT_HANDLER(M_HandleLevelComplete)
     }
     const GF_LEVEL *const current_level = Game_GetCurrentLevel();
     const GF_LEVEL *const next_level = GF_GetLevelAfter(current_level);
-    if (next_level == NULL) {
+    if (next_level == nullptr) {
         return (GF_COMMAND) { .action = GF_EXIT_TO_TITLE };
     }
     if (next_level->type == GFL_BONUS && !g_GameInfo.bonus_level_unlock) {

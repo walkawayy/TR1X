@@ -67,7 +67,7 @@ UI_WIDGET *UI_Label_Create(
         .get_width = (UI_WIDGET_GET_WIDTH)M_GetWidth,
         .get_height = (UI_WIDGET_GET_HEIGHT)M_GetHeight,
         .set_position = (UI_WIDGET_SET_POSITION)M_SetPosition,
-        .control = NULL,
+        .control = nullptr,
         .draw = (UI_WIDGET_DRAW)M_Draw,
         .free = (UI_WIDGET_FREE)M_Free,
     };

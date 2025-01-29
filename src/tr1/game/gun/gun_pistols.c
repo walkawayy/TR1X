@@ -9,7 +9,6 @@
 
 #include <libtrx/config.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 void Gun_Pistols_Draw(const LARA_GUN_TYPE weapon_type)
@@ -80,7 +79,7 @@ void Gun_Pistols_Undraw(const LARA_GUN_TYPE weapon_type)
         g_Lara.left_arm.frame_num = LF_G_AIM_START;
         g_Lara.right_arm.frame_num = LF_G_AIM_START;
         g_Lara.gun_status = LGS_ARMLESS;
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
     }
 
     g_Lara.head_rot.x = (g_Lara.right_arm.rot.x + g_Lara.left_arm.rot.x) / 4;
@@ -104,7 +103,7 @@ void Gun_Pistols_Ready(const LARA_GUN_TYPE weapon_type)
     g_Lara.head_rot.y = 0;
     g_Lara.torso_rot.x = 0;
     g_Lara.torso_rot.y = 0;
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
     g_Lara.right_arm.frame_base = g_Objects[O_PISTOL_ANIM].frame_base;
     g_Lara.left_arm.frame_base = g_Objects[O_PISTOL_ANIM].frame_base;
 }

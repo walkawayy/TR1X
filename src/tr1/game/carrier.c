@@ -14,8 +14,6 @@
 #include <libtrx/log.h>
 #include <libtrx/vector.h>
 
-#include <stddef.h>
-
 #define DROP_FAST_RATE GRAVITY
 #define DROP_SLOW_RATE 1
 #define DROP_FAST_TURN (DEG_1 * 5)
@@ -38,7 +36,7 @@ static const GAME_OBJECT_PAIR m_LegacyMap[] = {
 static ITEM *M_GetCarrier(const int16_t item_num)
 {
     if (item_num < 0 || item_num >= g_LevelItemCount) {
-        return NULL;
+        return nullptr;
     }
 
     // Allow carried items to be allocated to holder objects (pods/statues),
@@ -51,7 +49,7 @@ static ITEM *M_GetCarrier(const int16_t item_num)
 
     const OBJECT *object = Object_GetObject(item->object_id);
     if (!object->loaded) {
-        return NULL;
+        return nullptr;
     }
 
     return item;
@@ -60,11 +58,11 @@ static ITEM *M_GetCarrier(const int16_t item_num)
 static CARRIED_ITEM *M_GetFirstDropItem(const ITEM *const carrier)
 {
     if (carrier->hit_points > 0 && carrier->object_id != O_MUMMY) {
-        return NULL;
+        return nullptr;
     }
 
     if (carrier->object_id == O_PIERRE && !(carrier->flags & IF_ONE_SHOT)) {
-        return NULL;
+        return nullptr;
     }
 
     return carrier->carried_item;
@@ -123,7 +121,7 @@ static void M_InitialiseDataDrops(void)
 
     for (int32_t i = 0; i < g_LevelItemCount; i++) {
         ITEM *const carrier = M_GetCarrier(i);
-        if (carrier == NULL
+        if (carrier == nullptr
             || !Object_IsObjectType(carrier->object_id, g_EnemyObjects)) {
             continue;
         }
@@ -159,7 +157,7 @@ static void M_InitialiseDataDrops(void)
                 drop->next_item = drop + 1;
                 drop++;
             } else {
-                drop->next_item = NULL;
+                drop->next_item = nullptr;
             }
         }
 
@@ -221,7 +219,7 @@ static void M_InitialiseGameFlowDrops(const GF_LEVEL *const level)
                 drop->next_item = drop + 1;
                 drop++;
             } else {
-                drop->next_item = NULL;
+                drop->next_item = nullptr;
             }
         }
     }
@@ -282,7 +280,7 @@ void Carrier_TestItemDrops(const int16_t item_num)
 {
     const ITEM *const carrier = Item_Get(item_num);
     CARRIED_ITEM *item = M_GetFirstDropItem(carrier);
-    if (item == NULL) {
+    if (item == nullptr) {
         return;
     }
 

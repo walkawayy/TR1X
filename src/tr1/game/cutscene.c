@@ -20,7 +20,6 @@
 
 #include <libtrx/memory.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 static void M_InitialiseLara(const GF_LEVEL *level);

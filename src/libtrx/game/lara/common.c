@@ -4,8 +4,6 @@
 #include "game/item_actions.h"
 #include "game/rooms/const.h"
 
-#include <stddef.h>
-
 void Lara_Animate(ITEM *const item)
 {
     LARA_INFO *const lara = Lara_GetLaraInfo();
@@ -131,7 +129,7 @@ const ANIM_FRAME *Lara_GetHitFrame(const ITEM *const item)
 {
     const LARA_INFO *const lara = Lara_GetLaraInfo();
     if (lara->hit_direction < 0) {
-        return NULL;
+        return nullptr;
     }
 
     // clang-format off

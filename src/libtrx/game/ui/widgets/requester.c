@@ -57,7 +57,7 @@ static void M_ClearRows(UI_REQUESTER *const self)
 {
     for (int32_t i = 0; i < self->row_count; i++) {
         self->rows[i].left_label->free(self->rows[i].left_label);
-        if (self->rows[i].right_label != NULL) {
+        if (self->rows[i].right_label != nullptr) {
             self->rows[i].right_label->free(self->rows[i].right_label);
         }
         self->rows[i].frame->free(self->rows[i].frame);
@@ -89,12 +89,12 @@ static M_ROW *M_AddRow(
         left_text, UI_LABEL_AUTO_SIZE, self->settings.row_height);
     UI_Stack_AddChild(row->stack, row->left_label);
 
-    if (right_text != NULL) {
+    if (right_text != nullptr) {
         row->right_label = UI_Label_Create(
             right_text, UI_LABEL_AUTO_SIZE, self->settings.row_height);
         UI_Stack_AddChild(row->stack, row->right_label);
     } else {
-        row->right_label = NULL;
+        row->right_label = nullptr;
         UI_Stack_SetHAlign(row->stack, UI_STACK_H_ALIGN_CENTER);
     }
 
@@ -143,7 +143,7 @@ static void M_SetPosition(
 
 static void M_Control(UI_REQUESTER *const self)
 {
-    if (self->window->control != NULL) {
+    if (self->window->control != nullptr) {
         self->window->control(self->window);
     }
 
@@ -201,7 +201,7 @@ static void M_Control(UI_REQUESTER *const self)
 
 static void M_Draw(UI_REQUESTER *const self)
 {
-    if (self->window->draw != NULL) {
+    if (self->window->draw != nullptr) {
         self->window->draw(self->window);
     }
 }
@@ -243,8 +243,8 @@ UI_WIDGET *UI_Requester_Create(UI_REQUESTER_SETTINGS settings)
     self->window = UI_Window_Create(self->outer_stack, 8, 8, 8, 8);
 
     self->selected_row_offset = -1;
-    self->listener =
-        UI_Events_Subscribe("canvas_resize", NULL, M_HandleCanvasResize, self);
+    self->listener = UI_Events_Subscribe(
+        "canvas_resize", nullptr, M_HandleCanvasResize, self);
 
     M_DoLayout(self);
     return (UI_WIDGET *)self;
@@ -283,7 +283,7 @@ void UI_Requester_AddRowC(
     UI_WIDGET *const widget, const char *const text, void *const user_data)
 {
     UI_REQUESTER *const self = (UI_REQUESTER *)widget;
-    M_AddRow(self, text, NULL, user_data);
+    M_AddRow(self, text, nullptr, user_data);
     M_DoLayout(self);
 }
 
@@ -291,7 +291,7 @@ void *UI_Requester_GetRowUserData(UI_WIDGET *const widget, const int32_t idx)
 {
     UI_REQUESTER *const self = (UI_REQUESTER *)widget;
     if (idx >= self->row_count || idx < 0) {
-        return NULL;
+        return nullptr;
     }
     return self->rows[idx].user_data;
 }
@@ -310,10 +310,10 @@ void UI_Requester_ChangeRowLR(
     if (idx >= self->row_count || idx < 0) {
         return;
     }
-    if (self->rows[idx].left_label != NULL && text_l != NULL) {
+    if (self->rows[idx].left_label != nullptr && text_l != nullptr) {
         UI_Label_ChangeText(self->rows[idx].left_label, text_l);
     }
-    if (self->rows[idx].right_label != NULL && text_r != NULL) {
+    if (self->rows[idx].right_label != nullptr && text_r != nullptr) {
         UI_Label_ChangeText(self->rows[idx].right_label, text_r);
     }
     self->rows[idx].user_data = user_data;

@@ -91,8 +91,8 @@ static void M_CycleLayout(
 
     const EVENT event = {
         .name = "layout_change",
-        .sender = NULL,
-        .data = NULL,
+        .sender = nullptr,
+        .data = nullptr,
     };
     EventManager_Fire(controller->events, &event);
 }
@@ -214,8 +214,8 @@ static bool M_Listen(UI_CONTROLS_CONTROLLER *const controller)
 
     const EVENT event = {
         .name = "key_change",
-        .sender = NULL,
-        .data = NULL,
+        .sender = nullptr,
+        .data = nullptr,
     };
     EventManager_Fire(controller->events, &event);
 
@@ -235,7 +235,7 @@ static bool M_ListenDebounce(UI_CONTROLS_CONTROLLER *const controller)
 
 void UI_ControlsController_Init(UI_CONTROLS_CONTROLLER *const controller)
 {
-    ASSERT(controller->events == NULL);
+    ASSERT(controller->events == nullptr);
     controller->backend = INPUT_BACKEND_KEYBOARD;
     controller->state = UI_CONTROLS_STATE_NAVIGATE_BACKEND;
 
@@ -245,7 +245,7 @@ void UI_ControlsController_Init(UI_CONTROLS_CONTROLLER *const controller)
 void UI_ControlsController_Shutdown(UI_CONTROLS_CONTROLLER *const controller)
 {
     EventManager_Free(controller->events);
-    controller->events = NULL;
+    controller->events = nullptr;
 }
 
 bool UI_ControlsController_Control(UI_CONTROLS_CONTROLLER *const controller)

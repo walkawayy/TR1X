@@ -720,13 +720,13 @@ void Option_Graphics_Shutdown(void)
 {
     for (int i = 0; i < TEXT_NUMBER_OF; i++) {
         Text_Remove(m_Text[i]);
-        m_Text[i] = NULL;
+        m_Text[i] = nullptr;
     }
     for (int i = 0; i < OPTION_NUMBER_OF; i++) {
         Text_Remove(m_GraphicsMenu.option_texts[i]);
-        m_GraphicsMenu.option_texts[i] = NULL;
+        m_GraphicsMenu.option_texts[i] = nullptr;
         Text_Remove(m_GraphicsMenu.value_texts[i]);
-        m_GraphicsMenu.value_texts[i] = NULL;
+        m_GraphicsMenu.value_texts[i] = nullptr;
     }
     m_IsTextInit = false;
     m_HideArrowLeft = false;

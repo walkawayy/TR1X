@@ -238,7 +238,7 @@ TARGET_TYPE Box_CalculateTarget(
     int32_t right = 0;
     int32_t left = 0;
 
-    BOX_INFO *box = NULL;
+    BOX_INFO *box = nullptr;
     int32_t box_left = 0;
     int32_t box_right = 0;
     int32_t box_top = 0;

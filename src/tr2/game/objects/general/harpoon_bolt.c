@@ -57,7 +57,7 @@ void HarpoonBolt_Control(const int16_t item_num)
 
         if (target_item->object_id != O_WINDOW_1
             && (target_item->status == IS_INVISIBLE
-                || target_obj->collision == NULL)) {
+                || target_obj->collision == nullptr)) {
             continue;
         }
 
@@ -97,7 +97,8 @@ void HarpoonBolt_Control(const int16_t item_num)
                 Spawn_BloodBath(
                     item->pos.x, item->pos.y, item->pos.z, 0, 0, item->room_num,
                     5);
-                Gun_HitTarget(target_item, NULL, g_Weapons[LGT_HARPOON].damage);
+                Gun_HitTarget(
+                    target_item, nullptr, g_Weapons[LGT_HARPOON].damage);
                 g_SaveGame.current_stats.ammo_hits++;
             }
             Item_Kill(item_num);

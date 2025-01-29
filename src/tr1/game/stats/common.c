@@ -20,7 +20,7 @@
 #define USE_REAL_CLOCK 0
 
 static int32_t m_CachedItemCount = 0;
-static SECTOR **m_CachedSectorArray = NULL;
+static SECTOR **m_CachedSectorArray = nullptr;
 static int32_t m_LevelPickups = 0;
 static int32_t m_LevelKillables = 0;
 static int32_t m_LevelSecrets = 0;
@@ -64,12 +64,12 @@ static void M_CheckTriggers(ROOM *r, int room_num, int z_sector, int x_sector)
     const SECTOR *const sector =
         &m_CachedSectorArray[room_num][z_sector + x_sector * r->size.z];
 
-    if (sector->trigger == NULL) {
+    if (sector->trigger == nullptr) {
         return;
     }
 
     const TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type == TO_SECRET) {
             const int16_t secret_num = 1 << (int16_t)(intptr_t)cmd->parameter;
             if (!(m_SecretRoom & secret_num)) {
@@ -94,7 +94,7 @@ static void M_CheckTriggers(ROOM *r, int room_num, int z_sector, int x_sector)
 
             if (item->object_id == O_PODS || item->object_id == O_BIG_POD) {
                 // Check for only valid pods
-                if (item->data != NULL) {
+                if (item->data != nullptr) {
                     const int16_t bug_item_num = *(int16_t *)item->data;
                     const ITEM *const bug_item = &g_Items[bug_item_num];
                     if (g_Objects[bug_item->object_id].loaded) {
@@ -235,7 +235,7 @@ void Stats_StartTimer(void)
 
 void Stats_UpdateTimer(void)
 {
-    if (Game_GetCurrentLevel() == NULL) {
+    if (Game_GetCurrentLevel() == nullptr) {
         return;
     }
     const double elapsed =
@@ -250,7 +250,7 @@ void Stats_StartTimer(void)
 
 void Stats_UpdateTimer(void)
 {
-    if (Game_GetCurrentLevel() == NULL) {
+    if (Game_GetCurrentLevel() == nullptr) {
         return;
     }
     GF_GetResumeInfo(Game_GetCurrentLevel())->stats.timer++;

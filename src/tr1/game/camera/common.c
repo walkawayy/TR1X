@@ -277,12 +277,12 @@ static void M_EnsureEnvironment(void)
 
     if (g_RoomInfo[g_Camera.pos.room_num].flags & RF_UNDERWATER) {
         M_AdjustMusicVolume(true);
-        Sound_Effect(SFX_UNDERWATER, NULL, SPM_ALWAYS);
+        Sound_Effect(SFX_UNDERWATER, nullptr, SPM_ALWAYS);
         g_Camera.underwater = true;
     } else {
         M_AdjustMusicVolume(false);
         if (g_Camera.underwater) {
-            Sound_StopEffect(SFX_UNDERWATER, NULL);
+            Sound_StopEffect(SFX_UNDERWATER, nullptr);
             g_Camera.underwater = false;
         }
     }
@@ -622,7 +622,7 @@ void Camera_Reset(void)
 
 void Camera_ResetPosition(void)
 {
-    ASSERT(g_LaraItem != NULL);
+    ASSERT(g_LaraItem != nullptr);
     g_Camera.shift = g_LaraItem->pos.y - WALL_L;
 
     g_Camera.target.x = g_LaraItem->pos.x;
@@ -636,7 +636,7 @@ void Camera_ResetPosition(void)
     g_Camera.pos.room_num = g_Camera.target.room_num;
 
     g_Camera.target_distance = CAMERA_DEFAULT_DISTANCE;
-    g_Camera.item = NULL;
+    g_Camera.item = nullptr;
 
     g_Camera.type = CAM_CHASE;
     g_Camera.flags = 0;
@@ -803,7 +803,7 @@ void Camera_Update(void)
         g_Camera.type = CAM_CHASE;
         g_Camera.num = NO_CAMERA;
         g_Camera.last_item = g_Camera.item;
-        g_Camera.item = NULL;
+        g_Camera.item = nullptr;
         g_Camera.target_angle = g_Camera.additional_angle;
         g_Camera.target_elevation = g_Camera.additional_elevation;
         g_Camera.target_distance = CAMERA_DEFAULT_DISTANCE;
@@ -836,7 +836,7 @@ void Camera_RefreshFromTrigger(const TRIGGER *const trigger)
 {
     int16_t target_ok = 2;
     const TRIGGER_CMD *cmd = trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type == TO_CAMERA) {
             const TRIGGER_CAMERA_DATA *const cam_data =
                 (TRIGGER_CAMERA_DATA *)cmd->parameter;
@@ -861,11 +861,11 @@ void Camera_RefreshFromTrigger(const TRIGGER *const trigger)
         }
     }
 
-    if (g_Camera.item != NULL) {
+    if (g_Camera.item != nullptr) {
         if (!target_ok
             || (target_ok == 2 && g_Camera.item->looked_at
                 && g_Camera.item != g_Camera.last_item)) {
-            g_Camera.item = NULL;
+            g_Camera.item = nullptr;
         }
     }
 }

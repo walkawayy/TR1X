@@ -26,7 +26,7 @@ static void M_ObjectElementFree(JSON_OBJECT_ELEMENT *element);
 
 static JSON_NUMBER *M_NumberNewInt(const int number)
 {
-    const size_t size = snprintf(NULL, 0, "%d", number) + 1;
+    const size_t size = snprintf(nullptr, 0, "%d", number) + 1;
     char *const buf = Memory_Alloc(size);
     sprintf(buf, "%d", number);
     JSON_NUMBER *const elem = Memory_Alloc(sizeof(JSON_NUMBER));
@@ -37,7 +37,7 @@ static JSON_NUMBER *M_NumberNewInt(const int number)
 
 static JSON_NUMBER *M_NumberNewInt64(const int64_t number)
 {
-    const size_t size = snprintf(NULL, 0, "%" PRId64, number) + 1;
+    const size_t size = snprintf(nullptr, 0, "%" PRId64, number) + 1;
     char *const buf = Memory_Alloc(size);
     sprintf(buf, "%" PRId64, number);
     JSON_NUMBER *const elem = Memory_Alloc(sizeof(JSON_NUMBER));
@@ -48,13 +48,13 @@ static JSON_NUMBER *M_NumberNewInt64(const int64_t number)
 
 static JSON_NUMBER *M_NumberNewDouble(const double number)
 {
-    const size_t size = snprintf(NULL, 0, "%f", number) + 3;
+    const size_t size = snprintf(nullptr, 0, "%f", number) + 3;
     char *const buf = Memory_Alloc(size);
     sprintf(buf, "%f", number);
 
     // Remove trailing zeros, keeping at least one digit after the decimal point
     char *const dot = strchr(buf, '.');
-    if (dot == NULL) {
+    if (dot == nullptr) {
         strcat(buf, ".0");
     } else {
         char *end = buf + strlen(buf) - 1;
@@ -111,32 +111,32 @@ static JSON_VALUE *M_ValueFromNumber(JSON_NUMBER *const num)
 
 static const JSON_NUMBER *M_ValueAsNumber(const JSON_VALUE *const value)
 {
-    if (value == NULL || value->type != JSON_TYPE_NUMBER) {
-        return NULL;
+    if (value == nullptr || value->type != JSON_TYPE_NUMBER) {
+        return nullptr;
     }
     return (const JSON_NUMBER *)value->payload;
 }
 
 static const JSON_STRING *M_ValueAsString(const JSON_VALUE *const value)
 {
-    if (value == NULL || value->type != JSON_TYPE_STRING) {
-        return NULL;
+    if (value == nullptr || value->type != JSON_TYPE_STRING) {
+        return nullptr;
     }
     return (const JSON_STRING *)value->payload;
 }
 
 static JSON_OBJECT *M_ValueAsObject(JSON_VALUE *const value)
 {
-    if (value == NULL || value->type != JSON_TYPE_OBJECT) {
-        return NULL;
+    if (value == nullptr || value->type != JSON_TYPE_OBJECT) {
+        return nullptr;
     }
     return (JSON_OBJECT *)value->payload;
 }
 
 static JSON_ARRAY *M_ValueAsArray(JSON_VALUE *const value)
 {
-    if (value == NULL || value->type != JSON_TYPE_ARRAY) {
-        return NULL;
+    if (value == nullptr || value->type != JSON_TYPE_ARRAY) {
+        return nullptr;
     }
     return (JSON_ARRAY *)value->payload;
 }
@@ -159,7 +159,7 @@ JSON_VALUE *JSON_ValueFromBool(const int b)
 {
     JSON_VALUE *const value = Memory_Alloc(sizeof(JSON_VALUE));
     value->type = b ? JSON_TYPE_TRUE : JSON_TYPE_FALSE;
-    value->payload = NULL;
+    value->payload = nullptr;
     return value;
 }
 
@@ -204,7 +204,7 @@ JSON_VALUE *JSON_ValueFromObject(JSON_OBJECT *const obj)
 
 void JSON_ValueFree(JSON_VALUE *const value)
 {
-    if (value == NULL || value->ref_count != 0) {
+    if (value == nullptr || value->ref_count != 0) {
         return;
     }
 
@@ -232,17 +232,17 @@ void JSON_ValueFree(JSON_VALUE *const value)
 
 bool JSON_ValueIsNull(const JSON_VALUE *const value)
 {
-    return value != NULL && value->type == JSON_TYPE_NULL;
+    return value != nullptr && value->type == JSON_TYPE_NULL;
 }
 
 bool JSON_ValueIsTrue(const JSON_VALUE *const value)
 {
-    return value != NULL && value->type == JSON_TYPE_TRUE;
+    return value != nullptr && value->type == JSON_TYPE_TRUE;
 }
 
 bool JSON_ValueIsFalse(const JSON_VALUE *const value)
 {
-    return value != NULL && value->type == JSON_TYPE_FALSE;
+    return value != nullptr && value->type == JSON_TYPE_FALSE;
 }
 
 int JSON_ValueGetBool(const JSON_VALUE *const value, const int d)
@@ -258,26 +258,26 @@ int JSON_ValueGetBool(const JSON_VALUE *const value, const int d)
 int JSON_ValueGetInt(const JSON_VALUE *const value, const int d)
 {
     const JSON_NUMBER *const num = M_ValueAsNumber(value);
-    return num != NULL ? atoi(num->number) : d;
+    return num != nullptr ? atoi(num->number) : d;
 }
 
 int64_t JSON_ValueGetInt64(const JSON_VALUE *const value, const int64_t d)
 {
     const JSON_NUMBER *const num = M_ValueAsNumber(value);
-    return num != NULL ? strtoll(num->number, NULL, 10) : d;
+    return num != nullptr ? strtoll(num->number, nullptr, 10) : d;
 }
 
 double JSON_ValueGetDouble(const JSON_VALUE *const value, const double d)
 {
     const JSON_NUMBER *const num = M_ValueAsNumber(value);
-    return num != NULL ? atof(num->number) : d;
+    return num != nullptr ? atof(num->number) : d;
 }
 
 const char *JSON_ValueGetString(
     const JSON_VALUE *const value, const char *const d)
 {
     const JSON_STRING *const str = M_ValueAsString(value);
-    return str != NULL ? str->string : d;
+    return str != nullptr ? str->string : d;
 }
 
 JSON_ARRAY *JSON_ValueAsArray(JSON_VALUE *const value)
@@ -293,7 +293,7 @@ JSON_OBJECT *JSON_ValueAsObject(JSON_VALUE *const value)
 JSON_ARRAY *JSON_ArrayNew(void)
 {
     JSON_ARRAY *const arr = Memory_Alloc(sizeof(JSON_ARRAY));
-    arr->start = NULL;
+    arr->start = nullptr;
     arr->length = 0;
     return arr;
 }
@@ -316,7 +316,7 @@ void JSON_ArrayAppend(JSON_ARRAY *const arr, JSON_VALUE *const value)
 {
     JSON_ARRAY_ELEMENT *elem = Memory_Alloc(sizeof(JSON_ARRAY_ELEMENT));
     elem->value = value;
-    elem->next = NULL;
+    elem->next = nullptr;
     if (arr->start) {
         JSON_ARRAY_ELEMENT *target = arr->start;
         while (target->next) {
@@ -361,8 +361,8 @@ void JSON_ArrayAppendObject(JSON_ARRAY *arr, JSON_OBJECT *obj)
 
 JSON_VALUE *JSON_ArrayGetValue(JSON_ARRAY *const arr, const size_t idx)
 {
-    if (arr == NULL || idx >= arr->length) {
-        return NULL;
+    if (arr == nullptr || idx >= arr->length) {
+        return nullptr;
     }
     JSON_ARRAY_ELEMENT *elem = arr->start;
     for (size_t i = 0; i < idx; i++) {
@@ -413,7 +413,7 @@ JSON_OBJECT *JSON_ArrayGetObject(JSON_ARRAY *arr, const size_t idx)
 JSON_OBJECT *JSON_ObjectNew(void)
 {
     JSON_OBJECT *obj = Memory_Alloc(sizeof(JSON_OBJECT));
-    obj->start = NULL;
+    obj->start = nullptr;
     obj->length = 0;
     return obj;
 }
@@ -439,7 +439,7 @@ void JSON_ObjectAppend(
     JSON_OBJECT_ELEMENT *elem = Memory_Alloc(sizeof(JSON_OBJECT_ELEMENT));
     elem->name = M_StringNew(key);
     elem->value = value;
-    elem->next = NULL;
+    elem->next = nullptr;
     if (obj->start) {
         JSON_OBJECT_ELEMENT *target = obj->start;
         while (target->next) {
@@ -492,7 +492,7 @@ void JSON_ObjectAppendObject(
 bool JSON_ObjectContainsKey(JSON_OBJECT *const obj, const char *const key)
 {
     JSON_OBJECT_ELEMENT *elem = obj->start;
-    while (elem != NULL) {
+    while (elem != nullptr) {
         if (!strcmp(elem->name->string, key)) {
             return true;
         }
@@ -505,14 +505,14 @@ bool JSON_ObjectContainsKey(JSON_OBJECT *const obj, const char *const key)
 
 void JSON_ObjectEvictKey(JSON_OBJECT *const obj, const char *const key)
 {
-    if (obj == NULL) {
+    if (obj == nullptr) {
         return;
     }
     JSON_OBJECT_ELEMENT *elem = obj->start;
-    JSON_OBJECT_ELEMENT *prev = NULL;
+    JSON_OBJECT_ELEMENT *prev = nullptr;
     while (elem) {
         if (!strcmp(elem->name->string, key)) {
-            if (prev == NULL) {
+            if (prev == nullptr) {
                 obj->start = elem->next;
             } else {
                 prev->next = elem->next;
@@ -528,7 +528,7 @@ void JSON_ObjectEvictKey(JSON_OBJECT *const obj, const char *const key)
 void JSON_ObjectMerge(JSON_OBJECT *const root, const JSON_OBJECT *const obj)
 {
     JSON_OBJECT_ELEMENT *elem = obj->start;
-    while (elem != NULL) {
+    while (elem != nullptr) {
         JSON_ObjectEvictKey(root, elem->name->string);
         JSON_ObjectAppend(root, elem->name->string, elem->value);
         elem = elem->next;
@@ -537,8 +537,8 @@ void JSON_ObjectMerge(JSON_OBJECT *const root, const JSON_OBJECT *const obj)
 
 JSON_VALUE *JSON_ObjectGetValue(JSON_OBJECT *const obj, const char *const key)
 {
-    if (obj == NULL) {
-        return NULL;
+    if (obj == nullptr) {
+        return nullptr;
     }
     JSON_OBJECT_ELEMENT *elem = obj->start;
     while (elem) {
@@ -547,7 +547,7 @@ JSON_VALUE *JSON_ObjectGetValue(JSON_OBJECT *const obj, const char *const key)
         }
         elem = elem->next;
     }
-    return NULL;
+    return nullptr;
 }
 
 int JSON_ObjectGetBool(

@@ -738,7 +738,7 @@ void Lara_UseItem(const GAME_OBJECT_ID object_id)
             item->hit_points += LARA_MAX_HITPOINTS / 2;
             CLAMPG(item->hit_points, LARA_MAX_HITPOINTS);
             Inv_RemoveItem(O_SMALL_MEDIPACK_ITEM);
-            Sound_Effect(SFX_MENU_MEDI, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_MEDI, nullptr, SPM_ALWAYS);
             g_SaveGame.current_stats.medipacks++;
         }
         break;
@@ -748,7 +748,7 @@ void Lara_UseItem(const GAME_OBJECT_ID object_id)
         if (item->hit_points > 0 && item->hit_points < LARA_MAX_HITPOINTS) {
             item->hit_points = LARA_MAX_HITPOINTS;
             Inv_RemoveItem(O_LARGE_MEDIPACK_ITEM);
-            Sound_Effect(SFX_MENU_MEDI, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_MEDI, nullptr, SPM_ALWAYS);
             g_SaveGame.current_stats.medipacks += 2;
         }
         break;
@@ -799,9 +799,9 @@ void Lara_Initialise(const GF_LEVEL *const level)
     g_Lara.burn = 0;
     g_Lara.water_surface_dist = 100;
     g_Lara.last_pos = item->pos;
-    g_Lara.hit_effect = NULL;
+    g_Lara.hit_effect = nullptr;
     g_Lara.mesh_effects = 0;
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
     g_Lara.turn_rate = 0;
     g_Lara.move_angle = 0;
     g_Lara.head_rot.x = 0;
@@ -814,7 +814,7 @@ void Lara_Initialise(const GF_LEVEL *const level)
     g_Lara.right_arm.flash_gun = 0;
     g_Lara.left_arm.lock = 0;
     g_Lara.right_arm.lock = 0;
-    g_Lara.creature = NULL;
+    g_Lara.creature = nullptr;
 
     if (level->type == GFL_NORMAL && g_GF_LaraStartAnim) {
         g_Lara.water_status = LWS_ABOVE_WATER;
@@ -861,7 +861,7 @@ void Lara_InitialiseInventory(const GF_LEVEL *const level)
     Inv_AddItem(O_COMPASS_ITEM);
 
     START_INFO *const start = GF_GetResumeInfo(level);
-    if (start != NULL) {
+    if (start != nullptr) {
         if (g_GF_RemoveWeapons) {
             start->has_pistols = 0;
             start->has_magnums = 0;
@@ -970,7 +970,7 @@ void Lara_InitialiseMeshes(const GF_LEVEL *const level)
     }
 
     const START_INFO *const start = GF_GetResumeInfo(level);
-    if (start == NULL) {
+    if (start == nullptr) {
         return;
     }
 

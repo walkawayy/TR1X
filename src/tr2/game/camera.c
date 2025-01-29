@@ -73,7 +73,7 @@ static void M_EnsureEnvironment(void)
     const ROOM *const room = Room_Get(g_Camera.pos.room_num);
     if ((room->flags & RF_UNDERWATER) != 0) {
         M_AdjustMusicVolume(true);
-        Sound_Effect(SFX_UNDERWATER, NULL, SPM_ALWAYS);
+        Sound_Effect(SFX_UNDERWATER, nullptr, SPM_ALWAYS);
         g_Camera.underwater = true;
     } else {
         M_AdjustMusicVolume(false);
@@ -95,7 +95,7 @@ void Camera_Initialise(void)
 
 void Camera_ResetPosition(void)
 {
-    ASSERT(g_LaraItem != NULL);
+    ASSERT(g_LaraItem != nullptr);
     g_Camera.shift = g_LaraItem->pos.y - WALL_L;
 
     g_Camera.target.x = g_LaraItem->pos.x;
@@ -109,7 +109,7 @@ void Camera_ResetPosition(void)
     g_Camera.pos.room_num = g_Camera.target.room_num;
 
     g_Camera.target_distance = WALL_L * 3 / 2;
-    g_Camera.item = NULL;
+    g_Camera.item = nullptr;
 
     if (!g_Lara.extra_anim) {
         g_Camera.type = CAM_CHASE;
@@ -276,7 +276,7 @@ const SECTOR *Camera_GoodPosition(
     int32_t height = Room_GetHeight(sector, x, y, z);
     int32_t ceiling = Room_GetCeiling(sector, x, y, z);
     if (y > height || y < ceiling) {
-        return NULL;
+        return nullptr;
     }
 
     return sector;
@@ -726,7 +726,7 @@ void Camera_Update(void)
         g_IsChunkyCamera = 1;
     }
 
-    const int32_t fixed_camera = g_Camera.item != NULL
+    const int32_t fixed_camera = g_Camera.item != nullptr
         && (g_Camera.type == CAM_FIXED || g_Camera.type == CAM_HEAVY);
     const ITEM *const item = fixed_camera ? g_Camera.item : g_LaraItem;
 
@@ -846,7 +846,7 @@ void Camera_Update(void)
         g_Camera.speed = CHASE_SPEED;
         g_Camera.num = NO_CAMERA;
         g_Camera.last_item = g_Camera.item;
-        g_Camera.item = NULL;
+        g_Camera.item = nullptr;
         g_Camera.target_elevation = 0;
         g_Camera.target_angle = 0;
         g_Camera.target_distance = CHASE_ELEVATION;
@@ -946,7 +946,7 @@ void Camera_RefreshFromTrigger(const TRIGGER *const trigger)
     int16_t target_ok = 2;
 
     const TRIGGER_CMD *cmd = trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type == TO_CAMERA) {
             const TRIGGER_CAMERA_DATA *const cam_data =
                 (TRIGGER_CAMERA_DATA *)cmd->parameter;
@@ -975,7 +975,7 @@ void Camera_RefreshFromTrigger(const TRIGGER *const trigger)
         && (!target_ok
             || (target_ok == 2 && g_Camera.item->looked_at
                 && g_Camera.item != g_Camera.last_item))) {
-        g_Camera.item = NULL;
+        g_Camera.item = nullptr;
     }
 
     if (g_Camera.num == -1 && g_Camera.timer > 0) {

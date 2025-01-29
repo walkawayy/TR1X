@@ -103,7 +103,7 @@ typedef struct {
 #pragma pack(pop)
 
 static VERTEX_INFO m_VBuffer[32] = {};
-static void *m_XBuffer = NULL;
+static void *m_XBuffer = nullptr;
 static int32_t m_XGenY1 = 0;
 static int32_t m_XGenY2 = 0;
 
@@ -1322,7 +1322,7 @@ static void M_Open(RENDERER *const renderer)
             .tex_type = PIX_FMT_GL,
         };
         priv->surface = GFX_2D_Surface_Create(&surface_desc);
-        ASSERT(priv->surface != NULL);
+        ASSERT(priv->surface != nullptr);
     }
 
     {
@@ -1335,7 +1335,7 @@ static void M_Open(RENDERER *const renderer)
             .tex_type = GL_UNSIGNED_BYTE,
         };
         priv->surface_alpha = GFX_2D_Surface_Create(&surface_desc);
-        ASSERT(priv->surface_alpha != NULL);
+        ASSERT(priv->surface_alpha != nullptr);
     }
 
     renderer->open = true;
@@ -1350,14 +1350,14 @@ static void M_Close(RENDERER *const renderer)
 
     Memory_FreePointer(&m_XBuffer);
 
-    if (priv->surface != NULL) {
+    if (priv->surface != nullptr) {
         GFX_2D_Surface_Free(priv->surface);
-        priv->surface = NULL;
+        priv->surface = nullptr;
     }
 
-    if (priv->surface_alpha != NULL) {
+    if (priv->surface_alpha != nullptr) {
         GFX_2D_Surface_Free(priv->surface_alpha);
-        priv->surface_alpha = NULL;
+        priv->surface_alpha = nullptr;
     }
 
     renderer->open = false;
@@ -1369,9 +1369,9 @@ static void M_Shutdown(RENDERER *const renderer)
     if (!renderer->initialized) {
         return;
     }
-    if (priv->renderer_2d != NULL) {
+    if (priv->renderer_2d != nullptr) {
         GFX_2D_Renderer_Destroy(priv->renderer_2d);
-        priv->renderer_2d = NULL;
+        priv->renderer_2d = nullptr;
     }
     renderer->initialized = false;
 }
@@ -1417,7 +1417,7 @@ static void M_DrawPolyList(RENDERER *const renderer)
     M_PRIV *const priv = renderer->priv;
     ASSERT(renderer->initialized);
     ASSERT(renderer->open);
-    ASSERT(priv->surface != NULL);
+    ASSERT(priv->surface != nullptr);
 
     Render_SortPolyList();
 
@@ -2294,9 +2294,9 @@ void Renderer_SW_Prepare(RENDERER *const renderer)
     renderer->Reset = M_Reset;
     renderer->ResetPolyList = M_ResetPolyList;
     renderer->DrawPolyList = M_DrawPolyList;
-    renderer->ResetPolyList = NULL;
-    renderer->EnableZBuffer = NULL;
-    renderer->ClearZBuffer = NULL;
+    renderer->ResetPolyList = nullptr;
+    renderer->EnableZBuffer = nullptr;
+    renderer->ClearZBuffer = nullptr;
     renderer->SetWet = M_SetWet;
 
     renderer->InsertFlatFace3s = M_InsertFlatFace3s;

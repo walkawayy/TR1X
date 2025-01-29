@@ -89,8 +89,8 @@ static bool M_RecalculateChannelVolumes(int32_t sound_id)
 
 static int32_t M_ReadAVBuffer(void *opaque, uint8_t *dst, int32_t dst_size)
 {
-    ASSERT(opaque != NULL);
-    ASSERT(dst != NULL);
+    ASSERT(opaque != nullptr);
+    ASSERT(dst != nullptr);
     AUDIO_AV_BUFFER *src = opaque;
     int32_t read = dst_size >= src->remaining ? src->remaining : dst_size;
     if (!read) {
@@ -104,7 +104,7 @@ static int32_t M_ReadAVBuffer(void *opaque, uint8_t *dst, int32_t dst_size)
 
 static int64_t M_SeekAVBuffer(void *opaque, int64_t offset, int32_t whence)
 {
-    ASSERT(opaque != NULL);
+    ASSERT(opaque != nullptr);
     AUDIO_AV_BUFFER *src = opaque;
     if (whence & AVSEEK_SIZE) {
         return src->size;
@@ -142,13 +142,13 @@ static bool M_Convert(const int32_t sample_id)
     bool result = false;
     AUDIO_SAMPLE *const sample = &m_LoadedSamples[sample_id];
 
-    if (sample->sample_data != NULL) {
+    if (sample->sample_data != nullptr) {
         return true;
     }
 
     const clock_t time_start = clock();
     size_t working_buffer_size = 0;
-    float *working_buffer = NULL;
+    float *working_buffer = nullptr;
 
     struct {
         size_t read_buffer_size;
@@ -161,13 +161,13 @@ static bool M_Convert(const int32_t sample_id)
         AVFrame *frame;
     } av = {
         .read_buffer_size = 8192,
-        .avio_context = NULL,
-        .stream = NULL,
-        .format_ctx = NULL,
-        .codec = NULL,
-        .codec_ctx = NULL,
-        .packet = NULL,
-        .frame = NULL,
+        .avio_context = nullptr,
+        .stream = nullptr,
+        .format_ctx = nullptr,
+        .codec = nullptr,
+        .codec_ctx = nullptr,
+        .packet = nullptr,
+        .frame = nullptr,
     };
 
     struct {
@@ -196,23 +196,23 @@ static bool M_Convert(const int32_t sample_id)
     };
 
     av.avio_context = avio_alloc_context(
-        read_buffer, av.read_buffer_size, 0, &av_buf, M_ReadAVBuffer, NULL,
+        read_buffer, av.read_buffer_size, 0, &av_buf, M_ReadAVBuffer, nullptr,
         M_SeekAVBuffer);
 
     av.format_ctx = avformat_alloc_context();
     av.format_ctx->pb = av.avio_context;
     error_code =
-        avformat_open_input(&av.format_ctx, "dummy_filename", NULL, NULL);
+        avformat_open_input(&av.format_ctx, "dummy_filename", nullptr, nullptr);
     if (error_code != 0) {
         goto cleanup;
     }
 
-    error_code = avformat_find_stream_info(av.format_ctx, NULL);
+    error_code = avformat_find_stream_info(av.format_ctx, nullptr);
     if (error_code < 0) {
         goto cleanup;
     }
 
-    av.stream = NULL;
+    av.stream = nullptr;
     for (uint32_t i = 0; i < av.format_ctx->nb_streams; i++) {
         AVStream *current_stream = av.format_ctx->streams[i];
         if (current_stream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
@@ -243,7 +243,7 @@ static bool M_Convert(const int32_t sample_id)
         goto cleanup;
     }
 
-    error_code = avcodec_open2(av.codec_ctx, av.codec, NULL);
+    error_code = avcodec_open2(av.codec_ctx, av.codec, nullptr);
     if (error_code < 0) {
         goto cleanup;
     }
@@ -315,18 +315,19 @@ static bool M_Convert(const int32_t sample_id)
                 goto cleanup;
             }
 
-            uint8_t *out_buffer = NULL;
+            uint8_t *out_buffer = nullptr;
             const int32_t out_samples =
                 swr_get_out_samples(swr.ctx, av.frame->nb_samples);
             av_samples_alloc(
-                &out_buffer, NULL, swr.dst_channels, out_samples,
+                &out_buffer, nullptr, swr.dst_channels, out_samples,
                 swr.dst_format, 1);
             int32_t resampled_size = swr_convert(
                 swr.ctx, &out_buffer, out_samples,
                 (const uint8_t **)av.frame->data, av.frame->nb_samples);
             while (resampled_size > 0) {
                 int32_t out_buffer_size = av_samples_get_buffer_size(
-                    NULL, swr.dst_channels, resampled_size, swr.dst_format, 1);
+                    nullptr, swr.dst_channels, resampled_size, swr.dst_format,
+                    1);
 
                 if (out_buffer_size > 0) {
                     working_buffer = Memory_Realloc(
@@ -340,7 +341,7 @@ static bool M_Convert(const int32_t sample_id)
                 }
 
                 resampled_size =
-                    swr_convert(swr.ctx, &out_buffer, out_samples, NULL, 0);
+                    swr_convert(swr.ctx, &out_buffer, out_samples, nullptr, 0);
             }
 
             av_freep(&out_buffer);
@@ -383,11 +384,11 @@ cleanup:
         av_packet_free(&av.packet);
     }
 
-    av.codec = NULL;
+    av.codec = nullptr;
 
     if (!result) {
-        sample->sample_data = NULL;
-        sample->original_data = NULL;
+        sample->sample_data = nullptr;
+        sample->original_data = nullptr;
         sample->original_size = 0;
         sample->num_samples = 0;
         sample->channels = 0;
@@ -422,7 +423,7 @@ void Audio_Sample_Init(void)
         sound->pitch = 1.0f;
         sound->pan = 0.0f;
         sound->current_sample = 0.0f;
-        sound->sample = NULL;
+        sound->sample = nullptr;
     }
 }
 
@@ -450,7 +451,7 @@ bool Audio_Sample_Unload(const int32_t sample_id)
 
     bool result = false;
     AUDIO_SAMPLE *const sample = &m_LoadedSamples[sample_id];
-    if (sample->sample_data == NULL) {
+    if (sample->sample_data == nullptr) {
         LOG_ERROR("Sample %d is already unloaded", sample_id);
         return false;
     }
@@ -479,7 +480,7 @@ bool Audio_Sample_UnloadAll(void)
 bool Audio_Sample_LoadSingle(
     const int32_t sample_id, const char *const data, const size_t size)
 {
-    ASSERT(data != NULL);
+    ASSERT(data != nullptr);
 
     if (!g_AudioDeviceID) {
         LOG_ERROR("Unitialized audio device");
@@ -492,7 +493,7 @@ bool Audio_Sample_LoadSingle(
     }
 
     AUDIO_SAMPLE *const sample = &m_LoadedSamples[sample_id];
-    if (sample->original_data != NULL) {
+    if (sample->original_data != nullptr) {
         LOG_ERROR(
             "Sample %d is already loaded (trying to overwrite with %d bytes)",
             sample_id, size);
@@ -508,8 +509,8 @@ bool Audio_Sample_LoadSingle(
 
 bool Audio_Sample_LoadMany(size_t count, const char **contents, size_t *sizes)
 {
-    ASSERT(contents != NULL);
-    ASSERT(sizes != NULL);
+    ASSERT(contents != nullptr);
+    ASSERT(sizes != nullptr);
 
     if (!g_AudioDeviceID) {
         return false;

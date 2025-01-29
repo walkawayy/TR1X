@@ -22,7 +22,6 @@
 #include <libtrx/utils.h>
 
 #include <math.h>
-#include <stddef.h>
 #include <string.h>
 
 #define MAX_LIGHTNINGS 64
@@ -51,7 +50,7 @@ static int m_OverlayCurAlpha = 0;
 static int m_OverlayDstAlpha = 0;
 static int m_BackdropCurAlpha = 0;
 static int m_BackdropDstAlpha = 0;
-static RGB_888 *m_ColorPalette = NULL;
+static RGB_888 *m_ColorPalette = nullptr;
 
 static int32_t m_WibbleOffset = 0;
 static int32_t m_AnimatedTexturesOffset = 0;
@@ -62,8 +61,8 @@ static int32_t m_WibbleTable[WIBBLE_SIZE] = {};
 static int32_t m_ShadeTable[WIBBLE_SIZE] = {};
 static int32_t m_RandTable[WIBBLE_SIZE] = {};
 
-static PHD_VBUF *m_VBuf = NULL;
-static TEXTURE_UV *m_EnvMapUV = NULL;
+static PHD_VBUF *m_VBuf = nullptr;
+static TEXTURE_UV *m_EnvMapUV = nullptr;
 static int32_t m_DrawDistFade = 0;
 static int32_t m_DrawDistMax = 0;
 static RGB_F m_WaterColor = {};
@@ -72,9 +71,9 @@ static XYZ_32 m_LsVectorView = {};
 static int32_t m_LightningCount = 0;
 static LIGHTNING m_LightningTable[MAX_LIGHTNINGS];
 
-static char *m_BackdropImagePath = NULL;
+static char *m_BackdropImagePath = nullptr;
 static const char *m_ImageExtensions[] = {
-    ".png", ".jpg", ".jpeg", ".pcx", NULL,
+    ".png", ".jpg", ".jpeg", ".pcx", nullptr,
 };
 
 static void M_DrawFlatFace3s(const FACE3 *faces, int32_t count);
@@ -1002,7 +1001,7 @@ void Output_DrawUISprite(
 
 bool Output_LoadBackgroundFromFile(const char *const path)
 {
-    ASSERT(path != NULL);
+    ASSERT(path != nullptr);
     const char *old_path = m_BackdropImagePath;
     m_BackdropImagePath = File_GuessExtension(path, m_ImageExtensions);
     Memory_FreePointer(&old_path);
@@ -1010,7 +1009,7 @@ bool Output_LoadBackgroundFromFile(const char *const path)
     IMAGE *const img = Image_CreateFromFileInto(
         m_BackdropImagePath, Viewport_GetWidth(), Viewport_GetHeight(),
         IMAGE_FIT_SMART);
-    if (img == NULL) {
+    if (img == nullptr) {
         return false;
     }
     S_Output_DownloadBackdropSurface(img);
@@ -1026,7 +1025,7 @@ void Output_LoadBackgroundFromObject(void)
 
 void Output_UnloadBackground(void)
 {
-    S_Output_DownloadBackdropSurface(NULL);
+    S_Output_DownloadBackdropSurface(nullptr);
     Memory_FreePointer(&m_BackdropImagePath);
 }
 
@@ -1274,7 +1273,7 @@ void Output_SetPalette(const RGB_888 *palette, const size_t palette_size)
 
 RGB_888 Output_GetPaletteColor(uint16_t idx)
 {
-    if (m_ColorPalette == NULL) {
+    if (m_ColorPalette == nullptr) {
         return (RGB_888) { 0, 0, 0 };
     }
     return m_ColorPalette[idx];

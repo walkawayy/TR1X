@@ -125,7 +125,8 @@ static bool M_CheckBaddieCollision(ITEM *const item, ITEM *const skidoo)
 
     const OBJECT *const object = Object_GetObject(item->object_id);
     const bool is_availanche = item->object_id == O_ROLLING_BALL_2;
-    if (object->collision == NULL || (!object->intelligent && !is_availanche)) {
+    if (object->collision == nullptr
+        || (!object->intelligent && !is_availanche)) {
         return false;
     }
 
@@ -147,7 +148,7 @@ static bool M_CheckBaddieCollision(ITEM *const item, ITEM *const skidoo)
         Spawn_BloodBath(
             item->pos.x, skidoo->pos.y - STEP_L, item->pos.z, skidoo->speed,
             skidoo->rot.y, item->room_num, 3);
-        Gun_HitTarget(item, NULL, item->hit_points);
+        Gun_HitTarget(item, nullptr, item->hit_points);
     }
     return true;
 }
@@ -697,7 +698,7 @@ void Skidoo_Explode(const ITEM *const skidoo)
     }
 
     Item_Explode(g_Lara.skidoo, ~(SKIDOO_GUN_MESH - 1), 0);
-    Sound_Effect(SFX_EXPLOSION_1, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_EXPLOSION_1, nullptr, SPM_NORMAL);
     g_Lara.skidoo = NO_ITEM;
 }
 
@@ -934,7 +935,7 @@ void Skidoo_Draw(const ITEM *const item)
 {
     int32_t track_mesh_status = 0;
     const SKIDOO_INFO *const skidoo_data = item->data;
-    if (skidoo_data != NULL) {
+    if (skidoo_data != nullptr) {
         track_mesh_status = skidoo_data->track_mesh;
     }
 
@@ -944,7 +945,7 @@ void Skidoo_Draw(const ITEM *const item)
     }
 
     const OBJECT *const track_obj = Object_GetObject(O_SKIDOO_TRACK);
-    const OBJECT_MESH *track_mesh = NULL;
+    const OBJECT_MESH *track_mesh = nullptr;
     if ((track_mesh_status & 3) == 1) {
         track_mesh = Object_GetMesh(track_obj->mesh_idx + 1);
     } else if ((track_mesh_status & 3) == 2) {
@@ -988,7 +989,7 @@ void Skidoo_Draw(const ITEM *const item)
             Matrix_Rot16_ID(
                 frames[0]->mesh_rots[mesh_idx], frames[1]->mesh_rots[mesh_idx]);
 
-            if (mesh_idx == 1 && track_mesh != NULL) {
+            if (mesh_idx == 1 && track_mesh != nullptr) {
                 Output_DrawObjectMesh_I(track_mesh, clip);
             } else {
                 Object_DrawMesh(obj->mesh_idx + mesh_idx, clip, true);
@@ -1011,7 +1012,7 @@ void Skidoo_Draw(const ITEM *const item)
             Matrix_TranslateRel32(bone->pos);
             Matrix_Rot16(frames[0]->mesh_rots[mesh_idx]);
 
-            if (mesh_idx == 1 && track_mesh != NULL) {
+            if (mesh_idx == 1 && track_mesh != nullptr) {
                 Output_DrawObjectMesh(track_mesh, clip);
             } else {
                 Object_DrawMesh(obj->mesh_idx + mesh_idx, clip, false);

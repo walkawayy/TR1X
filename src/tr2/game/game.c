@@ -28,14 +28,14 @@ bool Game_Start(const GF_LEVEL *const level, const GF_SEQUENCE_CONTEXT seq_ctx)
     Game_SetCurrentLevel(level);
     GF_SetCurrentLevel(level);
     if (seq_ctx != GFSC_SAVED) {
-        if (level != NULL) {
+        if (level != nullptr) {
             Savegame_ApplyLogicToCurrentInfo(level);
         }
         InitialiseLevelFlags();
     }
     if (!Level_Initialise(level, seq_ctx)) {
-        Game_SetCurrentLevel(NULL);
-        GF_SetCurrentLevel(NULL);
+        Game_SetCurrentLevel(nullptr);
+        GF_SetCurrentLevel(nullptr);
         return false;
     }
 

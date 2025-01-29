@@ -65,7 +65,7 @@ static void M_Initialise(
 static bool M_LaraDoorCollision(const SECTOR *const sector)
 {
     // Check if Lara is on the same tile as the invisible block.
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return false;
     }
 
@@ -90,7 +90,7 @@ static void M_Shut(DOORPOS_DATA *const d)
 {
     // Change the level geometry so that the door tile is impassable.
     SECTOR *const sector = d->sector;
-    if (sector == NULL) {
+    if (sector == nullptr) {
         return;
     }
 
@@ -161,7 +161,7 @@ void Door_Initialise(int16_t item_num)
     M_Initialise(r, item, dx, dz, &door->d1);
 
     if (r->flipped_room == -1) {
-        door->d1flip.sector = NULL;
+        door->d1flip.sector = nullptr;
     } else {
         r = Room_Get(r->flipped_room);
         M_Initialise(r, item, dx, dz, &door->d1flip);
@@ -172,15 +172,15 @@ void Door_Initialise(int16_t item_num)
     M_Shut(&door->d1flip);
 
     if (room_num == NO_ROOM) {
-        door->d2.sector = NULL;
-        door->d2flip.sector = NULL;
+        door->d2.sector = nullptr;
+        door->d2flip.sector = nullptr;
         return;
     }
 
     r = Room_Get(room_num);
     M_Initialise(r, item, 0, 0, &door->d2);
     if (r->flipped_room == -1) {
-        door->d2flip.sector = NULL;
+        door->d2flip.sector = nullptr;
     } else {
         r = Room_Get(r->flipped_room);
         M_Initialise(r, item, 0, 0, &door->d2flip);

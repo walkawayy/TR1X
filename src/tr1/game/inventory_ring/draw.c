@@ -147,7 +147,7 @@ static void M_DrawItem(
             rate);
     } else {
         Object_DrawInterpolatedObject(
-            obj, inv_item->meshes_drawn, NULL, frame1, frame2, frac, rate);
+            obj, inv_item->meshes_drawn, nullptr, frame1, frame2, frac, rate);
     }
 }
 
@@ -210,7 +210,7 @@ void InvRing_Draw(INV_RING *const ring)
         }
     }
 
-    if (ring->list != NULL && !ring->rotating
+    if (ring->list != nullptr && !ring->rotating
         && (ring->motion.status == RNG_OPEN
             || ring->motion.status == RNG_SELECTING
             || ring->motion.status == RNG_SELECTED

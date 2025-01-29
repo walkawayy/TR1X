@@ -60,9 +60,9 @@ static void M_FadeIn(M_PRIV *const p)
 static void M_FadeOut(M_PRIV *const p)
 {
     M_RemoveText(p);
-    if (p->ui != NULL) {
+    if (p->ui != nullptr) {
         p->ui->free(p->ui);
-        p->ui = NULL;
+        p->ui = nullptr;
     }
     if (p->action == GF_NOOP) {
         Fader_Init(&p->back_fader, FADER_ANY, FADER_TRANSPARENT, FADE_TIME);
@@ -95,7 +95,7 @@ static void M_ExitToTitle(M_PRIV *const p)
 
 static void M_CreateText(M_PRIV *const p)
 {
-    if (p->mode_text == NULL) {
+    if (p->mode_text == nullptr) {
         p->mode_text = Text_Create(0, -24, GS(PAUSE_PAUSED));
         Text_CentreH(p->mode_text, true);
         Text_AlignBottom(p->mode_text, true);
@@ -105,7 +105,7 @@ static void M_CreateText(M_PRIV *const p)
 static void M_RemoveText(M_PRIV *const p)
 {
     Text_Remove(p->mode_text);
-    p->mode_text = NULL;
+    p->mode_text = nullptr;
 }
 
 static int32_t M_DisplayRequester(
@@ -113,7 +113,7 @@ static int32_t M_DisplayRequester(
     const char *option2)
 {
     if (!p->is_ui_ready) {
-        if (p->ui == NULL) {
+        if (p->ui == nullptr) {
             p->ui = UI_Requester_Create((UI_REQUESTER_SETTINGS) {
                 .is_selectable = true,
                 .width = 160,
@@ -122,8 +122,8 @@ static int32_t M_DisplayRequester(
         }
         UI_Requester_ClearRows(p->ui);
         UI_Requester_SetTitle(p->ui, header);
-        UI_Requester_AddRowC(p->ui, option1, NULL);
-        UI_Requester_AddRowC(p->ui, option2, NULL);
+        UI_Requester_AddRowC(p->ui, option1, nullptr);
+        UI_Requester_AddRowC(p->ui, option2, nullptr);
         p->ui->set_position(
             p->ui, (UI_GetCanvasWidth() - p->ui->get_width(p->ui)) / 2,
             (UI_GetCanvasHeight() - p->ui->get_height(p->ui)) - 50);
@@ -153,9 +153,9 @@ static void M_End(PHASE *const phase)
 {
     M_PRIV *const p = phase->priv;
     M_RemoveText(p);
-    if (p->ui != NULL) {
+    if (p->ui != nullptr) {
         p->ui->free(p->ui);
-        p->ui = NULL;
+        p->ui = nullptr;
     }
 }
 
@@ -166,7 +166,7 @@ static PHASE_CONTROL M_Control(PHASE *const phase, int32_t const num_frames)
     Input_Update();
     Shell_ProcessInput();
 
-    if (p->ui != NULL) {
+    if (p->ui != nullptr) {
         p->ui->control(p->ui);
     }
 
@@ -239,7 +239,7 @@ static void M_Draw(PHASE *const phase)
     Interpolation_Enable();
     Fader_Draw(&p->back_fader);
 
-    if (p->ui != NULL) {
+    if (p->ui != nullptr) {
         p->ui->draw(p->ui);
     }
     Output_DrawPolyList();

@@ -45,8 +45,8 @@ typedef struct {
     DISPLAY_PICKUP_PHASE phase;
 } DISPLAY_PICKUP;
 
-static TEXTSTRING *m_AmmoText = NULL;
-static TEXTSTRING *m_FPSText = NULL;
+static TEXTSTRING *m_AmmoText = nullptr;
+static TEXTSTRING *m_FPSText = nullptr;
 static int16_t m_BarOffsetY[6] = {};
 static DISPLAY_PICKUP m_Pickups[MAX_PICKUPS] = {};
 static CLOCK_TIMER m_PickupsTimer = { .type = CLOCK_TIMER_SIM };
@@ -241,7 +241,7 @@ static void M_BarGetLocation(
     if (g_GameInfo.showing_demo && bar_info->location == BL_BOTTOM_CENTER) {
         *y -= M_GetBarToTextScale() * (TEXT_HEIGHT + bar_spacing);
     } else if (
-        g_GameInfo.inv_ring_shown && GF_GetCurrentLevel() != NULL
+        g_GameInfo.inv_ring_shown && GF_GetCurrentLevel() != nullptr
         && GF_GetCurrentLevel()->type == GFL_TITLE
         && (bar_info->location == BL_TOP_CENTER
             || bar_info->location == BL_BOTTOM_CENTER)) {
@@ -596,7 +596,7 @@ static void M_RemoveAmmoText(void)
 {
     if (m_AmmoText) {
         Text_Remove(m_AmmoText);
-        m_AmmoText = NULL;
+        m_AmmoText = nullptr;
     }
 }
 
@@ -794,7 +794,7 @@ void Overlay_DrawFPSInfo(void)
         Text_SetPos(m_FPSText, x, y);
     } else if (m_FPSText) {
         Text_Remove(m_FPSText);
-        m_FPSText = NULL;
+        m_FPSText = nullptr;
         g_FPSCounter = 0;
     }
 

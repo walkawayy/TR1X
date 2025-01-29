@@ -247,7 +247,7 @@ void Pickup_Draw(const ITEM *const item)
     // Get the first frame of the first animation, and its bounding box.
     int16_t offset;
     BOUNDS_16 bounds;
-    const ANIM_FRAME *frame = NULL;
+    const ANIM_FRAME *frame = nullptr;
 
     // Some items, such as the Prayer Wheel in Barkhang Monastery, do not have
     // animations, and for such items we need to calculate this information
@@ -260,7 +260,7 @@ void Pickup_Draw(const ITEM *const item)
         bounds.min.y -= bounds.max.y;
         offset = item->pos.y + y_off;
     } else {
-        bounds = Object_GetBoundingBox(obj, NULL, item->mesh_bits);
+        bounds = Object_GetBoundingBox(obj, nullptr, item->mesh_bits);
         offset = item->pos.y - (bounds.max.y - bounds.min.y) / 2;
     }
 
@@ -274,8 +274,9 @@ void Pickup_Draw(const ITEM *const item)
     if (clip) {
         int32_t bit = 1;
 
-        const XYZ_16 *const mesh_rots = frame != NULL ? frame->mesh_rots : NULL;
-        if (mesh_rots != NULL) {
+        const XYZ_16 *const mesh_rots =
+            frame != nullptr ? frame->mesh_rots : nullptr;
+        if (mesh_rots != nullptr) {
             Matrix_Rot16(mesh_rots[0]);
         }
 
@@ -294,7 +295,7 @@ void Pickup_Draw(const ITEM *const item)
             }
 
             Matrix_TranslateRel32(bone->pos);
-            if (mesh_rots != NULL) {
+            if (mesh_rots != nullptr) {
                 Matrix_Rot16(mesh_rots[i]);
             }
 

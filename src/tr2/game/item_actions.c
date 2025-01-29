@@ -149,7 +149,7 @@ void M_LaraNormal(ITEM *const item)
 
 void M_Boiler(ITEM *const item)
 {
-    Sound_Effect(SFX_UNKNOWN_1, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_UNKNOWN_1, nullptr, SPM_NORMAL);
     g_FlipEffect = -1;
 }
 
@@ -179,14 +179,14 @@ void M_Flood(ITEM *const item)
 
 void M_Rubble(ITEM *const item)
 {
-    Sound_Effect(SFX_MASSIVE_CRASH, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_MASSIVE_CRASH, nullptr, SPM_NORMAL);
     g_Camera.bounce = -350;
     g_FlipEffect = -1;
 }
 
 void M_Chandelier(ITEM *const item)
 {
-    Sound_Effect(SFX_CHAIN_PULLEY, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_CHAIN_PULLEY, nullptr, SPM_NORMAL);
     g_FlipTimer++;
     if (g_FlipTimer > FRAMES_PER_SECOND) {
         g_FlipEffect = -1;
@@ -195,32 +195,32 @@ void M_Chandelier(ITEM *const item)
 
 void M_Explosion(ITEM *const item)
 {
-    Sound_Effect(SFX_EXPLOSION_1, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_EXPLOSION_1, nullptr, SPM_NORMAL);
     g_Camera.bounce = -75;
     g_FlipEffect = -1;
 }
 
 void M_Piston(ITEM *const item)
 {
-    Sound_Effect(SFX_PULLEY_CRANE, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_PULLEY_CRANE, nullptr, SPM_NORMAL);
     g_FlipEffect = -1;
 }
 
 void M_Curtain(ITEM *const item)
 {
-    Sound_Effect(SFX_CURTAIN, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_CURTAIN, nullptr, SPM_NORMAL);
     g_FlipEffect = -1;
 }
 
 void M_Statue(ITEM *const item)
 {
-    Sound_Effect(SFX_STONE_DOOR_SLIDE, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_STONE_DOOR_SLIDE, nullptr, SPM_NORMAL);
     g_FlipEffect = -1;
 }
 
 void M_SetChange(ITEM *const item)
 {
-    Sound_Effect(SFX_STAGE_BACKDROP, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_STAGE_BACKDROP, nullptr, SPM_NORMAL);
     g_FlipEffect = -1;
 }
 
@@ -358,7 +358,7 @@ void M_AssaultFinished(ITEM *const item)
 
 void ItemAction_Run(int16_t action_id, ITEM *item)
 {
-    if (m_Actions[action_id] != NULL) {
+    if (m_Actions[action_id] != nullptr) {
         m_Actions[action_id](item);
     }
 }
@@ -366,6 +366,6 @@ void ItemAction_Run(int16_t action_id, ITEM *item)
 void ItemAction_RunActive(void)
 {
     if (g_FlipEffect != -1) {
-        ItemAction_Run(g_FlipEffect, NULL);
+        ItemAction_Run(g_FlipEffect, nullptr);
     }
 }

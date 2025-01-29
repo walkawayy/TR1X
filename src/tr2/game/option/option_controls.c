@@ -22,19 +22,20 @@ static void M_Init(void)
 
     m_Dialog = UI_ControlsDialog_Create(&m_Controller);
     m_Listener1 = EventManager_Subscribe(
-        m_Controller.events, "layout_change", NULL, M_HandleLayoutChange, NULL);
+        m_Controller.events, "layout_change", nullptr, M_HandleLayoutChange,
+        nullptr);
     m_Listener2 = EventManager_Subscribe(
-        m_Controller.events, "key_change", NULL, M_HandleKeyChange, NULL);
+        m_Controller.events, "key_change", nullptr, M_HandleKeyChange, nullptr);
 }
 
 static void M_Shutdown(void)
 {
-    if (m_Dialog == NULL) {
+    if (m_Dialog == nullptr) {
         return;
     }
 
     m_Dialog->free(m_Dialog);
-    m_Dialog = NULL;
+    m_Dialog = nullptr;
 
     EventManager_Unsubscribe(m_Controller.events, m_Listener1);
     EventManager_Unsubscribe(m_Controller.events, m_Listener2);
@@ -70,7 +71,7 @@ void Option_Controls_Shutdown(void)
 
 void Option_Controls_Control(INVENTORY_ITEM *const item)
 {
-    if (m_Dialog == NULL) {
+    if (m_Dialog == nullptr) {
         M_Init();
     }
 
@@ -85,7 +86,7 @@ void Option_Controls_Control(INVENTORY_ITEM *const item)
 
 void Option_Controls_Draw(INVENTORY_ITEM *const item)
 {
-    if (m_Dialog != NULL) {
+    if (m_Dialog != nullptr) {
         m_Dialog->draw(m_Dialog);
     }
 }

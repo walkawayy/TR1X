@@ -52,7 +52,7 @@ static void M_DeallocateSurface(void *const surface, void *const user_data)
 
 static void M_ClearSurface(void *const surface, void *const user_data)
 {
-    ASSERT(surface != NULL);
+    ASSERT(surface != nullptr);
     GFX_2D_SURFACE *const surface_ = surface;
     memset(surface_->buffer, 0, surface_->desc.pitch * surface_->desc.height);
 }
@@ -69,7 +69,7 @@ static void M_RenderEnd(void *const surface, void *const user_data)
 
 static void *M_LockSurface(void *const surface, void *const user_data)
 {
-    ASSERT(surface != NULL);
+    ASSERT(surface != nullptr);
     GFX_2D_SURFACE *const surface_ = surface;
     return surface_->buffer;
 }
@@ -89,7 +89,7 @@ static void M_UploadSurface(void *const surface, void *const user_data)
 static void M_Play(const char *const file_name)
 {
     VIDEO *const video = Video_Open(file_name);
-    if (video == NULL) {
+    if (video == nullptr) {
         return;
     }
 
@@ -106,13 +106,13 @@ static void M_Play(const char *const file_name)
         col->b = 0x55 * (i & 3);
     }
 
-    Video_SetSurfaceAllocatorFunc(video, M_AllocateSurface, NULL);
-    Video_SetSurfaceDeallocatorFunc(video, M_DeallocateSurface, NULL);
-    Video_SetSurfaceClearFunc(video, M_ClearSurface, NULL);
-    Video_SetRenderBeginFunc(video, M_RenderBegin, NULL);
-    Video_SetRenderEndFunc(video, M_RenderEnd, NULL);
-    Video_SetSurfaceLockFunc(video, M_LockSurface, NULL);
-    Video_SetSurfaceUnlockFunc(video, M_UnlockSurface, NULL);
+    Video_SetSurfaceAllocatorFunc(video, M_AllocateSurface, nullptr);
+    Video_SetSurfaceDeallocatorFunc(video, M_DeallocateSurface, nullptr);
+    Video_SetSurfaceClearFunc(video, M_ClearSurface, nullptr);
+    Video_SetRenderBeginFunc(video, M_RenderBegin, nullptr);
+    Video_SetRenderEndFunc(video, M_RenderEnd, nullptr);
+    Video_SetSurfaceLockFunc(video, M_LockSurface, nullptr);
+    Video_SetSurfaceUnlockFunc(video, M_UnlockSurface, nullptr);
     Video_SetSurfaceUploadFunc(video, M_UploadSurface, renderer_2d);
 
     Video_Start(video);
@@ -131,7 +131,7 @@ static void M_Play(const char *const file_name)
             GFX_2D_Renderer_SetPalette(renderer_2d, palette);
         } else {
             Video_SetSurfacePixelFormat(video, AV_PIX_FMT_BGRA);
-            GFX_2D_Renderer_SetPalette(renderer_2d, NULL);
+            GFX_2D_Renderer_SetPalette(renderer_2d, nullptr);
         }
 
         Video_PumpEvents(video);

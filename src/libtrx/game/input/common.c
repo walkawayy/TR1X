@@ -69,7 +69,7 @@ static INPUT_BACKEND_IMPL *M_GetBackend(const INPUT_BACKEND backend)
     case INPUT_BACKEND_CONTROLLER:
         return &g_Input_Controller;
     default:
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -109,34 +109,34 @@ void Input_Init(void)
         m_HoldChecks[i].delay_timer.type = CLOCK_TIMER_REAL;
         m_HoldChecks[i].repeat_timer.type = CLOCK_TIMER_REAL;
     }
-    if (g_Input_Keyboard.init != NULL) {
+    if (g_Input_Keyboard.init != nullptr) {
         g_Input_Keyboard.init();
     }
-    if (g_Input_Controller.init != NULL) {
+    if (g_Input_Controller.init != nullptr) {
         g_Input_Controller.init();
     }
 }
 
 void Input_Shutdown(void)
 {
-    if (g_Input_Keyboard.shutdown != NULL) {
+    if (g_Input_Keyboard.shutdown != nullptr) {
         g_Input_Keyboard.shutdown();
     }
-    if (g_Input_Controller.shutdown != NULL) {
+    if (g_Input_Controller.shutdown != nullptr) {
         g_Input_Controller.shutdown();
     }
 }
 
 void Input_InitController(void)
 {
-    if (g_Input_Controller.init != NULL) {
+    if (g_Input_Controller.init != nullptr) {
         g_Input_Controller.init();
     }
 }
 
 void Input_ShutdownController(void)
 {
-    if (g_Input_Controller.shutdown != NULL) {
+    if (g_Input_Controller.shutdown != nullptr) {
         g_Input_Controller.shutdown();
     }
 }

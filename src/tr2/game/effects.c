@@ -9,7 +9,7 @@
 #include <libtrx/game/game_buf.h>
 #include <libtrx/game/matrix.h>
 
-static EFFECT *m_Effects = NULL;
+static EFFECT *m_Effects = nullptr;
 static int16_t m_NextEffectFree = NO_EFFECT;
 static int16_t m_NextEffectActive = NO_EFFECT;
 
@@ -72,7 +72,7 @@ void Effect_Control(void)
         const EFFECT *const effect = Effect_Get(effect_num);
         const OBJECT *const object = Object_GetObject(effect->object_id);
         const int16_t next = effect->next_active;
-        if (object->control != NULL) {
+        if (object->control != nullptr) {
             object->control(effect_num);
         }
         effect_num = next;

@@ -489,7 +489,7 @@ int32_t Collide_TestCollision(ITEM *const item, const ITEM *const lara_item)
 int32_t Collide_GetSpheres(
     const ITEM *const item, SPHERE *const spheres, const bool world_space)
 {
-    if (item == NULL) {
+    if (item == nullptr) {
         return 0;
     }
 
@@ -535,7 +535,7 @@ int32_t Collide_GetSpheres(
         Matrix_TranslateRel32(bone->pos);
         Matrix_Rot16(frame->mesh_rots[i]);
 
-        if (extra_rotation != NULL) {
+        if (extra_rotation != nullptr) {
             if (bone->rot_y) {
                 Matrix_RotY(*extra_rotation++);
             }
@@ -588,7 +588,7 @@ void Collide_GetJointAbsPosition(
         Matrix_TranslateRel32(bone->pos);
         Matrix_Rot16(frame->mesh_rots[i + 1]);
 
-        if (extra_rotation != NULL) {
+        if (extra_rotation != nullptr) {
             if (bone->rot_y) {
                 Matrix_RotY(*extra_rotation++);
             }

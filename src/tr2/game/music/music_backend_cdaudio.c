@@ -31,9 +31,9 @@ static void M_Shutdown(MUSIC_BACKEND *backend);
 
 static bool M_Parse(BACKEND_DATA *const data)
 {
-    ASSERT(data != NULL);
+    ASSERT(data != nullptr);
 
-    char *track_content = NULL;
+    char *track_content = nullptr;
     size_t track_content_size;
     if (!File_Load("audio/cdaudio.dat", &track_content, &track_content_size)) {
         LOG_WARNING("Cannot find CDAudio control file");
@@ -105,12 +105,12 @@ parse_end:
 
 static bool M_Init(MUSIC_BACKEND *const backend)
 {
-    ASSERT(backend != NULL);
+    ASSERT(backend != nullptr);
     BACKEND_DATA *data = backend->data;
-    ASSERT(data != NULL);
+    ASSERT(data != nullptr);
 
     MYFILE *const fp = File_Open(data->path, FILE_OPEN_READ);
-    if (fp == NULL) {
+    if (fp == nullptr) {
         return false;
     }
 
@@ -124,18 +124,18 @@ static bool M_Init(MUSIC_BACKEND *const backend)
 
 static const char *M_Describe(const MUSIC_BACKEND *const backend)
 {
-    ASSERT(backend != NULL);
+    ASSERT(backend != nullptr);
     const BACKEND_DATA *const data = backend->data;
-    ASSERT(data != NULL);
+    ASSERT(data != nullptr);
     return data->description;
 }
 
 static int32_t M_Play(
     const MUSIC_BACKEND *const backend, const int32_t track_id)
 {
-    ASSERT(backend != NULL);
+    ASSERT(backend != nullptr);
     const BACKEND_DATA *const data = backend->data;
-    ASSERT(data != NULL);
+    ASSERT(data != nullptr);
 
     const int32_t track_idx = track_id - 1;
     const CDAUDIO_TRACK *track = &data->tracks[track_idx];
@@ -158,11 +158,11 @@ static int32_t M_Play(
 
 static void M_Shutdown(MUSIC_BACKEND *backend)
 {
-    if (backend == NULL) {
+    if (backend == nullptr) {
         return;
     }
 
-    if (backend->data != NULL) {
+    if (backend->data != nullptr) {
         BACKEND_DATA *const data = backend->data;
         Memory_FreePointer(&data->path);
         Memory_FreePointer(&data->description);
@@ -174,10 +174,10 @@ static void M_Shutdown(MUSIC_BACKEND *backend)
 
 MUSIC_BACKEND *Music_Backend_CDAudio_Factory(const char *path)
 {
-    ASSERT(path != NULL);
+    ASSERT(path != nullptr);
 
     const char *description_fmt = "CDAudio (path: %s)";
-    const size_t description_size = snprintf(NULL, 0, description_fmt, path);
+    const size_t description_size = snprintf(nullptr, 0, description_fmt, path);
     char *description = Memory_Alloc(description_size + 1);
     sprintf(description, description_fmt, path);
 

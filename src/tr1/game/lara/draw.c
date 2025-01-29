@@ -52,7 +52,8 @@ void Lara_Draw(ITEM *item)
     }
 
     const ANIM_FRAME *const hit_frame = Lara_GetHitFrame(item);
-    const ANIM_FRAME *const frame = hit_frame == NULL ? frmptr[0] : hit_frame;
+    const ANIM_FRAME *const frame =
+        hit_frame == nullptr ? frmptr[0] : hit_frame;
 
     // save matrix for hair
     saved_matrix = *g_MatrixPtr;

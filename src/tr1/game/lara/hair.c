@@ -105,7 +105,7 @@ void Lara_Hair_Control(void)
     const bool in_cutscene = m_LaraType != O_LARA;
     const ANIM_FRAME *const hit_frame = Lara_GetHitFrame(g_LaraItem);
     const ANIM_FRAME *frame;
-    if (!in_cutscene && hit_frame != NULL) {
+    if (!in_cutscene && hit_frame != nullptr) {
         frame = hit_frame;
         frac = 0;
     } else {

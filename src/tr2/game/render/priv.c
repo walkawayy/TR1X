@@ -7,7 +7,7 @@
 #include <libtrx/utils.h>
 
 bool g_DiscardTransparent = false;
-static uint8_t *m_LabTextureUVFlag = NULL;
+static uint8_t *m_LabTextureUVFlag = nullptr;
 
 static void M_QuickSort(int32_t left, int32_t right);
 static inline void M_ClipG(
@@ -120,7 +120,7 @@ void Render_ResetTextureUVs(void)
 {
     const int32_t num_textures = Output_GetObjectTextureCount();
     if (num_textures == 0) {
-        m_LabTextureUVFlag = NULL;
+        m_LabTextureUVFlag = nullptr;
         return;
     }
 

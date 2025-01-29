@@ -12,7 +12,6 @@
 #include <libtrx/gfx/context.h>
 #include <libtrx/log.h>
 
-#include <stddef.h>
 #include <string.h>
 
 #define CLIP_VERTCOUNT_SCALE 4
@@ -31,8 +30,8 @@
 static int m_TextureMap[GFX_MAX_TEXTURES] = { GFX_NO_TEXTURE };
 static int m_EnvMapTexture = GFX_NO_TEXTURE;
 
-static GFX_2D_RENDERER *m_Renderer2D = NULL;
-static GFX_3D_RENDERER *m_Renderer3D = NULL;
+static GFX_2D_RENDERER *m_Renderer2D = nullptr;
+static GFX_3D_RENDERER *m_Renderer3D = nullptr;
 static bool m_IsTextureMode = false;
 static int32_t m_SelectedTexture = -1;
 
@@ -42,9 +41,9 @@ static float m_SurfaceMinX = 0.0f;
 static float m_SurfaceMinY = 0.0f;
 static float m_SurfaceMaxX = 0.0f;
 static float m_SurfaceMaxY = 0.0f;
-static GFX_2D_SURFACE *m_PrimarySurface = NULL;
-static GFX_2D_SURFACE *m_PictureSurface = NULL;
-static GFX_2D_SURFACE *m_TextureSurfaces[GFX_MAX_TEXTURES] = { NULL };
+static GFX_2D_SURFACE *m_PrimarySurface = nullptr;
+static GFX_2D_SURFACE *m_PictureSurface = nullptr;
+static GFX_2D_SURFACE *m_TextureSurfaces[GFX_MAX_TEXTURES] = { nullptr };
 
 static inline float M_GetUV(const uint16_t uv);
 static void M_ReleaseTextures(void);
@@ -70,7 +69,7 @@ static inline float M_GetUV(const uint16_t uv)
 
 static void M_ReleaseTextures(void)
 {
-    if (m_Renderer3D == NULL) {
+    if (m_Renderer3D == nullptr) {
         return;
     }
     for (int i = 0; i < GFX_MAX_TEXTURES; i++) {
@@ -91,19 +90,19 @@ static void M_ReleaseSurfaces(void)
         M_ClearSurface(m_PrimarySurface);
 
         GFX_2D_Surface_Free(m_PrimarySurface);
-        m_PrimarySurface = NULL;
+        m_PrimarySurface = nullptr;
     }
 
     for (int i = 0; i < GFX_MAX_TEXTURES; i++) {
-        if (m_TextureSurfaces[i] != NULL) {
+        if (m_TextureSurfaces[i] != nullptr) {
             GFX_2D_Surface_Free(m_TextureSurfaces[i]);
-            m_TextureSurfaces[i] = NULL;
+            m_TextureSurfaces[i] = nullptr;
         }
     }
 
     if (m_PictureSurface) {
         GFX_2D_Surface_Free(m_PictureSurface);
-        m_PictureSurface = NULL;
+        m_PictureSurface = nullptr;
     }
 }
 
@@ -477,7 +476,7 @@ void S_Output_ClearDepthBuffer(void)
 
 void S_Output_DrawBackdropSurface(void)
 {
-    if (m_PictureSurface == NULL) {
+    if (m_PictureSurface == nullptr) {
         return;
     }
     GFX_2D_Renderer_Render(m_Renderer2D);
@@ -486,9 +485,9 @@ void S_Output_DrawBackdropSurface(void)
 void S_Output_DownloadBackdropSurface(const IMAGE *const image)
 {
     GFX_2D_Surface_Free(m_PictureSurface);
-    m_PictureSurface = NULL;
+    m_PictureSurface = nullptr;
 
-    if (image == NULL) {
+    if (image == nullptr) {
         return;
     }
 
@@ -800,15 +799,15 @@ void S_Output_DrawShadow(PHD_VBUF *vbufs, int clip, int vertex_count)
 
 void S_Output_ApplyRenderSettings(void)
 {
-    if (m_Renderer3D == NULL) {
+    if (m_Renderer3D == nullptr) {
         return;
     }
 
-    if (m_PictureSurface != NULL
+    if (m_PictureSurface != nullptr
         && (Screen_GetResWidth() != m_SurfaceWidth
             || Screen_GetResHeight() != m_SurfaceHeight)) {
         GFX_2D_Surface_Free(m_PictureSurface);
-        m_PictureSurface = NULL;
+        m_PictureSurface = nullptr;
     }
 
     m_SurfaceWidth = Screen_GetResWidth();
@@ -827,7 +826,7 @@ void S_Output_ApplyRenderSettings(void)
     GFX_3D_Renderer_SetAnisotropyFilter(
         m_Renderer3D, g_Config.rendering.anisotropy_filter);
 
-    if (m_PrimarySurface == NULL) {
+    if (m_PrimarySurface == nullptr) {
         GFX_2D_SURFACE_DESC surface_desc = {};
         m_PrimarySurface = GFX_2D_Surface_Create(&surface_desc);
     }
@@ -843,7 +842,7 @@ bool S_Output_Init(void)
 {
     for (int i = 0; i < GFX_MAX_TEXTURES; i++) {
         m_TextureMap[i] = GFX_NO_TEXTURE;
-        m_TextureSurfaces[i] = NULL;
+        m_TextureSurfaces[i] = nullptr;
     }
 
     m_Renderer2D = GFX_2D_Renderer_Create();
@@ -862,13 +861,13 @@ void S_Output_Shutdown(void)
     M_ReleaseTextures();
     M_ReleaseSurfaces();
 
-    if (m_Renderer2D != NULL) {
+    if (m_Renderer2D != nullptr) {
         GFX_2D_Renderer_Destroy(m_Renderer2D);
-        m_Renderer2D = NULL;
+        m_Renderer2D = nullptr;
     }
-    if (m_Renderer3D != NULL) {
+    if (m_Renderer3D != nullptr) {
         GFX_3D_Renderer_Destroy(m_Renderer3D);
-        m_Renderer3D = NULL;
+        m_Renderer3D = nullptr;
     }
     GFX_Context_Detach();
 }
@@ -1251,7 +1250,7 @@ void S_Output_DownloadTextures(int32_t pages)
     M_ReleaseTextures();
 
     for (int i = 0; i < pages; i++) {
-        if (m_TextureSurfaces[i] == NULL) {
+        if (m_TextureSurfaces[i] == nullptr) {
             const GFX_2D_SURFACE_DESC surface_desc = {
                 .width = 256,
                 .height = 256,

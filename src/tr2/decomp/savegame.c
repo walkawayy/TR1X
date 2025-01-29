@@ -39,8 +39,8 @@
     SPECIAL_READ_WRITE(U32, uint32_t)
 
 static int32_t m_BufPos = 0;
-static char *m_BufPtr = NULL;
-static char *m_BufCopy = NULL;
+static char *m_BufPtr = nullptr;
+static char *m_BufCopy = nullptr;
 static uint32_t m_ReqFlags1[MAX_REQUESTER_ITEMS];
 static uint32_t m_ReqFlags2[MAX_REQUESTER_ITEMS];
 
@@ -214,7 +214,7 @@ static void M_ReadItems(void)
             if (item->flags & SAVE_CREATURE) {
                 LOT_EnableBaddieAI(item_num, true);
                 CREATURE *const creature = item->data;
-                if (creature != NULL) {
+                if (creature != nullptr) {
                     creature->head_rotation = M_ReadS16();
                     creature->neck_rotation = M_ReadS16();
                     creature->maximum_turn = M_ReadS16();
@@ -224,7 +224,7 @@ static void M_ReadItems(void)
                     M_Skip(12);
                 }
             } else if (obj->intelligent) {
-                item->data = NULL;
+                item->data = nullptr;
                 if (item->killed && item->hit_points <= 0
                     && !(item->flags & IF_KILLED)) {
                     item->next_active = g_PrevItemActive;
@@ -329,18 +329,18 @@ static void M_ReadLara(LARA_INFO *const lara)
     lara->last_pos.y = M_ReadS32();
     lara->last_pos.z = M_ReadS32();
     M_Skip(4);
-    lara->hit_effect = NULL;
+    lara->hit_effect = nullptr;
     lara->mesh_effects = M_ReadU32();
 
     for (int32_t i = 0; i < LM_NUMBER_OF; i++) {
         OBJECT_MESH *const mesh = Object_FindMesh(M_ReadS32() / 2);
-        if (mesh != NULL) {
+        if (mesh != nullptr) {
             Lara_SetMesh(i, mesh);
         }
     }
 
     M_Skip(4);
-    lara->target = NULL;
+    lara->target = nullptr;
     lara->target_angles[0] = M_ReadS16();
     lara->target_angles[1] = M_ReadS16();
 
@@ -363,7 +363,7 @@ static void M_ReadLara(LARA_INFO *const lara)
     M_ReadAmmoInfo(&lara->grenade_ammo);
     M_ReadAmmoInfo(&lara->m16_ammo);
     M_Skip(4);
-    lara->creature = NULL;
+    lara->creature = nullptr;
 }
 
 static void M_ReadLaraArm(LARA_ARM *const arm)
@@ -487,7 +487,7 @@ static void M_WriteItems(void)
         if (obj->save_flags) {
             uint16_t flags = item->flags + item->active + (item->status << 1)
                 + (item->gravity << 3) + (item->collidable << 4);
-            if (obj->intelligent && item->data != NULL) {
+            if (obj->intelligent && item->data != nullptr) {
                 flags |= SAVE_CREATURE;
             }
             M_WriteU16(flags);
@@ -660,10 +660,10 @@ void Savegame_InitCurrentInfo(void)
         GF_GetResumeInfo(level)->available = 0;
     }
 
-    if (GF_GetGymLevel() != NULL) {
+    if (GF_GetGymLevel() != nullptr) {
         GF_GetResumeInfo(GF_GetGymLevel())->available = 1;
     }
-    if (GF_GetFirstLevel() != NULL) {
+    if (GF_GetFirstLevel() != nullptr) {
         GF_GetResumeInfo(GF_GetFirstLevel())->available = 1;
     }
     g_SaveGame.bonus_flag = 0;
@@ -1018,7 +1018,7 @@ int32_t S_SaveGame(const int32_t slot_num)
     sprintf(file_name, "savegame.%d", slot_num);
 
     MYFILE *const fp = File_Open(file_name, FILE_OPEN_WRITE);
-    if (fp == NULL) {
+    if (fp == nullptr) {
         return false;
     }
 
@@ -1068,7 +1068,7 @@ int32_t S_LoadGame(const int32_t slot_num)
     sprintf(file_name, "savegame.%d", slot_num);
 
     MYFILE *const fp = File_Open(file_name, FILE_OPEN_READ);
-    if (fp == NULL) {
+    if (fp == nullptr) {
         return false;
     }
     File_Skip(fp, 75);

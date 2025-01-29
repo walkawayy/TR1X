@@ -43,7 +43,7 @@ typedef struct {
 } INJECTION;
 
 static int32_t m_NumInjections = 0;
-static INJECTION *m_Injections = NULL;
+static INJECTION *m_Injections = nullptr;
 static int32_t m_DataCounts[IDT_NUMBER_OF] = {};
 
 static void M_LoadFromFile(INJECTION *injection, const char *filename);
@@ -66,7 +66,7 @@ static void M_LoadFromFile(INJECTION *const injection, const char *filename)
 
     VFILE *const fp = VFile_CreateFromPath(filename);
     injection->fp = fp;
-    if (fp == NULL) {
+    if (fp == nullptr) {
         LOG_WARNING("Could not open %s", filename);
         return;
     }
@@ -138,8 +138,8 @@ static void M_FloorDataEdits(
 
         // Verify that the given room and coordinates are accurate.
         // Individual FD functions must check that sector is actually set.
-        const ROOM *room = NULL;
-        SECTOR *sector = NULL;
+        const ROOM *room = nullptr;
+        SECTOR *sector = nullptr;
         if (room_num < 0 || room_num >= Room_GetTotalCount()) {
             LOG_WARNING("Room index %d is invalid", room_num);
         } else {
@@ -183,7 +183,7 @@ static void M_FloorDataEdits(
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_TriggerTypeChange(
@@ -191,7 +191,7 @@ static void M_TriggerTypeChange(
 {
     const uint8_t new_type = VFile_ReadU8(injection->fp);
 
-    if (sector == NULL || sector->trigger == NULL) {
+    if (sector == nullptr || sector->trigger == nullptr) {
         return;
     }
 
@@ -207,7 +207,7 @@ static void M_TriggerParameterChange(
     const int16_t old_param = VFile_ReadS16(fp);
     const int16_t new_param = VFile_ReadS16(fp);
 
-    if (sector == NULL || sector->trigger == NULL) {
+    if (sector == nullptr || sector->trigger == nullptr) {
         return;
     }
 
@@ -215,7 +215,7 @@ static void M_TriggerParameterChange(
     // the command type and old (current) parameter, change it to the
     // new parameter.
     TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type != cmd_type) {
             continue;
         }
@@ -238,12 +238,12 @@ static void M_TriggerParameterChange(
 
 static void M_SetMusicOneShot(const SECTOR *const sector)
 {
-    if (sector == NULL || sector->trigger == NULL) {
+    if (sector == nullptr || sector->trigger == nullptr) {
         return;
     }
 
     const TRIGGER_CMD *cmd = sector->trigger->command;
-    for (; cmd != NULL; cmd = cmd->next_cmd) {
+    for (; cmd != nullptr; cmd = cmd->next_cmd) {
         if (cmd->type == TO_CD) {
             sector->trigger->one_shot = true;
             break;
@@ -261,7 +261,7 @@ static void M_InsertFloorData(
     int16_t data[data_length];
     VFile_Read(fp, data, sizeof(int16_t) * data_length);
 
-    if (sector == NULL) {
+    if (sector == nullptr) {
         return;
     }
 
@@ -357,7 +357,7 @@ static void M_ItemEdits(
         item->room_num = room_num;
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 int32_t Inject_GetDataCount(const INJECTION_DATA_TYPE type)
@@ -379,7 +379,7 @@ void Inject_Init(const int32_t injection_count, char *filenames[])
         M_LoadFromFile(&m_Injections[i], filenames[i]);
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 void Inject_AllInjections(void)
@@ -422,7 +422,7 @@ void Inject_AllInjections(void)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 void Inject_Cleanup(void)
@@ -432,13 +432,13 @@ void Inject_Cleanup(void)
     }
 
     BENCHMARK *const benchmark = Benchmark_Start();
-    ASSERT(m_Injections != NULL);
+    ASSERT(m_Injections != nullptr);
 
     for (int32_t i = 0; i < m_NumInjections; i++) {
         INJECTION *const injection = &m_Injections[i];
-        if (injection->fp != NULL) {
+        if (injection->fp != nullptr) {
             VFile_Close(injection->fp);
-            injection->fp = NULL;
+            injection->fp = nullptr;
         }
     }
 
@@ -447,7 +447,7 @@ void Inject_Cleanup(void)
     }
 
     Memory_FreePointer(&m_Injections);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
     m_NumInjections = 0;
 }
 

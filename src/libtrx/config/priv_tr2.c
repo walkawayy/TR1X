@@ -20,7 +20,7 @@ static void M_DumpInputLayout(
 static void M_LoadInputConfig(JSON_OBJECT *const root_obj)
 {
     JSON_OBJECT *const input_obj = JSON_ObjectGetObject(root_obj, "input");
-    if (input_obj == NULL) {
+    if (input_obj == nullptr) {
         return;
     }
 
@@ -30,10 +30,10 @@ static void M_LoadInputConfig(JSON_OBJECT *const root_obj)
         JSON_ObjectGetObject(input_obj, "controller");
     for (INPUT_LAYOUT layout = INPUT_LAYOUT_CUSTOM_1;
          layout < INPUT_LAYOUT_NUMBER_OF; layout++) {
-        if (keyboard_obj != NULL) {
+        if (keyboard_obj != nullptr) {
             M_LoadInputLayout(keyboard_obj, INPUT_BACKEND_KEYBOARD, layout);
         }
-        if (controller_obj != NULL) {
+        if (controller_obj != nullptr) {
             M_LoadInputLayout(controller_obj, INPUT_BACKEND_CONTROLLER, layout);
         }
     }
@@ -46,13 +46,13 @@ static void M_LoadInputLayout(
     char layout_name[20];
     sprintf(layout_name, "layout_%d", layout);
     JSON_ARRAY *const arr = JSON_ObjectGetArray(parent_obj, layout_name);
-    if (arr == NULL) {
+    if (arr == nullptr) {
         return;
     }
 
     for (size_t i = 0; i < arr->length; i++) {
         JSON_OBJECT *const bind_obj = JSON_ArrayGetObject(arr, i);
-        ASSERT(bind_obj != NULL);
+        ASSERT(bind_obj != nullptr);
         Input_AssignFromJSONObject(backend, layout, bind_obj);
     }
 }

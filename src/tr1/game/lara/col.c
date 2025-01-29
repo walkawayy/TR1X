@@ -12,7 +12,6 @@
 
 #include <libtrx/config.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 #define LF_WALK_STEP_L_START 0
@@ -433,7 +432,7 @@ void Lara_Col_FastFall(ITEM *item, COLL_INFO *coll)
             item->current_anim_state = LS_STOP;
             Item_SwitchToAnim(item, LA_LAND_FAR, 0);
         }
-        Sound_StopEffect(SFX_LARA_FALL, NULL);
+        Sound_StopEffect(SFX_LARA_FALL, nullptr);
         item->pos.y += coll->mid_floor;
         item->gravity = 0;
         item->fall_speed = 0;

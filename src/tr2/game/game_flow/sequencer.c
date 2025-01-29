@@ -143,11 +143,11 @@ static DECLARE_EVENT_HANDLER(M_HandleLevelComplete)
     START_INFO *const start = GF_GetResumeInfo(current_level);
     start->stats = g_SaveGame.current_stats;
     start->available = 0;
-    if (next_level != NULL) {
+    if (next_level != nullptr) {
         Savegame_PersistGameToCurrentInfo(next_level);
         g_SaveGame.current_level = next_level->num;
     }
-    if (next_level == NULL || gf_cmd.action != GF_NOOP) {
+    if (next_level == nullptr || gf_cmd.action != GF_NOOP) {
         return gf_cmd;
     }
     gf_cmd = (GF_COMMAND) {

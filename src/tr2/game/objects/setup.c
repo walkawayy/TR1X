@@ -378,12 +378,12 @@ void Object_SetupAllObjects(void)
 {
     for (int32_t i = 0; i < O_NUMBER_OF; i++) {
         OBJECT *const object = Object_GetObject(i);
-        object->initialise = NULL;
-        object->control = NULL;
-        object->floor = NULL;
-        object->ceiling = NULL;
+        object->initialise = nullptr;
+        object->control = nullptr;
+        object->floor = nullptr;
+        object->ceiling = nullptr;
         object->draw_routine = Object_DrawAnimatingItem;
-        object->collision = NULL;
+        object->collision = nullptr;
         object->hit_points = DONT_TARGET;
         object->pivot_length = 0;
         object->radius = DEFAULT_RADIUS;

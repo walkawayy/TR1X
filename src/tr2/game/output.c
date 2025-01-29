@@ -632,7 +632,7 @@ BACKGROUND_TYPE Output_GetBackgroundType(void)
 bool Output_LoadBackgroundFromFile(const char *const file_name)
 {
     IMAGE *const image = Image_CreateFromFile(file_name);
-    if (image == NULL) {
+    if (image == nullptr) {
         return false;
     }
     Render_LoadBackgroundFromImage(image);
@@ -706,17 +706,19 @@ void Output_DrawScreenBox(
 {
     const int32_t col_1 = 15;
     const int32_t col_2 = 31;
-    Output_DrawScreenLine(sx, sy - 1, z, width + 1, 0, col_1, NULL, flags);
-    Output_DrawScreenLine(sx + 1, sy, z, width - 1, 0, col_2, NULL, flags);
+    Output_DrawScreenLine(sx, sy - 1, z, width + 1, 0, col_1, nullptr, flags);
+    Output_DrawScreenLine(sx + 1, sy, z, width - 1, 0, col_2, nullptr, flags);
     Output_DrawScreenLine(
-        sx + width, sy + 1, z, 0, height - 1, col_1, NULL, flags);
+        sx + width, sy + 1, z, 0, height - 1, col_1, nullptr, flags);
     Output_DrawScreenLine(
-        sx + width + 1, sy, z, 0, height + 1, col_2, NULL, flags);
-    Output_DrawScreenLine(sx - 1, sy - 1, z, 0, height + 1, col_1, NULL, flags);
-    Output_DrawScreenLine(sx, sy, z, 0, height - 1, col_2, NULL, flags);
-    Output_DrawScreenLine(sx, height + sy, z, width - 1, 0, col_1, NULL, flags);
+        sx + width + 1, sy, z, 0, height + 1, col_2, nullptr, flags);
     Output_DrawScreenLine(
-        sx - 1, height + sy + 1, z, width + 1, 0, col_2, NULL, flags);
+        sx - 1, sy - 1, z, 0, height + 1, col_1, nullptr, flags);
+    Output_DrawScreenLine(sx, sy, z, 0, height - 1, col_2, nullptr, flags);
+    Output_DrawScreenLine(
+        sx, height + sy, z, width - 1, 0, col_1, nullptr, flags);
+    Output_DrawScreenLine(
+        sx - 1, height + sy + 1, z, width + 1, 0, col_2, nullptr, flags);
 }
 
 void Output_DrawScreenFBox(

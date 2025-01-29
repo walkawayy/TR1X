@@ -79,7 +79,7 @@ static void M_LoadRoot(JSON_OBJECT *obj, GAME_FLOW *gf);
 
 static DECLARE_SEQUENCE_EVENT_HANDLER_FUNC(M_HandleIntEvent)
 {
-    if (event != NULL) {
+    if (event != nullptr) {
         event->data =
             (void *)(intptr_t)JSON_ObjectGetInt(event_obj, user_arg, -1);
     }
@@ -88,12 +88,12 @@ static DECLARE_SEQUENCE_EVENT_HANDLER_FUNC(M_HandleIntEvent)
 
 static DECLARE_SEQUENCE_EVENT_HANDLER_FUNC(M_HandlePictureEvent)
 {
-    const char *const path = JSON_ObjectGetString(event_obj, "path", NULL);
-    if (path == NULL) {
+    const char *const path = JSON_ObjectGetString(event_obj, "path", nullptr);
+    if (path == nullptr) {
         Shell_ExitSystem("Missing picture path");
         return -1;
     }
-    if (event != NULL) {
+    if (event != nullptr) {
         GF_DISPLAY_PICTURE_DATA *const event_data = extra_data;
         event_data->path = (char *)extra_data + sizeof(GF_DISPLAY_PICTURE_DATA);
         event_data->display_time =
@@ -116,7 +116,7 @@ static DECLARE_SEQUENCE_EVENT_HANDLER_FUNC(M_HandleAddItemEvent)
         Shell_ExitSystem("Invalid item");
         return -1;
     }
-    if (event != NULL) {
+    if (event != nullptr) {
         GF_ADD_ITEM_DATA *const event_data = extra_data;
         event_data->object_id = object_id;
         event_data->quantity = JSON_ObjectGetInt(event_obj, "quantity", 1);
@@ -156,7 +156,7 @@ static void M_LoadArray(
     }
 
     JSON_ARRAY *const elem_arr = JSON_ObjectGetArray(obj, key);
-    if (elem_arr == NULL) {
+    if (elem_arr == nullptr) {
         Shell_ExitSystemFmt("'%s' must be a list", key);
     }
 
@@ -168,7 +168,7 @@ static void M_LoadArray(
         void *const element = (char *)*elements + i * element_size;
 
         JSON_OBJECT *const elem_obj = JSON_ValueAsObject(elem->value);
-        if (elem_obj == NULL) {
+        if (elem_obj == nullptr) {
             Shell_ExitSystemFmt("'%s' elements must be dictionaries", key);
         }
 
@@ -196,17 +196,17 @@ static size_t M_LoadSequenceEvent(
     }
 
     int32_t extra_data_size = 0;
-    if (handler->handler_func != NULL) {
+    if (handler->handler_func != nullptr) {
         extra_data_size = handler->handler_func(
-            event_obj, NULL, NULL, handler->handler_func_arg);
+            event_obj, nullptr, nullptr, handler->handler_func_arg);
     }
-    if (extra_data_size >= 0 && event != NULL) {
+    if (extra_data_size >= 0 && event != nullptr) {
         event->type = handler->event_type;
-        if (handler->handler_func != NULL) {
+        if (handler->handler_func != nullptr) {
             handler->handler_func(
                 event_obj, event, extra_data, handler->handler_func_arg);
         } else {
-            event->data = NULL;
+            event->data = nullptr;
         }
     }
     return extra_data_size;
@@ -216,7 +216,7 @@ static void M_LoadSequence(
     JSON_ARRAY *const jseq_arr, GF_SEQUENCE *const sequence)
 {
     sequence->length = 0;
-    if (jseq_arr == NULL) {
+    if (jseq_arr == nullptr) {
         return;
     }
     size_t event_base_size = sizeof(GF_SEQUENCE_EVENT);
@@ -224,7 +224,7 @@ static void M_LoadSequence(
     for (size_t i = 0; i < jseq_arr->length; i++) {
         JSON_OBJECT *jevent = JSON_ArrayGetObject(jseq_arr, i);
         const int32_t event_extra_size =
-            M_LoadSequenceEvent(jevent, NULL, NULL);
+            M_LoadSequenceEvent(jevent, nullptr, nullptr);
         if (event_extra_size < 0) {
             // Parsing this event failed - discard it
             continue;
@@ -260,14 +260,14 @@ static void M_LoadLevelInjections(
     JSON_ARRAY *const injections = JSON_ObjectGetArray(jlvl_obj, "injections");
 
     level->injections.count = 0;
-    if (injections == NULL && !inherit) {
+    if (injections == nullptr && !inherit) {
         return;
     }
 
     if (inherit) {
         level->injections.count += gf->injections.count;
     }
-    if (injections != NULL) {
+    if (injections != nullptr) {
         level->injections.count += injections->length;
     }
 
@@ -283,12 +283,12 @@ static void M_LoadLevelInjections(
         base_index = gf->injections.count;
     }
 
-    if (injections == NULL) {
+    if (injections == nullptr) {
         return;
     }
 
     for (size_t i = 0; i < injections->length; i++) {
-        const char *const str = JSON_ArrayGetString(injections, i, NULL);
+        const char *const str = JSON_ArrayGetString(injections, i, nullptr);
         level->injections.data_paths[base_index + i] = Memory_DupStr(str);
     }
 }
@@ -297,7 +297,7 @@ static void M_LoadLevelSequence(
     JSON_OBJECT *const jlvl_obj, GF_LEVEL *const level)
 {
     JSON_ARRAY *const jseq_arr = JSON_ObjectGetArray(jlvl_obj, "sequence");
-    if (jseq_arr == NULL) {
+    if (jseq_arr == nullptr) {
         Shell_ExitSystemFmt("level %d: 'sequence' must be a list", level->num);
     }
     M_LoadSequence(jseq_arr, &level->sequence);
@@ -330,7 +330,7 @@ static void M_LoadLevel(
     {
         level->type = (GF_LEVEL_TYPE)(intptr_t)user_arg;
         const JSON_VALUE *const tmp_v = JSON_ObjectGetValue(jlvl_obj, "type");
-        if (tmp_v != NULL) {
+        if (tmp_v != nullptr) {
             const char *const tmp =
                 JSON_ValueGetString(tmp_v, JSON_INVALID_STRING);
             if (tmp == JSON_INVALID_STRING) {
@@ -373,7 +373,7 @@ static void M_LoadLevel(
     {
         const JSON_VALUE *const tmp_v =
             JSON_ObjectGetValue(jlvl_obj, "music_track");
-        if (tmp_v != NULL) {
+        if (tmp_v != nullptr) {
             const int32_t tmp = JSON_ValueGetInt(tmp_v, JSON_INVALID_NUMBER);
             if (tmp == JSON_INVALID_NUMBER) {
                 Shell_ExitSystemFmt(
@@ -425,7 +425,7 @@ static void M_LoadDemos(JSON_OBJECT *const obj, GAME_FLOW *const gf)
 static void M_LoadTitleLevel(JSON_OBJECT *obj, GAME_FLOW *const gf)
 {
     JSON_OBJECT *title_obj = JSON_ObjectGetObject(obj, "title");
-    if (title_obj != NULL) {
+    if (title_obj != nullptr) {
         gf->title_level = Memory_Alloc(sizeof(GF_LEVEL));
         M_LoadLevel(title_obj, gf, gf->title_level, 0, GFL_TITLE);
     }
@@ -435,8 +435,8 @@ static void M_LoadFMV(
     JSON_OBJECT *const obj, const GAME_FLOW *const gf, GF_FMV *const fmv,
     size_t idx, void *const user_arg)
 {
-    const char *const path = JSON_ObjectGetString(obj, "path", NULL);
-    if (path == NULL) {
+    const char *const path = JSON_ObjectGetString(obj, "path", nullptr);
+    if (path == nullptr) {
         Shell_ExitSystemFmt("Missing FMV path");
     }
     fmv->path = Memory_DupStr(path);
@@ -446,14 +446,14 @@ static void M_LoadFMVs(JSON_OBJECT *const obj, GAME_FLOW *const gf)
 {
     M_LoadArray(
         obj, gf, "fmvs", &gf->fmv_count, (void **)&gf->fmvs, sizeof(GF_FMV),
-        (M_LOAD_ARRAY_FUNC)M_LoadFMV, NULL);
+        (M_LOAD_ARRAY_FUNC)M_LoadFMV, nullptr);
 }
 
 static void M_LoadGlobalInjections(JSON_OBJECT *const obj, GAME_FLOW *const gf)
 {
     gf->injections.count = 0;
     JSON_ARRAY *const injections = JSON_ObjectGetArray(obj, "injections");
-    if (injections == NULL) {
+    if (injections == nullptr) {
         return;
     }
 
@@ -461,7 +461,7 @@ static void M_LoadGlobalInjections(JSON_OBJECT *const obj, GAME_FLOW *const gf)
     gf->injections.data_paths =
         Memory_Alloc(sizeof(char *) * injections->length);
     for (size_t i = 0; i < injections->length; i++) {
-        const char *const str = JSON_ArrayGetString(injections, i, NULL);
+        const char *const str = JSON_ArrayGetString(injections, i, nullptr);
         gf->injections.data_paths[i] = Memory_DupStr(str);
     }
 }
@@ -470,16 +470,16 @@ void GF_Load(const char *const path)
 {
     GF_Shutdown();
 
-    char *script_data = NULL;
-    if (!File_Load(path, &script_data, NULL)) {
+    char *script_data = nullptr;
+    if (!File_Load(path, &script_data, nullptr)) {
         Shell_ExitSystem("Failed to open script file");
     }
 
     JSON_PARSE_RESULT parse_result;
     JSON_VALUE *const root = JSON_ParseEx(
-        script_data, strlen(script_data), JSON_PARSE_FLAGS_ALLOW_JSON5, NULL,
-        NULL, &parse_result);
-    if (root == NULL) {
+        script_data, strlen(script_data), JSON_PARSE_FLAGS_ALLOW_JSON5, nullptr,
+        nullptr, &parse_result);
+    if (root == nullptr) {
         Shell_ExitSystemFmt(
             "Failed to parse script file: %s in line %d, char %d",
             JSON_GetErrorDescription(parse_result.error),
@@ -495,7 +495,7 @@ void GF_Load(const char *const path)
     M_LoadFMVs(root_obj, gf);
     M_LoadTitleLevel(root_obj, gf);
 
-    if (root != NULL) {
+    if (root != nullptr) {
         JSON_ValueFree(root);
     }
     Memory_FreePointer(&script_data);

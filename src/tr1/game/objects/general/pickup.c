@@ -87,7 +87,7 @@ static void M_Control(int16_t item_num)
 
     const ITEM *const lara = Lara_GetItem();
     if (!g_Config.gameplay.enable_pickup_aids || item->fall_speed != 0
-        || lara == NULL || !Object_GetObject(O_PICKUP_AID)->loaded) {
+        || lara == nullptr || !Object_GetObject(O_PICKUP_AID)->loaded) {
         return;
     }
 

@@ -28,7 +28,7 @@ void Flame_Control(int16_t effect_num)
     if (effect->counter < 0) {
         if (g_Lara.water_status == LWS_CHEAT) {
             effect->counter = 0;
-            Sound_StopEffect(SFX_FIRE, NULL);
+            Sound_StopEffect(SFX_FIRE, nullptr);
             Effect_Kill(effect_num);
             return;
         }
@@ -50,7 +50,7 @@ void Flame_Control(int16_t effect_num)
 
         if (y != NO_HEIGHT && effect->pos.y > y) {
             effect->counter = 0;
-            Sound_StopEffect(SFX_FIRE, NULL);
+            Sound_StopEffect(SFX_FIRE, nullptr);
             Effect_Kill(effect_num);
         } else {
             if (effect->room_num != g_LaraItem->room_num) {

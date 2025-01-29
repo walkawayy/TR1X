@@ -16,8 +16,6 @@
 #include <libtrx/debug.h>
 #include <libtrx/game/matrix.h>
 
-#include <stddef.h>
-
 void Gun_Control(void)
 {
     if (g_Lara.left_arm.flash_gun > 0) {
@@ -199,7 +197,7 @@ void Gun_InitialiseNewWeapon(void)
     g_Lara.right_arm.lock = 0;
     g_Lara.right_arm.flash_gun = 0;
     g_Lara.right_arm.frame_num = LF_G_AIM_START;
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
 
     const GAME_OBJECT_ID anim_type = Gun_GetLaraAnim(g_Lara.gun_type);
     g_Lara.right_arm.frame_base = g_Objects[anim_type].frame_base;

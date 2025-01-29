@@ -3,7 +3,7 @@
 #include "game/anims.h"
 #include "game/game_buf.h"
 
-static OBJECT_MESH **m_MeshPointers = NULL;
+static OBJECT_MESH **m_MeshPointers = nullptr;
 static int32_t m_MeshCount = 0;
 
 bool Object_IsObjectType(
@@ -72,7 +72,7 @@ OBJECT_MESH *Object_FindMesh(const int32_t data_offset)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 int32_t Object_GetMeshOffset(const OBJECT_MESH *const mesh)

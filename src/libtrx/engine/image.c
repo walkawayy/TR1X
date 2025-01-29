@@ -51,16 +51,16 @@ static IMAGE_BLIT M_GetBlit(
 
 static bool M_Init(const char *const path, IMAGE_READER_CONTEXT *const ctx)
 {
-    ASSERT(ctx != NULL);
-    ctx->format_ctx = NULL;
-    ctx->codec = NULL;
-    ctx->codec_ctx = NULL;
-    ctx->frame = NULL;
-    ctx->packet = NULL;
+    ASSERT(ctx != nullptr);
+    ctx->format_ctx = nullptr;
+    ctx->codec = nullptr;
+    ctx->codec_ctx = nullptr;
+    ctx->frame = nullptr;
+    ctx->packet = nullptr;
 
     char *full_path = File_GetFullPath(path);
     int32_t error_code =
-        avformat_open_input(&ctx->format_ctx, full_path, NULL, NULL);
+        avformat_open_input(&ctx->format_ctx, full_path, nullptr, nullptr);
     Memory_FreePointer(&full_path);
 
     if (error_code != 0) {
@@ -68,13 +68,13 @@ static bool M_Init(const char *const path, IMAGE_READER_CONTEXT *const ctx)
     }
 
 #if 0
-    error_code = avformat_find_stream_info(format_ctx, NULL);
+    error_code = avformat_find_stream_info(format_ctx, nullptr);
     if (error_code < 0) {
         goto finish;
     }
 #endif
 
-    AVStream *video_stream = NULL;
+    AVStream *video_stream = nullptr;
     for (unsigned int i = 0; i < ctx->format_ctx->nb_streams; i++) {
         AVStream *current_stream = ctx->format_ctx->streams[i];
         if (current_stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
@@ -82,19 +82,19 @@ static bool M_Init(const char *const path, IMAGE_READER_CONTEXT *const ctx)
             break;
         }
     }
-    if (video_stream == NULL) {
+    if (video_stream == nullptr) {
         error_code = AVERROR_STREAM_NOT_FOUND;
         goto finish;
     }
 
     ctx->codec = avcodec_find_decoder(video_stream->codecpar->codec_id);
-    if (ctx->codec == NULL) {
+    if (ctx->codec == nullptr) {
         error_code = AVERROR_DEMUXER_NOT_FOUND;
         goto finish;
     }
 
     ctx->codec_ctx = avcodec_alloc_context3(ctx->codec);
-    if (ctx->codec_ctx == NULL) {
+    if (ctx->codec_ctx == nullptr) {
         error_code = AVERROR(ENOMEM);
         goto finish;
     }
@@ -115,7 +115,7 @@ static bool M_Init(const char *const path, IMAGE_READER_CONTEXT *const ctx)
         ctx->codec_ctx->thread_count = 1; //don't use multithreading
 #endif
 
-    error_code = avcodec_open2(ctx->codec_ctx, ctx->codec, NULL);
+    error_code = avcodec_open2(ctx->codec_ctx, ctx->codec, nullptr);
     if (error_code < 0) {
         goto finish;
     }
@@ -132,7 +132,7 @@ static bool M_Init(const char *const path, IMAGE_READER_CONTEXT *const ctx)
     }
 
     ctx->frame = av_frame_alloc();
-    if (ctx->frame == NULL) {
+    if (ctx->frame == nullptr) {
         error_code = AVERROR(ENOMEM);
         goto finish;
     }
@@ -156,21 +156,21 @@ finish:
 
 static void M_Free(IMAGE_READER_CONTEXT *const ctx)
 {
-    if (ctx->packet != NULL) {
+    if (ctx->packet != nullptr) {
         av_packet_free(&ctx->packet);
     }
 
-    if (ctx->frame != NULL) {
+    if (ctx->frame != nullptr) {
         av_frame_free(&ctx->frame);
     }
 
-    if (ctx->codec_ctx != NULL) {
+    if (ctx->codec_ctx != nullptr) {
         avcodec_close(ctx->codec_ctx);
         av_free(ctx->codec_ctx);
-        ctx->codec_ctx = NULL;
+        ctx->codec_ctx = nullptr;
     }
 
-    if (ctx->format_ctx != NULL) {
+    if (ctx->format_ctx != nullptr) {
         avformat_close_input(&ctx->format_ctx);
     }
 }
@@ -188,7 +188,7 @@ static IMAGE *M_ConstructImage(
     IMAGE_READER_CONTEXT *const ctx, const int32_t target_width,
     const int32_t target_height, IMAGE_FIT_MODE fit_mode)
 {
-    ASSERT(ctx != NULL);
+    ASSERT(ctx != nullptr);
     ASSERT(target_width > 0);
     ASSERT(target_height > 0);
 
@@ -204,10 +204,11 @@ static IMAGE *M_ConstructImage(
 
     struct SwsContext *const sws_ctx = sws_getContext(
         blit.src.width, blit.src.height, ctx->frame->format, blit.dst.width,
-        blit.dst.height, AV_PIX_FMT_RGB24, SWS_BILINEAR, NULL, NULL, NULL);
-    if (sws_ctx == NULL) {
+        blit.dst.height, AV_PIX_FMT_RGB24, SWS_BILINEAR, nullptr, nullptr,
+        nullptr);
+    if (sws_ctx == nullptr) {
         LOG_ERROR("Failed to get SWS context");
-        return NULL;
+        return nullptr;
     }
 
     IMAGE *const target_image = Image_Create(target_width, target_height);
@@ -216,7 +217,7 @@ static IMAGE *M_ConstructImage(
                                    + (blit.dst.y * target_image->width
                                       + blit.dst.x)
                                        * sizeof(IMAGE_PIXEL),
-                               NULL, NULL, NULL };
+                               nullptr, nullptr, nullptr };
     int dst_linesize[4] = { target_image->width * sizeof(IMAGE_PIXEL), 0, 0,
                             0 };
 
@@ -310,11 +311,11 @@ static IMAGE_BLIT M_GetBlit(
 
 IMAGE *Image_CreateFromFile(const char *const path)
 {
-    ASSERT(path != NULL);
+    ASSERT(path != nullptr);
 
     IMAGE_READER_CONTEXT ctx;
     if (!M_Init(path, &ctx)) {
-        return NULL;
+        return nullptr;
     }
 
     IMAGE *target_image = M_ConstructImage(
@@ -329,11 +330,11 @@ IMAGE *Image_CreateFromFileInto(
     const char *const path, const int32_t target_width,
     const int32_t target_height, const IMAGE_FIT_MODE fit_mode)
 {
-    ASSERT(path != NULL);
+    ASSERT(path != nullptr);
 
     IMAGE_READER_CONTEXT ctx;
     if (!M_Init(path, &ctx)) {
-        return NULL;
+        return nullptr;
     }
 
     IMAGE *target_image =
@@ -346,18 +347,18 @@ IMAGE *Image_CreateFromFileInto(
 
 bool Image_SaveToFile(const IMAGE *const image, const char *const path)
 {
-    ASSERT(image != NULL);
-    ASSERT(path != NULL);
+    ASSERT(image != nullptr);
+    ASSERT(path != nullptr);
 
     bool result = false;
 
     int error_code = 0;
-    const AVCodec *codec = NULL;
-    AVCodecContext *codec_ctx = NULL;
-    AVFrame *frame = NULL;
-    AVPacket *packet = NULL;
-    struct SwsContext *sws_ctx = NULL;
-    MYFILE *fp = NULL;
+    const AVCodec *codec = nullptr;
+    AVCodecContext *codec_ctx = nullptr;
+    AVFrame *frame = nullptr;
+    AVPacket *packet = nullptr;
+    struct SwsContext *sws_ctx = nullptr;
+    MYFILE *fp = nullptr;
 
     enum AVPixelFormat src_pix_fmt = AV_PIX_FMT_RGB24;
     enum AVPixelFormat dst_pix_fmt;
@@ -375,19 +376,19 @@ bool Image_SaveToFile(const IMAGE *const image, const char *const path)
     }
 
     fp = File_Open(path, FILE_OPEN_WRITE);
-    if (fp == NULL) {
+    if (fp == nullptr) {
         LOG_ERROR("Cannot create image file: %s", path);
         goto cleanup;
     }
 
     codec = avcodec_find_encoder(codec_id);
-    if (codec == NULL) {
+    if (codec == nullptr) {
         error_code = AVERROR_MUXER_NOT_FOUND;
         goto cleanup;
     }
 
     codec_ctx = avcodec_alloc_context3(codec);
-    if (codec_ctx == NULL) {
+    if (codec_ctx == nullptr) {
         error_code = AVERROR(ENOMEM);
         goto cleanup;
     }
@@ -404,13 +405,13 @@ bool Image_SaveToFile(const IMAGE *const image, const char *const path)
         codec_ctx->global_quality = FF_QP2LAMBDA * 9;
     }
 
-    error_code = avcodec_open2(codec_ctx, codec, NULL);
+    error_code = avcodec_open2(codec_ctx, codec, nullptr);
     if (error_code < 0) {
         goto cleanup;
     }
 
     frame = av_frame_alloc();
-    if (frame == NULL) {
+    if (frame == nullptr) {
         error_code = AVERROR(ENOMEM);
         goto cleanup;
     }
@@ -430,9 +431,9 @@ bool Image_SaveToFile(const IMAGE *const image, const char *const path)
 
     sws_ctx = sws_getContext(
         image->width, image->height, src_pix_fmt, frame->width, frame->height,
-        dst_pix_fmt, SWS_BILINEAR, NULL, NULL, NULL);
+        dst_pix_fmt, SWS_BILINEAR, nullptr, nullptr, nullptr);
 
-    if (sws_ctx == NULL) {
+    if (sws_ctx == nullptr) {
         LOG_ERROR("Failed to get SWS context");
         error_code = AVERROR_EXTERNAL;
         goto cleanup;
@@ -477,7 +478,7 @@ cleanup:
 
     if (fp) {
         File_Close(fp);
-        fp = NULL;
+        fp = nullptr;
     }
 
     if (sws_ctx) {
@@ -491,7 +492,7 @@ cleanup:
     if (codec) {
         avcodec_close(codec_ctx);
         av_free(codec_ctx);
-        codec_ctx = NULL;
+        codec_ctx = nullptr;
     }
 
     if (frame) {
@@ -506,8 +507,8 @@ IMAGE *Image_Scale(
     const IMAGE *const source_image, size_t target_width, size_t target_height,
     IMAGE_FIT_MODE fit_mode)
 {
-    ASSERT(source_image != NULL);
-    ASSERT(source_image->data != NULL);
+    ASSERT(source_image != nullptr);
+    ASSERT(source_image->data != nullptr);
     ASSERT(target_width > 0);
     ASSERT(target_height > 0);
 
@@ -517,10 +518,11 @@ IMAGE *Image_Scale(
 
     struct SwsContext *const sws_ctx = sws_getContext(
         blit.src.width, blit.src.height, AV_PIX_FMT_RGB24, blit.dst.width,
-        blit.dst.height, AV_PIX_FMT_RGB24, SWS_BILINEAR, NULL, NULL, NULL);
-    if (sws_ctx == NULL) {
+        blit.dst.height, AV_PIX_FMT_RGB24, SWS_BILINEAR, nullptr, nullptr,
+        nullptr);
+    if (sws_ctx == nullptr) {
         LOG_ERROR("Failed to get SWS context");
-        return NULL;
+        return nullptr;
     }
 
     IMAGE *const target_image = Image_Create(target_width, target_height);
@@ -529,7 +531,7 @@ IMAGE *Image_Scale(
                                    + (blit.src.y * source_image->width
                                       + blit.src.x)
                                        * sizeof(IMAGE_PIXEL),
-                               NULL, NULL, NULL };
+                               nullptr, nullptr, nullptr };
     int src_linesize[4] = { source_image->width * sizeof(IMAGE_PIXEL), 0, 0,
                             0 };
 
@@ -537,7 +539,7 @@ IMAGE *Image_Scale(
                                    + (blit.dst.y * target_image->width
                                       + blit.dst.x)
                                        * sizeof(IMAGE_PIXEL),
-                               NULL, NULL, NULL };
+                               nullptr, nullptr, nullptr };
     int dst_linesize[4] = { target_image->width * sizeof(IMAGE_PIXEL), 0, 0,
                             0 };
 

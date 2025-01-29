@@ -217,7 +217,7 @@ void Lara_Hair_Control(const bool in_cutscene)
     int32_t frac;
     int32_t rate;
     const ANIM_FRAME *const hit_frame = Lara_GetHitFrame(g_LaraItem);
-    if (hit_frame != NULL) {
+    if (hit_frame != nullptr) {
         frame_1 = hit_frame;
         frac = 0;
     } else {

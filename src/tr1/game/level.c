@@ -48,7 +48,7 @@ typedef enum {
 } LEVEL_LAYOUT;
 
 static LEVEL_INFO m_LevelInfo = {};
-static INJECTION_INFO *m_InjectionInfo = NULL;
+static INJECTION_INFO *m_InjectionInfo = nullptr;
 
 static bool M_TryLayout(VFILE *file, LEVEL_LAYOUT layout);
 static LEVEL_LAYOUT M_GuessLayout(VFILE *file);
@@ -192,7 +192,7 @@ static LEVEL_LAYOUT M_GuessLayout(VFILE *const file)
             break;
         }
     }
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
     return result;
 }
 
@@ -260,7 +260,7 @@ static void M_LoadTexturePages(VFILE *file)
     m_LevelInfo.textures.pages_24 = Memory_Alloc(num_pages * TEXTURE_PAGE_SIZE);
     VFile_Read(
         file, m_LevelInfo.textures.pages_24, num_pages * TEXTURE_PAGE_SIZE);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadRooms(VFILE *file)
@@ -287,7 +287,7 @@ static void M_LoadRooms(VFILE *file)
         // Doors
         const uint16_t num_doors = VFile_ReadS16(file);
         if (!num_doors) {
-            r->portals = NULL;
+            r->portals = nullptr;
         } else {
             r->portals = GameBuf_Alloc(
                 sizeof(uint16_t) + sizeof(PORTAL) * num_doors,
@@ -331,7 +331,7 @@ static void M_LoadRooms(VFILE *file)
         r->light_mode = RLM_NORMAL;
         r->num_lights = VFile_ReadS16(file);
         if (!r->num_lights) {
-            r->lights = NULL;
+            r->lights = nullptr;
         } else {
             r->lights =
                 GameBuf_Alloc(sizeof(LIGHT) * r->num_lights, GBUF_ROOM_LIGHTS);
@@ -348,7 +348,7 @@ static void M_LoadRooms(VFILE *file)
         // Static mesh infos
         r->num_static_meshes = VFile_ReadS16(file);
         if (r->num_static_meshes == 0) {
-            r->static_meshes = NULL;
+            r->static_meshes = nullptr;
         } else {
             r->static_meshes = GameBuf_Alloc(
                 sizeof(STATIC_MESH) * r->num_static_meshes,
@@ -383,7 +383,7 @@ static void M_LoadRooms(VFILE *file)
     Room_InitialiseFlipStatus();
     Level_ReadFloorData(file);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadObjectMeshes(VFILE *const file)
@@ -411,7 +411,7 @@ static void M_LoadObjectMeshes(VFILE *const file)
     VFile_SetPos(file, end_pos);
     Memory_FreePointer(&mesh_indices);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadAnims(VFILE *file)
@@ -422,7 +422,7 @@ static void M_LoadAnims(VFILE *file)
     LOG_INFO("%d anims", num_anims);
     Anim_InitialiseAnims(num_anims + m_InjectionInfo->anim_count);
     Level_ReadAnims(0, num_anims, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadAnimChanges(VFILE *file)
@@ -434,7 +434,7 @@ static void M_LoadAnimChanges(VFILE *file)
     Anim_InitialiseChanges(
         num_anim_changes + m_InjectionInfo->anim_change_count);
     Level_ReadAnimChanges(0, num_anim_changes, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadAnimRanges(VFILE *file)
@@ -445,7 +445,7 @@ static void M_LoadAnimRanges(VFILE *file)
     LOG_INFO("%d anim ranges", num_anim_ranges);
     Anim_InitialiseRanges(num_anim_ranges + m_InjectionInfo->anim_range_count);
     Level_ReadAnimRanges(0, num_anim_ranges, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadAnimCommands(VFILE *file)
@@ -457,7 +457,7 @@ static void M_LoadAnimCommands(VFILE *file)
     Level_InitialiseAnimCommands(
         num_anim_commands + m_InjectionInfo->anim_cmd_count);
     Level_ReadAnimCommands(0, num_anim_commands, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadAnimBones(VFILE *const file)
@@ -468,7 +468,7 @@ static void M_LoadAnimBones(VFILE *const file)
     LOG_INFO("%d anim bones", num_anim_bones);
     Anim_InitialiseBones(num_anim_bones + m_InjectionInfo->anim_bone_count);
     Level_ReadAnimBones(0, num_anim_bones, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadAnimFrames(VFILE *file)
@@ -482,7 +482,7 @@ static void M_LoadAnimFrames(VFILE *file)
         * (raw_data_count + m_InjectionInfo->anim_frame_data_count));
     VFile_Read(
         file, m_LevelInfo.anims.frames, sizeof(int16_t) * raw_data_count);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadObjects(VFILE *file)
@@ -491,7 +491,7 @@ static void M_LoadObjects(VFILE *file)
     const int32_t num_objects = VFile_ReadS32(file);
     LOG_INFO("%d objects", num_objects);
     Level_ReadObjects(num_objects, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadStaticObjects(VFILE *file)
@@ -500,7 +500,7 @@ static void M_LoadStaticObjects(VFILE *file)
     const int32_t num_static_objects = VFile_ReadS32(file);
     LOG_INFO("%d static objects", num_static_objects);
     Level_ReadStaticObjects(num_static_objects, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadTextures(VFILE *file)
@@ -512,7 +512,7 @@ static void M_LoadTextures(VFILE *file)
     Output_InitialiseObjectTextures(
         num_textures + m_InjectionInfo->texture_count);
     Level_ReadObjectTextures(0, 0, num_textures, file);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadSprites(VFILE *file)
@@ -529,7 +529,7 @@ static void M_LoadSprites(VFILE *file)
     LOG_DEBUG("sprite sequences: %d", num_sequences);
     Level_ReadSpriteSequences(num_sequences, file);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadCameras(VFILE *file)
@@ -552,7 +552,7 @@ static void M_LoadCameras(VFILE *file)
             camera->flags = VFile_ReadS16(file);
         }
     }
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadSoundEffects(VFILE *file)
@@ -575,7 +575,7 @@ static void M_LoadSoundEffects(VFILE *file)
             sound->flags = VFile_ReadS16(file);
         }
     }
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadBoxes(VFILE *file)
@@ -611,7 +611,7 @@ static void M_LoadBoxes(VFILE *file)
         VFile_Read(file, g_FlyZone[i], sizeof(int16_t) * g_NumberBoxes);
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadAnimatedTextures(VFILE *const file)
@@ -627,7 +627,7 @@ static void M_LoadAnimatedTextures(VFILE *const file)
     Level_ReadAnimatedTextureRanges(num_ranges, file);
 
     VFile_SetPos(file, end_position);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadItems(VFILE *file)
@@ -665,7 +665,7 @@ static void M_LoadItems(VFILE *file)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadLightTable(VFILE *file)
@@ -673,7 +673,7 @@ static void M_LoadLightTable(VFILE *file)
     BENCHMARK *const benchmark = Benchmark_Start();
     LOG_INFO("");
     VFile_Skip(file, sizeof(uint8_t) * 32 * 256);
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadPalette(VFILE *file)
@@ -691,7 +691,7 @@ static void M_LoadPalette(VFILE *file)
     m_LevelInfo.palette.data_24[0].r = 0;
     m_LevelInfo.palette.data_24[0].g = 0;
     m_LevelInfo.palette.data_24[0].b = 0;
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadCinematic(VFILE *file)
@@ -714,7 +714,7 @@ static void M_LoadCinematic(VFILE *file)
             camera->roll = VFile_ReadS16(file);
         }
     }
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadDemo(VFILE *file)
@@ -728,9 +728,9 @@ static void M_LoadDemo(VFILE *file)
         VFile_Read(file, g_DemoData, size);
         g_DemoData[size] = -1;
     } else {
-        g_DemoData = NULL;
+        g_DemoData = nullptr;
     }
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_LoadSamples(VFILE *file)
@@ -778,7 +778,7 @@ static void M_LoadSamples(VFILE *file)
     VFile_Read(
         file, m_LevelInfo.samples.offsets, sizeof(int32_t) * num_offsets);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_CompleteSetup(const GF_LEVEL *const level)
@@ -885,7 +885,7 @@ static void M_CompleteSetup(const GF_LEVEL *const level)
     Memory_FreePointer(&sample_sizes);
     Memory_FreePointer(&m_LevelInfo.samples.offsets);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static void M_MarkWaterEdgeVertices(void)
@@ -907,7 +907,7 @@ static void M_MarkWaterEdgeVertices(void)
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 static size_t M_CalculateMaxVertices(void)
@@ -942,7 +942,7 @@ static size_t M_CalculateMaxVertices(void)
         max_vertices = MAX(max_vertices, room->mesh.num_vertices);
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
     return max_vertices;
 }
 
@@ -967,7 +967,7 @@ void Level_Load(const GF_LEVEL *const level)
     Output_SetSkyboxEnabled(
         g_Config.visuals.enable_skybox && g_Objects[O_SKYBOX].loaded);
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }
 
 bool Level_Initialise(const GF_LEVEL *const level)
@@ -978,7 +978,7 @@ bool Level_Initialise(const GF_LEVEL *const level)
     g_GameInfo.select_level_num = -1;
     const int32_t level_num = level->num;
     RESUME_INFO *const resume = GF_GetResumeInfo(level);
-    if (resume != NULL) {
+    if (resume != nullptr) {
         resume->stats.timer = 0;
         resume->stats.secret_flags = 0;
         resume->stats.secret_count = 0;
@@ -1043,6 +1043,6 @@ bool Level_Initialise(const GF_LEVEL *const level)
     Viewport_SetFOV(-1);
 
     g_Camera.underwater = false;
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
     return true;
 }

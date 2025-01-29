@@ -1,7 +1,7 @@
 #pragma once
 
 #define JSON_INVALID_BOOL -1
-#define JSON_INVALID_STRING NULL
+#define JSON_INVALID_STRING nullptr
 #define JSON_INVALID_NUMBER 0x7FFFFFFF
 
 #include <inttypes.h>
@@ -254,8 +254,8 @@ JSON_VALUE *JSON_Parse(const void *src, size_t src_size);
 /* Parse a JSON text file, returning a pointer to the root of the JSON
  * structure. JSON_Parse performs 1 call to alloc_func_ptr for the entire
  * encoding. Returns 0 if an error occurred (malformed JSON input, or malloc
- * failed). If an error occurred, the result struct (if not NULL) will explain
- * the type of error, and the location in the input it occurred. If
+ * failed). If an error occurred, the result struct (if not nullptr) will
+ * explain the type of error, and the location in the input it occurred. If
  * alloc_func_ptr is null then malloc is used. */
 JSON_VALUE *JSON_ParseEx(
     const void *src, size_t src_size, size_t flags_bitset,
@@ -275,7 +275,7 @@ void *JSON_WriteMinified(const JSON_VALUE *value, size_t *out_size);
  * resultant JSON is pretty in that it is easily human readable. The indent and
  * newline parameters allow a user to specify what kind of indentation and
  * newline they want (two spaces / three spaces / tabs? \r, \n, \r\n ?). Both
- * indent and newline can be NULL, indent defaults to two spaces ("  "), and
+ * indent and newline can be nullptr, indent defaults to two spaces ("  "), and
  * newline defaults to linux newlines ('\n' as the newline character).
  * json_write_pretty performs 1 call to malloc for the entire encoding. Return 0
  * if an error occurred (malformed JSON input, or malloc failed). The out_size

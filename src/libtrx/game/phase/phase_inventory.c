@@ -21,7 +21,7 @@ static PHASE_CONTROL M_Start(PHASE *const phase)
 {
     M_PRIV *const p = phase->priv;
     p->ring = InvRing_Open(p->mode);
-    if (p->ring == NULL) {
+    if (p->ring == nullptr) {
         return (PHASE_CONTROL) {
             .action = PHASE_ACTION_END,
             .gf_cmd = { .action = GF_NOOP },
@@ -33,7 +33,7 @@ static PHASE_CONTROL M_Start(PHASE *const phase)
 static PHASE_CONTROL M_Control(PHASE *const phase, int32_t num_frames)
 {
     M_PRIV *const p = phase->priv;
-    ASSERT(p->ring != NULL);
+    ASSERT(p->ring != nullptr);
     const GF_COMMAND gf_cmd = InvRing_Control(p->ring, num_frames);
     return (PHASE_CONTROL) {
         .action = p->ring->motion.status == RNG_DONE ? PHASE_ACTION_END
@@ -45,16 +45,16 @@ static PHASE_CONTROL M_Control(PHASE *const phase, int32_t num_frames)
 static void M_End(PHASE *const phase)
 {
     M_PRIV *const p = phase->priv;
-    if (p->ring != NULL) {
+    if (p->ring != nullptr) {
         InvRing_Close(p->ring);
-        p->ring = NULL;
+        p->ring = nullptr;
     }
 }
 
 static void M_Draw(PHASE *const phase)
 {
     M_PRIV *const p = phase->priv;
-    ASSERT(p->ring != NULL);
+    ASSERT(p->ring != nullptr);
     Output_DrawBackground();
     InvRing_Draw(p->ring);
     Overlay_DrawModeInfo();

@@ -52,7 +52,7 @@ static void M_DrawItem(
         return;
     }
 
-    if (inv_item->sprite_list != NULL) {
+    if (inv_item->sprite_list != nullptr) {
         const int32_t zv = g_MatrixPtr->_23;
         const int32_t zp = zv / g_PhdPersp;
         const int32_t sx = g_PhdWinCenterX + g_MatrixPtr->_03 / zp;
@@ -79,21 +79,21 @@ static void M_DrawItem(
                     Output_DrawScreenLine(
                         sx + sprite->pos.x, sy + sprite->pos.y, sprite->pos.z,
                         sprite->param1, sprite->param2, sprite->sprite_num,
-                        NULL, 0);
+                        nullptr, 0);
                     break;
 
                 case SHAPE_BOX:
                     Output_DrawScreenBox(
                         sx + sprite->pos.x, sy + sprite->pos.y, sprite->pos.z,
                         sprite->param1, sprite->param2, sprite->sprite_num,
-                        NULL, 0);
+                        nullptr, 0);
                     break;
 
                 case SHAPE_FBOX:
                     Output_DrawScreenFBox(
                         sx + sprite->pos.x, sy + sprite->pos.y, sprite->pos.z,
                         sprite->param1, sprite->param2, sprite->sprite_num,
-                        NULL, 0);
+                        nullptr, 0);
                     break;
 
                 default:
@@ -191,7 +191,7 @@ void InvRing_Draw(INV_RING *const ring)
         }
     }
 
-    if (ring->list != NULL && !ring->rotating
+    if (ring->list != nullptr && !ring->rotating
         && (ring->motion.status == RNG_OPEN
             || ring->motion.status == RNG_SELECTING
             || ring->motion.status == RNG_SELECTED
@@ -199,7 +199,7 @@ void InvRing_Draw(INV_RING *const ring)
             || ring->motion.status == RNG_DESELECT
             || ring->motion.status == RNG_CLOSING_ITEM)) {
         const INVENTORY_ITEM *const inv_item = ring->list[ring->current_object];
-        if (inv_item != NULL) {
+        if (inv_item != nullptr) {
             switch (inv_item->object_id) {
             case O_SMALL_MEDIPACK_OPTION:
             case O_LARGE_MEDIPACK_OPTION:

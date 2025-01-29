@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static char *m_MiniDumpPath = NULL;
+static char *m_MiniDumpPath = nullptr;
 static char *M_GetMiniDumpPath(const char *log_path);
 static void M_CreateMiniDump(EXCEPTION_POINTERS *ex, const char *path);
 static void M_StackTrace(
@@ -21,8 +21,8 @@ static void M_StackTrace(
 static char *M_GetMiniDumpPath(const char *const log_path)
 {
     char *dot = strrchr(log_path, '.');
-    if (dot == NULL) {
-        return NULL;
+    if (dot == nullptr) {
+        return nullptr;
     }
 
     const size_t index = dot - log_path;
@@ -54,7 +54,7 @@ static void M_StackTrace(
         break;
 
     default:
-        if (ptr != NULL) {
+        if (ptr != nullptr) {
             LOG_INFO(
                 "%02d. 0x%p: (%s:%d:%d) %s", *count, ptr, filename, line_no,
                 column_no, func_name);
@@ -72,15 +72,15 @@ static void M_CreateMiniDump(
     EXCEPTION_POINTERS *const ex, const char *const path)
 {
     HANDLE handle = CreateFile(
-        path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
-        NULL);
+        path, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
+        nullptr);
     MINIDUMP_EXCEPTION_INFORMATION dump_info;
     dump_info.ExceptionPointers = ex;
     dump_info.ThreadId = GetCurrentThreadId();
     dump_info.ClientPointers = TRUE;
     MiniDumpWriteDump(
         GetCurrentProcess(), GetCurrentProcessId(), handle, MiniDumpNormal,
-        &dump_info, NULL, NULL);
+        &dump_info, nullptr, nullptr);
     CloseHandle(handle);
 
     LOG_INFO("Crash dump info put in %s", path);
@@ -103,7 +103,7 @@ LONG WINAPI Log_CrashHandler(EXCEPTION_POINTERS *ex)
 
 void Log_Init_Extra(const char *log_path)
 {
-    if (log_path != NULL) {
+    if (log_path != nullptr) {
         m_MiniDumpPath = M_GetMiniDumpPath(log_path);
         SetUnhandledExceptionFilter(Log_CrashHandler);
     }

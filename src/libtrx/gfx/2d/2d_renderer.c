@@ -111,7 +111,7 @@ GFX_2D_RENDERER *GFX_2D_Renderer_Create(void)
     r->repeat.x = 1;
     r->repeat.y = 1;
 
-    r->vertices = NULL;
+    r->vertices = nullptr;
     r->vertex_count = 6;
     r->vertex_format.initialized = false;
 
@@ -152,9 +152,9 @@ GFX_2D_RENDERER *GFX_2D_Renderer_Create(void)
         { M_UNIFORM_TINT_ENABLED, "tintEnabled" },
         { M_UNIFORM_TINT_COLOR, "tintColor" },
         { M_UNIFORM_EFFECT, "effect" },
-        { -1, NULL },
+        { -1, nullptr },
     };
-    for (int32_t i = 0; uniforms[i].name != NULL; i++) {
+    for (int32_t i = 0; uniforms[i].name != nullptr; i++) {
         r->loc[uniforms[i].loc] =
             GFX_GL_Program_UniformLocation(&r->program, uniforms[i].name);
         GFX_GL_CheckError();
@@ -180,7 +180,7 @@ GFX_2D_RENDERER *GFX_2D_Renderer_Create(void)
 
 void GFX_2D_Renderer_Destroy(GFX_2D_RENDERER *const r)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
 
     GFX_GL_VertexArray_Close(&r->vertex_format);
     GFX_GL_Buffer_Close(&r->surface_buffer);
@@ -201,9 +201,9 @@ void GFX_2D_Renderer_UploadSurface(
 void GFX_2D_Renderer_UploadAlphaSurface(
     GFX_2D_RENDERER *const r, GFX_2D_SURFACE *const surface)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
 
-    if (surface == NULL) {
+    if (surface == nullptr) {
         if (r->use_alpha) {
             GFX_GL_Program_Bind(&r->program);
             GFX_GL_Program_Uniform1i(
@@ -261,7 +261,7 @@ void GFX_2D_Renderer_Upload(
     GFX_2D_RENDERER *const r, GFX_2D_SURFACE_DESC *const desc,
     const uint8_t *const data)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
 
     bool reupload_vert = false;
     if (memcmp(r->desc.uv, desc->uv, sizeof(desc->uv)) != 0) {
@@ -303,9 +303,9 @@ void GFX_2D_Renderer_Upload(
 void GFX_2D_Renderer_SetPalette(
     GFX_2D_RENDERER *const r, const GFX_COLOR *const palette)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
 
-    if (palette == NULL) {
+    if (palette == nullptr) {
         if (r->use_palette) {
             GFX_GL_Program_Bind(&r->program);
             GFX_GL_Program_Uniform1i(
@@ -342,7 +342,7 @@ void GFX_2D_Renderer_SetPalette(
 void GFX_2D_Renderer_SetRepeat(
     GFX_2D_RENDERER *const r, const int32_t x, const int32_t y)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
 
     if (r->repeat.x == x && r->repeat.y == y) {
         return;
@@ -356,7 +356,7 @@ void GFX_2D_Renderer_SetRepeat(
 void GFX_2D_Renderer_SetEffect(
     GFX_2D_RENDERER *const r, const GFX_2D_EFFECT effect)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
 
     if (r->effect != effect) {
         GFX_GL_Program_Bind(&r->program);
@@ -367,7 +367,7 @@ void GFX_2D_Renderer_SetEffect(
 
 void GFX_2D_Renderer_SetTint(GFX_2D_RENDERER *const r, const GFX_COLOR color)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
     if (r->tint_color.r != color.r || r->tint_color.g != color.g
         || r->tint_color.b != color.b) {
         GFX_GL_Program_Bind(&r->program);
@@ -383,7 +383,7 @@ void GFX_2D_Renderer_SetTint(GFX_2D_RENDERER *const r, const GFX_COLOR color)
 
 void GFX_2D_Renderer_Render(GFX_2D_RENDERER *const r)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
 
     GFX_GL_Program_Bind(&r->program);
     GFX_GL_Buffer_Bind(&r->surface_buffer);

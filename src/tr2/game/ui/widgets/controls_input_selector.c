@@ -55,10 +55,10 @@ static void M_SetPosition(
 
 static void M_Control(UI_CONTROLS_INPUT_SELECTOR *const self)
 {
-    if (self->label->control != NULL) {
+    if (self->label->control != nullptr) {
         self->label->control(self->label);
     }
-    if (self->choice->control != NULL) {
+    if (self->choice->control != nullptr) {
         self->choice->control(self->choice);
     }
 
@@ -88,10 +88,10 @@ static void M_Control(UI_CONTROLS_INPUT_SELECTOR *const self)
 
 static void M_Draw(UI_CONTROLS_INPUT_SELECTOR *const self)
 {
-    if (self->label->draw != NULL) {
+    if (self->label->draw != nullptr) {
         self->label->draw(self->label);
     }
-    if (self->choice->draw != NULL) {
+    if (self->choice->draw != nullptr) {
         self->choice->draw(self->choice);
     }
 }

@@ -81,7 +81,7 @@ void Room_GetBounds(void)
             }
         }
 
-        if (r->portals == NULL) {
+        if (r->portals == nullptr) {
             continue;
         }
 

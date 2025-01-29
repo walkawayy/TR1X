@@ -4,6 +4,7 @@
 
 #include <libtrx/game/output.h>
 
+#include <stddef.h>
 #include <stdint.h>
 
 bool Output_Init(void);

@@ -54,7 +54,7 @@ static void M_HandleValue(M_STATE *state, JSON_VALUE *value, uint8_t marker);
 
 static bool M_GetObjectKeySize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     while (state->src[state->offset]) {
         state->data_size++;
         state->offset++;
@@ -66,13 +66,13 @@ static bool M_GetObjectKeySize(M_STATE *state)
 
 static bool M_GetNullValueSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     return true;
 }
 
 static bool M_GetBoolValueSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     if (state->offset + sizeof(uint8_t) > state->size) {
         state->error = BSON_PARSE_ERROR_PREMATURE_END_OF_BUFFER;
         return false;
@@ -94,7 +94,7 @@ static bool M_GetBoolValueSize(M_STATE *state)
 
 static bool M_GetInt32ValueSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     if (state->offset + sizeof(int32_t) > state->size) {
         state->error = BSON_PARSE_ERROR_PREMATURE_END_OF_BUFFER;
         return false;
@@ -103,13 +103,13 @@ static bool M_GetInt32ValueSize(M_STATE *state)
     state->offset += sizeof(int32_t);
 
     state->dom_size += sizeof(JSON_NUMBER);
-    state->data_size += snprintf(NULL, 0, "%d", num) + 1;
+    state->data_size += snprintf(nullptr, 0, "%d", num) + 1;
     return true;
 }
 
 static bool M_GetDoubleValueSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     if (state->offset + sizeof(double) > state->size) {
         state->error = BSON_PARSE_ERROR_PREMATURE_END_OF_BUFFER;
         return false;
@@ -118,13 +118,13 @@ static bool M_GetDoubleValueSize(M_STATE *state)
     state->offset += sizeof(double);
 
     state->dom_size += sizeof(JSON_NUMBER);
-    state->data_size += snprintf(NULL, 0, "%f", num) + 1;
+    state->data_size += snprintf(nullptr, 0, "%f", num) + 1;
     return true;
 }
 
 static bool M_GetStringValueSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     if (state->offset + sizeof(int32_t) > state->size) {
         state->error = BSON_PARSE_ERROR_PREMATURE_END_OF_BUFFER;
         return false;
@@ -147,7 +147,7 @@ static bool M_GetStringValueSize(M_STATE *state)
 
 static bool M_GetArrayElementWrappedSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
 
     if (state->offset + sizeof(uint8_t) > state->size) {
         state->error = BSON_PARSE_ERROR_PREMATURE_END_OF_BUFFER;
@@ -168,7 +168,7 @@ static bool M_GetArrayElementWrappedSize(M_STATE *state)
 
 static bool M_GetArraySize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
 
     const size_t start_offset = state->offset;
     if (state->offset + sizeof(int32_t) > state->size) {
@@ -199,14 +199,14 @@ static bool M_GetArraySize(M_STATE *state)
 
 static bool M_GetArrayValueSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     state->dom_size += sizeof(JSON_ARRAY);
     return M_GetArraySize(state);
 }
 
 static bool M_GetObjectElementWrappedSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
 
     if (state->offset + sizeof(uint8_t) > state->size) {
         state->error = BSON_PARSE_ERROR_PREMATURE_END_OF_BUFFER;
@@ -226,7 +226,7 @@ static bool M_GetObjectElementWrappedSize(M_STATE *state)
 
 static bool M_GetObjectSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
 
     const size_t start_offset = state->offset;
     if (state->offset + sizeof(int32_t) > state->size) {
@@ -257,14 +257,14 @@ static bool M_GetObjectSize(M_STATE *state)
 
 static bool M_GetObjectValueSize(M_STATE *state)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     state->dom_size += sizeof(JSON_OBJECT);
     return M_GetObjectSize(state);
 }
 
 static bool M_GetValueSize(M_STATE *state, uint8_t marker)
 {
-    ASSERT(state != NULL);
+    ASSERT(state != nullptr);
     switch (marker) {
     case 0x01:
         return M_GetDoubleValueSize(state);
@@ -295,8 +295,8 @@ static bool M_GetRootSize(M_STATE *state)
 
 static void M_HandleObjectKey(M_STATE *state, JSON_STRING *string)
 {
-    ASSERT(state != NULL);
-    ASSERT(string != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(string != nullptr);
     size_t size = 0;
     string->ref_count = 1;
     string->string = state->data;
@@ -310,25 +310,25 @@ static void M_HandleObjectKey(M_STATE *state, JSON_STRING *string)
 
 static void M_HandleNullValue(M_STATE *state, JSON_VALUE *value)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
     value->type = JSON_TYPE_NULL;
-    value->payload = NULL;
+    value->payload = nullptr;
 }
 
 static void M_HandleBoolValue(M_STATE *state, JSON_VALUE *value)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
     ASSERT(state->offset + sizeof(char) <= state->size);
     switch (state->src[state->offset]) {
     case 0x00:
         value->type = JSON_TYPE_FALSE;
-        value->payload = NULL;
+        value->payload = nullptr;
         break;
     case 0x01:
         value->type = JSON_TYPE_TRUE;
-        value->payload = NULL;
+        value->payload = nullptr;
         break;
     default:
         ASSERT_FAIL();
@@ -338,8 +338,8 @@ static void M_HandleBoolValue(M_STATE *state, JSON_VALUE *value)
 
 static void M_HandleInt32Value(M_STATE *state, JSON_VALUE *value)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
 
     ASSERT(state->offset + sizeof(int32_t) <= state->size);
     int32_t num = *(int32_t *)&state->src[state->offset];
@@ -360,8 +360,8 @@ static void M_HandleInt32Value(M_STATE *state, JSON_VALUE *value)
 
 static void M_HandleDoubleValue(M_STATE *state, JSON_VALUE *value)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
 
     ASSERT(state->offset + sizeof(double) <= state->size);
     double num = *(double *)&state->src[state->offset];
@@ -391,8 +391,8 @@ static void M_HandleDoubleValue(M_STATE *state, JSON_VALUE *value)
 
 static void M_HandleStringValue(M_STATE *state, JSON_VALUE *value)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
 
     ASSERT(state->offset + sizeof(int32_t) <= state->size);
     int32_t size = *(int32_t *)&state->src[state->offset];
@@ -416,8 +416,8 @@ static void M_HandleStringValue(M_STATE *state, JSON_VALUE *value)
 static void M_HandleArrayElementWrapped(
     M_STATE *state, JSON_ARRAY_ELEMENT *element)
 {
-    ASSERT(state != NULL);
-    ASSERT(element != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(element != nullptr);
 
     ASSERT(state->offset + sizeof(uint8_t) <= state->size);
     uint8_t marker = state->src[state->offset];
@@ -440,15 +440,15 @@ static void M_HandleArrayElementWrapped(
 
 static void M_HandleArray(M_STATE *state, JSON_ARRAY *array)
 {
-    ASSERT(state != NULL);
-    ASSERT(array != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(array != nullptr);
 
     const size_t start_offset = state->offset;
     ASSERT(state->offset + sizeof(int32_t) <= state->size);
     const int size = *(int32_t *)&state->src[state->offset];
     state->offset += sizeof(int32_t);
 
-    JSON_ARRAY_ELEMENT *previous = NULL;
+    JSON_ARRAY_ELEMENT *previous = nullptr;
     int count = 0;
     while (state->offset < start_offset + size - 1) {
         JSON_ARRAY_ELEMENT *element = (JSON_ARRAY_ELEMENT *)state->dom;
@@ -464,10 +464,10 @@ static void M_HandleArray(M_STATE *state, JSON_ARRAY *array)
         count++;
     }
     if (previous) {
-        previous->next = NULL;
+        previous->next = nullptr;
     }
     if (!count) {
-        array->start = NULL;
+        array->start = nullptr;
     }
     array->ref_count = 1;
     array->length = count;
@@ -478,8 +478,8 @@ static void M_HandleArray(M_STATE *state, JSON_ARRAY *array)
 
 static void M_HandleArrayValue(M_STATE *state, JSON_VALUE *value)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
 
     JSON_ARRAY *array = (JSON_ARRAY *)state->dom;
     array->ref_count = 1;
@@ -494,8 +494,8 @@ static void M_HandleArrayValue(M_STATE *state, JSON_VALUE *value)
 static void M_HandleObjectElementWrapped(
     M_STATE *state, JSON_OBJECT_ELEMENT *element)
 {
-    ASSERT(state != NULL);
-    ASSERT(element != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(element != nullptr);
 
     ASSERT(state->offset + sizeof(uint8_t) <= state->size);
     uint8_t marker = state->src[state->offset];
@@ -518,15 +518,15 @@ static void M_HandleObjectElementWrapped(
 
 static void M_HandleObject(M_STATE *state, JSON_OBJECT *object)
 {
-    ASSERT(state != NULL);
-    ASSERT(object != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(object != nullptr);
 
     const size_t start_offset = state->offset;
     ASSERT(state->offset + sizeof(int32_t) <= state->size);
     const int size = *(int32_t *)&state->src[state->offset];
     state->offset += sizeof(int32_t);
 
-    JSON_OBJECT_ELEMENT *previous = NULL;
+    JSON_OBJECT_ELEMENT *previous = nullptr;
     int count = 0;
     while (state->offset < start_offset + size - 1) {
         JSON_OBJECT_ELEMENT *element = (JSON_OBJECT_ELEMENT *)state->dom;
@@ -542,10 +542,10 @@ static void M_HandleObject(M_STATE *state, JSON_OBJECT *object)
         count++;
     }
     if (previous) {
-        previous->next = NULL;
+        previous->next = nullptr;
     }
     if (!count) {
-        object->start = NULL;
+        object->start = nullptr;
     }
     object->ref_count = 1;
     object->length = count;
@@ -556,8 +556,8 @@ static void M_HandleObject(M_STATE *state, JSON_OBJECT *object)
 
 static void M_HandleObjectValue(M_STATE *state, JSON_VALUE *value)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
 
     JSON_OBJECT *object = (JSON_OBJECT *)state->dom;
     object->ref_count = 1;
@@ -571,8 +571,8 @@ static void M_HandleObjectValue(M_STATE *state, JSON_VALUE *value)
 
 static void M_HandleValue(M_STATE *state, JSON_VALUE *value, uint8_t marker)
 {
-    ASSERT(state != NULL);
-    ASSERT(value != NULL);
+    ASSERT(state != nullptr);
+    ASSERT(value != nullptr);
     switch (marker) {
     case 0x01:
         M_HandleDoubleValue(state, value);
@@ -602,7 +602,7 @@ static void M_HandleValue(M_STATE *state, JSON_VALUE *value, uint8_t marker)
 
 JSON_VALUE *BSON_Parse(const char *src, size_t src_size)
 {
-    return BSON_ParseEx(src, src_size, NULL);
+    return BSON_ParseEx(src, src_size, nullptr);
 }
 
 JSON_VALUE *BSON_ParseEx(
@@ -619,7 +619,7 @@ JSON_VALUE *BSON_ParseEx(
     }
 
     if (!src) {
-        return NULL;
+        return nullptr;
     }
 
     state.src = src;
@@ -643,7 +643,7 @@ JSON_VALUE *BSON_ParseEx(
         LOG_ERROR(
             "Error while reading BSON near offset %d: %s", state.offset,
             BSON_GetErrorDescription(state.error));
-        return NULL;
+        return nullptr;
     }
 
     total_size = state.dom_size + state.data_size;

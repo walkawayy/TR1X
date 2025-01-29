@@ -24,13 +24,13 @@ static void M_LoadKeyboardLayout(
     char layout_name[20];
     sprintf(layout_name, "layout_%d", layout);
     JSON_ARRAY *const arr = JSON_ObjectGetArray(parent_obj, layout_name);
-    if (arr == NULL) {
+    if (arr == nullptr) {
         return;
     }
 
     for (size_t i = 0; i < arr->length; i++) {
         JSON_OBJECT *const bind_obj = JSON_ArrayGetObject(arr, i);
-        if (bind_obj == NULL) {
+        if (bind_obj == nullptr) {
             // this can happen on TR1X <= 3.1.1, which is no longer supported
             LOG_WARNING("unsupported keyboard layout config");
             continue;
@@ -46,13 +46,13 @@ static void M_LoadControllerLayout(
     char layout_name[20];
     sprintf(layout_name, "cntlr_layout_%d", layout);
     JSON_ARRAY *const arr = JSON_ObjectGetArray(parent_obj, layout_name);
-    if (arr == NULL) {
+    if (arr == nullptr) {
         return;
     }
 
     for (size_t i = 0; i < arr->length; i++) {
         JSON_OBJECT *const bind_obj = JSON_ArrayGetObject(arr, i);
-        if (bind_obj == NULL) {
+        if (bind_obj == nullptr) {
             // this can happen on TR1X <= 3.1.1, which is no longer supported
             LOG_WARNING("unsupported controller layout config");
             continue;

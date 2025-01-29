@@ -9,7 +9,7 @@
 
 START_INFO *GF_GetResumeInfo(const GF_LEVEL *const level)
 {
-    ASSERT(level != NULL);
+    ASSERT(level != nullptr);
     if (GF_GetLevelTableType(level->type) == GFLT_MAIN) {
         return &g_SaveGame.start[level->num];
     } else if (level->type == GFL_DEMO) {
@@ -18,5 +18,5 @@ START_INFO *GF_GetResumeInfo(const GF_LEVEL *const level)
     LOG_WARNING(
         "Warning: unable to get resume info for level %d (type=%s)", level->num,
         ENUM_MAP_TO_STRING(GF_LEVEL_TYPE, level->type));
-    return NULL;
+    return nullptr;
 }

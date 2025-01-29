@@ -74,7 +74,7 @@ void Item_Control(void)
         const ITEM *const item = Item_Get(item_num);
         const int16_t next = item->next_active;
         const OBJECT *object = Object_GetObject(item->object_id);
-        if (!(item->flags & IF_KILLED) && object->control != NULL) {
+        if (!(item->flags & IF_KILLED) && object->control != nullptr) {
             object->control(item_num);
         }
         item_num = next;
@@ -104,7 +104,7 @@ void Item_Kill(const int16_t item_num)
 
     ITEM *const item = &g_Items[item_num];
     if (item == g_Lara.target) {
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
     }
 
     if (item_num < g_LevelItemCount) {
@@ -135,7 +135,7 @@ void Item_Initialise(const int16_t item_num)
     item->timer = 0;
     item->mesh_bits = 0xFFFFFFFF;
     item->touch_bits = 0;
-    item->data = NULL;
+    item->data = nullptr;
 
     item->active = 0;
     item->status = IS_INACTIVE;
@@ -177,7 +177,7 @@ void Item_Initialise(const int16_t item_num)
         item->hit_points *= 2;
     }
 
-    if (g_Objects[item->object_id].initialise != NULL) {
+    if (g_Objects[item->object_id].initialise != nullptr) {
         g_Objects[item->object_id].initialise(item_num);
     }
 }
@@ -231,7 +231,7 @@ void Item_RemoveDrawn(const int16_t item_num)
 void Item_AddActive(const int16_t item_num)
 {
     ITEM *const item = &g_Items[item_num];
-    if (g_Objects[item->object_id].control == NULL) {
+    if (g_Objects[item->object_id].control == nullptr) {
         item->status = IS_INACTIVE;
         return;
     }
@@ -248,7 +248,7 @@ void Item_AddActive(const int16_t item_num)
 void Item_NewRoom(const int16_t item_num, const int16_t room_num)
 {
     ITEM *const item = &g_Items[item_num];
-    ROOM *room = NULL;
+    ROOM *room = nullptr;
 
     if (item->room_num != NO_ROOM) {
         room = &g_Rooms[item->room_num];
@@ -563,7 +563,7 @@ int32_t Item_GetDistance(const ITEM *const item, const XYZ_32 *const target)
 ITEM *Item_Get(const int16_t item_num)
 {
     if (item_num == NO_ITEM) {
-        return NULL;
+        return nullptr;
     }
     return &g_Items[item_num];
 }
@@ -623,7 +623,7 @@ int32_t Item_Explode(
         Matrix_TranslateRel32(bone->pos);
         Matrix_Rot16(best_frame->mesh_rots[i]);
 
-        if (extra_rotation != NULL) {
+        if (extra_rotation != nullptr) {
             if (bone->rot_y) {
                 Matrix_RotY(*extra_rotation++);
             }

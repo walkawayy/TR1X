@@ -54,7 +54,7 @@ void Text_DrawText(TEXTSTRING *const text)
     }
     text->flags.drawn = 1;
 
-    if (text->flags.hide || text->glyphs == NULL) {
+    if (text->flags.hide || text->glyphs == nullptr) {
         return;
     }
 
@@ -107,7 +107,7 @@ void Text_DrawText(TEXTSTRING *const text)
     const int32_t start_x = x;
 
     const GLYPH_INFO **glyph_ptr = text->glyphs;
-    while (*glyph_ptr != NULL) {
+    while (*glyph_ptr != nullptr) {
         if (text->flags.multiline && (*glyph_ptr)->role == GLYPH_NEWLINE) {
             y += TEXT_HEIGHT * M_Scale(text->scale.v) / TEXT_BASE_SCALE;
             x = start_x;
@@ -161,8 +161,8 @@ void Text_DrawText(TEXTSTRING *const text)
 
     if (text->flags.background) {
         Output_DrawScreenFBox(
-            box_x, box_y, z + text->background.offset.z, box_w, box_h, 0, NULL,
-            0);
+            box_x, box_y, z + text->background.offset.z, box_w, box_h, 0,
+            nullptr, 0);
     }
 
     if (text->flags.outline) {

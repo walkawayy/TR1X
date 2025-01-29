@@ -44,7 +44,7 @@ void Object_SetName(const GAME_OBJECT_ID object_id, const char *const name)
 {
     M_NAME_ENTRY *const entry = &m_NamesTable[object_id];
     Memory_FreePointer(&entry->name);
-    ASSERT(name != NULL);
+    ASSERT(name != nullptr);
     entry->name = Memory_DupStr(name);
 }
 
@@ -53,20 +53,20 @@ void Object_SetDescription(
 {
     M_NAME_ENTRY *const entry = &m_NamesTable[object_id];
     Memory_FreePointer(&entry->description);
-    ASSERT(description != NULL);
+    ASSERT(description != nullptr);
     entry->description = Memory_DupStr(description);
 }
 
 const char *Object_GetName(const GAME_OBJECT_ID object_id)
 {
     M_NAME_ENTRY *const entry = &m_NamesTable[object_id];
-    return entry != NULL ? entry->name : NULL;
+    return entry != nullptr ? entry->name : nullptr;
 }
 
 const char *Object_GetDescription(GAME_OBJECT_ID object_id)
 {
     M_NAME_ENTRY *const entry = &m_NamesTable[object_id];
-    return entry != NULL ? entry->description : NULL;
+    return entry != nullptr ? entry->description : nullptr;
 }
 
 void Object_ResetNames(void)
@@ -96,7 +96,7 @@ GAME_OBJECT_ID *Object_IdsFromName(
     VECTOR *source = Vector_Create(sizeof(STRING_FUZZY_SOURCE));
 
     for (GAME_OBJECT_ID object_id = 0; object_id < O_NUMBER_OF; object_id++) {
-        if (filter != NULL && !filter(object_id)) {
+        if (filter != nullptr && !filter(object_id)) {
             continue;
         }
 
@@ -106,7 +106,7 @@ GAME_OBJECT_ID *Object_IdsFromName(
                 .value = (void *)(intptr_t)object_id,
                 .weight = 2,
             };
-            if (source_item.key != NULL) {
+            if (source_item.key != nullptr) {
                 Vector_Add(source, &source_item);
             }
         }
@@ -129,13 +129,13 @@ GAME_OBJECT_ID *Object_IdsFromName(
         results[i] = (GAME_OBJECT_ID)(intptr_t)match->value;
     }
     results[matches->count] = NO_OBJECT;
-    if (out_match_count != NULL) {
+    if (out_match_count != nullptr) {
         *out_match_count = matches->count;
     }
 
     Vector_Free(matches);
     Vector_Free(source);
-    matches = NULL;
+    matches = nullptr;
 
     return results;
 }

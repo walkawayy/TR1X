@@ -15,7 +15,7 @@ typedef enum {
 } ROT_PACK_MODE;
 #endif
 
-static ANIM_FRAME *m_Frames = NULL;
+static ANIM_FRAME *m_Frames = nullptr;
 
 static int32_t M_GetAnimFrameCount(int32_t anim_idx, int32_t frame_data_length);
 static OBJECT *M_GetAnimObject(int32_t anim_idx);
@@ -54,7 +54,7 @@ static OBJECT *M_GetAnimObject(const int32_t anim_idx)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static ANIM_FRAME *M_FindFrameBase(const uint32_t frame_ofs)
@@ -67,7 +67,7 @@ static ANIM_FRAME *M_FindFrameBase(const uint32_t frame_ofs)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static int32_t M_ParseFrame(
@@ -165,17 +165,17 @@ void Anim_LoadFrames(const int16_t *data, const int32_t data_length)
     BENCHMARK *const benchmark = Benchmark_Start();
 
     const int32_t anim_count = Anim_GetTotalCount();
-    OBJECT *cur_obj = NULL;
+    OBJECT *cur_obj = nullptr;
     int32_t frame_idx = 0;
 
     for (int32_t i = 0; i < anim_count; i++) {
         OBJECT *const next_obj = M_GetAnimObject(i);
-        const bool obj_changed = next_obj != NULL;
+        const bool obj_changed = next_obj != nullptr;
         if (obj_changed) {
             cur_obj = next_obj;
         }
 
-        if (cur_obj == NULL) {
+        if (cur_obj == nullptr) {
             continue;
         }
 
@@ -201,10 +201,10 @@ void Anim_LoadFrames(const int16_t *data, const int32_t data_length)
     for (int32_t i = 0; i < O_NUMBER_OF; i++) {
         OBJECT *const object = Object_GetObject(i);
         if (object->loaded && object->mesh_count >= 0 && object->anim_idx == -1
-            && object->frame_base == NULL) {
+            && object->frame_base == nullptr) {
             object->frame_base = M_FindFrameBase(object->frame_ofs);
         }
     }
 
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
 }

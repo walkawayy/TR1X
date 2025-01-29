@@ -18,8 +18,6 @@
 #include <libtrx/game/matrix.h>
 #include <libtrx/utils.h>
 
-#include <stddef.h>
-
 #define PISTOL_LOCK_YMIN (-60 * DEG_1)
 #define PISTOL_LOCK_YMAX (+60 * DEG_1)
 #define PISTOL_LOCK_XMIN (-60 * DEG_1)
@@ -202,10 +200,10 @@ void Gun_GetNewTarget(WEAPON_INFO *winfo)
     // Preserve OG targeting behavior.
     if (g_Config.gameplay.target_mode == TLM_FULL
         && !g_Config.gameplay.enable_target_change && !g_Input.action) {
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
     }
 
-    ITEM *best_target = NULL;
+    ITEM *best_target = nullptr;
     int16_t best_yrot = 0x7FFF;
     int16_t num_targets = 0;
 
@@ -217,7 +215,7 @@ void Gun_GetNewTarget(WEAPON_INFO *winfo)
     src.z = g_LaraItem->pos.z;
     src.room_num = g_LaraItem->room_num;
 
-    ITEM *item = NULL;
+    ITEM *item = nullptr;
     for (int16_t item_num = g_NextItemActive; item_num != NO_ITEM;
          item_num = item->next_active) {
         item = &g_Items[item_num];
@@ -260,7 +258,7 @@ void Gun_GetNewTarget(WEAPON_INFO *winfo)
             }
         }
     }
-    m_TargetList[num_targets] = NULL;
+    m_TargetList[num_targets] = nullptr;
 
     if ((g_Config.gameplay.target_mode == TLM_FULL
          || g_Config.gameplay.target_mode == TLM_SEMI)
@@ -272,7 +270,7 @@ void Gun_GetNewTarget(WEAPON_INFO *winfo)
     if (num_targets > 0) {
         for (int slot = 0; slot < NUM_SLOTS; slot++) {
             if (!m_TargetList[slot]) {
-                g_Lara.target = NULL;
+                g_Lara.target = nullptr;
             }
 
             if (m_TargetList[slot] == g_Lara.target) {
@@ -282,10 +280,10 @@ void Gun_GetNewTarget(WEAPON_INFO *winfo)
 
         if (!g_Lara.target) {
             g_Lara.target = best_target;
-            m_LastTargetList[0] = NULL;
+            m_LastTargetList[0] = nullptr;
         }
     } else {
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
     }
 
     if (g_Lara.target != m_LastTargetList[0]) {
@@ -300,7 +298,7 @@ void Gun_GetNewTarget(WEAPON_INFO *winfo)
 
 void Gun_ChangeTarget(WEAPON_INFO *winfo)
 {
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
     bool found_new_target = false;
 
     for (int new_target = 0; new_target < NUM_SLOTS; new_target++) {
@@ -494,7 +492,7 @@ void Gun_HitTarget(ITEM *item, GAME_VECTOR *hitpos, int16_t damage)
     if (item->hit_points > 0 && item->hit_points <= damage) {
         GF_GetResumeInfo(Game_GetCurrentLevel())->stats.kill_count++;
         if (g_Config.gameplay.target_mode == TLM_SEMI) {
-            g_Lara.target = NULL;
+            g_Lara.target = nullptr;
         }
     }
     Item_TakeDamage(item, damage, true);

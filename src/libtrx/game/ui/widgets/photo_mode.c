@@ -56,7 +56,7 @@ static void M_SetPosition(UI_PHOTO_MODE *const self, int32_t x, int32_t y)
 
 static void M_Control(UI_PHOTO_MODE *const self)
 {
-    if (self->window->control != NULL) {
+    if (self->window->control != nullptr) {
         self->window->control(self->window);
     }
 
@@ -65,7 +65,7 @@ static void M_Control(UI_PHOTO_MODE *const self)
 
 static void M_Draw(UI_PHOTO_MODE *const self)
 {
-    if (self->shown && self->window->draw != NULL) {
+    if (self->shown && self->window->draw != nullptr) {
         self->window->draw(self->window);
     }
 }
@@ -179,7 +179,7 @@ UI_WIDGET *UI_PhotoMode_Create(void)
 
     const char *const inputs[] = {
         move_role,  rot_role,  z_roll_role, roll_role, fov_role,
-        reset_role, help_role, action_role, exit_role, NULL,
+        reset_role, help_role, action_role, exit_role, nullptr,
     };
 
     const char *const roles[] = {
@@ -192,12 +192,12 @@ UI_WIDGET *UI_PhotoMode_Create(void)
         GS(MISC_TOGGLE_HELP),
         GS(PHOTO_MODE_SNAP_PROMPT),
         GS(MISC_EXIT),
-        NULL,
+        nullptr,
     };
 
     self->shown = true;
     self->label_count = 0;
-    while (inputs[self->label_count] != NULL) {
+    while (inputs[self->label_count] != nullptr) {
         self->label_count++;
     }
 

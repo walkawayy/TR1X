@@ -43,7 +43,7 @@ static bool M_IsFading(M_PRIV *const p)
 
 static void M_FadeIn(M_PRIV *const p)
 {
-    if (p->args.background_path != NULL) {
+    if (p->args.background_path != nullptr) {
         Fader_Init(&p->top_fader, FADER_BLACK, FADER_TRANSPARENT, 1.0);
     } else {
         Fader_Init(&p->back_fader, FADER_TRANSPARENT, FADER_SEMI_BLACK, 0.5);
@@ -65,7 +65,7 @@ static PHASE_CONTROL M_Start(PHASE *const phase)
     M_PRIV *const p = phase->priv;
 
     if (p->args.background_type == BK_IMAGE) {
-        ASSERT(p->args.background_path != NULL);
+        ASSERT(p->args.background_path != nullptr);
         Output_LoadBackgroundFromFile(p->args.background_path);
     } else if (p->args.background_type == BK_OBJECT) {
         Output_LoadBackgroundFromObject();
@@ -99,7 +99,7 @@ static PHASE_CONTROL M_Start(PHASE *const phase)
 static void M_End(PHASE *const phase)
 {
     M_PRIV *const p = phase->priv;
-    if (p->ui != NULL) {
+    if (p->ui != nullptr) {
         p->ui->free(p->ui);
     }
 }
@@ -139,7 +139,7 @@ static PHASE_CONTROL M_Control(PHASE *const phase, int32_t num_frames)
         };
     }
 
-    if (p->ui != NULL) {
+    if (p->ui != nullptr) {
         p->ui->control(p->ui);
     }
     return (PHASE_CONTROL) { .action = PHASE_ACTION_CONTINUE };
@@ -158,7 +158,7 @@ static void M_Draw(PHASE *const phase)
     }
     Fader_Draw(&p->back_fader);
 
-    if (p->ui != NULL) {
+    if (p->ui != nullptr) {
         p->ui->draw(p->ui);
     }
     Text_Draw();

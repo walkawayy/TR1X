@@ -64,7 +64,7 @@ static void M_Control(UI_CONTROLS_BACKEND_SELECTOR *const self)
 
 static void M_Draw(UI_CONTROLS_BACKEND_SELECTOR *const self)
 {
-    if (self->container->draw != NULL) {
+    if (self->container->draw != nullptr) {
         self->container->draw(self->container);
     }
 }

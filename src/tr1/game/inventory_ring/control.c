@@ -31,8 +31,8 @@
     (INV_RING_CLOSE_FRAMES / INV_RING_FRAMES / (double)LOGIC_FPS)
 #define INV_RING_FADE_TIME_TITLE_FINISH 0.25
 
-static TEXTSTRING *m_ExamineItemText = NULL;
-static TEXTSTRING *m_UseItemText = NULL;
+static TEXTSTRING *m_ExamineItemText = nullptr;
+static TEXTSTRING *m_UseItemText = nullptr;
 static CLOCK_TIMER m_DemoTimer = { .type = CLOCK_TIMER_SIM };
 static int32_t m_StartLevel;
 static GAME_OBJECT_ID m_InvChosen;
@@ -72,7 +72,7 @@ static void M_InitExamineOverlay(INV_RING *const ring)
 {
     if ((ring->mode != INV_GAME_MODE && ring->mode != INV_KEYS_MODE)
         || !g_Config.gameplay.enable_item_examining
-        || m_ExamineItemText != NULL) {
+        || m_ExamineItemText != nullptr) {
         return;
     }
 
@@ -84,14 +84,14 @@ static void M_InitExamineOverlay(INV_RING *const ring)
 
 static void M_RemoveExamineOverlay(void)
 {
-    if (m_ExamineItemText == NULL) {
+    if (m_ExamineItemText == nullptr) {
         return;
     }
 
     Text_Remove(m_ExamineItemText);
     Text_Remove(m_UseItemText);
-    m_ExamineItemText = NULL;
-    m_UseItemText = NULL;
+    m_ExamineItemText = nullptr;
+    m_UseItemText = nullptr;
 }
 
 static void M_ShowAmmoQuantity(const char *const fmt, const int32_t qty)
@@ -194,7 +194,7 @@ static void M_RingNotActive(const INVENTORY_ITEM *const inv_item)
         g_GameInfo.inv_showing_medpack = false;
     }
 
-    if (m_ExamineItemText != NULL) {
+    if (m_ExamineItemText != nullptr) {
         Text_Hide(m_ExamineItemText, !show_examine_option);
         Text_Hide(m_UseItemText, !show_examine_option);
     }
@@ -303,7 +303,7 @@ static GF_COMMAND M_Finish(INV_RING *const ring, const bool apply_changes)
         if (apply_changes) {
             Savegame_UnbindSlot();
         }
-        if (GF_GetGymLevel() != NULL) {
+        if (GF_GetGymLevel() != nullptr) {
             return (GF_COMMAND) {
                 .action = GF_START_GAME,
                 .param = GF_GetGymLevel()->num,
@@ -350,7 +350,7 @@ static GF_COMMAND M_Control(INV_RING *const ring)
 
         ClockTimer_Sync(&m_DemoTimer);
         if (!ring->has_spun_out) {
-            Sound_Effect(SFX_MENU_SPININ, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_SPININ, nullptr, SPM_ALWAYS);
             ring->has_spun_out = true;
         }
     }
@@ -431,19 +431,19 @@ static GF_COMMAND M_Control(INV_RING *const ring)
     case RNG_OPEN:
         if (g_Input.menu_right && ring->number_of_objects > 1) {
             InvRing_RotateLeft(ring);
-            Sound_Effect(SFX_MENU_ROTATE, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_ROTATE, nullptr, SPM_ALWAYS);
             break;
         }
 
         if (g_Input.menu_left && ring->number_of_objects > 1) {
             InvRing_RotateRight(ring);
-            Sound_Effect(SFX_MENU_ROTATE, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_ROTATE, nullptr, SPM_ALWAYS);
             break;
         }
 
         if (m_StartLevel != -1 || ring->is_demo_needed
             || (g_InputDB.menu_back && ring->mode != INV_TITLE_MODE)) {
-            Sound_Effect(SFX_MENU_SPINOUT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_SPINOUT, nullptr, SPM_ALWAYS);
             m_InvChosen = NO_OBJECT;
 
             if (ring->type == RT_MAIN) {
@@ -501,26 +501,26 @@ static GF_COMMAND M_Control(INV_RING *const ring)
 
             switch (inv_item->object_id) {
             case O_COMPASS_OPTION:
-                Sound_Effect(SFX_MENU_COMPASS, NULL, SPM_ALWAYS);
+                Sound_Effect(SFX_MENU_COMPASS, nullptr, SPM_ALWAYS);
                 break;
 
             case O_PHOTO_OPTION:
-                Sound_Effect(SFX_MENU_LARA_HOME, NULL, SPM_ALWAYS);
+                Sound_Effect(SFX_MENU_LARA_HOME, nullptr, SPM_ALWAYS);
                 break;
 
             case O_CONTROL_OPTION:
-                Sound_Effect(SFX_MENU_GAMEBOY, NULL, SPM_ALWAYS);
+                Sound_Effect(SFX_MENU_GAMEBOY, nullptr, SPM_ALWAYS);
                 break;
 
             case O_PISTOL_OPTION:
             case O_SHOTGUN_OPTION:
             case O_MAGNUM_OPTION:
             case O_UZI_OPTION:
-                Sound_Effect(SFX_MENU_GUNS, NULL, SPM_ALWAYS);
+                Sound_Effect(SFX_MENU_GUNS, nullptr, SPM_ALWAYS);
                 break;
 
             default:
-                Sound_Effect(SFX_MENU_SPININ, NULL, SPM_ALWAYS);
+                Sound_Effect(SFX_MENU_SPININ, nullptr, SPM_ALWAYS);
                 break;
             }
         }
@@ -689,7 +689,7 @@ static GF_COMMAND M_Control(INV_RING *const ring)
             Option_Control(inv_item);
 
             if (g_InputDB.menu_back) {
-                inv_item->sprite_list = NULL;
+                inv_item->sprite_list = nullptr;
                 InvRing_MotionSetup(ring, RNG_CLOSING_ITEM, RNG_DESELECT, 0);
                 g_Input = (INPUT_STATE) {};
                 g_InputDB = (INPUT_STATE) {};
@@ -704,7 +704,7 @@ static GF_COMMAND M_Control(INV_RING *const ring)
             }
 
             if (g_InputDB.menu_confirm) {
-                inv_item->sprite_list = NULL;
+                inv_item->sprite_list = nullptr;
                 m_InvChosen = inv_item->object_id;
                 if (ring->type == RT_MAIN) {
                     g_InvRing_Source[RT_MAIN].current = ring->current_object;
@@ -733,7 +733,7 @@ static GF_COMMAND M_Control(INV_RING *const ring)
     case RNG_DESELECT: {
         INVENTORY_ITEM *const inv_item = ring->list[ring->current_object];
         Option_Shutdown(inv_item);
-        Sound_Effect(SFX_MENU_SPINOUT, NULL, SPM_ALWAYS);
+        Sound_Effect(SFX_MENU_SPINOUT, nullptr, SPM_ALWAYS);
         InvRing_MotionSetup(ring, RNG_DESELECTING, RNG_OPEN, SELECTING_FRAMES);
         InvRing_MotionRotation(
             ring, 0, -DEG_90 - ring->angle_adder * ring->current_object);
@@ -835,8 +835,8 @@ static bool M_CheckDemoTimer(const INV_RING *const ring)
 
 bool InvRing_CanExamine(void)
 {
-    return g_Config.gameplay.enable_item_examining && m_ExamineItemText != NULL
-        && !m_ExamineItemText->flags.hide;
+    return g_Config.gameplay.enable_item_examining
+        && m_ExamineItemText != nullptr && !m_ExamineItemText->flags.hide;
 }
 
 void InvRing_RemoveAllText(void)
@@ -850,7 +850,7 @@ INV_RING *InvRing_Open(const INVENTORY_MODE mode)
 {
     if (mode == INV_KEYS_MODE && g_InvRing_Source[RT_KEYS].count == 0) {
         m_InvChosen = NO_OBJECT;
-        return NULL;
+        return nullptr;
     }
 
     g_PhdLeft = Viewport_GetMinX();
@@ -879,7 +879,7 @@ INV_RING *InvRing_Open(const INVENTORY_MODE mode)
         g_InvRing_Source[RT_OPTION].qtys[i] = 1;
         InvRing_InitInvItem(g_InvRing_Source[RT_OPTION].items[i]);
     }
-    if (GF_GetGymLevel() == NULL) {
+    if (GF_GetGymLevel() == nullptr) {
         Inv_RemoveItem(O_PHOTO_OPTION);
     }
 
@@ -956,9 +956,9 @@ void InvRing_Close(INV_RING *const ring)
     InvRing_RemoveAllText();
     InvRing_RemoveVersionText();
 
-    if (ring->list != NULL) {
+    if (ring->list != nullptr) {
         INVENTORY_ITEM *const inv_item = ring->list[ring->current_object];
-        if (inv_item != NULL) {
+        if (inv_item != nullptr) {
             Option_Shutdown(inv_item);
         }
     }

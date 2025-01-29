@@ -40,7 +40,7 @@ static void M_DoObjectAliases(void)
             m_ObjectAliases[i].source_object_id;
         Object_SetName(target_object_id, Object_GetName(source_object_id));
         const char *const description = Object_GetDescription(source_object_id);
-        if (description != NULL) {
+        if (description != nullptr) {
             Object_SetDescription(target_object_id, description);
         }
     }
@@ -50,10 +50,10 @@ static void M_Apply(const GS_TABLE *const table)
 {
     {
         const GS_GAME_STRING_ENTRY *cur = table->game_strings;
-        while (cur != NULL && cur->key != NULL) {
+        while (cur != nullptr && cur->key != nullptr) {
             if (!GameString_IsKnown(cur->key)) {
                 LOG_ERROR("Invalid game string key: %s", cur->key);
-            } else if (cur->value == NULL) {
+            } else if (cur->value == nullptr) {
                 LOG_ERROR("Invalid game string value: %s", cur->key);
             } else {
                 GameString_Define(cur->key, cur->value);
@@ -64,17 +64,17 @@ static void M_Apply(const GS_TABLE *const table)
 
     {
         const GS_OBJECT_ENTRY *cur = table->objects;
-        while (cur != NULL && cur->key != NULL) {
+        while (cur != nullptr && cur->key != nullptr) {
             const GAME_OBJECT_ID object_id = Object_IdFromKey(cur->key);
             if (object_id == NO_OBJECT) {
                 LOG_ERROR("Invalid object id: %s", cur->key);
             } else {
-                if (cur->name == NULL) {
+                if (cur->name == nullptr) {
                     LOG_ERROR("Invalid object name: %s", cur->key);
                 } else {
                     Object_SetName(object_id, cur->name);
                 }
-                if (cur->description != NULL) {
+                if (cur->description != nullptr) {
                     Object_SetDescription(object_id, cur->description);
                 }
             }
@@ -107,11 +107,11 @@ void GameStringTable_Apply(const GF_LEVEL *const level)
         M_ApplyLevelTitles(gs_file, GFLT_MAIN);
     }
 
-    if (level != NULL) {
-        const GS_LEVEL_TABLE *gs_level_table = NULL;
+    if (level != nullptr) {
+        const GS_LEVEL_TABLE *gs_level_table = nullptr;
         switch (level->type) {
         case GFL_TITLE:
-            gs_level_table = NULL;
+            gs_level_table = nullptr;
             break;
         default: {
             const GF_LEVEL_TABLE_TYPE level_table_type =
@@ -120,7 +120,7 @@ void GameStringTable_Apply(const GF_LEVEL *const level)
         }
         }
 
-        if (gs_level_table != NULL) {
+        if (gs_level_table != nullptr) {
             ASSERT(level->num >= 0);
             ASSERT(level->num < gs_level_table->count);
             M_Apply(&gs_level_table->entries[level->num].table);

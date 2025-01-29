@@ -13,7 +13,7 @@
 GF_COMMAND GF_TitleSequence(void)
 {
     Savegame_UnbindSlot();
-    GameStringTable_Apply(NULL);
+    GameStringTable_Apply(nullptr);
     const GF_LEVEL *const title_level = GF_GetTitleLevel();
     if (!Level_Initialise(title_level, GFSC_NORMAL)) {
         return (GF_COMMAND) { .action = GF_EXIT_GAME };
@@ -30,7 +30,7 @@ GF_COMMAND GF_DoLevelSequence(
     const int32_t level_count = GF_GetLevelTable(level_table_type)->count;
     while (true) {
         const GF_COMMAND gf_cmd =
-            GF_InterpretSequence(current_level, seq_ctx, NULL);
+            GF_InterpretSequence(current_level, seq_ctx, nullptr);
 
         if (g_GameFlow.single_level >= 0) {
             return gf_cmd;

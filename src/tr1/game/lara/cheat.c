@@ -23,7 +23,6 @@
 #include <libtrx/utils.h>
 #include <libtrx/vector.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 void Lara_Cheat_Control(void)
@@ -111,7 +110,7 @@ void Lara_Cheat_Control(void)
                 g_Lara.shotgun.ammo = 500;
                 g_Lara.magnums.ammo = 500;
                 g_Lara.uzis.ammo = 5000;
-                Sound_Effect(SFX_LARA_HOLSTER, NULL, SPM_ALWAYS);
+                Sound_Effect(SFX_LARA_HOLSTER, nullptr, SPM_ALWAYS);
             } else if (as == LS_SWAN_DIVE) {
                 Item_Explode(g_Lara.item_num, -1, 1);
                 Sound_Effect(SFX_EXPLOSION_CHEAT, &g_LaraItem->pos, SPM_NORMAL);
@@ -136,7 +135,7 @@ void Lara_Cheat_EndLevel(void)
 
 bool Lara_Cheat_EnterFlyMode(void)
 {
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return false;
     }
 
@@ -155,7 +154,7 @@ bool Lara_Cheat_EnterFlyMode(void)
     }
     g_Lara.water_status = LWS_CHEAT;
     g_Lara.hit_effect_count = 0;
-    g_Lara.hit_effect = NULL;
+    g_Lara.hit_effect = nullptr;
     g_Lara.hit_frame = 0;
     g_Lara.hit_direction = -1;
     g_Lara.air = LARA_MAX_AIR;
@@ -171,7 +170,7 @@ bool Lara_Cheat_EnterFlyMode(void)
 
 bool Lara_Cheat_ExitFlyMode(void)
 {
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return false;
     }
 
@@ -200,7 +199,7 @@ bool Lara_Cheat_ExitFlyMode(void)
 
 bool Lara_Cheat_GiveAllKeys(void)
 {
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return false;
     }
 
@@ -215,14 +214,14 @@ bool Lara_Cheat_GiveAllKeys(void)
     Inv_AddItem(O_PICKUP_ITEM_1);
     Inv_AddItem(O_PICKUP_ITEM_2);
 
-    Sound_Effect(SFX_LARA_KEY, NULL, SPM_ALWAYS);
+    Sound_Effect(SFX_LARA_KEY, nullptr, SPM_ALWAYS);
     Console_Log(GS(OSD_GIVE_ITEM_ALL_KEYS));
     return true;
 }
 
 bool Lara_Cheat_GiveAllGuns(void)
 {
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return false;
     }
 
@@ -234,14 +233,14 @@ bool Lara_Cheat_GiveAllGuns(void)
     g_Lara.magnums.ammo = g_GameInfo.bonus_flag & GBF_NGPLUS ? 10001 : 1000;
     g_Lara.uzis.ammo = g_GameInfo.bonus_flag & GBF_NGPLUS ? 10001 : 2000;
 
-    Sound_Effect(SFX_LARA_RELOAD, NULL, SPM_ALWAYS);
+    Sound_Effect(SFX_LARA_RELOAD, nullptr, SPM_ALWAYS);
     Console_Log(GS(OSD_GIVE_ITEM_ALL_GUNS));
     return true;
 }
 
 bool Lara_Cheat_GiveAllItems(void)
 {
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return false;
     }
 
@@ -309,7 +308,7 @@ bool Lara_Cheat_GiveAllItems(void)
 
 bool Lara_Cheat_OpenNearestDoor(void)
 {
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return false;
     }
 

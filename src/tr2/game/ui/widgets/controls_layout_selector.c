@@ -42,14 +42,14 @@ static void M_Control(UI_CONTROLS_LAYOUT_SELECTOR *const self)
     } else {
         UI_Label_RemoveFrame(self->label);
     }
-    if (self->label->control != NULL) {
+    if (self->label->control != nullptr) {
         self->label->control(self->label);
     }
 }
 
 static void M_Draw(UI_CONTROLS_LAYOUT_SELECTOR *const self)
 {
-    if (self->label->draw != NULL) {
+    if (self->label->draw != nullptr) {
         self->label->draw(self->label);
     }
 }

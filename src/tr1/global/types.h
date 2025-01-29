@@ -24,7 +24,6 @@
 #include <libtrx/game/text.h>
 #include <libtrx/game/types.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 typedef int16_t PHD_ANGLE;

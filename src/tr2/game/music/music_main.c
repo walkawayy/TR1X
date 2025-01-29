@@ -18,7 +18,7 @@ static MUSIC_TRACK_ID m_TrackLooped = MX_INACTIVE;
 
 static float m_MusicVolume = 0.0f;
 static int32_t m_AudioStreamID = -1;
-static const MUSIC_BACKEND *m_Backend = NULL;
+static const MUSIC_BACKEND *m_Backend = nullptr;
 
 static const MUSIC_BACKEND *M_FindBackend(void);
 static void M_StopActiveStream(void);
@@ -30,11 +30,11 @@ static const MUSIC_BACKEND *M_FindBackend(void)
         Music_Backend_Files_Factory("music"),
         Music_Backend_CDAudio_Factory("audio/cdaudio.wav"),
         Music_Backend_CDAudio_Factory("audio/cdaudio.mp3"),
-        NULL,
+        nullptr,
     };
 
-    MUSIC_BACKEND *result = NULL;
-    for (MUSIC_BACKEND **backend_ptr = all_backends; *backend_ptr != NULL;
+    MUSIC_BACKEND *result = nullptr;
+    for (MUSIC_BACKEND **backend_ptr = all_backends; *backend_ptr != nullptr;
          backend_ptr++) {
         if ((*backend_ptr)->init(*backend_ptr)) {
             result = *backend_ptr;
@@ -42,7 +42,7 @@ static const MUSIC_BACKEND *M_FindBackend(void)
         }
     }
 
-    for (MUSIC_BACKEND **backend_ptr = all_backends; *backend_ptr != NULL;
+    for (MUSIC_BACKEND **backend_ptr = all_backends; *backend_ptr != nullptr;
          backend_ptr++) {
         if (*backend_ptr != result) {
             (*backend_ptr)->shutdown(*backend_ptr);
@@ -62,7 +62,7 @@ static void M_StopActiveStream(void)
     // finished by itself. In cases where we end the streams early by hand,
     // we clear the finish callback in order to avoid resuming the BGM playback
     // just after we stop it.
-    Audio_Stream_SetFinishCallback(m_AudioStreamID, NULL, NULL);
+    Audio_Stream_SetFinishCallback(m_AudioStreamID, nullptr, nullptr);
     Audio_Stream_Close(m_AudioStreamID);
 }
 
@@ -83,7 +83,7 @@ bool Music_Init(void)
     bool result = false;
 
     m_Backend = M_FindBackend();
-    if (m_Backend == NULL) {
+    if (m_Backend == nullptr) {
         LOG_ERROR("No music backend is available");
         goto finish;
     }
@@ -110,7 +110,7 @@ void Music_Shutdown(void)
     // finished by itself. In cases where we end the streams early by hand,
     // we clear the finish callback in order to avoid resuming the BGM playback
     // just after we stop it.
-    Audio_Stream_SetFinishCallback(m_AudioStreamID, NULL, NULL);
+    Audio_Stream_SetFinishCallback(m_AudioStreamID, nullptr, nullptr);
     Audio_Stream_Close(m_AudioStreamID);
 }
 
@@ -131,7 +131,7 @@ void Music_Play(const MUSIC_TRACK_ID track_id, const MUSIC_PLAY_MODE mode)
 
     M_StopActiveStream();
 
-    if (m_Backend == NULL) {
+    if (m_Backend == nullptr) {
         LOG_DEBUG(
             "Not playing track %d because no backend is available", track_id);
         goto finish;
@@ -149,7 +149,7 @@ void Music_Play(const MUSIC_TRACK_ID track_id, const MUSIC_PLAY_MODE mode)
 
     Audio_Stream_SetIsLooped(m_AudioStreamID, mode == MPM_LOOPED);
     Audio_Stream_SetVolume(m_AudioStreamID, m_MusicVolume);
-    Audio_Stream_SetFinishCallback(m_AudioStreamID, M_StreamFinished, NULL);
+    Audio_Stream_SetFinishCallback(m_AudioStreamID, M_StreamFinished, nullptr);
 
 finish:
     m_TrackDelayed = MX_INACTIVE;

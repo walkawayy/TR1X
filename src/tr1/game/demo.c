@@ -177,7 +177,7 @@ bool Demo_Start(const int32_t level_num)
     if (!Level_Initialise(p->level)) {
         return false;
     }
-    if (g_DemoData == NULL) {
+    if (g_DemoData == nullptr) {
         LOG_ERROR("Level '%s' has no demo data", p->level->path);
         return false;
     }
@@ -226,7 +226,7 @@ void Demo_End(void)
     M_RestoreConfig(p);
     M_RestoreResumeInfo(p);
     Text_Remove(p->text);
-    p->text = NULL;
+    p->text = nullptr;
     g_GameInfo.showing_demo = false;
 }
 

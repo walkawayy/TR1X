@@ -46,7 +46,7 @@ typedef struct {
 
 static int32_t m_SaveSlots = 0;
 static uint16_t m_NewestSlot = 0;
-static SAVEGAME_INFO *m_SavegameInfo = NULL;
+static SAVEGAME_INFO *m_SavegameInfo = nullptr;
 
 static const SAVEGAME_STRATEGY m_Strategies[] = {
     {
@@ -80,7 +80,7 @@ static void M_LoadPostprocess(void);
 
 static void M_Clear(void)
 {
-    if (m_SavegameInfo == NULL) {
+    if (m_SavegameInfo == nullptr) {
         return;
     }
 
@@ -190,7 +190,7 @@ void Savegame_Shutdown(void)
 
 bool Savegame_IsInitialised(void)
 {
-    return m_SavegameInfo != NULL;
+    return m_SavegameInfo != nullptr;
 }
 
 void Savegame_ProcessItemsBeforeLoad(void)
@@ -218,7 +218,7 @@ void Savegame_ProcessItemsBeforeSave(void)
         if (obj->control == SaveCrystal_Control && item->data) {
             // need to reset the crystal status
             item->status = IS_DEACTIVATED;
-            item->data = NULL;
+            item->data = nullptr;
             Item_RemoveDrawn(i);
         }
     }
@@ -234,10 +234,10 @@ void Savegame_InitCurrentInfo(void)
         Savegame_ApplyLogicToCurrentInfo(level);
         GF_GetResumeInfo(level)->flags.available = 0;
     }
-    if (GF_GetGymLevel() != NULL) {
+    if (GF_GetGymLevel() != nullptr) {
         GF_GetResumeInfo(GF_GetGymLevel())->flags.available = 1;
     }
-    if (GF_GetFirstLevel() != NULL) {
+    if (GF_GetFirstLevel() != nullptr) {
         GF_GetResumeInfo(GF_GetFirstLevel())->flags.available = 1;
     }
 }
@@ -359,7 +359,7 @@ void Savegame_CarryCurrentInfoToNextLevel(
 
 void Savegame_PersistGameToCurrentInfo(const GF_LEVEL *const level)
 {
-    ASSERT(level != NULL);
+    ASSERT(level != nullptr);
     RESUME_INFO *current = GF_GetResumeInfo(level);
 
     current->lara_hitpoints = g_LaraItem->hit_points;
@@ -519,7 +519,7 @@ bool Savegame_Save(const int32_t slot_num)
 
 bool Savegame_UpdateDeathCounters(int32_t slot_num, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
     ASSERT(slot_num >= 0);
     SAVEGAME_INFO *savegame_info = &m_SavegameInfo[slot_num];
     ASSERT(savegame_info->format != 0);
@@ -543,7 +543,7 @@ bool Savegame_UpdateDeathCounters(int32_t slot_num, GAME_INFO *game_info)
 
 bool Savegame_LoadOnlyResumeInfo(int32_t slot_num, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
     SAVEGAME_INFO *savegame_info = &m_SavegameInfo[slot_num];
     ASSERT(savegame_info->format != 0);
 
@@ -584,7 +584,7 @@ void Savegame_ScanSavedGames(void)
                     Memory_Alloc(strlen(SAVES_DIR) + strlen(filename) + 2);
                 sprintf(full_path, "%s/%s", SAVES_DIR, filename);
 
-                MYFILE *fp = NULL;
+                MYFILE *fp = nullptr;
                 if (!fp) {
                     fp = File_Open(full_path, FILE_OPEN_READ);
                 }

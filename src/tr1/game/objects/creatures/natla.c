@@ -170,7 +170,7 @@ void Natla_Control(int16_t item_num)
             } else {
                 if (g_Config.gameplay.target_mode == TLM_SEMI
                     || g_Config.gameplay.target_mode == TLM_NONE) {
-                    g_Lara.target = NULL;
+                    g_Lara.target = nullptr;
                 }
                 item->hit_points = DONT_TARGET;
             }

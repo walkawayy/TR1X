@@ -12,7 +12,7 @@ VFILE *VFile_CreateFromPath(const char *const path)
     MYFILE *fp = File_Open(path, FILE_OPEN_READ);
     if (!fp) {
         LOG_ERROR("Can't open file %s", path);
-        return NULL;
+        return nullptr;
     }
 
     const size_t data_size = File_Size(fp);
@@ -22,7 +22,7 @@ VFILE *VFile_CreateFromPath(const char *const path)
         LOG_ERROR("Can't read file %s", path);
         Memory_FreePointer(&data);
         File_Close(fp);
-        return NULL;
+        return nullptr;
     }
     File_Close(fp);
 
@@ -44,7 +44,7 @@ VFILE *VFile_CreateFromBuffer(const char *data, size_t size)
 
 void VFile_Close(VFILE *file)
 {
-    ASSERT(file != NULL);
+    ASSERT(file != nullptr);
     Memory_FreePointer(&file->content);
     Memory_FreePointer(&file);
 }

@@ -1,11 +1,9 @@
 #include "global/vars.h"
 
-#include <stddef.h>
-
 int32_t g_FPSCounter = 0;
 
 int16_t g_SampleLUT[MAX_SAMPLES] = {};
-SAMPLE_INFO *g_SampleInfos = NULL;
+SAMPLE_INFO *g_SampleInfos = nullptr;
 uint16_t g_MusicTrackFlags[MAX_CD_TRACKS] = {};
 
 int32_t g_OptionSelected = 0;
@@ -19,36 +17,36 @@ float g_FltResZ;
 float g_FltResZBuf;
 
 LARA_INFO g_Lara = {};
-ITEM *g_LaraItem = NULL;
+ITEM *g_LaraItem = nullptr;
 GAME_INFO g_GameInfo = {};
 int32_t g_SavedGamesCount = 0;
 int32_t g_SaveCounter = 0;
-uint32_t *g_DemoData = NULL;
+uint32_t *g_DemoData = nullptr;
 bool g_LevelComplete = false;
 bool g_ChunkyFlag = false;
 int32_t g_OverlayFlag = 0;
 int32_t g_HeightType = 0;
 
-ROOM *g_RoomInfo = NULL;
+ROOM *g_RoomInfo = nullptr;
 OBJECT g_Objects[O_NUMBER_OF] = {};
 STATIC_OBJECT_3D g_StaticObjects3D[MAX_STATIC_OBJECTS] = {};
 STATIC_OBJECT_2D g_StaticObjects2D[MAX_STATIC_OBJECTS] = {};
-RGBA_8888 *g_TexturePagePtrs[MAX_TEXTURE_PAGES] = { NULL };
+RGBA_8888 *g_TexturePagePtrs[MAX_TEXTURE_PAGES] = { nullptr };
 int16_t g_RoomCount = 0;
 int32_t g_LevelItemCount = 0;
 int32_t g_NumberBoxes = 0;
-BOX_INFO *g_Boxes = NULL;
-uint16_t *g_Overlap = NULL;
-int16_t *g_GroundZone[2] = { NULL };
-int16_t *g_GroundZone2[2] = { NULL };
-int16_t *g_FlyZone[2] = { NULL };
+BOX_INFO *g_Boxes = nullptr;
+uint16_t *g_Overlap = nullptr;
+int16_t *g_GroundZone[2] = { nullptr };
+int16_t *g_GroundZone2[2] = { nullptr };
+int16_t *g_FlyZone[2] = { nullptr };
 int16_t g_NumCineFrames = 0;
 int16_t g_CineFrame = -1;
-CINE_CAMERA *g_CineCamera = NULL;
+CINE_CAMERA *g_CineCamera = nullptr;
 CINE_POSITION g_CinePosition = {};
 int32_t g_NumberCameras = 0;
 int32_t g_NumberSoundEffects = 0;
-OBJECT_VECTOR *g_SoundEffectsTable = NULL;
+OBJECT_VECTOR *g_SoundEffectsTable = nullptr;
 int16_t g_RoomsToDraw[MAX_ROOMS_TO_DRAW] = { -1 };
 int16_t g_RoomsToDrawCount = 0;
 

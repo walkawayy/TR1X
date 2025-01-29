@@ -72,7 +72,7 @@ static AUDIO_STREAM_SOUND m_Streams[AUDIO_MAX_ACTIVE_STREAMS] = {};
 static float m_MixBuffer[AUDIO_SAMPLES * AUDIO_WORKING_CHANNELS] = {};
 
 static size_t m_DecodeBufferCapacity = 0;
-static float *m_DecodeBuffer = NULL;
+static float *m_DecodeBuffer = nullptr;
 
 static void M_SeekToStart(AUDIO_STREAM_SOUND *stream);
 static bool M_DecodeFrame(AUDIO_STREAM_SOUND *stream);
@@ -82,7 +82,7 @@ static void M_Clear(AUDIO_STREAM_SOUND *stream);
 
 static void M_SeekToStart(AUDIO_STREAM_SOUND *stream)
 {
-    ASSERT(stream != NULL);
+    ASSERT(stream != nullptr);
 
     stream->timestamp = stream->start_at;
     if (stream->start_at <= 0.0) {
@@ -101,7 +101,7 @@ static void M_SeekToStart(AUDIO_STREAM_SOUND *stream)
 
 static bool M_DecodeFrame(AUDIO_STREAM_SOUND *stream)
 {
-    ASSERT(stream != NULL);
+    ASSERT(stream != nullptr);
 
     if (stream->stop_at > 0.0 && stream->timestamp >= stream->stop_at) {
         if (stream->is_looped) {
@@ -142,7 +142,7 @@ static bool M_DecodeFrame(AUDIO_STREAM_SOUND *stream)
 
 static bool M_EnqueueFrame(AUDIO_STREAM_SOUND *stream)
 {
-    ASSERT(stream != NULL);
+    ASSERT(stream != nullptr);
 
     int32_t error_code;
 
@@ -185,11 +185,11 @@ static bool M_EnqueueFrame(AUDIO_STREAM_SOUND *stream)
             break;
         }
 
-        uint8_t *out_buffer = NULL;
+        uint8_t *out_buffer = nullptr;
         const int32_t out_samples =
             swr_get_out_samples(stream->swr.ctx, stream->av.frame->nb_samples);
         av_samples_alloc(
-            &out_buffer, NULL, stream->swr.dst_channels, out_samples,
+            &out_buffer, nullptr, stream->swr.dst_channels, out_samples,
             stream->swr.dst_format, 1);
         int32_t resampled_size = swr_convert(
             stream->swr.ctx, &out_buffer, out_samples,
@@ -199,7 +199,7 @@ static bool M_EnqueueFrame(AUDIO_STREAM_SOUND *stream)
         size_t out_pos = 0;
         while (resampled_size > 0) {
             const size_t out_buffer_size = av_samples_get_buffer_size(
-                NULL, stream->swr.dst_channels, resampled_size,
+                nullptr, stream->swr.dst_channels, resampled_size,
                 stream->swr.dst_format, 1);
 
             if (out_pos + out_buffer_size > m_DecodeBufferCapacity) {
@@ -207,15 +207,15 @@ static bool M_EnqueueFrame(AUDIO_STREAM_SOUND *stream)
                 m_DecodeBuffer =
                     Memory_Realloc(m_DecodeBuffer, m_DecodeBufferCapacity);
             }
-            if (m_DecodeBuffer != NULL && out_buffer != NULL) {
+            if (m_DecodeBuffer != nullptr && out_buffer != nullptr) {
                 memcpy(
                     (uint8_t *)m_DecodeBuffer + out_pos, out_buffer,
                     out_buffer_size);
             }
             out_pos += out_buffer_size;
 
-            resampled_size =
-                swr_convert(stream->swr.ctx, &out_buffer, out_samples, NULL, 0);
+            resampled_size = swr_convert(
+                stream->swr.ctx, &out_buffer, out_samples, nullptr, 0);
         }
 
         if (SDL_AudioStreamPut(stream->sdl.stream, m_DecodeBuffer, out_pos)) {
@@ -245,7 +245,7 @@ cleanup:
 
 static bool M_InitialiseFromPath(int32_t sound_id, const char *file_path)
 {
-    ASSERT(file_path != NULL);
+    ASSERT(file_path != nullptr);
 
     if (!g_AudioDeviceID || sound_id < 0
         || sound_id >= AUDIO_MAX_ACTIVE_STREAMS) {
@@ -260,18 +260,18 @@ static bool M_InitialiseFromPath(int32_t sound_id, const char *file_path)
 
     AUDIO_STREAM_SOUND *stream = &m_Streams[sound_id];
 
-    error_code =
-        avformat_open_input(&stream->av.format_ctx, full_path, NULL, NULL);
+    error_code = avformat_open_input(
+        &stream->av.format_ctx, full_path, nullptr, nullptr);
     if (error_code != 0) {
         goto cleanup;
     }
 
-    error_code = avformat_find_stream_info(stream->av.format_ctx, NULL);
+    error_code = avformat_find_stream_info(stream->av.format_ctx, nullptr);
     if (error_code < 0) {
         goto cleanup;
     }
 
-    stream->av.stream = NULL;
+    stream->av.stream = nullptr;
     for (uint32_t i = 0; i < stream->av.format_ctx->nb_streams; i++) {
         AVStream *current_stream = stream->av.format_ctx->streams[i];
         if (current_stream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
@@ -303,7 +303,7 @@ static bool M_InitialiseFromPath(int32_t sound_id, const char *file_path)
         goto cleanup;
     }
 
-    error_code = avcodec_open2(stream->av.codec_ctx, stream->av.codec, NULL);
+    error_code = avcodec_open2(stream->av.codec_ctx, stream->av.codec, nullptr);
     if (error_code < 0) {
         goto cleanup;
     }
@@ -331,8 +331,8 @@ static bool M_InitialiseFromPath(int32_t sound_id, const char *file_path)
     stream->is_looped = false;
     stream->volume = 1.0f;
     stream->timestamp = 0.0;
-    stream->finish_callback = NULL;
-    stream->finish_callback_user_data = NULL;
+    stream->finish_callback = nullptr;
+    stream->finish_callback_user_data = nullptr;
     stream->duration =
         (double)stream->av.format_ctx->duration / (double)AV_TIME_BASE;
     stream->start_at = -1.0; // negative value means unset
@@ -367,7 +367,7 @@ cleanup:
 
 static void M_Clear(AUDIO_STREAM_SOUND *stream)
 {
-    ASSERT(stream != NULL);
+    ASSERT(stream != nullptr);
 
     stream->is_used = false;
     stream->is_playing = false;
@@ -376,9 +376,9 @@ static void M_Clear(AUDIO_STREAM_SOUND *stream)
     stream->volume = 0.0f;
     stream->duration = 0.0;
     stream->timestamp = 0.0;
-    stream->sdl.stream = NULL;
-    stream->finish_callback = NULL;
-    stream->finish_callback_user_data = NULL;
+    stream->sdl.stream = nullptr;
+    stream->finish_callback = nullptr;
+    stream->finish_callback_user_data = nullptr;
 }
 
 void Audio_Stream_Init(void)
@@ -443,7 +443,7 @@ int32_t Audio_Stream_CreateFromFile(const char *file_path)
         return AUDIO_NO_SOUND;
     }
 
-    ASSERT(file_path != NULL);
+    ASSERT(file_path != nullptr);
 
     for (int32_t sound_id = 0; sound_id < AUDIO_MAX_ACTIVE_STREAMS;
          sound_id++) {
@@ -477,17 +477,17 @@ bool Audio_Stream_Close(int32_t sound_id)
         avcodec_close(stream->av.codec_ctx);
 
         // XXX: potential libav bug - avcodec_close should free this info
-        if (stream->av.codec_ctx->extradata != NULL) {
+        if (stream->av.codec_ctx->extradata != nullptr) {
             av_freep(&stream->av.codec_ctx->extradata);
         }
 
         av_free(stream->av.codec_ctx);
-        stream->av.codec_ctx = NULL;
+        stream->av.codec_ctx = nullptr;
     }
 
     if (stream->av.format_ctx) {
         avformat_close_input(&stream->av.format_ctx);
-        stream->av.format_ctx = NULL;
+        stream->av.format_ctx = nullptr;
     }
 
     if (stream->swr.ctx) {
@@ -496,16 +496,16 @@ bool Audio_Stream_Close(int32_t sound_id)
 
     if (stream->av.frame) {
         av_frame_free(&stream->av.frame);
-        stream->av.frame = NULL;
+        stream->av.frame = nullptr;
     }
 
     if (stream->av.packet) {
         av_packet_free(&stream->av.packet);
-        stream->av.packet = NULL;
+        stream->av.packet = nullptr;
     }
 
-    stream->av.stream = NULL;
-    stream->av.codec = NULL;
+    stream->av.stream = nullptr;
+    stream->av.codec = nullptr;
 
     if (stream->sdl.stream) {
         SDL_FreeAudioStream(stream->sdl.stream);

@@ -47,7 +47,7 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
     const char *args = ctx->args;
     if (sscanf(ctx->args, "%d ", &num) == 1) {
         args = strstr(args, " ");
-        if (args == NULL) {
+        if (args == nullptr) {
             return CR_BAD_INVOCATION;
         }
         args++;
@@ -64,7 +64,7 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
     for (int32_t i = 0; i < match_count; i++) {
         const GAME_OBJECT_ID object_id = matching_objs[i];
         const char *obj_name = Object_GetName(object_id);
-        if (obj_name == NULL) {
+        if (obj_name == nullptr) {
             obj_name = args;
         }
         Inv_AddItemNTimes(object_id, num);

@@ -95,7 +95,7 @@ static const char *M_GetDialogTitle(UI_STATS_DIALOG *const self)
                                              : GS(STATS_FINAL_STATISTICS);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static void M_AddRow(
@@ -257,7 +257,7 @@ static void M_SetPosition(
 
 static void M_Control(UI_STATS_DIALOG *const self)
 {
-    if (self->root->control != NULL) {
+    if (self->root->control != nullptr) {
         self->root->control(self->root);
     }
     M_UpdateTimerRow(self);
@@ -265,14 +265,14 @@ static void M_Control(UI_STATS_DIALOG *const self)
 
 static void M_Draw(UI_STATS_DIALOG *const self)
 {
-    if (self->root->draw != NULL) {
+    if (self->root->draw != nullptr) {
         self->root->draw(self->root);
     }
 }
 
 static void M_Free(UI_STATS_DIALOG *const self)
 {
-    if (self->title != NULL) {
+    if (self->title != nullptr) {
         self->title->free(self->title);
     }
     for (int32_t i = 0; i < self->row_count; i++) {
@@ -280,7 +280,7 @@ static void M_Free(UI_STATS_DIALOG *const self)
         self->rows[i].value_label->free(self->rows[i].value_label);
         self->rows[i].stack->free(self->rows[i].stack);
     }
-    if (self->window != NULL) {
+    if (self->window != nullptr) {
         self->window->free(self->window);
     }
     self->stack->free(self->stack);
@@ -304,18 +304,18 @@ UI_WIDGET *UI_StatsDialog_Create(const UI_STATS_DIALOG_ARGS args)
     self->level_type = GF_GetLevel(GFLT_MAIN, self->args.level_num)->type;
 
     self->row_count = 0;
-    self->rows = NULL;
+    self->rows = nullptr;
     self->stack = UI_Stack_Create(
         UI_STACK_LAYOUT_VERTICAL, UI_STACK_AUTO_SIZE, UI_STACK_AUTO_SIZE);
     UI_Stack_SetHAlign(self->stack, UI_STACK_H_ALIGN_CENTER);
 
-    self->listener =
-        UI_Events_Subscribe("layout_update", NULL, M_HandleLayoutUpdate, self);
+    self->listener = UI_Events_Subscribe(
+        "layout_update", nullptr, M_HandleLayoutUpdate, self);
 
     const char *title = M_GetDialogTitle(self);
     switch (self->args.style) {
     case UI_STATS_DIALOG_STYLE_BARE:
-        if (title != NULL) {
+        if (title != nullptr) {
             self->title =
                 UI_Label_Create(title, UI_LABEL_AUTO_SIZE, ROW_HEIGHT_BARE);
             UI_Stack_AddChild(self->stack, self->title);

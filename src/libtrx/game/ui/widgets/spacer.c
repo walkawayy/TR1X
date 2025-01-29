@@ -44,8 +44,8 @@ UI_WIDGET *UI_Spacer_Create(const int32_t width, const int32_t height)
 {
     UI_SPACER *const self = Memory_Alloc(sizeof(UI_SPACER));
     self->vtable = (UI_WIDGET_VTABLE) {
-        .control = NULL,
-        .draw = NULL,
+        .control = nullptr,
+        .draw = nullptr,
         .get_width = (UI_WIDGET_GET_WIDTH)M_GetWidth,
         .get_height = (UI_WIDGET_GET_HEIGHT)M_GetHeight,
         .set_position = (UI_WIDGET_SET_POSITION)M_SetPosition,

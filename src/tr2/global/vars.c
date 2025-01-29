@@ -14,7 +14,7 @@ int16_t g_RoomsToDrawCount = 0;
 const float g_RhwFactor = 0x14000000.p0;
 uint16_t *g_TexturePageBuffer16[MAX_TEXTURE_PAGES] = {};
 
-SDL_Window *g_SDLWindow = NULL;
+SDL_Window *g_SDLWindow = nullptr;
 
 uint32_t g_PerspectiveDistance = 0x3000000;
 uint32_t g_AssaultBestTime = -1;
@@ -52,7 +52,7 @@ float g_FltRhwONearZ;
 int32_t g_PhdWinMaxY;
 float g_FltNearZ;
 float g_FltPersp;
-int16_t *g_Info3DPtr = NULL;
+int16_t *g_Info3DPtr = nullptr;
 int32_t g_PhdWinWidth;
 int32_t g_PhdViewDistance;
 DEPTHQ_ENTRY g_DepthQTable[32];
@@ -63,7 +63,7 @@ float g_FltWinRight;
 XYZ_32 g_LsVectorView;
 int32_t g_PhdWinRight;
 int32_t g_SurfaceCount;
-SORT_ITEM *g_Sort3DPtr = NULL;
+SORT_ITEM *g_Sort3DPtr = nullptr;
 int32_t g_WibbleOffset;
 bool g_IsWibbleEffect;
 bool g_IsWaterEffect;
@@ -83,37 +83,37 @@ RGB_888 g_GamePalette8[256];
 RGB_888 g_GamePalette16[256];
 SAVEGAME_INFO g_SaveGame;
 LARA_INFO g_Lara;
-ITEM *g_LaraItem = NULL;
+ITEM *g_LaraItem = nullptr;
 int16_t g_NextItemActive;
 int16_t g_PrevItemActive;
 int32_t g_SoundEffectCount;
 OBJECT g_Objects[265] = {};
 int32_t g_RoomCount;
-ROOM *g_Rooms = NULL;
+ROOM *g_Rooms = nullptr;
 int32_t g_FlipStatus;
-ITEM *g_Items = NULL;
+ITEM *g_Items = nullptr;
 int16_t g_NumCineFrames;
-CINE_FRAME *g_CineData = NULL;
+CINE_FRAME *g_CineData = nullptr;
 PHD_3DPOS g_CinePos;
 int16_t g_CineFrameIdx;
-BOX_INFO *g_Boxes = NULL;
+BOX_INFO *g_Boxes = nullptr;
 int16_t *g_FlyZone[2] = {};
 int16_t *g_GroundZone[4][2] = {};
-uint16_t *g_Overlap = NULL;
-CREATURE *g_BaddieSlots = NULL;
+uint16_t *g_Overlap = nullptr;
+CREATURE *g_BaddieSlots = nullptr;
 
 STATIC_OBJECT_3D g_StaticObjects3D[MAX_STATIC_OBJECTS];
 STATIC_OBJECT_2D g_StaticObjects2D[MAX_STATIC_OBJECTS];
-OBJECT_VECTOR *g_SoundEffects = NULL;
+OBJECT_VECTOR *g_SoundEffects = nullptr;
 int16_t g_SampleLUT[SFX_NUMBER_OF];
-SAMPLE_INFO *g_SampleInfos = NULL;
+SAMPLE_INFO *g_SampleInfos = nullptr;
 int32_t g_HeightType;
 int32_t g_FlipMaps[MAX_FLIP_MAPS];
 bool g_CameraUnderwater;
 int32_t g_BoxCount;
 int32_t g_TexturePageCount;
 int32_t g_NumCameras;
-uint32_t *g_DemoData = NULL;
+uint32_t *g_DemoData = nullptr;
 char g_LevelFileName[256];
 uint16_t g_MusicTrackFlags[64];
 
@@ -251,8 +251,8 @@ REQUEST_INFO g_LoadGameRequester = {
     .item_string_len = 50,
     .pitem_strings1 = (char *)m_LoadGameRequesterStrings1,
     .pitem_strings2 = (char *)m_LoadGameRequesterStrings2,
-    .pitem_flags1 = NULL,
-    .pitem_flags2 = NULL,
+    .pitem_flags1 = nullptr,
+    .pitem_flags2 = nullptr,
     .heading_flags1 = 0,
     .heading_flags2 = 0,
     .background_flags = 0,
@@ -260,13 +260,13 @@ REQUEST_INFO g_LoadGameRequester = {
     .moredown_flags = 0,
     .item_flags1 = {},
     .item_flags2 = {},
-    .heading_text1 = NULL,
-    .heading_text2 = NULL,
-    .background_text = NULL,
-    .moreup_text = NULL,
-    .moredown_text = NULL,
-    .item_texts1 = { NULL },
-    .item_texts2 = { NULL },
+    .heading_text1 = nullptr,
+    .heading_text2 = nullptr,
+    .background_text = nullptr,
+    .moreup_text = nullptr,
+    .moredown_text = nullptr,
+    .item_texts1 = { nullptr },
+    .item_texts2 = { nullptr },
     .heading_string1 = {},
     .heading_string2 = {},
     .render_width = 0,
@@ -290,8 +290,8 @@ REQUEST_INFO g_SaveGameRequester = {
     .item_string_len = 50,
     .pitem_strings1 = (char *)g_ValidLevelStrings1,
     .pitem_strings2 = (char *)g_ValidLevelStrings2,
-    .pitem_flags1 = NULL,
-    .pitem_flags2 = NULL,
+    .pitem_flags1 = nullptr,
+    .pitem_flags2 = nullptr,
     .heading_flags1 = 0,
     .heading_flags2 = 0,
     .background_flags = 0,
@@ -299,13 +299,13 @@ REQUEST_INFO g_SaveGameRequester = {
     .moredown_flags = 0,
     .item_flags1 = {},
     .item_flags2 = {},
-    .heading_text1 = NULL,
-    .heading_text2 = NULL,
-    .background_text = NULL,
-    .moreup_text = NULL,
-    .moredown_text = NULL,
-    .item_texts1 = { NULL },
-    .item_texts2 = { NULL },
+    .heading_text1 = nullptr,
+    .heading_text2 = nullptr,
+    .background_text = nullptr,
+    .moreup_text = nullptr,
+    .moredown_text = nullptr,
+    .item_texts1 = { nullptr },
+    .item_texts2 = { nullptr },
     .heading_string1 = {},
     .heading_string2 = {},
     .render_width = 0,
@@ -321,7 +321,7 @@ int32_t g_GF_LaraStartAnim;
 int32_t g_GF_ScriptVersion;
 
 int32_t g_SavedGames;
-TEXTSTRING *g_PasswordText1 = NULL;
+TEXTSTRING *g_PasswordText1 = nullptr;
 char g_ValidLevelStrings1[MAX_LEVELS][50];
 char g_ValidLevelStrings2[MAX_LEVELS][50];
 uint32_t g_RequesterFlags1[MAX_REQUESTER_ITEMS];

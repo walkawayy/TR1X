@@ -43,7 +43,7 @@ static int M_GetNumberSize(const JSON_NUMBER *number, size_t *size)
             /* the number is a JSON_PARSE_FLAGS_ALLOW_HEXADECIMAL_NUMBERS
              * hexadecimal so we have to do extra work to convert it to a
              * non-hexadecimal for JSON output. */
-            parsed_number = json_strtoumax(number->number, NULL, 0);
+            parsed_number = json_strtoumax(number->number, nullptr, 0);
 
             i = 0;
 
@@ -188,7 +188,7 @@ static int M_GetArraySize_Minified(const JSON_ARRAY *array, size_t *size)
         *size += array->length - 1; /* ','s seperate each element. */
     }
 
-    for (element = array->start; NULL != element; element = element->next) {
+    for (element = array->start; nullptr != element; element = element->next) {
         if (M_GetValueSize_Minified(element->value, size)) {
             /* value was malformed! */
             return 1;
@@ -210,7 +210,7 @@ static int M_GetObjectSize_Minified(const JSON_OBJECT *object, size_t *size)
         *size += object->length - 1; /* ','s seperate each element. */
     }
 
-    for (element = object->start; NULL != element; element = element->next) {
+    for (element = object->start; nullptr != element; element = element->next) {
         if (M_GetStringSize(element->name, size)) {
             /* string was malformed! */
             return 1;
@@ -263,7 +263,7 @@ static char *M_WriteNumber(const JSON_NUMBER *number, char *data)
             /* The number is a JSON_PARSE_FLAGS_ALLOW_HEXADECIMAL_NUMBERS
              * hexadecimal so we have to do extra work to convert it to a
              * non-hexadecimal for JSON output. */
-            parsed_number = json_strtoumax(number->number, NULL, 0);
+            parsed_number = json_strtoumax(number->number, nullptr, 0);
 
             /* We need a copy of parsed number twice, so take a backup of it. */
             backup = parsed_number;
@@ -485,20 +485,20 @@ static char *M_WriteString(const JSON_STRING *string, char *data)
 
 static char *M_WriteArray_Minified(const JSON_ARRAY *array, char *data)
 {
-    JSON_ARRAY_ELEMENT *element = NULL;
+    JSON_ARRAY_ELEMENT *element = nullptr;
 
     *data++ = '['; /* open the array. */
 
-    for (element = array->start; NULL != element; element = element->next) {
+    for (element = array->start; nullptr != element; element = element->next) {
         if (element != array->start) {
             *data++ = ','; /* ','s seperate each element. */
         }
 
         data = M_WriteValue_Minified(element->value, data);
 
-        if (NULL == data) {
+        if (nullptr == data) {
             /* value was malformed! */
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -509,29 +509,29 @@ static char *M_WriteArray_Minified(const JSON_ARRAY *array, char *data)
 
 static char *M_WriteObject_Minified(const JSON_OBJECT *object, char *data)
 {
-    JSON_OBJECT_ELEMENT *element = NULL;
+    JSON_OBJECT_ELEMENT *element = nullptr;
 
     *data++ = '{'; /* open the object. */
 
-    for (element = object->start; NULL != element; element = element->next) {
+    for (element = object->start; nullptr != element; element = element->next) {
         if (element != object->start) {
             *data++ = ','; /* ','s seperate each element. */
         }
 
         data = M_WriteString(element->name, data);
 
-        if (NULL == data) {
+        if (nullptr == data) {
             /* string was malformed! */
-            return NULL;
+            return nullptr;
         }
 
         *data++ = ':'; /* ':'s seperate each name/value pair. */
 
         data = M_WriteValue_Minified(element->value, data);
 
-        if (NULL == data) {
+        if (nullptr == data) {
             /* value was malformed! */
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -545,7 +545,7 @@ static char *M_WriteValue_Minified(const JSON_VALUE *value, char *data)
     switch (value->type) {
     default:
         /* unknown value type found! */
-        return NULL;
+        return nullptr;
     case JSON_TYPE_NUMBER:
         return M_WriteNumber((JSON_NUMBER *)value->payload, data);
     case JSON_TYPE_STRING:
@@ -579,39 +579,39 @@ static char *M_WriteValue_Minified(const JSON_VALUE *value, char *data)
 void *JSON_WriteMinified(const JSON_VALUE *value, size_t *out_size)
 {
     size_t size = 0;
-    char *data = NULL;
-    char *data_end = NULL;
+    char *data = nullptr;
+    char *data_end = nullptr;
 
-    if (NULL == value) {
-        return NULL;
+    if (nullptr == value) {
+        return nullptr;
     }
 
     if (M_GetValueSize_Minified(value, &size)) {
         /* value was malformed! */
-        return NULL;
+        return nullptr;
     }
 
     size += 1; /* for the '\0' null terminating character. */
 
     data = (char *)Memory_Alloc(size);
 
-    if (NULL == data) {
+    if (nullptr == data) {
         /* malloc failed! */
-        return NULL;
+        return nullptr;
     }
 
     data_end = M_WriteValue_Minified(value, data);
 
-    if (NULL == data_end) {
+    if (nullptr == data_end) {
         /* bad chi occurred! */
         Memory_Free(data);
-        return NULL;
+        return nullptr;
     }
 
     /* null terminated the string. */
     *data_end = '\0';
 
-    if (NULL != out_size) {
+    if (nullptr != out_size) {
         *out_size = size;
     }
 
@@ -632,7 +632,8 @@ static int M_GetArraySize_Pretty(
 
         *size += array->length - 1; /* ','s seperate each element. */
 
-        for (element = array->start; NULL != element; element = element->next) {
+        for (element = array->start; nullptr != element;
+             element = element->next) {
             /* each element gets an indent. */
             *size += (depth + 1) * indent_size;
 
@@ -672,7 +673,7 @@ static int M_GetObjectSize_Pretty(
 
         *size += object->length - 1; /* ','s seperate each element. */
 
-        for (element = object->start; NULL != element;
+        for (element = object->start; nullptr != element;
              element = element->next) {
             /* each element gets an indent and newline. */
             *size += (depth + 1) * indent_size;
@@ -747,7 +748,8 @@ static char *M_WriteArray_Pretty(
             *data++ = newline[k];
         }
 
-        for (element = array->start; NULL != element; element = element->next) {
+        for (element = array->start; nullptr != element;
+             element = element->next) {
             if (element != array->start) {
                 *data++ = ','; /* ','s seperate each element. */
 
@@ -765,9 +767,9 @@ static char *M_WriteArray_Pretty(
             data = M_WriteValue_Pretty(
                 element->value, depth + 1, indent, newline, data);
 
-            if (NULL == data) {
+            if (nullptr == data) {
                 /* value was malformed! */
-                return NULL;
+                return nullptr;
             }
         }
 
@@ -801,7 +803,7 @@ static char *M_WriteObject_Pretty(
             *data++ = newline[k];
         }
 
-        for (element = object->start; NULL != element;
+        for (element = object->start; nullptr != element;
              element = element->next) {
             if (element != object->start) {
                 *data++ = ','; /* ','s seperate each element. */
@@ -819,9 +821,9 @@ static char *M_WriteObject_Pretty(
 
             data = M_WriteString(element->name, data);
 
-            if (NULL == data) {
+            if (nullptr == data) {
                 /* string was malformed! */
-                return NULL;
+                return nullptr;
             }
 
             /* ": "s seperate each name/value pair. */
@@ -831,9 +833,9 @@ static char *M_WriteObject_Pretty(
             data = M_WriteValue_Pretty(
                 element->value, depth + 1, indent, newline, data);
 
-            if (NULL == data) {
+            if (nullptr == data) {
                 /* value was malformed! */
-                return NULL;
+                return nullptr;
             }
         }
 
@@ -860,7 +862,7 @@ static char *M_WriteValue_Pretty(
     switch (value->type) {
     default:
         /* unknown value type found! */
-        return NULL;
+        return nullptr;
     case JSON_TYPE_NUMBER:
         return M_WriteNumber((JSON_NUMBER *)value->payload, data);
     case JSON_TYPE_STRING:
@@ -900,18 +902,18 @@ void *JSON_WritePretty(
     size_t size = 0;
     size_t indent_size = 0;
     size_t newline_size = 0;
-    char *data = NULL;
-    char *data_end = NULL;
+    char *data = nullptr;
+    char *data_end = nullptr;
 
-    if (NULL == value) {
-        return NULL;
+    if (nullptr == value) {
+        return nullptr;
     }
 
-    if (NULL == indent) {
+    if (nullptr == indent) {
         indent = "  "; /* default to two spaces. */
     }
 
-    if (NULL == newline) {
+    if (nullptr == newline) {
         newline = "\n"; /* default to linux newlines. */
     }
 
@@ -925,30 +927,30 @@ void *JSON_WritePretty(
 
     if (M_GetValueSize_Pretty(value, 0, indent_size, newline_size, &size)) {
         /* value was malformed! */
-        return NULL;
+        return nullptr;
     }
 
     size += 1; /* for the '\0' null terminating character. */
 
     data = (char *)Memory_Alloc(size);
 
-    if (NULL == data) {
+    if (nullptr == data) {
         /* malloc failed! */
-        return NULL;
+        return nullptr;
     }
 
     data_end = M_WriteValue_Pretty(value, 0, indent, newline, data);
 
-    if (NULL == data_end) {
+    if (nullptr == data_end) {
         /* bad chi occurred! */
         Memory_Free(data);
-        return NULL;
+        return nullptr;
     }
 
     /* null terminated the string. */
     *data_end = '\0';
 
-    if (NULL != out_size) {
+    if (nullptr != out_size) {
         *out_size = size;
     }
 

@@ -10,10 +10,8 @@
 #include <libtrx/game/game_buf.h>
 #include <libtrx/utils.h>
 
-#include <stddef.h>
-
 static int32_t m_SlotsUsed = 0;
-static CREATURE *m_BaddieSlots = NULL;
+static CREATURE *m_BaddieSlots = nullptr;
 
 void LOT_InitialiseArray(void)
 {
@@ -32,7 +30,7 @@ void LOT_DisableBaddieAI(int16_t item_num)
 {
     ITEM *item = &g_Items[item_num];
     CREATURE *creature = item->data;
-    item->data = NULL;
+    item->data = nullptr;
     if (creature) {
         creature->item_num = NO_ITEM;
         m_SlotsUsed--;

@@ -23,15 +23,15 @@ static const char *M_ResolveOptionName(const char *option_name);
 
 static JSON_VALUE *M_ReadRoot(const char *const cfg_data)
 {
-    if (cfg_data == NULL) {
-        return NULL;
+    if (cfg_data == nullptr) {
+        return nullptr;
     }
 
     JSON_PARSE_RESULT parse_result;
     JSON_VALUE *root = JSON_ParseEx(
-        cfg_data, strlen(cfg_data), JSON_PARSE_FLAGS_ALLOW_JSON5, NULL, NULL,
-        &parse_result);
-    if (root == NULL) {
+        cfg_data, strlen(cfg_data), JSON_PARSE_FLAGS_ALLOW_JSON5, nullptr,
+        nullptr, &parse_result);
+    if (root == nullptr) {
         LOG_ERROR(
             "failed to parse config file: %s in line %d, char %d",
             JSON_GetErrorDescription(parse_result.error),
@@ -47,9 +47,11 @@ static bool M_ReadFromJSON(
 {
     bool result = false;
 
-    JSON_VALUE *cfg_root = M_ReadRoot(cfg_data == NULL ? EMPTY_ROOT : cfg_data);
-    JSON_VALUE *enf_root = M_ReadRoot(enf_data == NULL ? EMPTY_ROOT : enf_data);
-    if (cfg_root != NULL) {
+    JSON_VALUE *cfg_root =
+        M_ReadRoot(cfg_data == nullptr ? EMPTY_ROOT : cfg_data);
+    JSON_VALUE *enf_root =
+        M_ReadRoot(enf_data == nullptr ? EMPTY_ROOT : enf_data);
+    if (cfg_root != nullptr) {
         result = true;
     }
 
@@ -58,7 +60,7 @@ static bool M_ReadFromJSON(
 
     JSON_OBJECT *enforced_config =
         JSON_ObjectGetObject(enf_root_obj, ENFORCED_KEY);
-    if (enforced_config != NULL) {
+    if (enforced_config != nullptr) {
         JSON_ObjectMerge(cfg_root_obj, enforced_config);
     }
 
@@ -78,7 +80,7 @@ static void M_PreserveEnforcedState(
     JSON_OBJECT *const root_obj, JSON_VALUE *const old_root,
     JSON_VALUE *const enf_root)
 {
-    if (old_root == NULL || enf_root == NULL) {
+    if (old_root == nullptr || enf_root == nullptr) {
         return;
     }
 
@@ -86,14 +88,14 @@ static void M_PreserveEnforcedState(
     JSON_OBJECT *enf_root_obj = JSON_ValueAsObject(enf_root);
     JSON_OBJECT *enforced_obj =
         JSON_ObjectGetObject(enf_root_obj, ENFORCED_KEY);
-    if (enforced_obj == NULL) {
+    if (enforced_obj == nullptr) {
         return;
     }
 
     // Restore the original values for any enforced settings, provided they were
     // defined.
     JSON_OBJECT_ELEMENT *elem = enforced_obj->start;
-    while (elem != NULL) {
+    while (elem != nullptr) {
         const char *const name = elem->name->string;
         elem = elem->next;
 
@@ -140,18 +142,18 @@ static const char *M_ResolveOptionName(const char *option_name)
 
 bool ConfigFile_Read(const CONFIG_IO_ARGS *const args)
 {
-    char *default_data = NULL;
-    char *enforced_data = NULL;
+    char *default_data = nullptr;
+    char *enforced_data = nullptr;
 
-    ASSERT(args->default_path != NULL);
-    if (!File_Load(args->default_path, &default_data, NULL)) {
+    ASSERT(args->default_path != nullptr);
+    if (!File_Load(args->default_path, &default_data, nullptr)) {
         LOG_WARNING(
             "'%s' not loaded - default settings will apply",
             args->default_path);
     }
 
-    if (args->enforced_path != NULL) {
-        File_Load(args->enforced_path, &enforced_data, NULL);
+    if (args->enforced_path != nullptr) {
+        File_Load(args->enforced_path, &enforced_data, nullptr);
     }
 
     bool result = M_ReadFromJSON(default_data, enforced_data, args->action);
@@ -165,22 +167,22 @@ bool ConfigFile_Write(const CONFIG_IO_ARGS *const args)
 {
     LOG_INFO("Saving user settings");
 
-    char *old_data = NULL;
-    char *enforced_data = NULL;
+    char *old_data = nullptr;
+    char *enforced_data = nullptr;
 
-    ASSERT(args->default_path != NULL);
-    File_Load(args->default_path, &old_data, NULL);
+    ASSERT(args->default_path != nullptr);
+    File_Load(args->default_path, &old_data, nullptr);
 
-    if (args->enforced_path != NULL) {
-        File_Load(args->enforced_path, &enforced_data, NULL);
+    if (args->enforced_path != nullptr) {
+        File_Load(args->enforced_path, &enforced_data, nullptr);
     }
 
     bool updated = false;
     char *data = M_WriteToJSON(args->action, old_data, enforced_data);
 
-    if (old_data == NULL || strcmp(data, old_data) != 0) {
+    if (old_data == nullptr || strcmp(data, old_data) != 0) {
         MYFILE *const fp = File_Open(args->default_path, FILE_OPEN_WRITE);
-        if (fp == NULL) {
+        if (fp == nullptr) {
             LOG_ERROR("Failed to write settings!");
         } else {
             File_WriteData(fp, data, strlen(data));
@@ -276,8 +278,8 @@ int ConfigFile_ReadEnum(
     JSON_OBJECT *const obj, const char *const name, const int default_value,
     const char *const enum_name)
 {
-    const char *value_str = JSON_ObjectGetString(obj, name, NULL);
-    if (value_str != NULL) {
+    const char *value_str = JSON_ObjectGetString(obj, name, nullptr);
+    if (value_str != nullptr) {
         return EnumMap_Get(enum_name, value_str, default_value);
     }
     return default_value;

@@ -46,7 +46,7 @@ typedef struct {
 #pragma pack(pop)
 
 static int m_SGBufPos = 0;
-static char *m_SGBufPtr = NULL;
+static char *m_SGBufPtr = nullptr;
 
 static bool M_ItemHasSaveFlags(OBJECT *obj, ITEM *item);
 static bool M_ItemHasSaveAnim(const ITEM *item);
@@ -111,7 +111,7 @@ static bool M_NeedsBaconLaraFix(char *buffer)
     // save_flags for Bacon Lara or not. Since savegames only contain very
     // concise information, we must make an educated guess here.
 
-    ASSERT(buffer != NULL);
+    ASSERT(buffer != nullptr);
 
     bool result = false;
     if (Game_GetCurrentLevel()->num != 14) {
@@ -252,7 +252,7 @@ static void M_WriteLara(LARA_INFO *lara)
     }
 
     // OG just writes the pointer address (!) assuming it's a non-existing mesh
-    // 16 (!!) which happens to be g_Lara's current target. Just write NULL.
+    // 16 (!!) which happens to be g_Lara's current target. Just write nullptr.
     tmp32 = 0;
     M_Write(&tmp32, sizeof(int32_t));
 
@@ -344,19 +344,19 @@ static void M_ReadLara(LARA_INFO *lara)
     M_Read(&lara->current_active, sizeof(int16_t));
     M_Read(&lara->hit_effect_count, sizeof(int16_t));
 
-    lara->hit_effect = NULL;
+    lara->hit_effect = nullptr;
     M_Skip(4); // pointer to EFFECT
 
     M_Read(&lara->mesh_effects, sizeof(int32_t));
     for (int i = 0; i < LM_NUMBER_OF; i++) {
         M_Read(&tmp32, sizeof(int32_t));
         OBJECT_MESH *const mesh = Object_FindMesh(tmp32 / 2);
-        if (mesh != NULL) {
+        if (mesh != nullptr) {
             lara->mesh_ptrs[i] = mesh;
         }
     }
 
-    lara->target = NULL;
+    lara->target = nullptr;
     M_Skip(4); // pointer to ITEM
 
     M_Read(&lara->target_angles[0], sizeof(PHD_ANGLE));
@@ -433,7 +433,7 @@ static void M_SetCurrentPosition(const int32_t level_num)
 
 static void M_ReadResumeInfo(MYFILE *fp, GAME_INFO *game_info)
 {
-    ASSERT(game_info->current != NULL);
+    ASSERT(game_info->current != nullptr);
     const GF_LEVEL_TABLE *const level_table = GF_GetLevelTable(GFLT_MAIN);
     for (int i = 0; i < level_table->count; i++) {
         const GF_LEVEL *const level = &level_table->levels[i];
@@ -485,7 +485,7 @@ static void M_ReadResumeInfo(MYFILE *fp, GAME_INFO *game_info)
 char *Savegame_Legacy_GetSaveFileName(int32_t slot)
 {
     size_t out_size =
-        snprintf(NULL, 0, g_GameFlow.savegame_fmt_legacy, slot) + 1;
+        snprintf(nullptr, 0, g_GameFlow.savegame_fmt_legacy, slot) + 1;
     char *out = Memory_Alloc(out_size);
     snprintf(out, out_size, g_GameFlow.savegame_fmt_legacy, slot);
     return out;
@@ -531,7 +531,7 @@ bool Savegame_Legacy_FillInfo(MYFILE *fp, SAVEGAME_INFO *info)
 
 bool Savegame_Legacy_LoadFromFile(MYFILE *fp, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
 
     int8_t tmp8;
     int16_t tmp16;
@@ -655,7 +655,7 @@ bool Savegame_Legacy_LoadFromFile(MYFILE *fp, GAME_INFO *game_info)
                     M_Skip(4 * 2 + 4);
                 }
             } else if (obj->intelligent) {
-                item->data = NULL;
+                item->data = nullptr;
             }
         }
 
@@ -671,7 +671,7 @@ bool Savegame_Legacy_LoadFromFile(MYFILE *fp, GAME_INFO *game_info)
 
 bool Savegame_Legacy_LoadOnlyResumeInfo(MYFILE *fp, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
 
     char *buffer = Memory_Alloc(File_Size(fp));
     File_Seek(fp, 0, FILE_SEEK_SET);
@@ -688,7 +688,7 @@ bool Savegame_Legacy_LoadOnlyResumeInfo(MYFILE *fp, GAME_INFO *game_info)
 
 void Savegame_Legacy_SaveToFile(MYFILE *fp, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
 
     char *buffer = Memory_Alloc(SAVEGAME_LEGACY_MAX_BUFFER_SIZE);
     M_Reset(buffer);
@@ -701,7 +701,7 @@ void Savegame_Legacy_SaveToFile(MYFILE *fp, GAME_INFO *game_info)
     M_Write(title, SAVEGAME_LEGACY_TITLE_SIZE);
     M_Write(&g_SaveCounter, sizeof(int32_t));
 
-    ASSERT(game_info->current != NULL);
+    ASSERT(game_info->current != nullptr);
     for (int i = 0; i < GF_GetLevelTable(GFLT_MAIN)->count; i++) {
         RESUME_INFO *current = &game_info->current[i];
         M_Write(&current->pistol_ammo, sizeof(uint16_t));

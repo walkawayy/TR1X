@@ -35,8 +35,8 @@
 #include <time.h>
 
 static int m_ArgCount = 0;
-static char **m_ArgStrings = NULL;
-static SDL_Window *m_Window = NULL;
+static char **m_ArgStrings = nullptr;
+static SDL_Window *m_Window = nullptr;
 
 static void M_HandleQuit(void);
 static void M_SetWindowPos(int32_t x, int32_t y, bool update);
@@ -272,7 +272,7 @@ void S_Shell_CreateWindow(void)
         SDL_WINDOW_HIDDEN | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE
             | SDL_WINDOW_OPENGL);
 
-    if (window == NULL) {
+    if (window == nullptr) {
         Shell_ExitSystem("System Error: cannot create window");
         return;
     }

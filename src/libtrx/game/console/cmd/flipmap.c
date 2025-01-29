@@ -9,7 +9,7 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *ctx);
 
 static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
 {
-    if (GF_GetCurrentLevel() == NULL
+    if (GF_GetCurrentLevel() == nullptr
         || GF_GetCurrentLevel()->type == GFL_TITLE) {
         return CR_UNAVAILABLE;
     }

@@ -244,7 +244,7 @@ void Monk_Control(const int16_t item_num)
                     creature->flags |= 0x1000;
                 }
             } else if (
-                (creature->flags & 0xF000) == 0 && creature->enemy != NULL) {
+                (creature->flags & 0xF000) == 0 && creature->enemy != nullptr) {
                 const int32_t dx = ABS(creature->enemy->pos.x - item->pos.x);
                 const int32_t dy = ABS(creature->enemy->pos.y - item->pos.y);
                 const int32_t dz = ABS(creature->enemy->pos.z - item->pos.z);

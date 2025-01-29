@@ -110,7 +110,7 @@ bool GFX_Context_Attach(void *window_handle, GFX_GL_BACKEND backend)
 
     LOG_INFO("Attaching to window %p", window_handle);
     m_Context.context = SDL_GL_CreateContext(window_handle);
-    if (m_Context.context == NULL) {
+    if (m_Context.context == nullptr) {
         LOG_ERROR("Can't create OpenGL context: %s", SDL_GetError());
         return false;
     }
@@ -137,7 +137,7 @@ bool GFX_Context_Attach(void *window_handle, GFX_GL_BACKEND backend)
     LOG_INFO("OpenGL version string:  %s", glGetString(GL_VERSION));
 
     shading_ver = (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION);
-    if (shading_ver != NULL) {
+    if (shading_ver != nullptr) {
         LOG_INFO("Shading version string: %s", shading_ver);
     } else {
         GFX_GL_CheckError();
@@ -164,17 +164,18 @@ void GFX_Context_Detach(void)
         return;
     }
 
-    if (m_Context.renderer != NULL && m_Context.renderer->shutdown != NULL) {
+    if (m_Context.renderer != nullptr
+        && m_Context.renderer->shutdown != nullptr) {
         m_Context.renderer->shutdown(m_Context.renderer);
     }
 
-    SDL_GL_MakeCurrent(NULL, NULL);
+    SDL_GL_MakeCurrent(nullptr, nullptr);
 
-    if (m_Context.context != NULL) {
+    if (m_Context.context != nullptr) {
         SDL_GL_DeleteContext(m_Context.context);
-        m_Context.context = NULL;
+        m_Context.context = nullptr;
     }
-    m_Context.window_handle = NULL;
+    m_Context.window_handle = nullptr;
 }
 
 void GFX_Context_SetDisplayFilter(const GFX_TEXTURE_FILTER filter)
@@ -225,7 +226,7 @@ void GFX_Context_SetDisplaySize(int32_t width, int32_t height)
     m_Context.display_width = width;
     m_Context.display_height = height;
 
-    if (m_Context.renderer != NULL && m_Context.renderer->reset != NULL) {
+    if (m_Context.renderer != nullptr && m_Context.renderer->reset != nullptr) {
         m_Context.renderer->reset(m_Context.renderer);
     }
 }
@@ -238,7 +239,8 @@ void GFX_Context_SetRenderingMode(GFX_RENDER_MODE target_mode)
     }
 
     LOG_INFO("Render mode: %d", target_mode);
-    if (m_Context.renderer != NULL && m_Context.renderer->shutdown != NULL) {
+    if (m_Context.renderer != nullptr
+        && m_Context.renderer->shutdown != nullptr) {
         m_Context.renderer->shutdown(m_Context.renderer);
     }
     switch (target_mode) {
@@ -249,7 +251,7 @@ void GFX_Context_SetRenderingMode(GFX_RENDER_MODE target_mode)
         m_Context.renderer = &g_GFX_Renderer_Legacy;
         break;
     }
-    if (m_Context.renderer != NULL && m_Context.renderer->init != NULL) {
+    if (m_Context.renderer != nullptr && m_Context.renderer->init != nullptr) {
         m_Context.renderer->init(m_Context.renderer, &m_Context.config);
     }
     m_Context.render_mode = target_mode;
@@ -285,8 +287,8 @@ void GFX_Context_SwapBuffers(void)
     glFinish();
     GFX_GL_CheckError();
 
-    if (m_Context.renderer != NULL
-        && m_Context.renderer->swap_buffers != NULL) {
+    if (m_Context.renderer != nullptr
+        && m_Context.renderer->swap_buffers != nullptr) {
         m_Context.renderer->swap_buffers(m_Context.renderer);
     }
 }

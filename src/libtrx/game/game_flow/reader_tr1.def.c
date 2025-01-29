@@ -22,14 +22,14 @@ static GF_LEVEL_SETTINGS m_DefaultSettings = {
 static M_SEQUENCE_EVENT_HANDLER m_SequenceEventHandlers[] = {
     // clang-format off
     // Events without arguments
-    { GFS_FLIP_MAP,          NULL, NULL },
-    { GFS_REMOVE_WEAPONS,    NULL, NULL },
-    { GFS_REMOVE_SCIONS,     NULL, NULL },
-    { GFS_REMOVE_AMMO,       NULL, NULL },
-    { GFS_REMOVE_MEDIPACKS,  NULL, NULL },
-    { GFS_EXIT_TO_TITLE,     NULL, NULL },
-    { GFS_LEVEL_STATS,       NULL, NULL },
-    { GFS_LEVEL_COMPLETE,    NULL, NULL },
+    { GFS_FLIP_MAP,          nullptr, nullptr },
+    { GFS_REMOVE_WEAPONS,    nullptr, nullptr },
+    { GFS_REMOVE_SCIONS,     nullptr, nullptr },
+    { GFS_REMOVE_AMMO,       nullptr, nullptr },
+    { GFS_REMOVE_MEDIPACKS,  nullptr, nullptr },
+    { GFS_EXIT_TO_TITLE,     nullptr, nullptr },
+    { GFS_LEVEL_STATS,       nullptr, nullptr },
+    { GFS_LEVEL_COMPLETE,    nullptr, nullptr },
 
     // Events with integer arguments
     { GFS_LOAD_LEVEL,        M_HandleIntEvent, "level_id" },
@@ -41,26 +41,26 @@ static M_SEQUENCE_EVENT_HANDLER m_SequenceEventHandlers[] = {
     { GFS_SETUP_BACON_LARA,  M_HandleIntEvent, "anchor_room" },
 
     // Special cases with custom handlers
-    { GFS_LOADING_SCREEN,    M_HandlePictureEvent, NULL },
-    { GFS_DISPLAY_PICTURE,   M_HandlePictureEvent, NULL },
-    { GFS_TOTAL_STATS,       M_HandleTotalStatsEvent, NULL },
-    { GFS_ADD_ITEM,          M_HandleAddItemEvent, NULL },
-    { GFS_MESH_SWAP,         M_HandleMeshSwapEvent, NULL },
+    { GFS_LOADING_SCREEN,    M_HandlePictureEvent, nullptr },
+    { GFS_DISPLAY_PICTURE,   M_HandlePictureEvent, nullptr },
+    { GFS_TOTAL_STATS,       M_HandleTotalStatsEvent, nullptr },
+    { GFS_ADD_ITEM,          M_HandleAddItemEvent, nullptr },
+    { GFS_MESH_SWAP,         M_HandleMeshSwapEvent, nullptr },
 
     // Sentinel to mark the end of the table
-    { (GF_SEQUENCE_EVENT_TYPE)-1, NULL, NULL },
+    { (GF_SEQUENCE_EVENT_TYPE)-1, nullptr, nullptr },
     // clang-format on
 };
 
 static DECLARE_SEQUENCE_EVENT_HANDLER_FUNC(M_HandleTotalStatsEvent)
 {
     const char *const path =
-        JSON_ObjectGetString(event_obj, "background_path", NULL);
-    if (path == NULL) {
+        JSON_ObjectGetString(event_obj, "background_path", nullptr);
+    if (path == nullptr) {
         Shell_ExitSystem("Missing picture path");
         return -1;
     }
-    if (event != NULL) {
+    if (event != nullptr) {
         char *const event_data = extra_data;
         strcpy(event_data, path);
         event->data = event_data;
@@ -93,7 +93,7 @@ static DECLARE_SEQUENCE_EVENT_HANDLER_FUNC(M_HandleMeshSwapEvent)
         Shell_ExitSystem("'mesh_id' must be a number");
     }
 
-    if (event != NULL) {
+    if (event != nullptr) {
         GF_MESH_SWAP_DATA *const swap_data = extra_data;
         swap_data->object1_id = object1_id;
         swap_data->object2_id = object2_id;
@@ -124,7 +124,7 @@ static void M_LoadSettings(
 
     {
         JSON_ARRAY *const tmp_arr = JSON_ObjectGetArray(obj, "water_color");
-        if (tmp_arr != NULL) {
+        if (tmp_arr != nullptr) {
             settings->water_color.r =
                 JSON_ArrayGetDouble(tmp_arr, 0, settings->water_color.r);
             settings->water_color.g =
@@ -151,7 +151,7 @@ static void M_LoadLevelGameSpecifics(
 
     {
         JSON_VALUE *const tmp = JSON_ObjectGetValue(jlvl_obj, "lara_type");
-        if (tmp == NULL) {
+        if (tmp == nullptr) {
             level->lara_type = O_LARA;
         } else {
             level->lara_type = M_GetObjectFromJSONValue(tmp);
@@ -178,14 +178,14 @@ static void M_LoadLevelItemDrops(
     JSON_ARRAY *const drops = JSON_ObjectGetArray(jlvl_obj, "item_drops");
     level->item_drops.count = 0;
 
-    if (drops != NULL && gf->enable_tr2_item_drops) {
+    if (drops != nullptr && gf->enable_tr2_item_drops) {
         LOG_WARNING(
             "TR2 item drops are enabled: gameflow-defined drops for level "
             "%d will be ignored",
             level->num);
         return;
     }
-    if (drops == NULL) {
+    if (drops == nullptr) {
         return;
     }
 
@@ -268,7 +268,7 @@ static void M_LoadRoot(JSON_OBJECT *const obj, GAME_FLOW *const gf)
         gf->injections.data_paths =
             Memory_Alloc(sizeof(char *) * tmp_arr->length);
         for (size_t i = 0; i < tmp_arr->length; i++) {
-            const char *const str = JSON_ArrayGetString(tmp_arr, i, NULL);
+            const char *const str = JSON_ArrayGetString(tmp_arr, i, nullptr);
             gf->injections.data_paths[i] = Memory_DupStr(str);
         }
     } else {

@@ -9,8 +9,6 @@
 #include "game/sound/common.h"
 #include "utils.h"
 
-#include <stddef.h>
-
 void Item_TakeDamage(
     ITEM *const item, const int16_t damage, const bool hit_status)
 {
@@ -37,7 +35,7 @@ ITEM *Item_Find(const GAME_OBJECT_ID object_id)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 ANIM *Item_GetAnim(const ITEM *const item)

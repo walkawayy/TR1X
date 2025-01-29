@@ -29,7 +29,7 @@ static void M_Explode(int16_t grenade_item_num, const XYZ_32 pos)
         effect->counter = 0;
         effect->object_id = O_EXPLOSION;
     }
-    Sound_Effect(SFX_EXPLOSION_1, NULL, SPM_NORMAL);
+    Sound_Effect(SFX_EXPLOSION_1, nullptr, SPM_NORMAL);
     Item_Kill(grenade_item_num);
 }
 
@@ -89,7 +89,7 @@ void Grenade_Control(int16_t item_num)
 
         if (target_item->object_id != O_WINDOW_1
             && (!target_obj->intelligent || target_item->status == IS_INVISIBLE
-                || target_obj->collision == NULL)) {
+                || target_obj->collision == nullptr)) {
             continue;
         }
 
@@ -131,7 +131,7 @@ void Grenade_Control(int16_t item_num)
                 continue;
             }
 
-            Gun_HitTarget(target_item, NULL, 30);
+            Gun_HitTarget(target_item, nullptr, 30);
             g_SaveGame.current_stats.ammo_hits++;
 
             if (target_item->hit_points <= 0) {

@@ -260,7 +260,7 @@ static bool M_CreateGameWindow(void)
         g_Config.window.height,
         SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
-    if (g_SDLWindow == NULL) {
+    if (g_SDLWindow == nullptr) {
         Shell_ExitSystemFmt("Failed to create SDL window: %s", SDL_GetError());
         return false;
     }
@@ -271,7 +271,7 @@ static bool M_CreateGameWindow(void)
 static void M_LoadConfig(void)
 {
     Config_Read();
-    Config_SubscribeChanges(M_HandleConfigChange, NULL);
+    Config_SubscribeChanges(M_HandleConfigChange, nullptr);
 
     Sound_SetMasterVolume(g_Config.audio.sound_volume);
     Music_SetVolume(g_Config.audio.music_volume);
@@ -371,13 +371,13 @@ void Shell_Main(void)
             if (g_GameFlow.single_level >= 0) {
                 const GF_LEVEL *const level =
                     GF_GetLevel(GFLT_MAIN, g_GameFlow.single_level);
-                if (level != NULL) {
+                if (level != nullptr) {
                     gf_cmd = GF_DoLevelSequence(level, GFSC_NORMAL);
                 }
             } else {
                 const GF_LEVEL *const level =
                     GF_GetLevel(GFLT_MAIN, gf_cmd.param);
-                if (level != NULL) {
+                if (level != nullptr) {
                     gf_cmd = GF_DoLevelSequence(level, GFSC_NORMAL);
                 }
             }
@@ -387,7 +387,7 @@ void Shell_Main(void)
             S_LoadGame(gf_cmd.param);
             const GF_LEVEL *const level =
                 GF_GetLevel(GFLT_MAIN, g_SaveGame.current_level);
-            if (level != NULL) {
+            if (level != nullptr) {
                 gf_cmd = GF_DoLevelSequence(level, GFSC_SAVED);
             }
             break;
@@ -406,7 +406,7 @@ void Shell_Main(void)
             break;
 
         case GF_EXIT_TO_TITLE:
-            if (g_GameFlow.title_level == NULL) {
+            if (g_GameFlow.title_level == nullptr) {
                 gf_cmd = g_GameFlow.cmd_title;
                 if (gf_cmd.action == GF_NOOP
                     || gf_cmd.action == GF_EXIT_TO_TITLE) {

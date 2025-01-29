@@ -61,7 +61,7 @@ int32_t Creature_Activate(const int16_t item_num)
 void Creature_AIInfo(ITEM *const item, AI_INFO *const info)
 {
     CREATURE *const creature = (CREATURE *)item->data;
-    if (creature == NULL) {
+    if (creature == nullptr) {
         return;
     }
 
@@ -82,7 +82,7 @@ void Creature_AIInfo(ITEM *const item, AI_INFO *const info)
     }
 
     ITEM *enemy = creature->enemy;
-    if (enemy == NULL) {
+    if (enemy == nullptr) {
         enemy = g_LaraItem;
     }
 
@@ -124,7 +124,7 @@ void Creature_AIInfo(ITEM *const item, AI_INFO *const info)
         - ((object->pivot_length * Math_Sin(item->rot.y)) >> W2V_SHIFT)
         - item->pos.x;
     int16_t angle = Math_Atan(z, x);
-    if (creature->enemy != NULL) {
+    if (creature->enemy != nullptr) {
         info->distance = SQUARE(x) + SQUARE(z);
     } else {
         info->distance = 0x7FFFFFFF;
@@ -140,7 +140,7 @@ void Creature_AIInfo(ITEM *const item, AI_INFO *const info)
 void Creature_Mood(const ITEM *item, const AI_INFO *info, int32_t violent)
 {
     CREATURE *const creature = item->data;
-    if (creature == NULL) {
+    if (creature == nullptr) {
         return;
     }
 
@@ -159,7 +159,7 @@ void Creature_Mood(const ITEM *item, const AI_INFO *info, int32_t violent)
     }
 
     const MOOD_TYPE mood = creature->mood;
-    if (enemy == NULL) {
+    if (enemy == nullptr) {
         creature->mood = MOOD_BORED;
         enemy = g_LaraItem;
     } else if (enemy->hit_points <= 0) {
@@ -237,7 +237,7 @@ void Creature_Mood(const ITEM *item, const AI_INFO *info, int32_t violent)
         const int16_t box_num =
             lot->node[(lot->zone_count * Random_GetControl()) >> 15].box_num;
         if (Box_ValidBox(item, info->zone_num, box_num)) {
-            if (Box_StalkBox(item, enemy, box_num) && creature->enemy != NULL
+            if (Box_StalkBox(item, enemy, box_num) && creature->enemy != nullptr
                 && enemy->hit_points > 0) {
                 Box_TargetBox(lot, box_num);
                 creature->mood = MOOD_STALK;
@@ -384,7 +384,7 @@ int32_t Creature_Animate(
     ITEM *const item = &g_Items[item_num];
     const CREATURE *const creature = item->data;
     const OBJECT *const object = &g_Objects[item->object_id];
-    if (creature == NULL) {
+    if (creature == nullptr) {
         return false;
     }
 
@@ -634,7 +634,7 @@ int32_t Creature_Animate(
 int16_t Creature_Turn(ITEM *const item, int16_t max_turn)
 {
     const CREATURE *const creature = item->data;
-    if (creature == NULL || item->speed == 0 || max_turn == 0) {
+    if (creature == nullptr || item->speed == 0 || max_turn == 0) {
         return 0;
     }
 
@@ -664,7 +664,7 @@ void Creature_Tilt(ITEM *const item, int16_t angle)
 void Creature_Head(ITEM *item, int16_t required)
 {
     CREATURE *const creature = item->data;
-    if (creature == NULL) {
+    if (creature == nullptr) {
         return;
     }
 
@@ -678,7 +678,7 @@ void Creature_Head(ITEM *item, int16_t required)
 void Creature_Neck(ITEM *const item, const int16_t required)
 {
     CREATURE *const creature = item->data;
-    if (creature == NULL) {
+    if (creature == nullptr) {
         return;
     }
 
@@ -839,7 +839,7 @@ void Creature_GetBaddieTarget(const int16_t item_num, const int32_t goody)
     ITEM *const item = &g_Items[item_num];
     CREATURE *const creature = item->data;
 
-    ITEM *best_item = NULL;
+    ITEM *best_item = nullptr;
     int32_t best_distance = INT32_MAX;
     for (int32_t i = 0; i < NUM_SLOTS; i++) {
         const int16_t target_item_num = g_BaddieSlots[i].item_num;
@@ -865,11 +865,11 @@ void Creature_GetBaddieTarget(const int16_t item_num, const int32_t goody)
         }
     }
 
-    if (best_item == NULL) {
+    if (best_item == nullptr) {
         if (!goody || g_IsMonkAngry) {
             creature->enemy = g_LaraItem;
         } else {
-            creature->enemy = NULL;
+            creature->enemy = nullptr;
         }
         return;
     }
@@ -886,7 +886,7 @@ void Creature_GetBaddieTarget(const int16_t item_num, const int32_t goody)
     }
 
     const ITEM *const target = creature->enemy;
-    if (target == NULL || target->status != IS_ACTIVE) {
+    if (target == nullptr || target->status != IS_ACTIVE) {
         creature->enemy = best_item;
     } else {
         const int32_t dx = (target->pos.x - item->pos.x) >> 6;

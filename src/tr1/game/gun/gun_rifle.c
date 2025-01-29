@@ -11,7 +11,6 @@
 
 #include <libtrx/config.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 void Gun_Rifle_Draw(const LARA_GUN_TYPE weapon_type)
@@ -68,7 +67,7 @@ void Gun_Rifle_Undraw(const LARA_GUN_TYPE weapon_type)
         } else if (Anim_TestAbsFrameEqual(ani, LF_SG_UNAIM_START)) {
             ani = LF_SG_AIM_START;
             g_Lara.gun_status = LGS_ARMLESS;
-            g_Lara.target = NULL;
+            g_Lara.target = nullptr;
             g_Lara.right_arm.lock = 0;
             g_Lara.left_arm.lock = 0;
         }
@@ -111,7 +110,7 @@ void Gun_Rifle_Ready(const LARA_GUN_TYPE weapon_type)
     g_Lara.head_rot.y = 0;
     g_Lara.torso_rot.x = 0;
     g_Lara.torso_rot.y = 0;
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
     g_Lara.right_arm.frame_base = g_Objects[O_SHOTGUN_ANIM].frame_base;
     g_Lara.left_arm.frame_base = g_Objects[O_SHOTGUN_ANIM].frame_base;
 }

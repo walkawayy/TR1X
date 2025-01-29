@@ -108,7 +108,7 @@ void Gun_Pistols_Undraw(const LARA_GUN_TYPE weapon_type)
 
     if (frame_l == LF_G_UNDRAW_START && frame_r == LF_G_UNDRAW_START) {
         g_Lara.gun_status = LGS_ARMLESS;
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
         g_Lara.left_arm.frame_num = LF_G_AIM_START;
         g_Lara.left_arm.lock = 0;
         g_Lara.right_arm.frame_num = LF_G_AIM_START;
@@ -128,7 +128,7 @@ void Gun_Pistols_Undraw(const LARA_GUN_TYPE weapon_type)
 void Gun_Pistols_Ready(const LARA_GUN_TYPE weapon_type)
 {
     g_Lara.gun_status = LGS_READY;
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
 
     g_Lara.left_arm.frame_base = g_Objects[O_LARA_PISTOLS].frame_base;
     g_Lara.left_arm.frame_num = LF_G_AIM_START;
@@ -171,10 +171,10 @@ void Gun_Pistols_Control(const LARA_GUN_TYPE weapon_type)
     if (g_Input.action) {
         Gun_TargetInfo(winfo);
     } else {
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
     }
 
-    if (g_Lara.target == NULL) {
+    if (g_Lara.target == nullptr) {
         Gun_GetNewTarget(winfo);
     }
 
@@ -215,7 +215,8 @@ void Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
     int16_t angles[2];
 
     int32_t frame_r = g_Lara.right_arm.frame_num;
-    if (!g_Lara.right_arm.lock && (!g_Input.action || g_Lara.target != NULL)) {
+    if (!g_Lara.right_arm.lock
+        && (!g_Input.action || g_Lara.target != nullptr)) {
         if (frame_r >= LF_G_RECOIL_START && frame_r <= LF_G_RECOIL_END) {
             frame_r = LF_G_AIM_END;
         } else if (frame_r >= LF_G_AIM_BEND && frame_r <= LF_G_AIM_END) {
@@ -258,7 +259,8 @@ void Gun_Pistols_Animate(const LARA_GUN_TYPE weapon_type)
     Gun_Pistols_SetArmInfo(&g_Lara.right_arm, frame_r);
 
     int16_t frame_l = g_Lara.left_arm.frame_num;
-    if (!g_Lara.left_arm.lock && (!g_Input.action || g_Lara.target != NULL)) {
+    if (!g_Lara.left_arm.lock
+        && (!g_Input.action || g_Lara.target != nullptr)) {
         if (frame_l >= LF_G_RECOIL_START && frame_l <= LF_G_RECOIL_END) {
             frame_l = LF_G_AIM_END;
         } else if (frame_l >= LF_G_AIM_BEND && frame_l <= LF_G_AIM_END) {

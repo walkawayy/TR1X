@@ -13,13 +13,13 @@ static GF_SEQUENCE_EVENT_TYPE m_LevelArgSequenceEvents[] = {
 static M_SEQUENCE_EVENT_HANDLER m_SequenceEventHandlers[] = {
     // clang-format off
     // Events without arguments
-    { GFS_ENABLE_SUNSET,       NULL, NULL },
-    { GFS_REMOVE_WEAPONS,      NULL, NULL },
-    { GFS_REMOVE_AMMO,         NULL, NULL },
-    { GFS_LEVEL_COMPLETE,      NULL, NULL },
-    { GFS_LEVEL_STATS,         NULL, NULL },
-    { GFS_TOTAL_STATS,         NULL, NULL },
-    { GFS_EXIT_TO_TITLE,       NULL, NULL },
+    { GFS_ENABLE_SUNSET,       nullptr, nullptr },
+    { GFS_REMOVE_WEAPONS,      nullptr, nullptr },
+    { GFS_REMOVE_AMMO,         nullptr, nullptr },
+    { GFS_LEVEL_COMPLETE,      nullptr, nullptr },
+    { GFS_LEVEL_STATS,         nullptr, nullptr },
+    { GFS_TOTAL_STATS,         nullptr, nullptr },
+    { GFS_EXIT_TO_TITLE,       nullptr, nullptr },
 
     // Events with integer arguments
     { GFS_SET_NUM_SECRETS,     M_HandleIntEvent, "count" },
@@ -32,12 +32,12 @@ static M_SEQUENCE_EVENT_HANDLER m_SequenceEventHandlers[] = {
     { GFS_DISABLE_FLOOR,       M_HandleIntEvent, "height" },
 
     // Special cases with custom handlers
-    { GFS_DISPLAY_PICTURE,     M_HandlePictureEvent, NULL },
-    { GFS_ADD_ITEM,            M_HandleAddItemEvent, NULL },
-    { GFS_ADD_SECRET_REWARD,   M_HandleAddItemEvent, NULL },
+    { GFS_DISPLAY_PICTURE,     M_HandlePictureEvent, nullptr },
+    { GFS_ADD_ITEM,            M_HandleAddItemEvent, nullptr },
+    { GFS_ADD_SECRET_REWARD,   M_HandleAddItemEvent, nullptr },
 
     // Sentinel to mark the end of the table
-    { (GF_SEQUENCE_EVENT_TYPE)-1, NULL, NULL },
+    { (GF_SEQUENCE_EVENT_TYPE)-1, nullptr, nullptr },
     // clang-format on
 };
 
@@ -65,7 +65,7 @@ static M_SEQUENCE_EVENT_HANDLER *M_GetSequenceEventHandlers(void)
 static GF_COMMAND M_LoadCommand(
     JSON_OBJECT *const jcmd, const GF_COMMAND fallback)
 {
-    if (jcmd == NULL) {
+    if (jcmd == nullptr) {
         return fallback;
     }
 

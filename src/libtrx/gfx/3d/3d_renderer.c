@@ -6,8 +6,6 @@
 #include "log.h"
 #include "memory.h"
 
-#include <stddef.h>
-
 struct GFX_3D_RENDERER {
     const GFX_CONFIG *config;
 
@@ -84,9 +82,9 @@ static void M_Flush(GFX_3D_RENDERER *const renderer)
 static void M_SelectTextureImpl(
     GFX_3D_RENDERER *const renderer, const int texture_num)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
 
-    GFX_GL_TEXTURE *texture = NULL;
+    GFX_GL_TEXTURE *texture = nullptr;
     if (texture_num == GFX_ENV_MAP_TEXTURE) {
         texture = renderer->env_map_texture;
     } else if (texture_num != GFX_NO_TEXTURE) {
@@ -95,7 +93,7 @@ static void M_SelectTextureImpl(
         texture = renderer->textures[texture_num];
     }
 
-    if (texture == NULL) {
+    if (texture == nullptr) {
         glBindTexture(GL_TEXTURE_2D, 0);
         GFX_GL_CheckError();
         return;
@@ -106,7 +104,7 @@ static void M_SelectTextureImpl(
 
 static void M_RestoreTexture(GFX_3D_RENDERER *const renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_SelectTextureImpl(renderer, renderer->selected_texture_num);
 }
 
@@ -118,7 +116,7 @@ GFX_3D_RENDERER *GFX_3D_Renderer_Create(void)
 
     renderer->selected_texture_num = GFX_NO_TEXTURE;
     for (int i = 0; i < GFX_MAX_TEXTURES; i++) {
-        renderer->textures[i] = NULL;
+        renderer->textures[i] = nullptr;
     }
     renderer->alpha_point_discard = false;
     renderer->alpha_threshold = -1.0;
@@ -179,7 +177,7 @@ GFX_3D_RENDERER *GFX_3D_Renderer_Create(void)
 void GFX_3D_Renderer_Destroy(GFX_3D_RENDERER *const renderer)
 {
     LOG_INFO("");
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
 
     GFX_3D_VertexStream_Close(&renderer->vertex_stream);
     GFX_GL_Program_Close(&renderer->program);
@@ -189,7 +187,7 @@ void GFX_3D_Renderer_Destroy(GFX_3D_RENDERER *const renderer)
 
 void GFX_3D_Renderer_RenderBegin(GFX_3D_RENDERER *const renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
 
     renderer->vertex_stream.rendered_count = 0;
 
@@ -225,19 +223,19 @@ void GFX_3D_Renderer_RenderBegin(GFX_3D_RENDERER *const renderer)
 
 void GFX_3D_Renderer_Flush(GFX_3D_RENDERER *const renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
 }
 
 void GFX_3D_Renderer_RenderEnd(GFX_3D_RENDERER *const renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
 }
 
 void GFX_3D_Renderer_ClearDepth(GFX_3D_RENDERER *const renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     glClear(GL_DEPTH_BUFFER_BIT);
     GFX_GL_CheckError();
@@ -245,8 +243,8 @@ void GFX_3D_Renderer_ClearDepth(GFX_3D_RENDERER *const renderer)
 
 int GFX_3D_Renderer_RegisterEnvironmentMap(GFX_3D_RENDERER *const renderer)
 {
-    ASSERT(renderer != NULL);
-    ASSERT(renderer->env_map_texture == NULL);
+    ASSERT(renderer != nullptr);
+    ASSERT(renderer->env_map_texture == nullptr);
 
     GFX_GL_TEXTURE *const texture = GFX_GL_Texture_Create(GL_TEXTURE_2D);
     renderer->env_map_texture = texture;
@@ -258,10 +256,10 @@ int GFX_3D_Renderer_RegisterEnvironmentMap(GFX_3D_RENDERER *const renderer)
 bool GFX_3D_Renderer_UnregisterEnvironmentMap(
     GFX_3D_RENDERER *const renderer, const int texture_num)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
 
     GFX_GL_TEXTURE *const texture = renderer->env_map_texture;
-    if (texture == NULL) {
+    if (texture == nullptr) {
         LOG_ERROR("No environment map registered");
         return false;
     }
@@ -278,16 +276,16 @@ bool GFX_3D_Renderer_UnregisterEnvironmentMap(
     }
 
     GFX_GL_Texture_Free(texture);
-    renderer->env_map_texture = NULL;
+    renderer->env_map_texture = nullptr;
     return true;
 }
 
 void GFX_3D_Renderer_FillEnvironmentMap(GFX_3D_RENDERER *const renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
 
     GFX_GL_TEXTURE *const env_map = renderer->env_map_texture;
-    if (env_map != NULL) {
+    if (env_map != nullptr) {
         M_Flush(renderer);
         GFX_GL_Texture_LoadFromBackBuffer(env_map);
         M_RestoreTexture(renderer);
@@ -298,8 +296,8 @@ int GFX_3D_Renderer_RegisterTexturePage(
     GFX_3D_RENDERER *const renderer, const void *const data, const int width,
     const int height)
 {
-    ASSERT(renderer != NULL);
-    ASSERT(data != NULL);
+    ASSERT(renderer != nullptr);
+    ASSERT(data != nullptr);
     GFX_GL_TEXTURE *const texture = GFX_GL_Texture_Create(GL_TEXTURE_2D);
     GFX_GL_Texture_Load(texture, data, width, height, GL_RGBA, GL_RGBA);
 
@@ -320,7 +318,7 @@ int GFX_3D_Renderer_RegisterTexturePage(
 bool GFX_3D_Renderer_UnregisterTexturePage(
     GFX_3D_RENDERER *const renderer, const int texture_num)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     ASSERT(texture_num >= 0);
     ASSERT(texture_num < GFX_MAX_TEXTURES);
 
@@ -337,7 +335,7 @@ bool GFX_3D_Renderer_UnregisterTexturePage(
     }
 
     GFX_GL_Texture_Free(texture);
-    renderer->textures[texture_num] = NULL;
+    renderer->textures[texture_num] = nullptr;
     return true;
 }
 
@@ -345,8 +343,8 @@ void GFX_3D_Renderer_RenderPrimStrip(
     GFX_3D_RENDERER *const renderer, const GFX_3D_VERTEX *const vertices,
     const int count)
 {
-    ASSERT(renderer != NULL);
-    ASSERT(vertices != NULL);
+    ASSERT(renderer != nullptr);
+    ASSERT(vertices != nullptr);
     GFX_3D_VertexStream_PushPrimStrip(
         &renderer->vertex_stream, vertices, count);
 }
@@ -355,8 +353,8 @@ void GFX_3D_Renderer_RenderPrimFan(
     GFX_3D_RENDERER *const renderer, const GFX_3D_VERTEX *const vertices,
     const int count)
 {
-    ASSERT(renderer != NULL);
-    ASSERT(vertices != NULL);
+    ASSERT(renderer != nullptr);
+    ASSERT(vertices != nullptr);
     GFX_3D_VertexStream_PushPrimFan(&renderer->vertex_stream, vertices, count);
 }
 
@@ -364,15 +362,15 @@ void GFX_3D_Renderer_RenderPrimList(
     GFX_3D_RENDERER *const renderer, const GFX_3D_VERTEX *const vertices,
     const int count)
 {
-    ASSERT(renderer != NULL);
-    ASSERT(vertices != NULL);
+    ASSERT(renderer != nullptr);
+    ASSERT(vertices != nullptr);
     GFX_3D_VertexStream_PushPrimList(&renderer->vertex_stream, vertices, count);
 }
 
 void GFX_3D_Renderer_SelectTexture(
     GFX_3D_RENDERER *const renderer, int texture_num)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     renderer->selected_texture_num = texture_num;
     M_SelectTextureImpl(renderer, texture_num);
@@ -381,7 +379,7 @@ void GFX_3D_Renderer_SelectTexture(
 void GFX_3D_Renderer_SetPrimType(
     GFX_3D_RENDERER *const renderer, GFX_3D_PRIM_TYPE value)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     GFX_3D_VertexStream_SetPrimType(&renderer->vertex_stream, value);
 }
@@ -389,7 +387,7 @@ void GFX_3D_Renderer_SetPrimType(
 void GFX_3D_Renderer_SetTextureFilter(
     GFX_3D_RENDERER *const renderer, GFX_TEXTURE_FILTER filter)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     GFX_GL_Sampler_Parameteri(
         &renderer->sampler, GL_TEXTURE_MAG_FILTER,
@@ -406,7 +404,7 @@ void GFX_3D_Renderer_SetTextureFilter(
 void GFX_3D_Renderer_SetDepthWritesEnabled(
     GFX_3D_RENDERER *const renderer, const bool is_enabled)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     glDepthMask(is_enabled ? GL_TRUE : GL_FALSE);
     GFX_GL_CheckError();
@@ -415,7 +413,7 @@ void GFX_3D_Renderer_SetDepthWritesEnabled(
 void GFX_3D_Renderer_SetDepthTestEnabled(
     GFX_3D_RENDERER *const renderer, const bool is_enabled)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     if (is_enabled) {
         glEnable(GL_DEPTH_TEST);
@@ -428,7 +426,7 @@ void GFX_3D_Renderer_SetDepthTestEnabled(
 void GFX_3D_Renderer_SetDepthBufferEnabled(
     GFX_3D_RENDERER *const renderer, const bool is_enabled)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     glDepthFunc(is_enabled ? GL_LEQUAL : GL_ALWAYS);
     GFX_GL_CheckError();
@@ -437,7 +435,7 @@ void GFX_3D_Renderer_SetDepthBufferEnabled(
 void GFX_3D_Renderer_SetBlendingMode(
     GFX_3D_RENDERER *const renderer, const GFX_BLEND_MODE blend_mode)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     if (renderer->selected_blend_mode == blend_mode) {
         return;
     }
@@ -448,7 +446,7 @@ void GFX_3D_Renderer_SetBlendingMode(
 void GFX_3D_Renderer_SetAlphaPointDiscard(
     GFX_3D_RENDERER *const renderer, const bool is_enabled)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     if (renderer->alpha_point_discard == is_enabled) {
         return;
     }
@@ -459,7 +457,7 @@ void GFX_3D_Renderer_SetAlphaPointDiscard(
 void GFX_3D_Renderer_SetAlphaThreshold(
     GFX_3D_RENDERER *const renderer, const float value)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     if (renderer->alpha_threshold == value) {
         return;
     }
@@ -470,7 +468,7 @@ void GFX_3D_Renderer_SetAlphaThreshold(
 void GFX_3D_Renderer_SetBrightnessMultiplier(
     GFX_3D_RENDERER *const renderer, const float value)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     GFX_GL_Program_Bind(&renderer->program);
     GFX_GL_Program_Uniform1f(
@@ -480,7 +478,7 @@ void GFX_3D_Renderer_SetBrightnessMultiplier(
 void GFX_3D_Renderer_SetTexturingEnabled(
     GFX_3D_RENDERER *const renderer, const bool is_enabled)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
     M_Flush(renderer);
     GFX_GL_Program_Bind(&renderer->program);
     GFX_GL_Program_Uniform1i(

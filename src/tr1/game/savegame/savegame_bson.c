@@ -168,7 +168,7 @@ static JSON_VALUE *M_ParseFromBuffer(
     SAVEGAME_BSON_HEADER *header = (SAVEGAME_BSON_HEADER *)buffer;
     if (header->magic != SAVEGAME_BSON_MAGIC) {
         LOG_ERROR("Invalid savegame magic");
-        return NULL;
+        return nullptr;
     }
 
     if (version_out) {
@@ -185,7 +185,7 @@ static JSON_VALUE *M_ParseFromBuffer(
     if (error_code != Z_OK) {
         LOG_ERROR("Failed to decompress the data (error %d)", error_code);
         Memory_FreePointer(&uncompressed);
-        return NULL;
+        return nullptr;
     }
 
     JSON_VALUE *root = BSON_Parse(uncompressed, uncompressed_size);
@@ -207,7 +207,7 @@ static JSON_VALUE *M_ParseFromFile(MYFILE *fp, int32_t *version_out)
 
 static bool M_LoadResumeInfo(JSON_ARRAY *resume_arr, RESUME_INFO *resume_info)
 {
-    ASSERT(resume_info != NULL);
+    ASSERT(resume_info != nullptr);
     if (!resume_arr) {
         LOG_ERROR("Malformed save: invalid or missing resume array");
         return false;
@@ -278,8 +278,8 @@ static bool M_LoadDiscontinuedStartInfo(
 {
     // This function solely exists for backward compatibility with 2.6 and 2.7
     // saves.
-    ASSERT(game_info != NULL);
-    ASSERT(game_info->current != NULL);
+    ASSERT(game_info != nullptr);
+    ASSERT(game_info->current != nullptr);
     if (!start_arr) {
         LOG_ERROR(
             "Malformed save: invalid or missing discontinued start array");
@@ -330,8 +330,8 @@ static bool M_LoadDiscontinuedEndInfo(JSON_ARRAY *end_arr, GAME_INFO *game_info)
 {
     // This function solely exists for backward compatibility with 2.6 and 2.7
     // saves.
-    ASSERT(game_info != NULL);
-    ASSERT(game_info->current != NULL);
+    ASSERT(game_info != nullptr);
+    ASSERT(game_info->current != nullptr);
     if (!end_arr) {
         LOG_ERROR("Malformed save: invalid or missing resume info array");
         return false;
@@ -369,7 +369,7 @@ static bool M_LoadDiscontinuedEndInfo(JSON_ARRAY *end_arr, GAME_INFO *game_info)
 static bool M_LoadMisc(
     JSON_OBJECT *misc_obj, GAME_INFO *game_info, uint16_t header_version)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
     if (!misc_obj) {
         LOG_ERROR("Malformed save: invalid or missing misc info");
         return false;
@@ -565,7 +565,7 @@ static bool M_LoadItems(JSON_ARRAY *items_arr, uint16_t header_version)
                         item_obj, "creature_mood", creature->mood);
                 }
             } else if (obj->intelligent) {
-                item->data = NULL;
+                item->data = nullptr;
             }
 
             if (header_version >= VERSION_3
@@ -685,7 +685,7 @@ static bool M_LoadEffects(JSON_ARRAY *fx_arr)
 
 static bool M_LoadArm(JSON_OBJECT *arm_obj, LARA_ARM *arm)
 {
-    ASSERT(arm != NULL);
+    ASSERT(arm != nullptr);
     if (!arm_obj) {
         LOG_ERROR("Malformed save: invalid or missing arm info");
         return false;
@@ -702,7 +702,7 @@ static bool M_LoadArm(JSON_OBJECT *arm_obj, LARA_ARM *arm)
 
 static bool M_LoadAmmo(JSON_OBJECT *ammo_obj, AMMO_INFO *ammo)
 {
-    ASSERT(ammo != NULL);
+    ASSERT(ammo != nullptr);
     if (!ammo_obj) {
         LOG_ERROR("Malformed save: invalid or missing ammo info");
         return false;
@@ -716,7 +716,7 @@ static bool M_LoadAmmo(JSON_OBJECT *ammo_obj, AMMO_INFO *ammo)
 
 static bool M_LoadLOT(JSON_OBJECT *lot_obj, LOT_INFO *lot)
 {
-    ASSERT(lot != NULL);
+    ASSERT(lot != nullptr);
     if (!lot_obj) {
         LOG_ERROR("Malformed save: invalid or missing LOT info");
         return false;
@@ -742,7 +742,7 @@ static bool M_LoadLOT(JSON_OBJECT *lot_obj, LOT_INFO *lot)
 static bool M_LoadLara(
     JSON_OBJECT *lara_obj, LARA_INFO *lara, uint16_t header_version)
 {
-    ASSERT(lara != NULL);
+    ASSERT(lara != nullptr);
     if (!lara_obj) {
         LOG_ERROR("Malformed save: invalid or missing Lara info");
         return false;
@@ -776,7 +776,7 @@ static bool M_LoadLara(
     const int32_t hit_effect = JSON_ObjectGetInt(lara_obj, "hit_effect", 0);
     lara->hit_effect = hit_effect && g_Config.gameplay.enable_enhanced_saves
         ? Effect_Get(hit_effect)
-        : NULL;
+        : nullptr;
 
     lara->mesh_effects =
         JSON_ObjectGetInt(lara_obj, "mesh_effects", lara->mesh_effects);
@@ -797,12 +797,12 @@ static bool M_LoadLara(
         int32_t idx = Object_GetMeshOffset(lara->mesh_ptrs[i]);
         idx = JSON_ArrayGetInt(lara_meshes_arr, i, idx);
         OBJECT_MESH *const mesh = Object_FindMesh(idx);
-        if (mesh != NULL) {
+        if (mesh != nullptr) {
             lara->mesh_ptrs[i] = mesh;
         }
     }
 
-    lara->target = NULL;
+    lara->target = nullptr;
 
     lara->target_angles[0] =
         JSON_ObjectGetInt(lara_obj, "target_angle1", lara->target_angles[0]);
@@ -934,7 +934,7 @@ static bool M_LoadMusicTrackFlags(JSON_ARRAY *music_track_arr)
 static JSON_ARRAY *M_DumpResumeInfo(RESUME_INFO *resume_info)
 {
     JSON_ARRAY *resume_arr = JSON_ArrayNew();
-    ASSERT(resume_info != NULL);
+    ASSERT(resume_info != nullptr);
     for (int i = 0; i < GF_GetLevelTable(GFLT_MAIN)->count; i++) {
         RESUME_INFO *resume = &resume_info[i];
         JSON_OBJECT *resume_obj = JSON_ObjectNew();
@@ -980,7 +980,7 @@ static JSON_ARRAY *M_DumpResumeInfo(RESUME_INFO *resume_info)
 
 static JSON_OBJECT *M_DumpMisc(GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
     JSON_OBJECT *misc_obj = JSON_ObjectNew();
     JSON_ObjectAppendInt(misc_obj, "bonus_flag", game_info->bonus_flag);
     JSON_ObjectAppendBool(
@@ -1160,7 +1160,7 @@ static JSON_ARRAY *M_DumpEffects(void)
 
 static JSON_OBJECT *M_DumpArm(LARA_ARM *arm)
 {
-    ASSERT(arm != NULL);
+    ASSERT(arm != nullptr);
     JSON_OBJECT *arm_obj = JSON_ObjectNew();
     JSON_ObjectAppendInt(arm_obj, "frame_num", arm->frame_num);
     JSON_ObjectAppendInt(arm_obj, "lock", arm->lock);
@@ -1173,7 +1173,7 @@ static JSON_OBJECT *M_DumpArm(LARA_ARM *arm)
 
 static JSON_OBJECT *M_DumpAmmo(AMMO_INFO *ammo)
 {
-    ASSERT(ammo != NULL);
+    ASSERT(ammo != nullptr);
     JSON_OBJECT *ammo_obj = JSON_ObjectNew();
     JSON_ObjectAppendInt(ammo_obj, "ammo", ammo->ammo);
     JSON_ObjectAppendInt(ammo_obj, "hit", ammo->hit);
@@ -1183,7 +1183,7 @@ static JSON_OBJECT *M_DumpAmmo(AMMO_INFO *ammo)
 
 static JSON_OBJECT *M_DumpLOT(LOT_INFO *lot)
 {
-    ASSERT(lot != NULL);
+    ASSERT(lot != nullptr);
     JSON_OBJECT *lot_obj = JSON_ObjectNew();
     // JSON_ObjectAppendInt(lot_obj, "node", lot->node);
     JSON_ObjectAppendInt(lot_obj, "head", lot->head);
@@ -1204,7 +1204,7 @@ static JSON_OBJECT *M_DumpLOT(LOT_INFO *lot)
 
 static JSON_OBJECT *M_DumpLara(LARA_INFO *lara)
 {
-    ASSERT(lara != NULL);
+    ASSERT(lara != nullptr);
     JSON_OBJECT *lara_obj = JSON_ObjectNew();
     JSON_ObjectAppendInt(lara_obj, "item_number", lara->item_num);
     JSON_ObjectAppendInt(lara_obj, "gun_status", lara->gun_status);
@@ -1287,7 +1287,8 @@ static JSON_ARRAY *M_DumpMusicTrackFlags(void)
 
 char *Savegame_BSON_GetSaveFileName(int32_t slot)
 {
-    size_t out_size = snprintf(NULL, 0, g_GameFlow.savegame_fmt_bson, slot) + 1;
+    size_t out_size =
+        snprintf(nullptr, 0, g_GameFlow.savegame_fmt_bson, slot) + 1;
     char *out = Memory_Alloc(out_size);
     snprintf(out, out_size, g_GameFlow.savegame_fmt_bson, slot);
     return out;
@@ -1296,13 +1297,13 @@ char *Savegame_BSON_GetSaveFileName(int32_t slot)
 bool Savegame_BSON_FillInfo(MYFILE *fp, SAVEGAME_INFO *info)
 {
     bool ret = false;
-    JSON_VALUE *root = M_ParseFromFile(fp, NULL);
+    JSON_VALUE *root = M_ParseFromFile(fp, nullptr);
     JSON_OBJECT *root_obj = JSON_ValueAsObject(root);
     if (root_obj) {
         info->counter = JSON_ObjectGetInt(root_obj, "save_counter", -1);
         info->level_num = JSON_ObjectGetInt(root_obj, "level_num", -1);
         const char *level_title =
-            JSON_ObjectGetString(root_obj, "level_title", NULL);
+            JSON_ObjectGetString(root_obj, "level_title", nullptr);
         if (level_title) {
             info->level_title = Memory_DupStr(level_title);
         }
@@ -1322,7 +1323,7 @@ bool Savegame_BSON_FillInfo(MYFILE *fp, SAVEGAME_INFO *info)
 
 bool Savegame_BSON_LoadFromFile(MYFILE *fp, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
 
     bool ret = false;
 
@@ -1332,7 +1333,7 @@ bool Savegame_BSON_LoadFromFile(MYFILE *fp, GAME_INFO *game_info)
     File_ReadData(fp, &header, sizeof(SAVEGAME_BSON_HEADER));
     File_Seek(fp, 0, FILE_SEEK_SET);
 
-    JSON_VALUE *root = M_ParseFromFile(fp, NULL);
+    JSON_VALUE *root = M_ParseFromFile(fp, nullptr);
     JSON_OBJECT *root_obj = JSON_ValueAsObject(root);
     if (!root_obj) {
         LOG_ERROR("Malformed save: cannot parse BSON data");
@@ -1411,10 +1412,10 @@ cleanup:
 
 bool Savegame_BSON_LoadOnlyResumeInfo(MYFILE *fp, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
 
     bool ret = false;
-    JSON_VALUE *root = M_ParseFromFile(fp, NULL);
+    JSON_VALUE *root = M_ParseFromFile(fp, nullptr);
     JSON_OBJECT *root_obj = JSON_ValueAsObject(root);
     if (!root_obj) {
         LOG_ERROR("Malformed save: cannot parse BSON data");
@@ -1447,7 +1448,7 @@ cleanup:
 
 void Savegame_BSON_SaveToFile(MYFILE *fp, GAME_INFO *game_info)
 {
-    ASSERT(game_info != NULL);
+    ASSERT(game_info != nullptr);
 
     const GF_LEVEL *const current_level = Game_GetCurrentLevel();
     JSON_OBJECT *root_obj = JSON_ObjectNew();

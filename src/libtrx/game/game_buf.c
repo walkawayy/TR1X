@@ -8,8 +8,8 @@
 static size_t m_Cap = 0;
 static size_t m_MemUsed = 0;
 static size_t m_MemFree = 0;
-static char *m_MemBase = NULL;
-static char *m_MemPtr = NULL;
+static char *m_MemBase = nullptr;
+static char *m_MemPtr = nullptr;
 
 void GameBuf_Init(const size_t cap)
 {

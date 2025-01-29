@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-static UI_WIDGET *m_Dialog = NULL;
+static UI_WIDGET *m_Dialog = nullptr;
 static int16_t m_CompassNeedle = 0;
 static int16_t m_CompassSpeed = 0;
 
@@ -31,9 +31,9 @@ static void M_Init(void)
 
 static void M_Shutdown(void)
 {
-    if (m_Dialog != NULL) {
+    if (m_Dialog != nullptr) {
         m_Dialog->free(m_Dialog);
-        m_Dialog = NULL;
+        m_Dialog = nullptr;
     }
 }
 
@@ -43,11 +43,11 @@ void Option_Compass_Control(INVENTORY_ITEM *const inv_item)
         char buf[100];
         char time_buf[100];
 
-        if (m_Dialog == NULL) {
+        if (m_Dialog == nullptr) {
             M_Init();
         }
 
-        if (m_Dialog != NULL) {
+        if (m_Dialog != nullptr) {
             m_Dialog->control(m_Dialog);
         }
     }
@@ -61,7 +61,7 @@ void Option_Compass_Control(INVENTORY_ITEM *const inv_item)
 
 void Option_Compass_Draw(void)
 {
-    if (m_Dialog != NULL) {
+    if (m_Dialog != nullptr) {
         m_Dialog->draw(m_Dialog);
     }
 }
@@ -73,7 +73,7 @@ void Option_Compass_Shutdown(void)
 
 void Option_Compass_UpdateNeedle(const INVENTORY_ITEM *const inv_item)
 {
-    if (g_LaraItem == NULL) {
+    if (g_LaraItem == nullptr) {
         return;
     }
     int16_t delta = -inv_item->y_rot - g_LaraItem->rot.y - m_CompassNeedle;

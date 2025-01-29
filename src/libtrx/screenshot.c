@@ -57,13 +57,13 @@ static char *M_CleanScreenshotTitle(const char *const source)
 static char *M_GetScreenshotTitle(void)
 {
     const GF_LEVEL *const level = GF_GetCurrentLevel();
-    if (level == NULL) {
+    if (level == nullptr) {
         return Memory_DupStr("Intro");
     }
 
-    if (level->title != NULL && strlen(level->title) > 0) {
+    if (level->title != nullptr && strlen(level->title) > 0) {
         char *clean_level_title = M_CleanScreenshotTitle(level->title);
-        if (clean_level_title != NULL && strlen(clean_level_title) > 0) {
+        if (clean_level_title != nullptr && strlen(clean_level_title) > 0) {
             return clean_level_title;
         }
         Memory_FreePointer(clean_level_title);
@@ -71,7 +71,7 @@ static char *M_GetScreenshotTitle(void)
 
     // If title totally invalid, name it based on level number
     const char *const fmt = "Level_%d";
-    const size_t result_size = snprintf(NULL, 0, fmt, level->num) + 1;
+    const size_t result_size = snprintf(nullptr, 0, fmt, level->num) + 1;
     char *result = Memory_Alloc(result_size);
     snprintf(result, result_size, fmt, level->num);
     return result;
@@ -88,7 +88,7 @@ static char *M_GetScreenshotBaseName(void)
     // Full screenshot name
     const char *const fmt = "%s_%s";
     const size_t out_size =
-        snprintf(NULL, 0, fmt, date_time, screenshot_title) + 1;
+        snprintf(nullptr, 0, fmt, date_time, screenshot_title) + 1;
     char *out = Memory_Alloc(out_size);
     snprintf(out, out_size, "%s_%s", date_time, screenshot_title);
     return out;

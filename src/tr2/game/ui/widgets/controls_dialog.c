@@ -66,12 +66,12 @@ static void M_Control(UI_CONTROLS_DIALOG *const self)
             UI_Window_SetTitle(self->window, GS(CONTROL_CUSTOMIZE));
             UI_Window_SetRootWidget(self->window, self->backend_selector);
         } else {
-            UI_Window_SetTitle(self->window, NULL);
+            UI_Window_SetTitle(self->window, nullptr);
             UI_Window_SetRootWidget(self->window, self->layout_editor);
         }
         M_DoLayout(self);
 
-        if (self->window->control != NULL) {
+        if (self->window->control != nullptr) {
             self->window->control(self->window);
         }
     }
@@ -79,7 +79,7 @@ static void M_Control(UI_CONTROLS_DIALOG *const self)
 
 static void M_Draw(UI_CONTROLS_DIALOG *const self)
 {
-    if (self->window->draw != NULL) {
+    if (self->window->draw != nullptr) {
         self->window->draw(self->window);
     }
 }
@@ -114,8 +114,8 @@ UI_WIDGET *UI_ControlsDialog_Create(UI_CONTROLS_CONTROLLER *const controller)
 
     UI_Window_SetTitle(self->window, GS(CONTROL_CUSTOMIZE));
 
-    self->listener =
-        UI_Events_Subscribe("canvas_resize", NULL, M_HandleCanvasResize, self);
+    self->listener = UI_Events_Subscribe(
+        "canvas_resize", nullptr, M_HandleCanvasResize, self);
 
     M_DoLayout(self);
     return (UI_WIDGET *)self;

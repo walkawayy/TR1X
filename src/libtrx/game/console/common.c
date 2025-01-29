@@ -24,9 +24,9 @@ void Console_Init(void)
 
 void Console_Shutdown(void)
 {
-    if (m_Console != NULL) {
+    if (m_Console != nullptr) {
         m_Console->free(m_Console);
-        m_Console = NULL;
+        m_Console = nullptr;
     }
 
     Console_History_Shutdown();
@@ -71,12 +71,12 @@ int32_t Console_GetMaxLogCount(void)
 
 void Console_Log(const char *fmt, ...)
 {
-    ASSERT(fmt != NULL);
+    ASSERT(fmt != nullptr);
 
     va_list va;
 
     va_start(va, fmt);
-    const size_t text_length = vsnprintf(NULL, 0, fmt, va);
+    const size_t text_length = vsnprintf(nullptr, 0, fmt, va);
     char *text = Memory_Alloc(text_length + 1);
     va_end(va);
 
@@ -93,9 +93,9 @@ COMMAND_RESULT Console_Eval(const char *const cmdline)
 {
     LOG_INFO("executing command: %s", cmdline);
 
-    const CONSOLE_COMMAND *matching_cmd = NULL;
+    const CONSOLE_COMMAND *matching_cmd = nullptr;
     CONSOLE_COMMAND **cmd = Console_GetCommands();
-    while (*cmd != NULL) {
+    while (*cmd != nullptr) {
         char regex[strlen((*cmd)->prefix) + 13];
         sprintf(regex, "^(%s)(\\s+.*)?$", (*cmd)->prefix);
         if (String_Match(cmdline, regex)) {
@@ -105,7 +105,7 @@ COMMAND_RESULT Console_Eval(const char *const cmdline)
         *cmd++;
     }
 
-    if (matching_cmd == NULL) {
+    if (matching_cmd == nullptr) {
         Console_Log(GS(OSD_UNKNOWN_COMMAND), cmdline);
         return CR_BAD_INVOCATION;
     }
@@ -113,7 +113,7 @@ COMMAND_RESULT Console_Eval(const char *const cmdline)
     char *prefix = Memory_DupStr(cmdline);
     char *args = "";
     char *space = strchr(prefix, ' ');
-    if (space != NULL) {
+    if (space != nullptr) {
         *space = '\0';
         args = space + 1;
     }
@@ -123,7 +123,7 @@ COMMAND_RESULT Console_Eval(const char *const cmdline)
         .prefix = prefix,
         .args = args,
     };
-    ASSERT(matching_cmd->proc != NULL);
+    ASSERT(matching_cmd->proc != nullptr);
     const COMMAND_RESULT result = matching_cmd->proc(&ctx);
     Memory_FreePointer(&prefix);
 
@@ -147,7 +147,7 @@ COMMAND_RESULT Console_Eval(const char *const cmdline)
 
 void Console_Draw(void)
 {
-    if (m_Console == NULL) {
+    if (m_Console == nullptr) {
         return;
     }
 

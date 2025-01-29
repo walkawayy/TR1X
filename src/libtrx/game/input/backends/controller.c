@@ -124,8 +124,8 @@ static BUILTIN_CONTROLLER_LAYOUT m_BuiltinLayout[] = {
 
 static CONTROLLER_MAP m_Layout[INPUT_LAYOUT_NUMBER_OF][INPUT_ROLE_NUMBER_OF];
 
-static SDL_GameController *m_Controller = NULL;
-static const char *m_ControllerName = NULL;
+static SDL_GameController *m_Controller = nullptr;
+static const char *m_ControllerName = nullptr;
 static SDL_GameControllerType m_ControllerType = SDL_CONTROLLER_TYPE_UNKNOWN;
 
 static bool m_Conflicts[INPUT_LAYOUT_NUMBER_OF][INPUT_ROLE_NUMBER_OF] = {};
@@ -257,7 +257,7 @@ static const char *M_GetButtonName(const SDL_GameControllerButton button)
 
 static bool M_JoyBtn(const SDL_GameControllerButton button)
 {
-    if (m_Controller == NULL) {
+    if (m_Controller == nullptr) {
         return false;
     }
     return SDL_GameControllerGetButton(m_Controller, button);
@@ -265,7 +265,7 @@ static bool M_JoyBtn(const SDL_GameControllerButton button)
 
 static int16_t M_JoyAxis(const SDL_GameControllerAxis axis)
 {
-    if (m_Controller == NULL) {
+    if (m_Controller == nullptr) {
         return false;
     }
     const Sint16 value = SDL_GameControllerGetAxis(m_Controller, axis);
@@ -366,7 +366,7 @@ static void M_CheckConflicts(const INPUT_LAYOUT layout)
 
 static SDL_GameController *M_FindController(void)
 {
-    if (m_Controller != NULL) {
+    if (m_Controller != nullptr) {
         return m_Controller;
     }
 
@@ -381,14 +381,14 @@ static SDL_GameController *M_FindController(void)
             is_game_controller);
         if (is_game_controller) {
             SDL_GameController *const result = SDL_GameControllerOpen(i);
-            if (result == NULL) {
+            if (result == nullptr) {
                 LOG_ERROR("Could not open controller: %s", SDL_GetError());
             }
             return result;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static void M_Init(void)
@@ -421,15 +421,15 @@ static void M_Init(void)
 
 static void M_Shutdown(void)
 {
-    if (m_Controller != NULL) {
+    if (m_Controller != nullptr) {
         SDL_GameControllerClose(m_Controller);
-        m_Controller = NULL;
+        m_Controller = nullptr;
     }
 }
 
 static bool M_CustomUpdate(INPUT_STATE *const result, const INPUT_LAYOUT layout)
 {
-    if (m_Controller == NULL) {
+    if (m_Controller == nullptr) {
         return false;
     }
     result->menu_back |= M_JoyBtn(SDL_CONTROLLER_BUTTON_Y);

@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "vector.h"
 
-static int16_t *m_AnimCommands = NULL;
+static int16_t *m_AnimCommands = nullptr;
 
 static void M_ReadVertex(XYZ_16 *vertex, VFILE *file);
 static void M_ReadFace4(FACE4 *face, VFILE *file);
@@ -253,7 +253,7 @@ void Level_ReadAnims(
     for (int32_t i = 0; i < num_anims; i++) {
         ANIM *const anim = Anim_GetAnim(base_idx + i);
         anim->frame_ofs = VFile_ReadU32(file);
-        anim->frame_ptr = NULL; // filled later by the animation frame loader
+        anim->frame_ptr = nullptr; // filled later by the animation frame loader
         anim->interpolation = VFile_ReadU8(file);
         anim->frame_size = VFile_ReadU8(file);
         anim->current_anim_state = VFile_ReadS16(file);
@@ -350,7 +350,7 @@ void Level_ReadObjects(const int32_t num_objects, VFILE *const file)
         object->mesh_idx = VFile_ReadS16(file);
         object->bone_idx = VFile_ReadS32(file) / ANIM_BONE_SIZE;
         object->frame_ofs = VFile_ReadU32(file);
-        object->frame_base = NULL;
+        object->frame_base = nullptr;
         object->anim_idx = VFile_ReadS16(file);
         object->loaded = true;
     }
@@ -441,8 +441,9 @@ void Level_ReadAnimatedTextureRanges(
 {
     for (int32_t i = 0; i < num_ranges; i++) {
         ANIMATED_TEXTURE_RANGE *const range = Output_GetAnimatedTextureRange(i);
-        range->next_range =
-            i == num_ranges - 1 ? NULL : Output_GetAnimatedTextureRange(i + 1);
+        range->next_range = i == num_ranges - 1
+            ? nullptr
+            : Output_GetAnimatedTextureRange(i + 1);
 
         // Level data is tied to the original logic in Output_AnimateTextures
         // and hence stores one less than the actual count here.

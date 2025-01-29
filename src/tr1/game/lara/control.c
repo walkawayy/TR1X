@@ -20,7 +20,6 @@
 #include <libtrx/config.h>
 #include <libtrx/game/math.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 static int32_t m_OpenDoorsCheatCooldown = 0;

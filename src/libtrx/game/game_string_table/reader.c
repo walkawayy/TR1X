@@ -17,7 +17,7 @@ static void M_LoadTableFromJSON(
 {
     // Load objects
     JSON_OBJECT *const jobjs = JSON_ObjectGetObject(root_obj, "objects");
-    if (jobjs != NULL) {
+    if (jobjs != nullptr) {
         const size_t object_count = jobjs->length;
         out_table->objects =
             Memory_Alloc(sizeof(GS_OBJECT_ENTRY) * (object_count + 1));
@@ -44,14 +44,14 @@ static void M_LoadTableFromJSON(
                 object_entry->name = Memory_DupStr(name);
                 object_entry->description = description != JSON_INVALID_STRING
                     ? Memory_DupStr(description)
-                    : NULL;
+                    : nullptr;
             }
         }
     }
 
     // Load game_strings
     JSON_OBJECT *const jgs_obj = JSON_ObjectGetObject(root_obj, "game_strings");
-    if (jgs_obj != NULL) {
+    if (jgs_obj != nullptr) {
         const size_t gs_count = jgs_obj->length;
         out_table->game_strings =
             Memory_Alloc(sizeof(GS_GAME_STRING_ENTRY) * (gs_count + 1));
@@ -91,7 +91,7 @@ static void M_LoadLevelsFromJSON(
     }
 
     JSON_ARRAY *const jlvl_arr = JSON_ObjectGetArray(obj, key);
-    if (jlvl_arr == NULL) {
+    if (jlvl_arr == nullptr) {
         Shell_ExitSystemFmt("'%s' must be a list", key);
         return;
     }
@@ -111,7 +111,7 @@ static void M_LoadLevelsFromJSON(
         GS_LEVEL *const level = &gs_level_table->entries[i];
 
         JSON_OBJECT *const jlvl_obj = JSON_ValueAsObject(jlvl_elem->value);
-        if (jlvl_obj == NULL) {
+        if (jlvl_obj == nullptr) {
             Shell_ExitSystem("'levels' elements must be dictionaries");
             return;
         }
@@ -132,18 +132,18 @@ void GameStringTable_LoadFromFile(const char *const path)
 {
     GameStringTable_Shutdown();
 
-    JSON_VALUE *root = NULL;
+    JSON_VALUE *root = nullptr;
 
-    char *script_data = NULL;
-    if (!File_Load(path, &script_data, NULL)) {
+    char *script_data = nullptr;
+    if (!File_Load(path, &script_data, nullptr)) {
         Shell_ExitSystemFmt("failed to open strings file (path: %d)", path);
     }
 
     JSON_PARSE_RESULT parse_result;
     root = JSON_ParseEx(
-        script_data, strlen(script_data), JSON_PARSE_FLAGS_ALLOW_JSON5, NULL,
-        NULL, &parse_result);
-    if (root == NULL) {
+        script_data, strlen(script_data), JSON_PARSE_FLAGS_ALLOW_JSON5, nullptr,
+        nullptr, &parse_result);
+    if (root == nullptr) {
         Shell_ExitSystemFmt(
             "Failed to parse script file: %s in line %d, char %d",
             JSON_GetErrorDescription(parse_result.error),
@@ -157,9 +157,9 @@ void GameStringTable_LoadFromFile(const char *const path)
     M_LoadLevelsFromJSON(root_obj, gs_file, "demos", GFLT_DEMOS);
     M_LoadLevelsFromJSON(root_obj, gs_file, "cutscenes", GFLT_CUTSCENES);
 
-    if (root != NULL) {
+    if (root != nullptr) {
         JSON_ValueFree(root);
-        root = NULL;
+        root = nullptr;
     }
     Memory_FreePointer(&script_data);
 }

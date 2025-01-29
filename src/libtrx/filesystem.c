@@ -22,7 +22,7 @@ struct MYFILE {
     const char *path;
 };
 
-const char *m_GameDir = NULL;
+const char *m_GameDir = nullptr;
 
 static void M_PathAppendSeparator(char *path);
 static void M_PathAppendPart(char *path, const char *part);
@@ -44,7 +44,7 @@ static void M_PathAppendPart(char *path, const char *part)
 
 static char *M_CasePath(char const *path)
 {
-    ASSERT(path != NULL);
+    ASSERT(path != nullptr);
 
     char *path_copy = Memory_DupStr(path);
     if (M_ExistsRaw(path)) {
@@ -76,7 +76,7 @@ static char *M_CasePath(char const *path)
         if (!path_dir) {
             Memory_FreePointer(&path_copy);
             Memory_FreePointer(&current_path);
-            return NULL;
+            return nullptr;
         }
 
         struct dirent *cur_file = readdir(path_dir);
@@ -137,11 +137,11 @@ bool File_IsRelative(const char *path)
 
 const char *File_GetGameDirectory(void)
 {
-    if (m_GameDir == NULL) {
+    if (m_GameDir == nullptr) {
         m_GameDir = SDL_GetBasePath();
         if (!m_GameDir) {
             LOG_ERROR("Can't get module handle");
-            return NULL;
+            return nullptr;
         }
     }
     return m_GameDir;
@@ -152,7 +152,7 @@ bool File_DirExists(const char *path)
     char *full_path = File_GetFullPath(path);
     DIR *dir = opendir(path);
     Memory_FreePointer(&full_path);
-    if (dir != NULL) {
+    if (dir != nullptr) {
         closedir(dir);
         return true;
     }
@@ -169,7 +169,7 @@ bool File_Exists(const char *path)
 
 char *File_GetFullPath(const char *path)
 {
-    char *full_path = NULL;
+    char *full_path = nullptr;
     if (File_IsRelative(path)) {
         const char *game_dir = File_GetGameDirectory();
         if (game_dir) {
@@ -195,7 +195,7 @@ char *File_GetParentDirectory(const char *path)
     char *full_path = File_GetFullPath(path);
     char *const last_delim =
         MAX(strrchr(full_path, '/'), strrchr(full_path, '\\'));
-    if (last_delim != NULL) {
+    if (last_delim != nullptr) {
         *last_delim = '\0';
     }
     return full_path;
@@ -238,7 +238,7 @@ MYFILE *File_Open(const char *path, FILE_OPEN_MODE mode)
         file->fp = fopen(full_path, "r+b");
         break;
     default:
-        file->fp = NULL;
+        file->fp = nullptr;
         break;
     }
     Memory_FreePointer(&full_path);
@@ -393,12 +393,12 @@ void File_Close(MYFILE *file)
 
 bool File_Load(const char *path, char **output_data, size_t *output_size)
 {
-    ASSERT(output_data != NULL);
+    ASSERT(output_data != nullptr);
 
     MYFILE *fp = File_Open(path, FILE_OPEN_READ);
     if (!fp) {
         LOG_ERROR("Can't open file %s", path);
-        *output_data = NULL;
+        *output_data = nullptr;
         return false;
     }
 
@@ -406,7 +406,7 @@ bool File_Load(const char *path, char **output_data, size_t *output_size)
     char *data = Memory_Alloc(data_size + 1);
     File_ReadData(fp, data, data_size);
     if (File_Pos(fp) != data_size) {
-        *output_data = NULL;
+        *output_data = nullptr;
         LOG_ERROR("Can't read file %s", path);
         Memory_FreePointer(&data);
         File_Close(fp);
@@ -416,7 +416,7 @@ bool File_Load(const char *path, char **output_data, size_t *output_size)
     data[data_size] = '\0';
 
     *output_data = data;
-    if (output_size != NULL) {
+    if (output_size != nullptr) {
         *output_size = data_size;
     }
     return true;
@@ -425,7 +425,7 @@ bool File_Load(const char *path, char **output_data, size_t *output_size)
 void File_CreateDirectory(const char *path)
 {
     char *full_path = File_GetFullPath(path);
-    ASSERT(full_path != NULL);
+    ASSERT(full_path != nullptr);
 #if defined(_WIN32)
     _mkdir(full_path);
 #else

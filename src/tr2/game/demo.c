@@ -141,7 +141,7 @@ bool Demo_Start(const int32_t level_num)
 {
     M_PRIV *const p = &m_Priv;
     p->level = GF_GetLevel(GFLT_DEMOS, level_num);
-    ASSERT(p->level != NULL);
+    ASSERT(p->level != nullptr);
 
     M_PrepareConfig(p);
     M_PrepareStartInfo(p);
@@ -152,7 +152,7 @@ bool Demo_Start(const int32_t level_num)
     if (!Level_Initialise(p->level, GFSC_NORMAL)) {
         return false;
     }
-    if (g_DemoData == NULL) {
+    if (g_DemoData == nullptr) {
         LOG_ERROR("Level '%s' has no demo data", p->level->path);
         return false;
     }
@@ -203,7 +203,7 @@ void Demo_End(void)
     Sound_StopAll();
     Music_Stop();
     Music_SetVolume(g_Config.audio.music_volume);
-    p->text = NULL;
+    p->text = nullptr;
 }
 
 void Demo_Pause(void)

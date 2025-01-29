@@ -41,7 +41,7 @@ static M_FUNC m_Actions[] = {
 
 void ItemAction_Run(int16_t action_id, ITEM *item)
 {
-    if (m_Actions[action_id] != NULL) {
+    if (m_Actions[action_id] != nullptr) {
         m_Actions[action_id](item);
     }
 }
@@ -49,6 +49,6 @@ void ItemAction_Run(int16_t action_id, ITEM *item)
 void ItemAction_RunActive(void)
 {
     if (g_FlipEffect != -1) {
-        ItemAction_Run(g_FlipEffect, NULL);
+        ItemAction_Run(g_FlipEffect, nullptr);
     }
 }

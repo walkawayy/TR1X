@@ -12,7 +12,7 @@
 SDL_AudioDeviceID g_AudioDeviceID = 0;
 static int32_t m_RefCount = 0;
 static size_t m_MixBufferCapacity = 0;
-static float *m_MixBuffer = NULL;
+static float *m_MixBuffer = nullptr;
 static Uint8 m_Silence = 0;
 
 static void M_MixerCallback(void *userdata, Uint8 *stream_data, int32_t len);
@@ -46,10 +46,10 @@ bool Audio_Init(void)
     desired.channels = AUDIO_WORKING_CHANNELS;
     desired.samples = AUDIO_SAMPLES;
     desired.callback = M_MixerCallback;
-    desired.userdata = NULL;
+    desired.userdata = nullptr;
 
     SDL_AudioSpec delivered;
-    g_AudioDeviceID = SDL_OpenAudioDevice(NULL, 0, &desired, &delivered, 0);
+    g_AudioDeviceID = SDL_OpenAudioDevice(nullptr, 0, &desired, &delivered, 0);
 
     if (!g_AudioDeviceID) {
         LOG_ERROR("Failed to open audio device: %s", SDL_GetError());

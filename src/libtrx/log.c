@@ -3,11 +3,11 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-FILE *m_LogHandle = NULL;
+FILE *m_LogHandle = nullptr;
 
 void Log_Init(const char *path)
 {
-    if (path != NULL) {
+    if (path != nullptr) {
         m_LogHandle = fopen(path, "w");
     }
     Log_Init_Extra(path);
@@ -20,7 +20,7 @@ void Log_Message(
     va_start(va, fmt);
 
     // print to log file
-    if (m_LogHandle != NULL) {
+    if (m_LogHandle != nullptr) {
         va_list vb;
 
         va_copy(vb, va);
@@ -44,7 +44,7 @@ void Log_Message(
 void Log_Shutdown(void)
 {
     Log_Shutdown_Extra();
-    if (m_LogHandle != NULL) {
+    if (m_LogHandle != nullptr) {
         fclose(m_LogHandle);
     }
 }

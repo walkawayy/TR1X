@@ -59,7 +59,7 @@ static void M_MoveHistoryUp(UI_CONSOLE *const self)
     self->history_idx--;
     CLAMP(self->history_idx, 0, Console_History_GetLength());
     const char *const new_prompt = Console_History_Get(self->history_idx);
-    if (new_prompt == NULL) {
+    if (new_prompt == nullptr) {
         UI_Prompt_ChangeText(self->prompt, "");
     } else {
         UI_Prompt_ChangeText(self->prompt, new_prompt);
@@ -71,7 +71,7 @@ static void M_MoveHistoryDown(UI_CONSOLE *const self)
     self->history_idx++;
     CLAMP(self->history_idx, 0, Console_History_GetLength());
     const char *const new_prompt = Console_History_Get(self->history_idx);
-    if (new_prompt == NULL) {
+    if (new_prompt == nullptr) {
         UI_Prompt_ChangeText(self->prompt, "");
     } else {
         UI_Prompt_ChangeText(self->prompt, new_prompt);
@@ -158,7 +158,7 @@ static void M_SetPosition(UI_CONSOLE *const self, int32_t x, int32_t y)
 
 static void M_Control(UI_CONSOLE *const self)
 {
-    if (self->container->control != NULL) {
+    if (self->container->control != nullptr) {
         self->container->control(self->container);
     }
 }
@@ -169,7 +169,7 @@ static void M_Draw(UI_CONSOLE *const self)
         return;
     }
 
-    if (self->container->draw != NULL) {
+    if (self->container->draw != nullptr) {
         self->container->draw(self->container);
     }
 }
@@ -220,12 +220,12 @@ UI_WIDGET *UI_Console_Create(void)
     int32_t i = 0;
     self->listeners[i++] = UI_Events_Subscribe(
         "confirm", self->prompt, M_HandlePromptConfirm, self);
+    self->listeners[i++] = UI_Events_Subscribe(
+        "cancel", self->prompt, M_HandlePromptCancel, nullptr);
+    self->listeners[i++] = UI_Events_Subscribe(
+        "canvas_resize", nullptr, M_HandleCanvasResize, self);
     self->listeners[i++] =
-        UI_Events_Subscribe("cancel", self->prompt, M_HandlePromptCancel, NULL);
-    self->listeners[i++] =
-        UI_Events_Subscribe("canvas_resize", NULL, M_HandleCanvasResize, self);
-    self->listeners[i++] =
-        UI_Events_Subscribe("key_down", NULL, M_HandleKeyDown, self);
+        UI_Events_Subscribe("key_down", nullptr, M_HandleKeyDown, self);
 
     M_DoLayout(self);
     return (UI_WIDGET *)self;
@@ -251,7 +251,7 @@ void UI_Console_HandleLog(UI_WIDGET *const widget, const char *const text)
 
     int32_t dst_idx = -1;
     for (int32_t i = MAX_LOG_LINES - 1; i > 0; i--) {
-        if (self->logs[i].label == NULL) {
+        if (self->logs[i].label == nullptr) {
             continue;
         }
         UI_Label_ChangeText(
@@ -259,7 +259,7 @@ void UI_Console_HandleLog(UI_WIDGET *const widget, const char *const text)
         self->logs[i].expire_at = self->logs[i - 1].expire_at;
     }
 
-    if (self->logs[0].label == NULL) {
+    if (self->logs[0].label == nullptr) {
         return;
     }
 

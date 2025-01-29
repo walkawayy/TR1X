@@ -2,7 +2,6 @@
 
 #include <SDL2/SDL_audio.h>
 #include <libavutil/samplefmt.h>
-#include <stddef.h>
 #include <stdint.h>
 
 #define AUDIO_MAX_SAMPLES 1000

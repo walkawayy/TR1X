@@ -73,7 +73,7 @@ static void M_ControlDead(ITEM *const driver_item, ITEM *const skidoo_item)
         driver_item->current_anim_state = SKIDOO_DRIVER_STATE_DEATH;
 
         if (g_Lara.target == skidoo_item) {
-            g_Lara.target = NULL;
+            g_Lara.target = nullptr;
         }
     }
 
@@ -211,7 +211,7 @@ void SkidooDriver_Control(const int16_t driver_item_num)
     const int16_t skidoo_item_num = (int16_t)(intptr_t)driver_item->data;
     ITEM *const skidoo_item = Item_Get(skidoo_item_num);
 
-    if (skidoo_item->data == NULL) {
+    if (skidoo_item->data == nullptr) {
         LOT_EnableBaddieAI(skidoo_item_num, true);
         skidoo_item->status = IS_ACTIVE;
     }

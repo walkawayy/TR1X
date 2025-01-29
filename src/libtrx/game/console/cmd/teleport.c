@@ -209,13 +209,13 @@ static COMMAND_RESULT M_TeleportToObject(const char *const user_input)
     }
 
     const ITEM *const best_item = M_GetItemToTeleporTo(user_input);
-    if (best_item == NULL) {
+    if (best_item == nullptr) {
         Console_Log(GS(OSD_POS_SET_ITEM_FAIL), user_input);
         return CR_FAILURE;
     }
 
     const char *obj_name = Object_GetName(best_item->object_id);
-    if (obj_name == NULL) {
+    if (obj_name == nullptr) {
         obj_name = user_input;
     }
 

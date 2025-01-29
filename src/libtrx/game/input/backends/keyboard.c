@@ -11,7 +11,7 @@ typedef struct {
     SDL_Scancode scancode;
 } BUILTIN_KEYBOARD_LAYOUT;
 
-const Uint8 *m_KeyboardState = NULL;
+const Uint8 *m_KeyboardState = nullptr;
 static bool m_Conflicts[INPUT_LAYOUT_NUMBER_OF][INPUT_ROLE_NUMBER_OF] = {};
 
 static BUILTIN_KEYBOARD_LAYOUT m_BuiltinLayout[] = {
@@ -356,7 +356,7 @@ static void M_CheckConflicts(const INPUT_LAYOUT layout)
 
 static void M_Init(void)
 {
-    m_KeyboardState = SDL_GetKeyboardState(NULL);
+    m_KeyboardState = SDL_GetKeyboardState(nullptr);
 
     // first, reset the roles to null
     for (INPUT_ROLE role = 0; role < INPUT_ROLE_NUMBER_OF; role++) {
@@ -454,7 +454,7 @@ static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)
 
 INPUT_BACKEND_IMPL g_Input_Keyboard = {
     .init = M_Init,
-    .shutdown = NULL,
+    .shutdown = nullptr,
     .custom_update = M_CustomUpdate,
     .is_pressed = M_IsPressed,
     .is_role_conflicted = M_IsRoleConflicted,

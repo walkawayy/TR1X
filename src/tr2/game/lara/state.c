@@ -792,7 +792,7 @@ void Lara_State_Extra_PullDagger(ITEM *item, COLL_INFO *coll)
         item->rot.y += DEG_90;
 
         const ITEM *const dragon_bones = Item_Find(O_DRAGON_BONES_2);
-        if (dragon_bones != NULL) {
+        if (dragon_bones != nullptr) {
             Room_TestTriggers(dragon_bones);
         }
     }

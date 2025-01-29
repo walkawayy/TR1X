@@ -49,7 +49,7 @@ static void M_ShutdownText(void)
 {
     for (int32_t i = 0; i < 4; i++) {
         Text_Remove(m_SoundText[i]);
-        m_SoundText[i] = NULL;
+        m_SoundText[i] = nullptr;
     }
 }
 
@@ -62,7 +62,7 @@ void Option_Sound_Control(INVENTORY_ITEM *const item)
 {
     char text[32];
 
-    if (m_SoundText[0] == NULL) {
+    if (m_SoundText[0] == nullptr) {
         M_InitText();
     }
 
@@ -98,7 +98,7 @@ void Option_Sound_Control(INVENTORY_ITEM *const item)
             sprintf(text, "\\{icon sound} %2d", g_Config.audio.sound_volume);
             Text_ChangeText(m_SoundText[1], text);
             Sound_SetMasterVolume(g_Config.audio.sound_volume);
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
         }
     } else {
         bool changed = false;
@@ -114,7 +114,7 @@ void Option_Sound_Control(INVENTORY_ITEM *const item)
             sprintf(text, "\\{icon music} %2d", g_Config.audio.music_volume);
             Text_ChangeText(m_SoundText[0], text);
             Music_SetVolume(g_Config.audio.music_volume);
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
         }
     }
 

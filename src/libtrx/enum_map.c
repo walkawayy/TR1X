@@ -17,8 +17,8 @@ typedef struct {
     UT_hash_handle hh;
 } M_INVERSE_ENTRY;
 
-static M_ENTRY *m_Map = NULL;
-static M_INVERSE_ENTRY *m_InverseMap = NULL;
+static M_ENTRY *m_Map = nullptr;
+static M_INVERSE_ENTRY *m_InverseMap = nullptr;
 
 static void M_Define(
     const char *enum_name, int32_t enum_value, const char *str_value);
@@ -44,13 +44,13 @@ static void M_DefineInverse(
     const char *const str_value)
 {
     const size_t key_len =
-        snprintf(NULL, 0, "%s|%d", enum_name, enum_value) + 1;
+        snprintf(nullptr, 0, "%s|%d", enum_name, enum_value) + 1;
     char *const key = Memory_Alloc(key_len);
     snprintf(key, key_len, "%s|%d", enum_name, enum_value);
 
     M_INVERSE_ENTRY *entry;
     HASH_FIND_STR(m_InverseMap, key, entry);
-    if (entry != NULL) {
+    if (entry != nullptr) {
         // The inverse lookup is already defined - do not override it.
         // (This means that the first call to ENUM_MAP_DEFINE for a given enum
         // value also determines what serializing it back to string will pick
@@ -83,19 +83,19 @@ int32_t EnumMap_Get(
 
     M_ENTRY *entry;
     HASH_FIND_STR(m_Map, key, entry);
-    return entry != NULL ? entry->value : default_value;
+    return entry != nullptr ? entry->value : default_value;
 }
 
 const char *EnumMap_ToString(
     const char *const enum_name, const int32_t enum_value)
 {
-    size_t key_len = snprintf(NULL, 0, "%s|%d", enum_name, enum_value) + 1;
+    size_t key_len = snprintf(nullptr, 0, "%s|%d", enum_name, enum_value) + 1;
     char key[key_len];
     snprintf(key, key_len, "%s|%d", enum_name, enum_value);
 
     M_INVERSE_ENTRY *entry;
     HASH_FIND_STR(m_InverseMap, key, entry);
-    return entry != NULL ? entry->str_value : NULL;
+    return entry != nullptr ? entry->str_value : nullptr;
 }
 
 void EnumMap_Shutdown(void)

@@ -2,7 +2,6 @@
 
 #include "../vector.h"
 
-#include <stddef.h>
 #include <stdint.h>
 
 bool String_EndsWith(const char *str, const char *suffix);

@@ -16,8 +16,6 @@
 #include <libtrx/game/matrix.h>
 #include <libtrx/utils.h>
 
-#include <stddef.h>
-
 #define ITEM_ADJUST_ROT(source, target, rot)                                   \
     do {                                                                       \
         if ((int16_t)(target - source) > rot) {                                \
@@ -29,7 +27,7 @@
         }                                                                      \
     } while (0)
 
-ITEM *g_Items = NULL;
+ITEM *g_Items = nullptr;
 int16_t g_NextItemActive = NO_ITEM;
 static int16_t m_NextItemFree = NO_ITEM;
 static BOUNDS_16 m_InterpolatedBounds = {};
@@ -74,7 +72,7 @@ void Item_Kill(int16_t item_num)
     Item_RemoveDrawn(item_num);
 
     if (item == g_Lara.target) {
-        g_Lara.target = NULL;
+        g_Lara.target = nullptr;
     }
 
     item->hit_points = -1;
@@ -124,9 +122,9 @@ void Item_Initialise(int16_t item_num)
     item->timer = 0;
     item->mesh_bits = -1;
     item->touch_bits = 0;
-    item->data = NULL;
-    item->priv = NULL;
-    item->carried_item = NULL;
+    item->data = nullptr;
+    item->priv = nullptr;
+    item->carried_item = nullptr;
     item->enable_shadow = true;
 
     if (item->flags & IF_INVISIBLE) {
@@ -654,7 +652,7 @@ int32_t Item_GetFrames(const ITEM *item, ANIM_FRAME *frmptr[], int32_t *rate)
 ITEM *Item_Get(const int16_t item_num)
 {
     if (item_num == NO_ITEM) {
-        return NULL;
+        return nullptr;
     }
     return &g_Items[item_num];
 }

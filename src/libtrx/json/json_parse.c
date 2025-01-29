@@ -1196,7 +1196,7 @@ static void M_HandleObject(
     const char *const src = state->src;
     size_t elements = 0;
     int allow_comma = 0;
-    JSON_OBJECT_ELEMENT *previous = NULL;
+    JSON_OBJECT_ELEMENT *previous = nullptr;
 
     if (is_global_object) {
         /* if we skipped some whitespace, and then found an opening '{' of an.
@@ -1221,9 +1221,9 @@ static void M_HandleObject(
     elements = 0;
 
     while (state->offset < size) {
-        JSON_OBJECT_ELEMENT *element = NULL;
-        JSON_STRING *string = NULL;
-        JSON_VALUE *value = NULL;
+        JSON_OBJECT_ELEMENT *element = nullptr;
+        JSON_STRING *string = nullptr;
+        JSON_VALUE *value = nullptr;
 
         if (!is_global_object) {
             M_SkipAllSkippables(state);
@@ -1257,7 +1257,7 @@ static void M_HandleObject(
 
         state->dom += sizeof(JSON_OBJECT_ELEMENT);
 
-        if (NULL == previous) {
+        if (nullptr == previous) {
             /* this is our first element, so record it in our object. */
             object->start = element;
         } else {
@@ -1316,11 +1316,11 @@ static void M_HandleObject(
 
     /* if we had at least one element, end the linked list. */
     if (previous) {
-        previous->next = NULL;
+        previous->next = nullptr;
     }
 
     if (elements == 0) {
-        object->start = NULL;
+        object->start = nullptr;
     }
 
     object->ref_count = 1;
@@ -1333,7 +1333,7 @@ static void M_HandleArray(M_STATE *state, JSON_ARRAY *array)
     const size_t size = state->size;
     size_t elements = 0;
     int allow_comma = 0;
-    JSON_ARRAY_ELEMENT *previous = NULL;
+    JSON_ARRAY_ELEMENT *previous = nullptr;
 
     /* skip leading '['. */
     state->offset++;
@@ -1344,8 +1344,8 @@ static void M_HandleArray(M_STATE *state, JSON_ARRAY *array)
     elements = 0;
 
     do {
-        JSON_ARRAY_ELEMENT *element = NULL;
-        JSON_VALUE *value = NULL;
+        JSON_ARRAY_ELEMENT *element = nullptr;
+        JSON_VALUE *value = nullptr;
 
         M_SkipAllSkippables(state);
 
@@ -1372,7 +1372,7 @@ static void M_HandleArray(M_STATE *state, JSON_ARRAY *array)
 
         state->dom += sizeof(JSON_ARRAY_ELEMENT);
 
-        if (NULL == previous) {
+        if (nullptr == previous) {
             /* this is our first element, so record it in our array. */
             array->start = element;
         } else {
@@ -1406,11 +1406,11 @@ static void M_HandleArray(M_STATE *state, JSON_ARRAY *array)
 
     /* end the linked list. */
     if (previous) {
-        previous->next = NULL;
+        previous->next = nullptr;
     }
 
     if (elements == 0) {
-        array->start = NULL;
+        array->start = nullptr;
     }
 
     array->ref_count = 1;
@@ -1575,21 +1575,21 @@ static void M_HandleValue(
                 && 'r' == src[offset + 1] && 'u' == src[offset + 2]
                 && 'e' == src[offset + 3]) {
                 value->type = JSON_TYPE_TRUE;
-                value->payload = NULL;
+                value->payload = nullptr;
                 state->offset += 4;
             } else if (
                 (offset + 5) <= size && 'f' == src[offset + 0]
                 && 'a' == src[offset + 1] && 'l' == src[offset + 2]
                 && 's' == src[offset + 3] && 'e' == src[offset + 4]) {
                 value->type = JSON_TYPE_FALSE;
-                value->payload = NULL;
+                value->payload = nullptr;
                 state->offset += 5;
             } else if (
                 (offset + 4) <= size && 'n' == src[offset + 0]
                 && 'u' == src[offset + 1] && 'l' == src[offset + 2]
                 && 'l' == src[offset + 3]) {
                 value->type = JSON_TYPE_NULL;
-                value->payload = NULL;
+                value->payload = nullptr;
                 state->offset += 4;
             } else if (
                 (JSON_PARSE_FLAGS_ALLOW_INF_AND_NAN & flags_bitset)
@@ -1619,7 +1619,7 @@ static void M_HandleValue(
 JSON_VALUE *JSON_Parse(const void *src, size_t src_size)
 {
     return JSON_ParseEx(
-        src, src_size, JSON_PARSE_FLAGS_DEFAULT, NULL, NULL, NULL);
+        src, src_size, JSON_PARSE_FLAGS_DEFAULT, nullptr, nullptr, nullptr);
 }
 
 JSON_VALUE *JSON_ParseEx(
@@ -1640,9 +1640,9 @@ JSON_VALUE *JSON_ParseEx(
         result->error_row_no = 0;
     }
 
-    if (NULL == src) {
+    if (nullptr == src) {
         /* invalid src pointer was null! */
-        return NULL;
+        return nullptr;
     }
 
     state.src = (const char *)src;
@@ -1679,7 +1679,7 @@ JSON_VALUE *JSON_ParseEx(
             result->error_line_no = state.line_no;
             result->error_row_no = state.offset - state.line_offset;
         }
-        return NULL;
+        return nullptr;
     }
 
     /* our total allocation is the combination of the dom and data sizes (we. */
@@ -1688,13 +1688,13 @@ JSON_VALUE *JSON_ParseEx(
     /* the JSON values). */
     total_size = state.dom_size + state.data_size;
 
-    if (NULL == alloc_func_ptr) {
+    if (nullptr == alloc_func_ptr) {
         allocation = Memory_Alloc(total_size);
     } else {
         allocation = alloc_func_ptr(user_data, total_size);
     }
 
-    if (NULL == allocation) {
+    if (nullptr == allocation) {
         /* malloc failed! */
         if (result) {
             result->error = JSON_PARSE_ERROR_ALLOCATOR_FAILED;
@@ -1703,7 +1703,7 @@ JSON_VALUE *JSON_ParseEx(
             result->error_row_no = 0;
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /* reset offset so we can reuse it. */

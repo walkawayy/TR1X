@@ -50,7 +50,7 @@ static void M_ShutdownText(void)
 {
     for (int i = 0; i < TEXT_NUMBER_OF; i++) {
         Text_Remove(m_Text[i]);
-        m_Text[i] = NULL;
+        m_Text[i] = nullptr;
     }
 }
 

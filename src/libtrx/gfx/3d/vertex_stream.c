@@ -45,7 +45,7 @@ void GFX_3D_VertexStream_Init(GFX_3D_VERTEX_STREAM *const vertex_stream)
     GFX_GL_Buffer_Init(&vertex_stream->buffer, GL_ARRAY_BUFFER);
     GFX_GL_Buffer_Bind(&vertex_stream->buffer);
     GFX_GL_Buffer_Data(
-        &vertex_stream->buffer, vertex_stream->buffer_size, NULL,
+        &vertex_stream->buffer, vertex_stream->buffer_size, nullptr,
         GL_STREAM_DRAW);
 
     GFX_GL_VertexArray_Init(&vertex_stream->vtc_format);
@@ -156,7 +156,7 @@ void GFX_3D_VertexStream_RenderPending(
             "Vertex buffer resize: %d -> %d", vertex_stream->buffer_size,
             buffer_size);
         GFX_GL_Buffer_Data(
-            &vertex_stream->buffer, buffer_size, NULL, GL_STREAM_DRAW);
+            &vertex_stream->buffer, buffer_size, nullptr, GL_STREAM_DRAW);
         vertex_stream->buffer_size = buffer_size;
     }
 

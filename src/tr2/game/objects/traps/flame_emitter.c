@@ -10,12 +10,12 @@ void FlameEmitter_Control(const int16_t item_num)
     ITEM *const item = Item_Get(item_num);
 
     if (!Item_IsTriggerActive(item)) {
-        if (item->data != NULL) {
+        if (item->data != nullptr) {
             const int32_t flame_num = ((int32_t)(intptr_t)item->data) - 1;
             Effect_Kill(flame_num);
-            item->data = NULL;
+            item->data = nullptr;
         }
-    } else if (item->data == NULL) {
+    } else if (item->data == nullptr) {
         const int16_t effect_num = Effect_Create(item->room_num);
         if (effect_num != NO_EFFECT) {
             EFFECT *const effect = Effect_Get(effect_num);

@@ -18,12 +18,10 @@
 #include <libtrx/log.h>
 #include <libtrx/memory.h>
 
-#include <stddef.h>
-
 static bool m_Muted = false;
 static bool m_IsPlaying = false;
 static const char *m_Extensions[] = {
-    ".mp4", ".mkv", ".mpeg", ".avi", ".webm", ".rpl", NULL,
+    ".mp4", ".mkv", ".mpeg", ".avi", ".webm", ".rpl", nullptr,
 };
 
 static void *M_AllocateSurface(int32_t width, int32_t height, void *user_data);
@@ -53,7 +51,7 @@ static void M_DeallocateSurface(void *const surface, void *const user_data)
 
 static void M_ClearSurface(void *const surface, void *const user_data)
 {
-    ASSERT(surface != NULL);
+    ASSERT(surface != nullptr);
     GFX_2D_SURFACE *const surface_ = surface;
     memset(surface_->buffer, 0, surface_->desc.pitch * surface_->desc.height);
 }
@@ -71,7 +69,7 @@ static void M_RenderEnd(void *surface, void *const user_data)
 
 static void *M_LockSurface(void *const surface, void *const user_data)
 {
-    ASSERT(surface != NULL);
+    ASSERT(surface != nullptr);
     GFX_2D_SURFACE *const surface_ = surface;
     return surface_->buffer;
 }
@@ -91,20 +89,20 @@ static void M_UploadSurface(void *const surface, void *const user_data)
 static bool M_Play(const char *const file_path)
 {
     VIDEO *video = Video_Open(file_path);
-    if (video == NULL) {
+    if (video == nullptr) {
         return false;
     }
 
     GFX_2D_RENDERER *renderer_2d = GFX_2D_Renderer_Create();
     Audio_Shutdown();
 
-    Video_SetSurfaceAllocatorFunc(video, M_AllocateSurface, NULL);
-    Video_SetSurfaceDeallocatorFunc(video, M_DeallocateSurface, NULL);
-    Video_SetSurfaceClearFunc(video, M_ClearSurface, NULL);
-    Video_SetRenderBeginFunc(video, M_RenderBegin, NULL);
-    Video_SetRenderEndFunc(video, M_RenderEnd, NULL);
-    Video_SetSurfaceLockFunc(video, M_LockSurface, NULL);
-    Video_SetSurfaceUnlockFunc(video, M_UnlockSurface, NULL);
+    Video_SetSurfaceAllocatorFunc(video, M_AllocateSurface, nullptr);
+    Video_SetSurfaceDeallocatorFunc(video, M_DeallocateSurface, nullptr);
+    Video_SetSurfaceClearFunc(video, M_ClearSurface, nullptr);
+    Video_SetRenderBeginFunc(video, M_RenderBegin, nullptr);
+    Video_SetRenderEndFunc(video, M_RenderEnd, nullptr);
+    Video_SetSurfaceLockFunc(video, M_LockSurface, nullptr);
+    Video_SetSurfaceUnlockFunc(video, M_UnlockSurface, nullptr);
     Video_SetSurfaceUploadFunc(video, M_UploadSurface, renderer_2d);
 
     Video_Start(video);

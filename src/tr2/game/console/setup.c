@@ -20,8 +20,6 @@
 #include <libtrx/game/console/cmd/speed.h>
 #include <libtrx/game/console/cmd/teleport.h>
 
-#include <stddef.h>
-
 CONSOLE_COMMAND *g_ConsoleCommands[] = {
     // clang-format off
     &g_Console_Cmd_Teleport,
@@ -44,5 +42,5 @@ CONSOLE_COMMAND *g_ConsoleCommands[] = {
     &g_Console_Cmd_GiveItem,
     &g_Console_Cmd_SFX,
     // clang-format on
-    NULL,
+    nullptr,
 };

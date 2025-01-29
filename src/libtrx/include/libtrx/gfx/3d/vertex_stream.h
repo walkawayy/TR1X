@@ -3,8 +3,6 @@
 #include "../gl/buffer.h"
 #include "../gl/vertex_array.h"
 
-#include <stddef.h>
-
 typedef enum {
     GFX_3D_PRIM_LINE = 0,
     GFX_3D_PRIM_TRI = 1,

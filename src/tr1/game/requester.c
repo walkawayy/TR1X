@@ -29,7 +29,7 @@ static void M_SetItem(
 
     va_list va_dup;
     va_copy(va_dup, va);
-    const size_t out_size = vsnprintf(NULL, 0, fmt, va) + 1;
+    const size_t out_size = vsnprintf(nullptr, 0, fmt, va) + 1;
     req->items[idx].content_text = Memory_Alloc(sizeof(char) * out_size);
     vsnprintf(req->items[idx].content_text, out_size, fmt, va_dup);
     req->items[idx].is_blocked = is_blocked;
@@ -48,7 +48,7 @@ void Requester_Shutdown(REQUEST_INFO *req)
     Requester_ClearTextstrings(req);
 
     Memory_FreePointer(&req->heading_text);
-    if (req->items != NULL) {
+    if (req->items != nullptr) {
         for (int i = 0; i < req->max_items; i++) {
             Memory_FreePointer(&req->items[i].content_text);
         }
@@ -59,18 +59,18 @@ void Requester_Shutdown(REQUEST_INFO *req)
 void Requester_ClearTextstrings(REQUEST_INFO *req)
 {
     Text_Remove(req->heading);
-    req->heading = NULL;
+    req->heading = nullptr;
     Text_Remove(req->background);
-    req->background = NULL;
+    req->background = nullptr;
     Text_Remove(req->moreup);
-    req->moreup = NULL;
+    req->moreup = nullptr;
     Text_Remove(req->moredown);
-    req->moredown = NULL;
+    req->moredown = nullptr;
 
-    if (req->items != NULL) {
+    if (req->items != nullptr) {
         for (int i = 0; i < req->max_items; i++) {
             Text_Remove(req->items[i].content);
-            req->items[i].content = NULL;
+            req->items[i].content = nullptr;
         }
     }
 
@@ -143,7 +143,7 @@ int32_t Requester_Display(REQUEST_INFO *req)
         }
     } else {
         Text_Remove(req->moreup);
-        req->moreup = NULL;
+        req->moreup = nullptr;
     }
 
     if (req->items_used > req->vis_lines + req->line_offset) {
@@ -157,7 +157,7 @@ int32_t Requester_Display(REQUEST_INFO *req)
         }
     } else {
         Text_Remove(req->moredown);
-        req->moredown = NULL;
+        req->moredown = nullptr;
     }
 
     for (int32_t i = 0; i < line_qty; i++) {
@@ -171,7 +171,7 @@ int32_t Requester_Display(REQUEST_INFO *req)
         }
         REQUESTER_ITEM *const row_item = &req->items[j];
 
-        if (item->content == NULL && row_item->content_text != NULL) {
+        if (item->content == nullptr && row_item->content_text != nullptr) {
             item->content = Text_Create(
                 0, line_one_off + req->line_height * i, row_item->content_text);
             Text_CentreH(item->content, 1);
@@ -191,7 +191,7 @@ int32_t Requester_Display(REQUEST_INFO *req)
     if (req->line_offset != req->line_old_offset) {
         for (int i = 0; i < line_qty; i++) {
             REQUESTER_ITEM *const item = &req->items[i];
-            if (item->content != NULL) {
+            if (item->content != nullptr) {
                 Text_ChangeText(
                     item->content,
                     req->items[req->line_offset + i].content_text);
@@ -218,12 +218,12 @@ int32_t Requester_Display(REQUEST_INFO *req)
 void Requester_SetHeading(REQUEST_INFO *req, const char *string)
 {
     Text_Remove(req->heading);
-    req->heading = NULL;
+    req->heading = nullptr;
     if (req->heading_text) {
         Memory_FreePointer(&req->heading_text);
     }
 
-    const size_t out_size = snprintf(NULL, 0, "%s", string) + 1;
+    const size_t out_size = snprintf(nullptr, 0, "%s", string) + 1;
     req->heading_text = Memory_Alloc(sizeof(char) * out_size);
     snprintf(req->heading_text, out_size, "%s", string);
 }

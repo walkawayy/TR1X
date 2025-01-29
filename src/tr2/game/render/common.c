@@ -20,9 +20,9 @@
 
 static RENDERER m_Renderer_SW = {};
 static RENDERER m_Renderer_HW = {};
-static RENDERER *m_PreviousRenderer = NULL;
-static GFX_FADE_RENDERER *m_FadeRenderer = NULL;
-static GFX_2D_RENDERER *m_BackgroundRenderer = NULL;
+static RENDERER *m_PreviousRenderer = nullptr;
+static GFX_FADE_RENDERER *m_FadeRenderer = nullptr;
+static GFX_2D_RENDERER *m_BackgroundRenderer = nullptr;
 
 static struct {
     bool ready;
@@ -39,13 +39,13 @@ static void M_SetGLBackend(GFX_GL_BACKEND backend);
 
 static RENDERER *M_GetRenderer(void)
 {
-    RENDERER *r = NULL;
+    RENDERER *r = nullptr;
     if (g_Config.rendering.render_mode == RM_SOFTWARE) {
         r = &m_Renderer_SW;
     } else if (g_Config.rendering.render_mode == RM_HARDWARE) {
         r = &m_Renderer_HW;
     }
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
     return r;
 }
 
@@ -55,7 +55,7 @@ static void M_ReuploadBackground(void)
     // depending on the player's settings. Because the texture UVs are cached
     // on the GPU by Render_LoadBackgroundFromTexture, they need to be updated
     // whenever the UVs readjust.
-    if (m_Background.texture != NULL) {
+    if (m_Background.texture != nullptr) {
         Render_LoadBackgroundFromTexture(
             m_Background.texture, m_Background.repeat_x, m_Background.repeat_y);
     }
@@ -68,7 +68,7 @@ static void M_ResetPolyList(void)
     g_Info3DPtr = g_Info3DBuffer;
 
     RENDERER *const r = M_GetRenderer();
-    if (r->ResetPolyList != NULL) {
+    if (r->ResetPolyList != nullptr) {
         r->ResetPolyList(r);
     }
 }
@@ -133,24 +133,24 @@ void Render_Shutdown(void)
 {
     LOG_DEBUG("");
     RENDERER *const r = M_GetRenderer();
-    if (r != NULL) {
+    if (r != nullptr) {
         r->Close(r);
         r->Shutdown(r);
     }
 
-    if (m_Background.surface != NULL) {
+    if (m_Background.surface != nullptr) {
         GFX_2D_Surface_Free(m_Background.surface);
-        m_Background.surface = NULL;
+        m_Background.surface = nullptr;
     }
 
-    if (m_FadeRenderer != NULL) {
+    if (m_FadeRenderer != nullptr) {
         GFX_FadeRenderer_Destroy(m_FadeRenderer);
-        m_FadeRenderer = NULL;
+        m_FadeRenderer = nullptr;
     }
 
-    if (m_BackgroundRenderer != NULL) {
+    if (m_BackgroundRenderer != nullptr) {
         GFX_2D_Renderer_Destroy(m_BackgroundRenderer);
-        m_BackgroundRenderer = NULL;
+        m_BackgroundRenderer = nullptr;
     }
 
     GFX_Context_Detach();
@@ -160,7 +160,7 @@ void Render_Reset(const RENDER_RESET_FLAGS reset_flags)
 {
     LOG_DEBUG("reset_flags=%x", reset_flags);
 
-    if (m_PreviousRenderer != NULL) {
+    if (m_PreviousRenderer != nullptr) {
         m_PreviousRenderer->Close(m_PreviousRenderer);
     }
 
@@ -219,13 +219,13 @@ void Render_LoadBackgroundFromTexture(
     const OBJECT_TEXTURE *const texture, const int32_t repeat_x,
     const int32_t repeat_y)
 {
-    if (g_TexturePageBuffer16[texture->tex_page] == NULL) {
+    if (g_TexturePageBuffer16[texture->tex_page] == nullptr) {
         return;
     }
 
-    if (m_Background.surface != NULL) {
+    if (m_Background.surface != nullptr) {
         GFX_2D_Surface_Free(m_Background.surface);
-        m_Background.surface = NULL;
+        m_Background.surface = nullptr;
     }
 
     m_Background.ready = true;
@@ -264,14 +264,14 @@ void Render_LoadBackgroundFromTexture(
 
 void Render_LoadBackgroundFromImage(const IMAGE *const image)
 {
-    if (m_Background.surface != NULL) {
+    if (m_Background.surface != nullptr) {
         GFX_2D_Surface_Free(m_Background.surface);
-        m_Background.surface = NULL;
+        m_Background.surface = nullptr;
     }
-    ASSERT(image != NULL);
+    ASSERT(image != nullptr);
     m_Background.ready = true;
     m_Background.surface = GFX_2D_Surface_CreateFromImage(image);
-    m_Background.texture = NULL;
+    m_Background.texture = nullptr;
     m_Background.repeat_x = 1;
     m_Background.repeat_y = 1;
     GFX_2D_Renderer_UploadSurface(m_BackgroundRenderer, m_Background.surface);
@@ -281,11 +281,11 @@ void Render_LoadBackgroundFromImage(const IMAGE *const image)
 
 void Render_UnloadBackground(void)
 {
-    if (m_Background.surface != NULL) {
+    if (m_Background.surface != nullptr) {
         GFX_2D_Surface_Free(m_Background.surface);
-        m_Background.surface = NULL;
+        m_Background.surface = nullptr;
     }
-    m_Background.texture = NULL;
+    m_Background.texture = nullptr;
     m_Background.ready = false;
     GFX_2D_Renderer_SetRepeat(m_BackgroundRenderer, 1, 1);
     GFX_2D_Renderer_SetEffect(m_BackgroundRenderer, GFX_2D_EFFECT_NONE);
@@ -303,7 +303,7 @@ void Render_DrawBackground(void)
 void Render_ClearZBuffer(void)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->ClearZBuffer != NULL) {
+    if (r->ClearZBuffer != nullptr) {
         r->ClearZBuffer(r);
     }
 }
@@ -311,7 +311,7 @@ void Render_ClearZBuffer(void)
 void Render_EnableZBuffer(const bool z_write_enable, const bool z_test_enable)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->EnableZBuffer != NULL) {
+    if (r->EnableZBuffer != nullptr) {
         r->EnableZBuffer(r, z_write_enable, z_test_enable);
     }
 }
@@ -333,7 +333,7 @@ void Render_InsertFlatFace3s(
     const FACE3 *const faces, const int32_t num, const SORT_TYPE sort_type)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertFlatFace3s != NULL) {
+    if (r->InsertFlatFace3s != nullptr) {
         r->InsertFlatFace3s(r, faces, num, sort_type);
     }
 }
@@ -342,7 +342,7 @@ void Render_InsertFlatFace4s(
     const FACE4 *const faces, const int32_t num, const SORT_TYPE sort_type)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertFlatFace4s != NULL) {
+    if (r->InsertFlatFace4s != nullptr) {
         r->InsertFlatFace4s(r, faces, num, sort_type);
     }
 }
@@ -351,7 +351,7 @@ void Render_InsertTexturedFace3s(
     const FACE3 *const faces, const int32_t num, const SORT_TYPE sort_type)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertTexturedFace3s != NULL) {
+    if (r->InsertTexturedFace3s != nullptr) {
         r->InsertTexturedFace3s(r, faces, num, sort_type);
     }
 }
@@ -360,7 +360,7 @@ void Render_InsertTexturedFace4s(
     const FACE4 *const faces, const int32_t num, const SORT_TYPE sort_type)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertTexturedFace4s != NULL) {
+    if (r->InsertTexturedFace4s != nullptr) {
         r->InsertTexturedFace4s(r, faces, num, sort_type);
     }
 }
@@ -370,7 +370,7 @@ void Render_InsertLine(
     const int32_t z, const uint8_t color_idx)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertLine != NULL) {
+    if (r->InsertLine != nullptr) {
         r->InsertLine(r, x0, y0, x1, y1, z, color_idx);
     }
 }
@@ -380,7 +380,7 @@ void Render_InsertFlatRect(
     const int32_t z, const uint8_t color_idx)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertFlatRect != NULL) {
+    if (r->InsertFlatRect != nullptr) {
         r->InsertFlatRect(r, x0, y0, x1, y1, z, color_idx);
     }
 }
@@ -390,7 +390,7 @@ void Render_InsertTransQuad(
     const int32_t z)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertTransQuad != NULL) {
+    if (r->InsertTransQuad != nullptr) {
         r->InsertTransQuad(r, x, y, width, height, z);
     }
 }
@@ -398,7 +398,7 @@ void Render_InsertTransQuad(
 void Render_InsertTransOctagon(const PHD_VBUF *const vbuf, const int16_t shade)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertTransOctagon != NULL) {
+    if (r->InsertTransOctagon != nullptr) {
         r->InsertTransOctagon(r, vbuf, shade);
     }
 }
@@ -408,7 +408,7 @@ void Render_InsertSprite(
     const int32_t y1, const int32_t sprite_idx, const int16_t shade)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->InsertSprite != NULL) {
+    if (r->InsertSprite != nullptr) {
         r->InsertSprite(r, z, x0, y0, x1, y1, sprite_idx, shade);
     }
 }
@@ -416,7 +416,7 @@ void Render_InsertSprite(
 void Render_SetWet(const bool is_wet)
 {
     RENDERER *const r = M_GetRenderer();
-    if (r->SetWet != NULL) {
+    if (r->SetWet != nullptr) {
         r->SetWet(r, is_wet);
     }
 }

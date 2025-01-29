@@ -61,7 +61,7 @@ void XianWarrior_Draw(const ITEM *item)
                 Matrix_Rot16_ID(
                     frames[0]->mesh_rots[mesh_idx],
                     frames[1]->mesh_rots[mesh_idx]);
-                if (extra_rotation != NULL) {
+                if (extra_rotation != nullptr) {
                     if (bone->rot_y) {
                         Matrix_RotY_I(*extra_rotation++);
                     }
@@ -96,7 +96,7 @@ void XianWarrior_Draw(const ITEM *item)
 
                 Matrix_TranslateRel32(bone->pos);
                 Matrix_Rot16(frames[0]->mesh_rots[mesh_idx]);
-                if (extra_rotation != NULL) {
+                if (extra_rotation != nullptr) {
                     if (bone->rot_y) {
                         Matrix_RotY(*extra_rotation++);
                     }

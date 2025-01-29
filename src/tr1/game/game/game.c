@@ -86,7 +86,7 @@ GF_COMMAND Game_Stop_Legacy(void)
 
     // play specific level
     if (g_LevelComplete && g_GameInfo.select_level_num != -1) {
-        if (current_level != NULL) {
+        if (current_level != nullptr) {
             Savegame_CarryCurrentInfoToNextLevel(
                 current_level,
                 GF_GetLevel(GFLT_MAIN, g_GameInfo.select_level_num));
@@ -98,7 +98,7 @@ GF_COMMAND Game_Stop_Legacy(void)
     }
 
     // carry info to the next level
-    if (next_level != NULL) {
+    if (next_level != nullptr) {
         // TODO: this should be moved to GFS_LEVEL_COMPLETE handler, probably
         Savegame_CarryCurrentInfoToNextLevel(current_level, next_level);
         Savegame_ApplyLogicToCurrentInfo(next_level);

@@ -4,10 +4,8 @@
 #include "game/lara/common.h"
 #include "game/random.h"
 
-#include <stddef.h>
-
 static bool m_IsPlaying = false;
-static const GF_LEVEL *m_CurrentLevel = NULL;
+static const GF_LEVEL *m_CurrentLevel = nullptr;
 
 void Game_SetIsPlaying(const bool is_playing)
 {
@@ -33,19 +31,19 @@ void Game_SetCurrentLevel(const GF_LEVEL *const level)
 bool Game_IsInGym(void)
 {
     const GF_LEVEL *const current_level = GF_GetCurrentLevel();
-    return current_level != NULL && current_level->type == GFL_GYM;
+    return current_level != nullptr && current_level->type == GFL_GYM;
 }
 
 bool Game_IsPlayable(void)
 {
     const GF_LEVEL *const current_level = GF_GetCurrentLevel();
-    if (current_level == NULL || current_level->type == GFL_TITLE
+    if (current_level == nullptr || current_level->type == GFL_TITLE
         || current_level->type == GFL_DEMO
         || current_level->type == GFL_CUTSCENE) {
         return false;
     }
 
-    if (!Object_GetObject(O_LARA)->loaded || Lara_GetItem() == NULL) {
+    if (!Object_GetObject(O_LARA)->loaded || Lara_GetItem() == nullptr) {
         return false;
     }
 

@@ -98,7 +98,7 @@ static void M_Control(UI_STACK *const self)
 {
     for (int32_t i = 0; i < self->children->count; i++) {
         UI_WIDGET *const child = *(UI_WIDGET **)Vector_Get(self->children, i);
-        if (child->control != NULL) {
+        if (child->control != nullptr) {
             child->control(child);
         }
     }
@@ -111,7 +111,7 @@ static void M_Draw(UI_STACK *const self)
     }
     for (int32_t i = 0; i < self->children->count; i++) {
         UI_WIDGET *const child = *(UI_WIDGET **)Vector_Get(self->children, i);
-        if (child->draw != NULL) {
+        if (child->draw != nullptr) {
             child->draw(child);
         }
     }

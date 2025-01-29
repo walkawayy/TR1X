@@ -16,7 +16,6 @@
 #include <libtrx/config.h>
 #include <libtrx/memory.h>
 
-#include <stddef.h>
 #include <stdint.h>
 
 #define MAX_GAME_MODES 4
@@ -62,8 +61,8 @@ static REQUEST_INFO m_NewGameRequester = {
     .is_blockable = false,
     .x = 0,
     .y = 0,
-    .heading_text = NULL,
-    .items = NULL,
+    .heading_text = nullptr,
+    .items = nullptr,
 };
 
 static REQUEST_INFO m_SelectLevelRequester = {
@@ -78,8 +77,8 @@ static REQUEST_INFO m_SelectLevelRequester = {
     .is_blockable = false,
     .x = 0,
     .y = -32,
-    .heading_text = NULL,
-    .items = NULL,
+    .heading_text = nullptr,
+    .items = nullptr,
 };
 
 REQUEST_INFO g_SavegameRequester = {
@@ -94,8 +93,8 @@ REQUEST_INFO g_SavegameRequester = {
     .is_blockable = false,
     .x = 0,
     .y = -32,
-    .heading_text = NULL,
-    .items = NULL,
+    .heading_text = nullptr,
+    .items = nullptr,
 };
 
 static void M_InitRequesters(void);
@@ -155,7 +154,7 @@ static void M_ShutdownText(void)
 {
     for (int i = 0; i < TEXT_NUMBER_OF; i++) {
         Text_Remove(m_Text[i]);
-        m_Text[i] = NULL;
+        m_Text[i] = nullptr;
     }
     m_IsTextInit = false;
 }
@@ -450,7 +449,7 @@ static void M_LoadGame(void)
                         &g_SavegameRequester.items
                              [g_SavegameRequester.requested
                               - g_SavegameRequester.line_offset];
-                    if (row_item->content != NULL) {
+                    if (row_item->content != nullptr) {
                         Text_SetPos(
                             m_Text[TEXT_LEVEL_ARROW_RIGHT], 130,
                             row_item->content->pos.y);
@@ -604,7 +603,7 @@ static void M_FlipRight(INVENTORY_ITEM *inv_item)
             inv_item->anim_direction = 1;
             inv_item->goal_frame =
                 inv_item->open_frame + 5 * m_PassportStatus.page;
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
             break;
         }
     }
@@ -621,7 +620,7 @@ static void M_FlipLeft(INVENTORY_ITEM *inv_item)
             inv_item->anim_direction = -1;
             inv_item->goal_frame =
                 inv_item->open_frame + 5 * m_PassportStatus.page;
-            Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+            Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
             break;
         }
     }

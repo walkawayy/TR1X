@@ -11,7 +11,7 @@ typedef enum {
     CFT_ENFORCED,
 } CONFIG_FILE_TYPE;
 
-EVENT_MANAGER *m_EventManager = NULL;
+EVENT_MANAGER *m_EventManager = nullptr;
 
 static const char *M_GetPath(CONFIG_FILE_TYPE file_type);
 
@@ -29,7 +29,7 @@ void Config_Init(void)
 void Config_Shutdown(void)
 {
     EventManager_Free(m_EventManager);
-    m_EventManager = NULL;
+    m_EventManager = nullptr;
 }
 
 bool Config_Read(void)
@@ -57,11 +57,11 @@ bool Config_Write(void)
     };
     const bool updated = ConfigFile_Write(&args);
     if (updated) {
-        if (m_EventManager != NULL) {
+        if (m_EventManager != nullptr) {
             const EVENT event = {
                 .name = "change",
-                .sender = NULL,
-                .data = NULL,
+                .sender = nullptr,
+                .data = nullptr,
             };
             EventManager_Fire(m_EventManager, &event);
         }
@@ -73,13 +73,13 @@ bool Config_Write(void)
 int32_t Config_SubscribeChanges(
     const EVENT_LISTENER listener, void *const user_data)
 {
-    ASSERT(m_EventManager != NULL);
+    ASSERT(m_EventManager != nullptr);
     return EventManager_Subscribe(
-        m_EventManager, "change", NULL, listener, user_data);
+        m_EventManager, "change", nullptr, listener, user_data);
 }
 
 void Config_UnsubscribeChanges(const int32_t listener_id)
 {
-    ASSERT(m_EventManager != NULL);
+    ASSERT(m_EventManager != nullptr);
     EventManager_Unsubscribe(m_EventManager, listener_id);
 }

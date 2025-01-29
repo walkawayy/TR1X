@@ -48,7 +48,7 @@ static PHASE_CONTROL M_Control(PHASE *const phase, const int32_t nframes)
         };
     }
 
-    if (phase != NULL && phase->control != NULL) {
+    if (phase != nullptr && phase->control != nullptr) {
         return phase->control(phase, nframes);
     }
     return (PHASE_CONTROL) {
@@ -60,7 +60,7 @@ static PHASE_CONTROL M_Control(PHASE *const phase, const int32_t nframes)
 static void M_Draw(PHASE *const phase)
 {
     Output_BeginScene();
-    if (phase != NULL && phase->draw != NULL) {
+    if (phase != nullptr && phase->draw != nullptr) {
         phase->draw(phase);
     }
 
@@ -74,7 +74,7 @@ static void M_Draw(PHASE *const phase)
 
 static int32_t M_Wait(PHASE *const phase)
 {
-    if (phase != NULL && phase->wait != NULL) {
+    if (phase != nullptr && phase->wait != nullptr) {
         return phase->wait(phase);
     } else {
         return Clock_WaitTick();
@@ -86,13 +86,13 @@ GF_COMMAND PhaseExecutor_Run(PHASE *const phase)
     GF_COMMAND gf_cmd = { .action = GF_NOOP };
 
     PHASE *const prev_phase =
-        m_PhaseStackSize > 0 ? m_PhaseStack[m_PhaseStackSize - 1] : NULL;
-    if (prev_phase != NULL && prev_phase->suspend != NULL) {
+        m_PhaseStackSize > 0 ? m_PhaseStack[m_PhaseStackSize - 1] : nullptr;
+    if (prev_phase != nullptr && prev_phase->suspend != nullptr) {
         prev_phase->suspend(phase);
     }
     m_PhaseStack[m_PhaseStackSize++] = phase;
 
-    if (phase->start != NULL) {
+    if (phase->start != nullptr) {
         Clock_SyncTick();
         const PHASE_CONTROL control = phase->start(phase);
         if (Shell_IsExiting()) {
@@ -133,10 +133,10 @@ GF_COMMAND PhaseExecutor_Run(PHASE *const phase)
     }
 
 finish:
-    if (phase->end != NULL) {
+    if (phase->end != nullptr) {
         phase->end(phase);
     }
-    if (prev_phase != NULL && prev_phase->resume != NULL) {
+    if (prev_phase != nullptr && prev_phase->resume != nullptr) {
         Clock_SyncTick();
         prev_phase->resume(phase);
     }

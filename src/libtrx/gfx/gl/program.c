@@ -7,12 +7,11 @@
 #include "log.h"
 #include "memory.h"
 
-#include <stddef.h>
 #include <string.h>
 
 bool GFX_GL_Program_Init(GFX_GL_PROGRAM *program)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     program->id = glCreateProgram();
     GFX_GL_CheckError();
     if (!program->id) {
@@ -24,7 +23,7 @@ bool GFX_GL_Program_Init(GFX_GL_PROGRAM *program)
 
 void GFX_GL_Program_Close(GFX_GL_PROGRAM *program)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     if (program->id) {
         glDeleteProgram(program->id);
         GFX_GL_CheckError();
@@ -34,7 +33,7 @@ void GFX_GL_Program_Close(GFX_GL_PROGRAM *program)
 
 void GFX_GL_Program_Bind(GFX_GL_PROGRAM *program)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glUseProgram(program->id);
     GFX_GL_CheckError();
 }
@@ -42,7 +41,7 @@ void GFX_GL_Program_Bind(GFX_GL_PROGRAM *program)
 char *GFX_GL_Program_PreprocessShader(
     const char *content, GLenum type, GFX_GL_BACKEND backend)
 {
-    ASSERT(content != NULL);
+    ASSERT(content != nullptr);
 
     const char *version_ogl21 =
         "#version 120\n"
@@ -67,7 +66,7 @@ char *GFX_GL_Program_PreprocessShader(
 
     char *processed_content = Memory_Alloc(bufsize);
     if (!processed_content) {
-        return NULL;
+        return nullptr;
     }
     processed_content[0] = '\0';
 
@@ -90,8 +89,8 @@ void GFX_GL_Program_AttachShader(
     GFX_GL_PROGRAM *program, GLenum type, const char *path,
     const GFX_GL_BACKEND backend)
 {
-    ASSERT(program != NULL);
-    ASSERT(path != NULL);
+    ASSERT(program != nullptr);
+    ASSERT(path != nullptr);
 
     GLuint shader_id = glCreateShader(type);
     GFX_GL_CheckError();
@@ -99,8 +98,8 @@ void GFX_GL_Program_AttachShader(
         Shell_ExitSystem("Failed to create shader");
     }
 
-    char *content = NULL;
-    if (!File_Load(path, &content, NULL)) {
+    char *content = nullptr;
+    if (!File_Load(path, &content, nullptr)) {
         Shell_ExitSystemFmt("Unable to find shader file: %s", path);
     }
 
@@ -111,7 +110,8 @@ void GFX_GL_Program_AttachShader(
         Shell_ExitSystemFmt("Failed to pre-process shader source:  %s", path);
     }
 
-    glShaderSource(shader_id, 1, (const char *const *)&processed_content, NULL);
+    glShaderSource(
+        shader_id, 1, (const char *const *)&processed_content, nullptr);
 
     GFX_GL_CheckError();
     glCompileShader(shader_id);
@@ -145,7 +145,7 @@ void GFX_GL_Program_AttachShader(
 
 void GFX_GL_Program_Link(GFX_GL_PROGRAM *program)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glLinkProgram(program->id);
     GFX_GL_CheckError();
 
@@ -169,14 +169,14 @@ void GFX_GL_Program_Link(GFX_GL_PROGRAM *program)
 
 void GFX_GL_Program_FragmentData(GFX_GL_PROGRAM *program, const char *name)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glBindFragDataLocation(program->id, 0, name);
     GFX_GL_CheckError();
 }
 
 GLint GFX_GL_Program_UniformLocation(GFX_GL_PROGRAM *program, const char *name)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     GLint location = glGetUniformLocation(program->id, name);
     GFX_GL_CheckError();
     if (location == -1) {
@@ -188,7 +188,7 @@ GLint GFX_GL_Program_UniformLocation(GFX_GL_PROGRAM *program, const char *name)
 void GFX_GL_Program_Uniform3f(
     GFX_GL_PROGRAM *program, GLint loc, GLfloat v0, GLfloat v1, GLfloat v2)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glUniform3f(loc, v0, v1, v2);
     GFX_GL_CheckError();
 }
@@ -197,21 +197,21 @@ void GFX_GL_Program_Uniform4f(
     GFX_GL_PROGRAM *program, GLint loc, GLfloat v0, GLfloat v1, GLfloat v2,
     GLfloat v3)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glUniform4f(loc, v0, v1, v2, v3);
     GFX_GL_CheckError();
 }
 
 void GFX_GL_Program_Uniform1i(GFX_GL_PROGRAM *program, GLint loc, GLint v0)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glUniform1i(loc, v0);
     GFX_GL_CheckError();
 }
 
 void GFX_GL_Program_Uniform1f(GFX_GL_PROGRAM *program, GLint loc, GLfloat v0)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glUniform1f(loc, v0);
     GFX_GL_CheckError();
 }
@@ -220,7 +220,7 @@ void GFX_GL_Program_UniformMatrix4fv(
     GFX_GL_PROGRAM *program, GLint loc, GLsizei count, GLboolean transpose,
     const GLfloat *value)
 {
-    ASSERT(program != NULL);
+    ASSERT(program != nullptr);
     glUniformMatrix4fv(loc, count, transpose, value);
     GFX_GL_CheckError();
 }

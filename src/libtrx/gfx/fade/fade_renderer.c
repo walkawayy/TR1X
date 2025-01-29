@@ -57,7 +57,7 @@ GFX_FADE_RENDERER *GFX_FadeRenderer_Create(void)
 
 void GFX_FadeRenderer_Destroy(GFX_FADE_RENDERER *const r)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
     GFX_GL_VertexArray_Close(&r->surface_format);
     GFX_GL_Buffer_Close(&r->surface_buffer);
     GFX_GL_Program_Close(&r->program);
@@ -67,7 +67,7 @@ void GFX_FadeRenderer_Destroy(GFX_FADE_RENDERER *const r)
 void GFX_FadeRenderer_SetOpacity(
     GFX_FADE_RENDERER *const r, const float opacity)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
     GFX_GL_Program_Bind(&r->program);
     GFX_GL_Program_Uniform1f(&r->program, r->loc_opacity, opacity);
     GFX_GL_CheckError();
@@ -75,7 +75,7 @@ void GFX_FadeRenderer_SetOpacity(
 
 void GFX_FadeRenderer_Render(GFX_FADE_RENDERER *const r)
 {
-    ASSERT(r != NULL);
+    ASSERT(r != nullptr);
     GFX_GL_Program_Bind(&r->program);
     GFX_GL_Buffer_Bind(&r->surface_buffer);
     GFX_GL_VertexArray_Bind(&r->surface_format);

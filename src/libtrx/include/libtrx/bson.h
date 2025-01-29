@@ -16,7 +16,8 @@ typedef struct {
 } BSON_PARSE_RESULT;
 
 // Parse a BSON file, returning a pointer to the root of the JSON structure.
-// Returns NULL if an error occurred (malformed BSON input, or malloc failed).
+// Returns nullptr if an error occurred (malformed BSON input, or malloc
+// failed).
 JSON_VALUE *BSON_Parse(const char *src, size_t src_size);
 
 JSON_VALUE *BSON_ParseEx(

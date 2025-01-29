@@ -12,7 +12,8 @@
 
 #include <stdio.h>
 
-static const char *m_Extensions[] = { ".flac", ".ogg", ".mp3", ".wav", NULL };
+static const char *m_Extensions[] = { ".flac", ".ogg", ".mp3", ".wav",
+                                      nullptr };
 
 static bool m_Muted = false;
 static int16_t m_Volume = 0;
@@ -51,7 +52,7 @@ static void M_StopActiveStream(void)
     // finished by itself. In cases where we end the streams early by hand,
     // we clear the finish callback in order to avoid resuming the BGM playback
     // just after we stop it.
-    Audio_Stream_SetFinishCallback(m_AudioStreamID, NULL, NULL);
+    Audio_Stream_SetFinishCallback(m_AudioStreamID, nullptr, nullptr);
     Audio_Stream_Close(m_AudioStreamID);
 }
 
@@ -93,13 +94,13 @@ bool Music_Play(MUSIC_TRACK_ID track)
     }
 
     if (g_Config.audio.fix_secrets_killing_music && track == MX_SECRET) {
-        return Sound_Effect(SFX_SECRET, NULL, SPM_ALWAYS);
+        return Sound_Effect(SFX_SECRET, nullptr, SPM_ALWAYS);
     }
 
     if (g_Config.audio.fix_speeches_killing_music && track >= MX_BALDY_SPEECH
         && track <= MX_SKATEKID_SPEECH) {
         return Sound_Effect(
-            SFX_BALDY_SPEECH + track - MX_BALDY_SPEECH, NULL, SPM_ALWAYS);
+            SFX_BALDY_SPEECH + track - MX_BALDY_SPEECH, nullptr, SPM_ALWAYS);
     }
 
     M_StopActiveStream();
@@ -119,7 +120,7 @@ bool Music_Play(MUSIC_TRACK_ID track)
     }
 
     M_SyncVolume(m_AudioStreamID);
-    Audio_Stream_SetFinishCallback(m_AudioStreamID, M_StreamFinished, NULL);
+    Audio_Stream_SetFinishCallback(m_AudioStreamID, M_StreamFinished, nullptr);
 
     return true;
 }
@@ -143,7 +144,7 @@ bool Music_PlayLooped(MUSIC_TRACK_ID track)
     }
 
     M_SyncVolume(m_AudioStreamID);
-    Audio_Stream_SetFinishCallback(m_AudioStreamID, M_StreamFinished, NULL);
+    Audio_Stream_SetFinishCallback(m_AudioStreamID, M_StreamFinished, nullptr);
     Audio_Stream_SetIsLooped(m_AudioStreamID, true);
 
     m_TrackLooped = track;

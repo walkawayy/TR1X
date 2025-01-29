@@ -121,7 +121,7 @@ void XianKnight_Control(const int16_t item_num)
         item->current_anim_state = XIAN_KNIGHT_STATE_DEATH;
         item->mesh_bits >>= 1;
         if (item->mesh_bits == 0) {
-            Sound_Effect(SFX_EXPLOSION_1, NULL, SPM_NORMAL);
+            Sound_Effect(SFX_EXPLOSION_1, nullptr, SPM_NORMAL);
             item->mesh_bits = -1;
             item->object_id = O_XIAN_KNIGHT_STATUE;
             Item_Explode(item_num, -1, 0);

@@ -299,7 +299,7 @@ void Flare_Undraw(void)
                 g_Lara.request_gun_type = g_Lara.last_gun_type;
                 g_Lara.gun_status = LGS_ARMLESS;
                 Gun_InitialiseNewWeapon();
-                g_Lara.target = NULL;
+                g_Lara.target = nullptr;
                 g_Lara.right_arm.lock = 0;
                 g_Lara.left_arm.lock = 0;
                 Item_SwitchToAnim(g_LaraItem, LA_STAND_STILL, 0);
@@ -333,7 +333,7 @@ void Flare_Undraw(void)
             g_Lara.request_gun_type = g_Lara.last_gun_type;
             g_Lara.gun_status = LGS_ARMLESS;
             Gun_InitialiseNewWeapon();
-            g_Lara.target = NULL;
+            g_Lara.target = nullptr;
             g_Lara.flare_control_left = 0;
             g_Lara.right_arm.lock = 0;
             g_Lara.left_arm.lock = 0;
@@ -375,7 +375,7 @@ void Flare_Ready(void)
     g_Lara.right_arm.rot.z = 0;
     g_Lara.left_arm.lock = 0;
     g_Lara.right_arm.lock = 0;
-    g_Lara.target = NULL;
+    g_Lara.target = nullptr;
 }
 
 void Flare_Control(const int16_t item_num)

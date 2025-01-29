@@ -824,7 +824,7 @@ int32_t Lara_CheckForLetGo(ITEM *item, COLL_INFO *coll)
 
 void Lara_GetJointAbsPosition(XYZ_32 *vec, int32_t joint)
 {
-    ANIM_FRAME *frmptr[2] = { NULL, NULL };
+    ANIM_FRAME *frmptr[2] = { nullptr, nullptr };
     if (g_Lara.hit_direction < 0) {
         int32_t rate;
         int32_t frac = Item_GetFrames(g_LaraItem, frmptr, &rate);
@@ -837,7 +837,7 @@ void Lara_GetJointAbsPosition(XYZ_32 *vec, int32_t joint)
 
     const ANIM_FRAME *const hit_frame = Lara_GetHitFrame(g_LaraItem);
     const ANIM_FRAME *const frame_ptr =
-        hit_frame == NULL ? frmptr[0] : hit_frame;
+        hit_frame == nullptr ? frmptr[0] : hit_frame;
 
     Matrix_PushUnit();
     g_MatrixPtr->_03 = 0;
@@ -995,7 +995,7 @@ void Lara_BaddieCollision(ITEM *lara_item, COLL_INFO *coll)
     roomies[roomies_count++] = lara_item->room_num;
 
     PORTALS *portals = g_Rooms[roomies[0]].portals;
-    if (portals != NULL) {
+    if (portals != nullptr) {
         for (int32_t i = 0; i < portals->count; i++) {
             if (roomies_count >= MAX_BADDIE_COLLISION) {
                 break;
@@ -1653,7 +1653,7 @@ void Lara_WaterCurrent(COLL_INFO *const coll)
     const int32_t x_sector = (g_LaraItem->pos.x - r->pos.x) >> WALL_SHIFT;
     g_LaraItem->box_num = r->sectors[z_sector + x_sector * r->size.z].box;
 
-    if (g_Lara.creature == NULL) {
+    if (g_Lara.creature == nullptr) {
         g_Lara.current_active = 0;
         return;
     }

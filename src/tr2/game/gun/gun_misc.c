@@ -111,7 +111,7 @@ void Gun_GetNewTarget(const WEAPON_INFO *const winfo)
 
     int16_t best_y_rot = 0x7FFF;
     int32_t best_dist = 0x7FFFFFFF;
-    ITEM *best_target = NULL;
+    ITEM *best_target = nullptr;
 
     const int16_t max_dist = winfo->target_dist;
     for (int32_t i = 0; i < NUM_SLOTS; i++) {
@@ -203,7 +203,7 @@ int32_t Gun_FireWeapon(
 {
     const WEAPON_INFO *const winfo = &g_Weapons[weapon_type];
     AMMO_INFO *const ammo = Gun_GetAmmoInfo(weapon_type);
-    ASSERT(ammo != NULL);
+    ASSERT(ammo != nullptr);
 
     if (ammo == &g_Lara.pistol_ammo || g_SaveGame.bonus_flag) {
         ammo->ammo = 1000;
@@ -318,7 +318,7 @@ void Gun_HitTarget(
     }
     Item_TakeDamage(item, damage, true);
 
-    if (hit_pos != NULL) {
+    if (hit_pos != nullptr) {
         Spawn_Blood(
             hit_pos->pos.x, hit_pos->pos.y, hit_pos->pos.z, item->speed,
             item->rot.y, item->room_num);

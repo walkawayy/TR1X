@@ -3,10 +3,10 @@
 #include "game/game_buf.h"
 
 static int32_t m_AnimCount = 0;
-static ANIM *m_Anims = NULL;
-static ANIM_CHANGE *m_Changes = NULL;
-static ANIM_RANGE *m_Ranges = NULL;
-static ANIM_BONE *m_Bones = NULL;
+static ANIM *m_Anims = nullptr;
+static ANIM_CHANGE *m_Changes = nullptr;
+static ANIM_RANGE *m_Ranges = nullptr;
+static ANIM_BONE *m_Bones = nullptr;
 
 void Anim_InitialiseAnims(const int32_t num_anims)
 {

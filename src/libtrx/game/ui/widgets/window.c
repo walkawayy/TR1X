@@ -33,7 +33,7 @@ static int32_t M_GetWidth(const UI_WINDOW *const self)
     if (self->vtable.is_hidden) {
         return 0;
     }
-    const int32_t title_width = self->title_label != NULL
+    const int32_t title_width = self->title_label != nullptr
         ? self->title_label->get_width(self->title_label)
             + 2 * self->title_margin + 2 * self->title_padding
         : 0;
@@ -47,7 +47,7 @@ static int32_t M_GetHeight(const UI_WINDOW *const self)
     if (self->vtable.is_hidden) {
         return 0;
     }
-    const int32_t title_height = self->title_label != NULL
+    const int32_t title_height = self->title_label != nullptr
         ? self->title_label->get_height(self->title_label)
             + 2 * self->title_margin + 2 * self->title_padding
         : 0;
@@ -62,7 +62,7 @@ static void M_SetPosition(
     const int32_t w = M_GetWidth(self);
     const int32_t h = M_GetHeight(self);
 
-    if (self->title_label != NULL) {
+    if (self->title_label != nullptr) {
         self->title_label->set_position(
             self->title_label,
             x + (w - self->title_label->get_width(self->title_label)) / 2,
@@ -94,7 +94,7 @@ static void M_SetPosition(
 
 static void M_Control(UI_WINDOW *const self)
 {
-    if (self->root->control != NULL) {
+    if (self->root->control != nullptr) {
         self->root->control(self->root);
     }
 }
@@ -105,10 +105,10 @@ static void M_Draw(UI_WINDOW *const self)
         return;
     }
     Text_DrawText(self->frame);
-    if (self->root->draw != NULL) {
+    if (self->root->draw != nullptr) {
         self->root->draw(self->root);
     }
-    if (self->title_label != NULL) {
+    if (self->title_label != nullptr) {
         self->title_label->draw(self->title_label);
         Text_DrawText(self->title_frame);
     }
@@ -116,7 +116,7 @@ static void M_Draw(UI_WINDOW *const self)
 
 static void M_Free(UI_WINDOW *const self)
 {
-    if (self->title_label != NULL) {
+    if (self->title_label != nullptr) {
         self->title_label->free(self->title_label);
         Text_Remove(self->title_frame);
     }
@@ -156,12 +156,12 @@ UI_WIDGET *UI_Window_Create(
 void UI_Window_SetTitle(UI_WIDGET *const widget, const char *const text)
 {
     UI_WINDOW *const self = (UI_WINDOW *)widget;
-    if (self->title_label != NULL) {
+    if (self->title_label != nullptr) {
         self->title_label->free(self->title_label);
-        self->title_label = NULL;
+        self->title_label = nullptr;
         Text_Remove(self->title_frame);
     }
-    if (text != NULL) {
+    if (text != nullptr) {
         self->title_label =
             UI_Label_Create(text, UI_LABEL_AUTO_SIZE, UI_LABEL_AUTO_SIZE);
         self->title_frame = Text_Create(0, 0, "");

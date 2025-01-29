@@ -30,8 +30,8 @@ void FlameEmitter_Control(int16_t item_num)
             item->data = (void *)(intptr_t)(effect_num + 1);
         }
     } else if (item->data) {
-        Sound_StopEffect(SFX_FIRE, NULL);
+        Sound_StopEffect(SFX_FIRE, nullptr);
         Effect_Kill((int16_t)(intptr_t)item->data - 1);
-        item->data = NULL;
+        item->data = nullptr;
     }
 }

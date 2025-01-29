@@ -7,7 +7,6 @@
 #include "memory.h"
 #include "utils.h"
 
-#include <stddef.h>
 #include <string.h>
 
 typedef enum {
@@ -69,23 +68,23 @@ static bool M_PackContainerAt(
     int32_t y_pos);
 static bool M_PackContainer(const TEX_CONTAINER *container);
 
-static PACKER_DATA *m_Data = NULL;
+static PACKER_DATA *m_Data = nullptr;
 static uint8_t m_PaletteLUT[256];
 static int32_t m_StartPage = 0;
 static int32_t m_EndPage = 0;
 static int32_t m_UsedPageCount = 0;
-static TEX_PAGE *m_VirtualPages = NULL;
+static TEX_PAGE *m_VirtualPages = nullptr;
 static int32_t m_QueueSize = 0;
-static TEX_CONTAINER *m_Queue = NULL;
+static TEX_CONTAINER *m_Queue = nullptr;
 
 static void M_PreparePaletteLUT(void)
 {
-    if (m_Data->level.pages_24 == NULL) {
+    if (m_Data->level.pages_24 == nullptr) {
         return;
     }
 
-    ASSERT(m_Data->source.palette_24 != NULL);
-    ASSERT(m_Data->level.palette_24 != NULL);
+    ASSERT(m_Data->source.palette_24 != nullptr);
+    ASSERT(m_Data->level.palette_24 != nullptr);
 
     m_PaletteLUT[0] = 0;
     for (int32_t i = 1; i < 256; i++) {
@@ -162,7 +161,7 @@ static bool M_EnqueueTexInfo(TEX_INFO *const info)
 {
     // This may be a child of another, so try to find its
     // parent first and add it there.
-    if (m_Queue != NULL) {
+    if (m_Queue != nullptr) {
         for (int32_t i = 0; i < m_QueueSize; i++) {
             TEX_CONTAINER *const container = &m_Queue[i];
             if (container->tex_infos->page != info->page) {
@@ -297,7 +296,7 @@ static void M_AllocateNewPage(void)
         memset(level_page, 0, TEXTURE_PAGE_SIZE * sizeof(RGBA_8888));
     }
 
-    if (m_Data->level.pages_24 != NULL) {
+    if (m_Data->level.pages_24 != nullptr) {
         m_Data->level.pages_24 = Memory_Realloc(
             m_Data->level.pages_24,
             TEXTURE_PAGE_SIZE * new_count * sizeof(uint8_t));
@@ -332,9 +331,9 @@ static bool M_PackContainerAt(
     RGBA_8888 *const level_page_32 =
         &m_Data->level.pages_32[page->index * TEXTURE_PAGE_SIZE];
 
-    const uint8_t *source_page_24 = NULL;
-    uint8_t *level_page_24 = NULL;
-    if (m_Data->level.pages_24 != NULL) {
+    const uint8_t *source_page_24 = nullptr;
+    uint8_t *level_page_24 = nullptr;
+    if (m_Data->level.pages_24 != nullptr) {
         source_page_24 =
             &m_Data->source.pages_24[source_page_index * TEXTURE_PAGE_SIZE];
         level_page_24 =
@@ -349,7 +348,7 @@ static bool M_PackContainerAt(
             new_pixel = (y_pos + y) * TEXTURE_PAGE_WIDTH + x_pos + x;
             page->data[new_pixel] = 1;
             level_page_32[new_pixel] = source_page_32[old_pixel];
-            if (level_page_24 != NULL) {
+            if (level_page_24 != nullptr) {
                 level_page_24[new_pixel] =
                     m_PaletteLUT[source_page_24[old_pixel]];
             }
@@ -460,7 +459,7 @@ bool Packer_Pack(PACKER_DATA *const data)
     }
 
     M_Cleanup();
-    Benchmark_End(benchmark, NULL);
+    Benchmark_End(benchmark, nullptr);
     return result;
 }
 

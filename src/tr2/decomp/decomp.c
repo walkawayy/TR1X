@@ -184,7 +184,7 @@ void GetValidLevelsList(REQUEST_INFO *const req)
     for (int32_t i = 0; i < level_table->count; i++) {
         const GF_LEVEL *const level = &level_table->levels[i];
         if (level->type != GFL_GYM) {
-            Requester_AddItem(req, level->title, 0, NULL, 0);
+            Requester_AddItem(req, level->title, 0, nullptr, 0);
         }
     }
 }

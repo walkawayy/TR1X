@@ -99,17 +99,17 @@ static void M_Control(UI_PAGINATOR *const self)
     const int32_t page_shift =
         g_InputDB.menu_left ? -1 : (g_InputDB.menu_right ? 1 : 0);
     if (M_SelectPage(self, self->current_page + page_shift)) {
-        Sound_Effect(SFX_MENU_PASSPORT, NULL, SPM_ALWAYS);
+        Sound_Effect(SFX_MENU_PASSPORT, nullptr, SPM_ALWAYS);
     }
 
-    if (self->window->control != NULL) {
+    if (self->window->control != nullptr) {
         self->window->control(self->window);
     }
 }
 
 static void M_Draw(UI_PAGINATOR *const self)
 {
-    if (self->shown && self->window->draw != NULL) {
+    if (self->shown && self->window->draw != nullptr) {
         self->window->draw(self->window);
     }
 }
@@ -125,7 +125,7 @@ static void M_Free(UI_PAGINATOR *const self)
     self->text->free(self->text);
     self->top_spacer->free(self->top_spacer);
     self->title->free(self->title);
-    if (self->bottom_stack != NULL) {
+    if (self->bottom_stack != nullptr) {
         self->bottom_spacer->free(self->bottom_spacer);
         self->left_arrow->free(self->left_arrow);
         self->right_arrow->free(self->right_arrow);
@@ -213,14 +213,14 @@ UI_WIDGET *UI_Paginator_Create(
         M_SelectPage(self, i);
         max_width = MAX(max_width, UI_Label_MeasureTextWidth(self->text));
         max_height = MAX(max_height, UI_Label_MeasureTextHeight(self->text));
-        if (self->bottom_stack != NULL) {
+        if (self->bottom_stack != nullptr) {
             max_nav_width =
                 MAX(max_nav_width, UI_Label_MeasureTextWidth(self->page_label));
         }
     }
 
     UI_Label_SetSize(self->text, max_width, max_height);
-    if (self->bottom_stack != NULL) {
+    if (self->bottom_stack != nullptr) {
         UI_Stack_SetSize(self->bottom_stack, max_width, UI_STACK_AUTO_SIZE);
         UI_Label_SetSize(self->page_label, max_nav_width, UI_LABEL_AUTO_SIZE);
     }

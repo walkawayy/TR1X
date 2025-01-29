@@ -71,11 +71,11 @@ static char *M_NormalizeKey(const char *key)
 static bool M_GetCurrentValue(
     const CONFIG_OPTION *const option, char *target, const size_t target_size)
 {
-    if (option == NULL) {
+    if (option == nullptr) {
         return false;
     }
 
-    ASSERT(option->target != NULL);
+    ASSERT(option->target != nullptr);
     switch (option->type) {
     case COT_BOOL:
         snprintf(
@@ -103,11 +103,11 @@ static bool M_GetCurrentValue(
 static bool M_SetCurrentValue(
     const CONFIG_OPTION *const option, const char *const new_value)
 {
-    if (option == NULL) {
+    if (option == nullptr) {
         return CR_BAD_INVOCATION;
     }
 
-    ASSERT(option->target != NULL);
+    ASSERT(option->target != nullptr);
     switch (option->type) {
     case COT_BOOL:
         if (String_Match(new_value, "^(on|true|1)$")) {
@@ -166,15 +166,15 @@ static COMMAND_RESULT M_Entrypoint(const COMMAND_CONTEXT *const ctx)
 
     char *key = Memory_DupStr(ctx->args);
     char *const space = strchr(key, ' ');
-    const char *new_value = NULL;
-    if (space != NULL) {
+    const char *new_value = nullptr;
+    if (space != nullptr) {
         new_value = space + 1;
-        space[0] = '\0'; // NULL-terminate the key
+        space[0] = '\0'; // nullptr-terminate the key
     }
 
     const CONFIG_OPTION *const option =
         Console_Cmd_Config_GetOptionFromKey(key);
-    if (option == NULL) {
+    if (option == nullptr) {
         result = CR_FAILURE;
     } else {
         result = Console_Cmd_Config_Helper(option, new_value);
@@ -190,7 +190,7 @@ const CONFIG_OPTION *Console_Cmd_Config_GetOptionFromKey(const char *const key)
     VECTOR *source = Vector_Create(sizeof(STRING_FUZZY_SOURCE));
 
     for (const CONFIG_OPTION *option = Config_GetOptionMap();
-         option->name != NULL; option++) {
+         option->name != nullptr; option++) {
         STRING_FUZZY_SOURCE source_item = {
             .key = (const char *)M_NormalizeKey(option->name),
             .value = (void *)option,
@@ -200,7 +200,7 @@ const CONFIG_OPTION *Console_Cmd_Config_GetOptionFromKey(const char *const key)
     }
 
     VECTOR *matches = String_FuzzyMatch(key, source);
-    const CONFIG_OPTION *result = NULL;
+    const CONFIG_OPTION *result = nullptr;
     if (matches->count == 0) {
         Console_Log(GS(OSD_CONFIG_OPTION_UNKNOWN_OPTION), key);
     } else if (matches->count == 1) {
@@ -230,24 +230,24 @@ const CONFIG_OPTION *Console_Cmd_Config_GetOptionFromTarget(
     const void *const target)
 {
     for (const CONFIG_OPTION *option = Config_GetOptionMap();
-         option->name != NULL; option++) {
+         option->name != nullptr; option++) {
         if (option->target == target) {
             return option;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 COMMAND_RESULT Console_Cmd_Config_Helper(
     const CONFIG_OPTION *const option, const char *const new_value)
 {
-    ASSERT(option != NULL);
+    ASSERT(option != nullptr);
 
     char *normalized_name = M_NormalizeKey(option->name);
 
     COMMAND_RESULT result = CR_BAD_INVOCATION;
-    if (new_value == NULL || String_IsEmpty(new_value)) {
+    if (new_value == nullptr || String_IsEmpty(new_value)) {
         char cur_value[128];
         if (M_GetCurrentValue(option, cur_value, 128)) {
             Console_Log(GS(OSD_CONFIG_OPTION_GET), normalized_name, cur_value);

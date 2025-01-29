@@ -44,7 +44,7 @@ static void M_SetPosition(
 
 static void M_Control(UI_CONTROLS_LAYOUT_EDITOR *const self)
 {
-    if (self->outer_stack->control != NULL) {
+    if (self->outer_stack->control != nullptr) {
         self->outer_stack->control(self->outer_stack);
     }
     // Reposition the header.
@@ -53,7 +53,7 @@ static void M_Control(UI_CONTROLS_LAYOUT_EDITOR *const self)
 
 static void M_Draw(UI_CONTROLS_LAYOUT_EDITOR *const self)
 {
-    if (self->outer_stack->draw != NULL) {
+    if (self->outer_stack->draw != nullptr) {
         self->outer_stack->draw(self->outer_stack);
     }
 }

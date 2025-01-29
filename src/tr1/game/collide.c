@@ -539,7 +539,7 @@ int32_t Collide_GetSpheres(ITEM *item, SPHERE *ptr, int32_t world_space)
         Matrix_TranslateRel32(bone->pos);
         Matrix_Rot16(frame->mesh_rots[i]);
 
-        if (extra_rotation != NULL) {
+        if (extra_rotation != nullptr) {
             if (bone->rot_y) {
                 Matrix_RotY(*extra_rotation++);
             }

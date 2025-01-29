@@ -37,7 +37,7 @@ bool String_EndsWith(const char *str, const char *suffix)
 
 bool String_Equivalent(const char *a, const char *b)
 {
-    if (a == NULL || b == NULL) {
+    if (a == nullptr || b == nullptr) {
         return false;
     }
 
@@ -57,14 +57,14 @@ bool String_Equivalent(const char *a, const char *b)
 
 const char *String_CaseSubstring(const char *subject, const char *pattern)
 {
-    if (subject == NULL || pattern == NULL) {
-        return NULL;
+    if (subject == nullptr || pattern == nullptr) {
+        return nullptr;
     }
 
     size_t str_size = strlen(subject);
     size_t substr_size = strlen(pattern);
     if (substr_size > str_size) {
-        return NULL;
+        return nullptr;
     }
     if (substr_size == 0) {
         return subject;
@@ -82,12 +82,12 @@ const char *String_CaseSubstring(const char *subject, const char *pattern)
             return subject + i;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 bool String_Match(const char *const subject, const char *const pattern)
 {
-    if (subject == NULL || pattern == NULL) {
+    if (subject == nullptr || pattern == nullptr) {
         return 0;
     }
 
@@ -100,8 +100,9 @@ bool String_Match(const char *const subject, const char *const pattern)
     int err_code;
     PCRE2_SIZE err_offset;
     pcre2_code *const re = pcre2_compile(
-        upattern, PCRE2_ZERO_TERMINATED, options, &err_code, &err_offset, NULL);
-    if (re == NULL) {
+        upattern, PCRE2_ZERO_TERMINATED, options, &err_code, &err_offset,
+        nullptr);
+    if (re == nullptr) {
         PCRE2_UCHAR8 buffer[128];
         pcre2_get_error_message(err_code, buffer, 120);
         LOG_ERROR("%d\t%s", err_code, buffer);
@@ -109,10 +110,10 @@ bool String_Match(const char *const subject, const char *const pattern)
     }
 
     pcre2_match_data *const match_data =
-        pcre2_match_data_create(ovec_size, NULL);
+        pcre2_match_data_create(ovec_size, nullptr);
     const int flags = 0;
     const int rc = pcre2_match(
-        re, usubject, PCRE2_ZERO_TERMINATED, 0, flags, match_data, NULL);
+        re, usubject, PCRE2_ZERO_TERMINATED, 0, flags, match_data, nullptr);
     pcre2_match_data_free(match_data);
     pcre2_code_free(re);
 
@@ -127,14 +128,14 @@ bool String_IsEmpty(const char *const value)
 bool String_ParseBool(const char *const value, bool *const target)
 {
     if (String_Match(value, "^(0|false|off)$")) {
-        if (target != NULL) {
+        if (target != nullptr) {
             *target = false;
         }
         return true;
     }
 
     if (String_Match(value, "^(1|true|on)$")) {
-        if (target != NULL) {
+        if (target != nullptr) {
             *target = true;
         }
         return true;
@@ -166,7 +167,7 @@ bool String_ParseDecimal(const char *const value, float *const target)
             }
         }
     }
-    if (target != NULL) {
+    if (target != nullptr) {
         *target = atof(value);
     }
     return true;
@@ -174,8 +175,8 @@ bool String_ParseDecimal(const char *const value, float *const target)
 
 char *String_ToUpper(const char *text)
 {
-    if (text == NULL) {
-        return NULL;
+    if (text == nullptr) {
+        return nullptr;
     }
 
     const size_t text_len = strlen(text);
@@ -193,8 +194,8 @@ char *String_ToUpper(const char *text)
 
 char *String_WordWrap(const char *text, const size_t line_len)
 {
-    if (text == NULL || line_len == 0) {
-        return NULL;
+    if (text == nullptr || line_len == 0) {
+        return nullptr;
     }
 
     const size_t text_len = strlen(text);

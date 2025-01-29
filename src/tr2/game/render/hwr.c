@@ -37,7 +37,7 @@ typedef struct {
 static VERTEX_INFO m_VBuffer[32] = {};
 static GFX_3D_VERTEX m_VBufferGL[32] = {};
 static GFX_3D_VERTEX m_HWR_VertexBuffer[MAX_VERTICES] = {};
-static GFX_3D_VERTEX *m_HWR_VertexPtr = NULL;
+static GFX_3D_VERTEX *m_HWR_VertexPtr = nullptr;
 
 static void M_ShadeColor(
     GFX_3D_VERTEX *target, uint32_t red, uint32_t green, uint32_t blue,
@@ -1442,14 +1442,14 @@ static void M_Shutdown(RENDERER *const renderer)
         return;
     }
 
-    if (priv->renderer_2d == NULL) {
+    if (priv->renderer_2d == nullptr) {
         GFX_2D_Renderer_Destroy(priv->renderer_2d);
-        priv->renderer_2d = NULL;
+        priv->renderer_2d = nullptr;
     }
 
-    if (priv->renderer_3d == NULL) {
+    if (priv->renderer_3d == nullptr) {
         GFX_3D_Renderer_Destroy(priv->renderer_3d);
-        priv->renderer_3d = NULL;
+        priv->renderer_3d = nullptr;
     }
 
     renderer->initialized = false;
@@ -1469,7 +1469,7 @@ static void M_Open(RENDERER *const renderer)
     memset(m_HWR_VertexBuffer, 0, sizeof(m_HWR_VertexBuffer));
 
     for (int32_t i = 0; i < GFX_MAX_TEXTURES; i++) {
-        if (priv->surface_tex[i] == NULL) {
+        if (priv->surface_tex[i] == nullptr) {
             GFX_2D_SURFACE_DESC surface_desc = {
                 .width = TEXTURE_PAGE_WIDTH,
                 .height = TEXTURE_PAGE_HEIGHT,
@@ -1489,14 +1489,14 @@ static void M_Close(RENDERER *const renderer)
         return;
     }
 
-    if (priv->surface_pic != NULL) {
+    if (priv->surface_pic != nullptr) {
         GFX_2D_Surface_Free(priv->surface_pic);
-        priv->surface_pic = NULL;
+        priv->surface_pic = nullptr;
     }
     for (int32_t i = 0; i < GFX_MAX_TEXTURES; i++) {
-        if (priv->surface_tex[i] != NULL) {
+        if (priv->surface_tex[i] != nullptr) {
             GFX_2D_Surface_Free(priv->surface_tex[i]);
-            priv->surface_tex[i] = NULL;
+            priv->surface_tex[i] = nullptr;
         }
     }
 

@@ -13,7 +13,6 @@
 #include <libtrx/utils.h>
 
 #include <math.h>
-#include <stddef.h>
 
 #define MAX_PLAYING_FX AUDIO_MAX_ACTIVE_SAMPLES
 #define MAX_AMBIENT_FX 8
@@ -100,7 +99,7 @@ static SOUND_SLOT *M_GetSlot(
     switch (mode) {
     case SOUND_MODE_WAIT:
     case SOUND_MODE_RESTART: {
-        SOUND_SLOT *last_free_slot = NULL;
+        SOUND_SLOT *last_free_slot = nullptr;
         for (int i = m_AmbientLookupIdx; i < MAX_PLAYING_FX; i++) {
             SOUND_SLOT *result = &m_SFXPlaying[i];
             if ((result->flags & SOUND_FLAG_USED)
@@ -120,7 +119,7 @@ static SOUND_SLOT *M_GetSlot(
                 SOUND_SLOT *result = &m_SFXPlaying[i];
                 if (result->flags != SOUND_FLAG_UNUSED
                     && result->loudness <= loudness) {
-                    return NULL;
+                    return nullptr;
                 }
                 return result;
             }
@@ -128,7 +127,7 @@ static SOUND_SLOT *M_GetSlot(
         break;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 static void M_UpdateSlotParams(SOUND_SLOT *slot)
@@ -170,7 +169,7 @@ static void M_UpdateSlotParams(SOUND_SLOT *slot)
 static void M_ClearSlot(SOUND_SLOT *slot)
 {
     slot->sound_id = AUDIO_NO_SOUND;
-    slot->pos = NULL;
+    slot->pos = nullptr;
     slot->flags = SOUND_FLAG_UNUSED;
     slot->volume = 0;
     slot->pan = 0;
@@ -246,7 +245,7 @@ void Sound_UpdateEffects(void)
                 M_ClearSlot(slot);
             }
         } else if (Audio_Sample_IsPlaying(slot->sound_id)) {
-            if (slot->pos != NULL) {
+            if (slot->pos != nullptr) {
                 M_UpdateSlotParams(slot);
                 if (slot->volume > 0 && slot->sound_id != AUDIO_NO_SOUND) {
                     Audio_Sample_SetPan(

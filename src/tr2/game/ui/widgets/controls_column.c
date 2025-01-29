@@ -37,14 +37,14 @@ static void M_SetPosition(
 
 static void M_Control(UI_CONTROLS_COLUMN *const self)
 {
-    if (self->container->control != NULL) {
+    if (self->container->control != nullptr) {
         self->container->control(self->container);
     }
 }
 
 static void M_Draw(UI_CONTROLS_COLUMN *const self)
 {
-    if (self->container->draw != NULL) {
+    if (self->container->draw != nullptr) {
         self->container->draw(self->container);
     }
 }

@@ -11,7 +11,7 @@ static void M_SwapBuffers(GFX_RENDERER *renderer);
 
 static void M_SwapBuffers(GFX_RENDERER *renderer)
 {
-    ASSERT(renderer != NULL);
+    ASSERT(renderer != nullptr);
 
     GFX_Context_SwitchToWindowViewportAR();
     if (GFX_Context_GetScheduledScreenshotPath()) {
@@ -27,9 +27,9 @@ static void M_SwapBuffers(GFX_RENDERER *renderer)
 }
 
 GFX_RENDERER g_GFX_Renderer_Legacy = {
-    .priv = NULL,
+    .priv = nullptr,
     .swap_buffers = &M_SwapBuffers,
-    .init = NULL,
-    .reset = NULL,
-    .shutdown = NULL,
+    .init = nullptr,
+    .reset = nullptr,
+    .shutdown = nullptr,
 };
