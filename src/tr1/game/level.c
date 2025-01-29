@@ -883,7 +883,6 @@ static void M_CompleteSetup(const GAME_FLOW_LEVEL *const level)
     Memory_FreePointer(&sample_pointers);
     Memory_FreePointer(&sample_sizes);
     Memory_FreePointer(&m_LevelInfo.samples.offsets);
-    Memory_FreePointer(&m_LevelInfo.samples.data);
 
     Benchmark_End(benchmark, NULL);
 }
