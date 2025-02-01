@@ -37,7 +37,7 @@ RUN cd pcre2 \
 
 # zlib
 FROM mingw AS zlib
-RUN git clone https://github.com/madler/zlib
+RUN git clone https://github.com/madler/zlib --branch=v1.3.1
 RUN cd zlib \
     && make -f win32/Makefile.gcc \
         SHARED_MODE=1 \
