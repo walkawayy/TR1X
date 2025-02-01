@@ -127,17 +127,13 @@ void Input_Shutdown(void)
     }
 }
 
-void Input_InitController(void)
+void Input_Discover(void)
 {
-    if (g_Input_Controller.init != nullptr) {
-        g_Input_Controller.init();
+    if (g_Input_Keyboard.discover != nullptr) {
+        g_Input_Keyboard.discover();
     }
-}
-
-void Input_ShutdownController(void)
-{
-    if (g_Input_Controller.shutdown != nullptr) {
-        g_Input_Controller.shutdown();
+    if (g_Input_Controller.discover != nullptr) {
+        g_Input_Controller.discover();
     }
 }
 

@@ -504,12 +504,9 @@ void Shell_ProcessEvents(void)
 
         case SDL_CONTROLLERDEVICEADDED:
         case SDL_JOYDEVICEADDED:
-            Input_InitController();
-            break;
-
         case SDL_CONTROLLERDEVICEREMOVED:
         case SDL_JOYDEVICEREMOVED:
-            Input_ShutdownController();
+            Input_Discover();
             break;
 
         case SDL_WINDOWEVENT:

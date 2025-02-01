@@ -154,6 +154,7 @@ static SDL_GameController *M_FindController(void);
 
 static void M_Init(void);
 static void M_Shutdown(void);
+static void M_Discover(void);
 static bool M_CustomUpdate(INPUT_STATE *result, INPUT_LAYOUT layout);
 static bool M_IsPressed(INPUT_LAYOUT layout, INPUT_ROLE role);
 static bool M_IsRoleConflicted(INPUT_LAYOUT layout, INPUT_ROLE role);
@@ -415,7 +416,7 @@ static void M_Init(void)
     if (result < 0) {
         LOG_ERROR("Error while calling SDL_Init: 0x%lx", result);
     } else {
-        m_Controller = M_FindController();
+        M_Discover();
     }
 }
 
@@ -425,6 +426,15 @@ static void M_Shutdown(void)
         SDL_GameControllerClose(m_Controller);
         m_Controller = nullptr;
     }
+}
+
+static void M_Discover(void)
+{
+    if (m_Controller != nullptr) {
+        SDL_GameControllerClose(m_Controller);
+        m_Controller = nullptr;
+    }
+    m_Controller = M_FindController();
 }
 
 static bool M_CustomUpdate(INPUT_STATE *const result, const INPUT_LAYOUT layout)
@@ -593,6 +603,7 @@ static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)
 INPUT_BACKEND_IMPL g_Input_Controller = {
     .init = M_Init,
     .shutdown = M_Shutdown,
+    .discover = M_Discover,
     .custom_update = M_CustomUpdate,
     .is_pressed = M_IsPressed,
     .is_role_conflicted = M_IsRoleConflicted,

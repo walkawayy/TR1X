@@ -455,6 +455,7 @@ static bool M_ReadAndAssign(const INPUT_LAYOUT layout, const INPUT_ROLE role)
 INPUT_BACKEND_IMPL g_Input_Keyboard = {
     .init = M_Init,
     .shutdown = nullptr,
+    .discover = nullptr,
     .custom_update = M_CustomUpdate,
     .is_pressed = M_IsPressed,
     .is_role_conflicted = M_IsRoleConflicted,

@@ -5,6 +5,7 @@
 typedef struct {
     void (*init)(void);
     void (*shutdown)(void);
+    void (*discover)(void);
     bool (*custom_update)(INPUT_STATE *result, INPUT_LAYOUT layout);
     bool (*is_pressed)(INPUT_LAYOUT layout, INPUT_ROLE role);
     bool (*is_role_conflicted)(INPUT_LAYOUT layout, INPUT_ROLE role);
