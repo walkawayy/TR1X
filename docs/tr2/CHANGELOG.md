@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.8...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.9...develop) - ××××-××-××
+
+## [0.9](https://github.com/LostArtefacts/TRX/compare/tr2-0.8...tr2-0.9) - 2025-02-14
 - added Linux builds and toolchain (#1598)
 - added macOS builds (for both Apple Silicon and Intel) (#2226)
 - added pause dialog (#1638)
