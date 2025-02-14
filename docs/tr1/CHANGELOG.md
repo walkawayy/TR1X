@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.7.1...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.8...develop) - ××××-××-××
+
+## [4.8](https://github.com/LostArtefacts/TRX/compare/tr1-4.7.1...tr1-4.8) - 2025-02-14
 >[!WARNING]
 >Attention level builders: this version introduces backwards incompatible changes to the game flow file.
 >Please refer to the following documents to see how to update your levels:
