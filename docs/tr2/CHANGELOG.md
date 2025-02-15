@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.9...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr2-0.9.1...develop) - ××××-××-××
+
+## [0.9.1](https://github.com/LostArtefacts/TRX/compare/tr2-0.9...tr2-0.9.1) - 2025-02-15
 - changed passport to be more responsive to player inputs (#1328)
 - fixed resolving paths (especially to music files) on case-sensitive filesystems (#1934, #2504)
 - fixed loading a game crashing on Linux (#2508, regression from 0.9)
