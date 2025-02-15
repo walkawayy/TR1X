@@ -1,4 +1,6 @@
-## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.8.1...develop) - ××××-××-××
+## [Unreleased](https://github.com/LostArtefacts/TRX/compare/tr1-4.8.2...develop) - ××××-××-××
+
+## [4.8.2](https://github.com/LostArtefacts/TRX/compare/tr1-4.8.1...tr1-4.8.2) - 2025-02-15
 - changed default FPS value to 60 (#2501)
 - changed passport to be more responsive to player inputs (#1328)
 - fixed story so far not skipping over levels (#2506, regression from 4.8)
